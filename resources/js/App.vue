@@ -1,5 +1,17 @@
 <template>
-    <h1>
-        How To Install Vue 3 in Laravel 10 : Laravel SPA :)
-    </h1>
+    
+    <SideBar />
 </template>
+
+<script>    
+import SideBar from './Components/SideBar.vue'
+
+
+export default {
+    name:'App',
+    components:{
+        SideBar,
+    }
+}
+
+</script>
