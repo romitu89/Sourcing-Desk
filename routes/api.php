@@ -34,19 +34,21 @@ Route::get('/adminuser-create', [Create::class, 'create']);
 Route::get('/adminuser-report/{role}', [Create::class, 'getreporting']);
 Route::Post('/adminuser-create', [Create::class, 'store']);
 
-// Client Create
-
-Route::get('/adminclient-create', [ClientCreate::class, 'create']);
-
-Route::Post('/adminclient-create', [ClientCreate::class, 'store']);
-
 //User View
 Route::get('/adminuser-view', [UserView::class, 'create'])->name('adminuser-view');
 Route::Post('/adminuser-view', [UserView::class, 'store'])->name('adminuser.view.store');
 
+
+// Client Create
+Route::get('/adminclient-create', [ClientCreate::class, 'create']);
+
+Route::Post('/adminclient-create', [ClientCreate::class, 'store']);
+
 // Client View
 Route::get('/adminclient-view', [ClientView::class, 'create'])->name('adminclient-view');
 Route::Post('/adminclient-view', [ClientView::class, 'store'])->name('adminclient.view.store');
+
+
 
 // Admin User Login
 Route::get('adminuser-login', [UserLogin::class, 'create'])->name('adminuser-login');
