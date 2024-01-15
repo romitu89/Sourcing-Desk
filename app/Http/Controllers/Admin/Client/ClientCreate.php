@@ -25,12 +25,12 @@ class ClientCreate extends Controller
 
         //dd($request->all());
         $request->validate([
-            'clientName' => 'required|string|unique:clients,client_name',
-            'businessName' => 'required|string',
-            'subLocation' => 'required|string',
+            // 'clientName' => 'required|string|unique:clients,client_name',
+            // 'businessName' => 'required|string',
+            // 'subLocation' => 'required|string',
 
-            'selectedManager' => 'required',
-            'selectedLocation' => 'required',
+            // 'selectedManager' => 'required',
+            // 'selectedLocation' => 'required',
 
         ]);
         $man_id = $request->selectedManager;
