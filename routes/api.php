@@ -12,6 +12,7 @@ use App\Http\Controllers\AccountManager\Tracker\AMTrackerView;
 use App\Http\Controllers\AccountManager\TeamManagement\TeamCreate;
 use App\Http\Controllers\AccountManager\TeamManagement\TeamView;
 use App\Http\Controllers\AccountManager\Submission\AMApproval;
+use App\Http\Controllers\AccountManager\Request\RequestCreate;
 
 /*
 |--------------------------------------------------------------------------
@@ -68,7 +69,7 @@ Route::get('adminuser-login', [UserLogin::class, 'create']);
 Route::get('/amtracker-create', [AMTrackerCreate::class, 'create']);
 Route::Post('/amtracker-create', [AMTrackerCreate::class, 'store']);
 
-//Tracker View
+// AM/Tracker/View
 Route::get('/amtracker-view', [AMTrackerView::class, 'create']);
 Route::Post('/amtracker-view', [AMTrackerView::class, 'store']);
 
@@ -88,6 +89,12 @@ Route::Post('/amteam-view', [TeamView::class, 'store']);
 Route::get('/submission-approve', [AMApproval::class, 'create']);
 Route::patch('/amsubmission-update/{id}', [AMApproval::class, 'updateStatus']);
 Route::post('/submission-approve', [AMApproval::class, 'store']);
+
+//---------------------------------------------------------------------------
+
+// Request Create
+Route::get('/amrequest-create', [RequestCreate::class, 'create']);
+Route::Post('/amrequest-create', [RequestCreate::class, 'store']);
 
 
 
