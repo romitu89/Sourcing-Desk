@@ -14,6 +14,7 @@ use App\Http\Controllers\AccountManager\TeamManagement\TeamView;
 use App\Http\Controllers\AccountManager\Submission\AMApproval;
 use App\Http\Controllers\AccountManager\Request\RequestCreate;
 use App\Http\Controllers\AccountManager\Candidate\AMInterview;
+use App\Http\Controllers\AccountManager\Candidate\Feedback;
 
 /*
 |--------------------------------------------------------------------------
@@ -103,6 +104,14 @@ Route::Post('/amrequest-create', [RequestCreate::class, 'store']);
 // Route::get('/interview-search', [AMInterview::class, 'search']);
 // Route::post('/candidate-interview', [AMInterview::class, 'store']);
 // Route::post('/interview-update', [AMInterview::class, 'updateStatus']);
+
+//--------------------------------------------------------------------------
+
+// Candidate Feedback
+Route::get('/candidate-feedback', [Feedback::class, 'create']);
+Route::get('/search', [Feedback::class, 'search']);
+Route::post('/candidate-feedback', [Feedback::class, 'store']);
+Route::post('/candidate-update', [Feedback::class, 'updateStatus']);
 
 
 // Additional routes if needed...
