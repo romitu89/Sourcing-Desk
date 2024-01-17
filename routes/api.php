@@ -7,6 +7,9 @@ use App\Http\Controllers\Admin\User\UserView;
 use App\Http\Controllers\Admin\User\UserLogin;
 use App\Http\Controllers\Admin\Client\ClientCreate;
 use App\Http\Controllers\Admin\Client\ClientView;
+//------------------------------------------------------------
+use App\Http\Controllers\Editor\User\EditorUserCreate;
+//-------------------------------------------------------------
 use App\Http\Controllers\AccountManager\Tracker\AMTrackerCreate;
 use App\Http\Controllers\AccountManager\Tracker\AMTrackerView;
 use App\Http\Controllers\AccountManager\TeamManagement\TeamCreate;
@@ -61,6 +64,15 @@ Route::Post('/adminclient-view', [ClientView::class, 'store']);
 // Admin/User/Login
 Route::get('adminuser-login', [UserLogin::class, 'create']);
 
+//------------------------------------------------------------------------------
+
+
+// Editor start-----
+
+//User Create
+Route::get('/editoruser-create', [EditorUserCreate::class, 'create']);
+Route::get('/editoruser-report/{role}', [EditorUserCreate::class, 'getreporting']);
+Route::Post('/editoruser-create', [EditorUserCreate::class, 'store']);
 
 
 
