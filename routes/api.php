@@ -25,6 +25,7 @@ use App\Http\Controllers\AccountManager\Candidate\Feedback;
 //----------------------------------------------------------------
 
 use App\Http\Controllers\TeamLead\Tracker\TLTrackerCreate;
+use App\Http\Controllers\TeamLead\Tracker\TLTrackerView;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -160,5 +161,8 @@ Route::post('/candidate-update', [Feedback::class, 'updateStatus']);
 Route::get('/tltracker-create', [TLTrackerCreate::class, 'create']);
 Route::Post('/tltracker-create', [TLTrackerCreate::class, 'store']);
 
+//Tracker View
+Route::get('/tltracker-view', [TLTrackerView::class, 'create'])->name('tltracker-view');
+Route::Post('/tltracker-view', [TLTrackerView::class, 'store'])->name('tltracker.view.store');
 
 // Additional routes if needed...
