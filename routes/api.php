@@ -28,6 +28,7 @@ use App\Http\Controllers\TeamLead\Tracker\TLTrackerCreate;
 use App\Http\Controllers\TeamLead\Tracker\TLTrackerView;
 use App\Http\Controllers\TeamLead\TeamManagement\TLTeamCreate;
 use App\Http\Controllers\TeamLead\TeamManagement\TLTeamView;
+use App\Http\Controllers\TeamLead\Submission\TLApproval;
 
 /*
 |--------------------------------------------------------------------------
@@ -175,5 +176,13 @@ Route::Post('/tlteam-create', [TLTeamCreate::class, 'store']);
 //Team View
 Route::get('/tlteam-view', [TLTeamView::class, 'create']);
 Route::Post('/tlteam-view', [TLTeamView::class, 'store']);
+
+
+// Submission Approval
+Route::get('/tlsubmission-approve', [TLApproval::class, 'create']);
+Route::patch('/tlsubmission-update/{id}', [TLApproval::class, 'updateStatus']);
+Route::post('/tlsubmission-approve', [TLApproval::class, 'store']);
+
+
 
 // Additional routes if needed...
