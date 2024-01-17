@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\Client\ClientView;
 use App\Http\Controllers\Editor\User\EditorUserCreate;
 use App\Http\Controllers\Editor\User\EditorUserView;
 use App\Http\Controllers\Editor\User\EditorUserLogin;
+use App\Http\Controllers\Editor\Client\EditorClientCreate;
 //-------------------------------------------------------------
 use App\Http\Controllers\AccountManager\Tracker\AMTrackerCreate;
 use App\Http\Controllers\AccountManager\Tracker\AMTrackerView;
@@ -77,12 +78,20 @@ Route::get('/editoruser-report/{role}', [EditorUserCreate::class, 'getreporting'
 Route::Post('/editoruser-create', [EditorUserCreate::class, 'store']);
 
 //User View
-Route::get('/editoruser-view', [EditorUserView::class, 'create'])->name('editoruser-view');
-Route::Post('/editoruser-view', [EditorUserView::class, 'store'])->name('editoruser.view.store');
+Route::get('/editoruser-view', [EditorUserView::class, 'create']);
+Route::Post('/editoruser-view', [EditorUserView::class, 'store']);
 
- // User Login
- Route::get('editoruser-login', [EditorUserLogin::class, 'create'])->name('editoruser-login');
- Route::Post('/editoruser-login', [EditorUserLogin::class, 'store'])->name('editoruser.login.store');
+// User Login
+Route::get('editoruser-login', [EditorUserLogin::class, 'create']);
+Route::Post('/editoruser-login', [EditorUserLogin::class, 'store']);
+
+//--------------------------------------------------------------------------
+
+// Client Create
+
+Route::get('/editorclient-create', [EditorClientCreate::class, 'create'])->name('editorclient-create');
+
+Route::Post('/editorclient-create', [EditorClientCreate::class, 'store'])->name('editorclient.store');
 
 
 
