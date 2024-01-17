@@ -29,6 +29,8 @@ use App\Http\Controllers\TeamLead\Tracker\TLTrackerView;
 use App\Http\Controllers\TeamLead\TeamManagement\TLTeamCreate;
 use App\Http\Controllers\TeamLead\TeamManagement\TLTeamView;
 use App\Http\Controllers\TeamLead\Submission\TLApproval;
+use App\Http\Controllers\TeamLead\Submission\TLRecruiterSubmission;
+use App\Http\Controllers\TeamLead\Submission\TLRequirement;
 
 /*
 |--------------------------------------------------------------------------
@@ -182,6 +184,12 @@ Route::Post('/tlteam-view', [TLTeamView::class, 'store']);
 Route::get('/tlsubmission-approve', [TLApproval::class, 'create']);
 Route::patch('/tlsubmission-update/{id}', [TLApproval::class, 'updateStatus']);
 Route::post('/tlsubmission-approve', [TLApproval::class, 'store']);
+
+
+// Submission Active Requirement
+Route::get('/tlsubmission-active/{id}', [TLRequirement::class, 'create']);
+Route::Post('/tlsubmission-active/{id}', [TLRequirement::class, 'store']);
+Route::get('/tlsubmission-inbox', [TLRecruiterSubmission::class, 'create']);
 
 
 
