@@ -31,6 +31,7 @@ use App\Http\Controllers\TeamLead\TeamManagement\TLTeamView;
 use App\Http\Controllers\TeamLead\Submission\TLApproval;
 use App\Http\Controllers\TeamLead\Submission\TLRecruiterSubmission;
 use App\Http\Controllers\TeamLead\Submission\TLRequirement;
+use App\Http\Controllers\TeamLead\Request\TLRequestCreate;
 
 /*
 |--------------------------------------------------------------------------
@@ -190,6 +191,11 @@ Route::post('/tlsubmission-approve', [TLApproval::class, 'store']);
 Route::get('/tlsubmission-active/{id}', [TLRequirement::class, 'create']);
 Route::Post('/tlsubmission-active/{id}', [TLRequirement::class, 'store']);
 Route::get('/tlsubmission-inbox', [TLRecruiterSubmission::class, 'create']);
+
+
+// Request Create
+Route::get('/tlrequest-create', [TLRequestCreate::class, 'create']);
+Route::Post('/tlrequest-create', [TLRequestCreate::class, 'store']);
 
 
 
