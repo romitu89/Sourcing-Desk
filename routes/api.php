@@ -27,6 +27,8 @@ use App\Http\Controllers\AccountManager\Candidate\Feedback;
 use App\Http\Controllers\TeamLead\Tracker\TLTrackerCreate;
 use App\Http\Controllers\TeamLead\Tracker\TLTrackerView;
 use App\Http\Controllers\TeamLead\TeamManagement\TLTeamCreate;
+use App\Http\Controllers\TeamLead\TeamManagement\TLTeamView;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -169,5 +171,9 @@ Route::Post('/tltracker-view', [TLTrackerView::class, 'store']);
 // Team Management Create
 Route::get('/tlteam-create', [TLTeamCreate::class, 'create']);
 Route::Post('/tlteam-create', [TLTeamCreate::class, 'store']);
+
+//Team View
+Route::get('/tlteam-view', [TLTeamView::class, 'create']);
+Route::Post('/tlteam-view', [TLTeamView::class, 'store']);
 
 // Additional routes if needed...
