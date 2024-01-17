@@ -22,7 +22,9 @@ use App\Http\Controllers\AccountManager\Submission\AMApproval;
 use App\Http\Controllers\AccountManager\Request\RequestCreate;
 use App\Http\Controllers\AccountManager\Candidate\AMInterview;
 use App\Http\Controllers\AccountManager\Candidate\Feedback;
+//----------------------------------------------------------------
 
+use App\Http\Controllers\TeamLead\Tracker\TLTrackerCreate;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -147,6 +149,16 @@ Route::get('/candidate-feedback', [Feedback::class, 'create']);
 Route::get('/search', [Feedback::class, 'search']);
 Route::post('/candidate-feedback', [Feedback::class, 'store']);
 Route::post('/candidate-update', [Feedback::class, 'updateStatus']);
+
+
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+
+// Team Lead Start
+
+// Tracker Create
+Route::get('/tltracker-create', [TLTrackerCreate::class, 'create']);
+Route::Post('/tltracker-create', [TLTrackerCreate::class, 'store']);
 
 
 // Additional routes if needed...
