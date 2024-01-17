@@ -12,6 +12,7 @@ use App\Http\Controllers\Editor\User\EditorUserCreate;
 use App\Http\Controllers\Editor\User\EditorUserView;
 use App\Http\Controllers\Editor\User\EditorUserLogin;
 use App\Http\Controllers\Editor\Client\EditorClientCreate;
+use App\Http\Controllers\Editor\Client\EditorClientView;
 //-------------------------------------------------------------
 use App\Http\Controllers\AccountManager\Tracker\AMTrackerCreate;
 use App\Http\Controllers\AccountManager\Tracker\AMTrackerView;
@@ -89,9 +90,12 @@ Route::Post('/editoruser-login', [EditorUserLogin::class, 'store']);
 
 // Client Create
 
-Route::get('/editorclient-create', [EditorClientCreate::class, 'create'])->name('editorclient-create');
+Route::get('/editorclient-create', [EditorClientCreate::class, 'create']);
+Route::Post('/editorclient-create', [EditorClientCreate::class, 'store']);
 
-Route::Post('/editorclient-create', [EditorClientCreate::class, 'store'])->name('editorclient.store');
+// Client View
+Route::get('/editorclient-view', [EditorClientView::class, 'create']);
+Route::Post('/editorclient-view', [EditorClientView::class, 'store']);
 
 
 
