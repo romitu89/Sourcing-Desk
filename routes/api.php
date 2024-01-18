@@ -33,6 +33,11 @@ use App\Http\Controllers\TeamLead\Submission\TLRecruiterSubmission;
 use App\Http\Controllers\TeamLead\Submission\TLRequirement;
 use App\Http\Controllers\TeamLead\Request\TLRequestCreate;
 
+//---------------------------------------------------------------------------
+
+use App\Http\Controllers\Recruiter\Submission\ActiveReq;
+use App\Http\Controllers\Recruiter\Submission\RecruiterSubmission;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -197,6 +202,19 @@ Route::get('/tlsubmission-inbox', [TLRecruiterSubmission::class, 'create']);
 Route::get('/tlrequest-create', [TLRequestCreate::class, 'create']);
 Route::Post('/tlrequest-create', [TLRequestCreate::class, 'store']);
 
+//-----------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+
+// Recruiter Start
+
+
+// Submission Active Requirement
+
+Route::get('/submission-active/{id}', [ActiveReq::class, 'create']);
+
+Route::Post('/submission-active/{id}', [ActiveReq::class, 'store']);
+
+Route::get('/submission-inbox', [RecruiterSubmission::class, 'create']);
 
 
 // Additional routes if needed...
