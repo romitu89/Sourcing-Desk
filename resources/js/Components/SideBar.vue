@@ -1,54 +1,49 @@
 <template>
- <Div class="sidebar">
+ <div class="sidebar">
     
-        <h3>General</h3>
+        <h3>Source Desk</h3>
         <div class="subside">
-            <a href=""><h4><font-awesome-icon :icon="['fas', 'house']" /><br>
-            Dashboard</h4></a>
+            <router-link  to="/dashboard"><h4><font-awesome-icon :icon="['fas', 'house']" /><br>
+            Dashboard</h4></router-link>
         </div>
         <div class="subside">
-            <a href=""><h4><font-awesome-icon :icon="['fas', 'pen-to-square']" /><br>
-                Forms</h4></a>
+            <router-link to="/user"><h4><font-awesome-icon :icon="['fas', 'user']" /><br>
+                User</h4></router-link>
         </div>
         <div class="subside">
-            <a href=""><h4><font-awesome-icon :icon="['fas', 'desktop']" /><br>
-                UI Elements</h4></a>
+            <router-link to="/client"><h4><font-awesome-icon :icon="['fas', 'network-wired']" /><br>
+                Client</h4></router-link>
         </div>
 
         <div class="subside">
-            <a href=""><h4><font-awesome-icon :icon="['fas', 'table']" /><br>
-                Tables</h4></a>
+            <router-link to="/clientsMis"><h4><font-awesome-icon :icon="['fas', 'table']" /><br>
+                Clients MIS</h4></router-link>
         </div>
         <div class="subside">
-            <a href=""><h4><font-awesome-icon :icon="['fas', 'chart-column']" /><br>
-                Data Presentation</h4></a>
+            <router-link to="/userMis"><h4><font-awesome-icon :icon="['fas', 'chart-column']" /><br>
+                User MIS</h4></router-link>
         </div>
         <div class="subside">
-            <a href=""><h4><font-awesome-icon :icon="['fas', 'layer-group']" /><br>
-                Layouts</h4></a>
+            <router-link to="/database"><h4><font-awesome-icon :icon="['fas', 'layer-group']" /><br>
+                Database</h4></router-link>
         </div>
         
-        <h3>Live On</h3>
         <div class="subside">
-            <a href=""><h4><font-awesome-icon :icon="['fas', 'paperclip']" /><br>
-                Additional Pages</h4></a>
+            <router-link to="/profileUpdating"><h4><font-awesome-icon :icon="['fas', 'paperclip']" /><br>
+                Profile Updating </h4></router-link>
         </div>
-        <div class="subside">
-            <a href=""><h4><font-awesome-icon :icon="['fas', 'plus']" /><br>
-                Extras</h4></a>
-        </div>
-        <div class="subside">
-            <a href=""><h4><font-awesome-icon :icon="['fas', 'network-wired']" /><br>
-                Multilevel Menu</h4></a>
-        </div>
+       
+ </div>
 
- </Div>
- 
 </template>
 
 <script>
+
+
 export default {
     name:'SideBar',
+    
+    
 }
 </script>
 
@@ -60,7 +55,6 @@ body{
 .sidebar{
     background-color: #0C1423;
     width: 140px;
-    height: 100%;
     text-align: center; 
     padding: 10px 0px;
 }
@@ -86,7 +80,13 @@ body{
 }
 .subside :hover{
     box-shadow: 0px 0px 5px whitesmoke;
-}
+} 
 
+.router-link-active h4,.router-link-active.fa{    
+color: white;
+/* Change color to white */  
+background-color:#1A233A;
+/* Optional: change background color */
+}
 
 </style>
