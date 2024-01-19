@@ -20,3 +20,10 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('App');
 })->name('application');
+
+
+Route::get('/{any}', function () {
+    return view('App');
+// Replace 'app' with the name of your main Blade view
+})->where('any','.*'
+);
