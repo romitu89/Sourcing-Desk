@@ -6,12 +6,16 @@ import ClientsMis from '../Components/ClientsMis.vue'
 import UserMis from '../Components/UserMis.vue'
 import Database from '../Components/Database.vue'
 import ProfileUpdating from '../Components/ProfileUpdating.vue'
+import ClientCreateForm from '../Components/Popup/FormComponents/ClientCreateForm.vue'
+// import UserCreate  from '../Components/Popup/UserCreate.vue'
+
+
 
 
 
 const routes=[
     {
-        // name:'Dashboard',
+        name:'Dashboard',
         path:'/dashboard',
         component: Dashboard
     },
@@ -45,6 +49,17 @@ const routes=[
         path:'/profileUpdating',
         component: ProfileUpdating
     },
+// Trial work
+    {
+        name:'ClientCreateForm',
+        path:'/ClientCreateForm',
+        component: ClientCreateForm
+    },
+    // {
+    //     name:'UserCreate',
+    //     path:'/UserCreate',
+    //     component: UserCreate
+    // },
     
 
 ];

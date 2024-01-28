@@ -1,22 +1,27 @@
 <template>
-    <div class="colour">
+    
    <h2> Client</h2>
    <div class="container">
+
    <div class="form">
         <div class="icon_div"><font-awesome-icon :icon="['fas', 'chart-gantt']" /></div>
-       <h4>Create</h4>
+       <router-link to="/UserCreate"> <h4>Create</h4> </router-link>
     </div>
+
     <div class="form">
         <div class="icon_div"><font-awesome-icon :icon="['fas', 'chart-gantt']" /></div>
        <h4>View</h4>
     </div>
+
     </div>
-</div>
+
 </template>
 
 <script>
+
     export default {
-        name: 'Client'
+        name: 'Client',
+    
     }
 </script>
 
@@ -41,6 +46,7 @@
     border-radius: 10px;
     padding: 10px 20px;
     margin: 1%;
+    cursor: pointer;
     /* box-shadow: 0 0 6px 7px whitesmoke; */
 }
 
