@@ -1,35 +1,23 @@
 <template>
-    <div class="popup">
+
+<div class="popup">
         <div @click="closePopup()" class="close_btn"> <a ><font-awesome-icon :icon="['fas', 'xmark']" /></a></div>
         <div class="popup-inner">
             <h2 class="title">{{ title }}</h2>
-          
-      <UserCreateForm 
-      v-if="title=='Create Form'"/>
-      
-      <UserViewForm 
-      v-if="title=='View Form'"/>
 
-      <UserLoginForm 
-      v-if="title=='Login Form'"/>
-
+            <ClientCreateForm 
+            v-if="title=='Client Create'"/>
         </div>
     </div>
 </template>
 
 <script>
-import UserCreateForm from './FormComponents/UserCreateForm.vue'
-import UserViewForm from './FormComponents/UserViewForm.vue'
-import UserLoginForm from './FormComponents/UserLoginForm.vue'
-
+import ClientCreateForm from './FormComponents/ClientCreateForm.vue'
 
 export default {
-    name: 'UserCreate',
-    component: {
-        UserCreateForm,
-        UserViewForm,
-        UserLoginForm,
-    },
+    
+    name:'ClientForm',
+   
     props: {
         showPopUp: {
             type: Boolean,
@@ -57,7 +45,7 @@ export default {
             this.$emit('closePopup', this.showUserCreate);
         }
     },
-    components: { UserCreateForm, UserViewForm, UserLoginForm }
+    components:{ClientCreateForm,},
 }
 
 </script>
