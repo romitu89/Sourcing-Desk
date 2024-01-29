@@ -1,21 +1,59 @@
 <template>
-    <h2>The Database</h2>
 
     <div class="container">
-   <div class="form">
+
+   <div class="form" @click="workingCandidatePopUp()">
         <div class="icon_div"><font-awesome-icon :icon="['fas', 'chart-gantt']" /></div>
        <h4>Working Candidate</h4>
     </div>
-    <div class="form">
+
+    <div class="form" @click="filteredDatabasePopUp()">
         <div class="icon_div"><font-awesome-icon :icon="['fas', 'chart-gantt']" /></div>
        <h4>Filtered Database</h4>
     </div>
     </div>
+    <DatabaseForm 
+    :showPopUp="popup"
+    @closePopup ="closePopUp" 
+    :title="title"
+   v-if="popup">
+   
+   </DatabaseForm>
 </template>
 
 <script>
+import DatabaseForm from './Popup/DatabaseForm.vue'
+
     export default {
         name: 'Database',
+
+        components:{
+            DatabaseForm,
+        },
+
+        data ()
+       {
+        return{
+            popup:false,
+            title:'',
+        };
+       },
+
+       methods:{
+        workingCandidatePopUp(){
+            this.popup=true;
+            this.title="Working Candidate"
+        },
+        filteredDatabasePopUp(){
+            this.popup=true;
+            this.title="Filtered Database"
+        },
+
+        closePopUp(data){
+            this.popup = data;
+        },
+    },
+
     }
 </script>
 

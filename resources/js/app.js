@@ -2,7 +2,7 @@ import './bootstrap';
 import {createApp} from 'vue'
 
 import App from './App.vue'
-// import '../assets/css/common.css'
+import '../assets/css/common.css'
 import router from './routes/router.js';
 
 /* import the fontawesome core */

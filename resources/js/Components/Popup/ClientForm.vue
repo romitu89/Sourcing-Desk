@@ -7,12 +7,18 @@
 
             <ClientCreateForm 
             v-if="title=='Client Create'"/>
+
+            <ClientViewForm 
+            v-if="title=='Client View'"/>
+
+
         </div>
     </div>
 </template>
 
 <script>
 import ClientCreateForm from './FormComponents/ClientCreateForm.vue'
+import ClientViewForm from './FormComponents/ClientViewForm.vue'
 
 export default {
     
@@ -45,43 +51,7 @@ export default {
             this.$emit('closePopup', this.showUserCreate);
         }
     },
-    components:{ClientCreateForm,},
+    components:{ClientCreateForm, ClientViewForm},
 }
 
 </script>
-
-<style scoped>
-.popup{
-    position: fixed;
-    top: 25px;
-    left: 190px;
-    padding: 15px 25px;
-    z-index: 1;
-    background-color: whitesmoke;
-    /* opacity: 0.9; */
-    width: 70%;
-    height: 90%;
-    border-radius: 25px;
-    box-shadow: 2px 2px 7px 8px lightgray;
-
-    overflow: scroll;
-}
-
-    .close_btn {
-        position: absolute;
-        right: 25px;
-        color: #002147;
-        font-size: 25px;
-        cursor: pointer;
-        padding: 10px;
-    }
-
-    .title{
-        color: #002147;
-        margin-left: 5%;
-        font-size: 30px;
-        letter-spacing: 5px;
-        text-decoration: underline;
-    }
-
-</style>
