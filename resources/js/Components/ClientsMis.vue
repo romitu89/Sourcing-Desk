@@ -1,25 +1,63 @@
 <template>
-    <h2>Clients MIS</h2>
 
     <div class="container">
-    <div class="form">
+
+    <div class="form" @click="clientMisPopUp()">
         <div class="icon_div"><font-awesome-icon :icon="['fas', 'chart-gantt']" /></div>
        <h4>Client Report</h4>
     </div>
-    <div class="form">
+    <div class="form" @click="clientManagerPopUp()">
         <div class="icon_div"><font-awesome-icon :icon="['fas', 'chart-gantt']" /></div>
        <h4>Client Manager Report</h4>
     </div>
-    <div class="form">
+    <div class="form" @click="clientMatrixPopUp()">
         <div class="icon_div"><font-awesome-icon :icon="['fas', 'chart-gantt']" /></div>
        <h4>Matrix</h4>
     </div>
 </div>
+<ClientMisForm 
+:showPopUp="popup"
+    @closePopup ="closePopUp" 
+    :title="title"
+   v-if="popup">
+
+</ClientMisForm>
 </template>
 
 <script>
+import ClientMisForm from './Popup/ClientMisForm.vue'
+
     export default{
         name: 'ClientsMis',
+        components:{
+            ClientMisForm,
+        },
+        data ()
+       {
+        return{
+            popup:false,
+            title:'',
+        };
+       },
+       methods:{
+        clientMisPopUp(){
+            this.popup=true;
+            this.title="Client Report"
+        },
+        clientManagerPopUp(){
+            this.popup=true;
+            this.title="Client Manager Report"
+        },
+        clientMatrixPopUp(){
+            this.popup=true;
+            this.title="Client Matrix"
+        },
+
+        closePopUp(data){
+            this.popup = data;
+        },
+    },
+
     }
 </script>
 
