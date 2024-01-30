@@ -15,7 +15,7 @@
     </div>
     <div class="form">
         <div class="icon_div"><font-awesome-icon :icon="['fas', 'chart-gantt']" /></div>
-       <router-link to="ClientCreateForm"> <h4>Idle Time</h4> </router-link>
+       <h4>Idle Time</h4>
     </div>
    
 </div>

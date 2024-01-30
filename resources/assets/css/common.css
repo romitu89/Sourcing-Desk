@@ -31,3 +31,60 @@
         letter-spacing: 5px;
         text-decoration: underline;
     }
+    /* --------- popup CSS END ---------*/
+
+/* ----------Form Table CSS ----------------- */
+    .input_form td{
+    
+        /* border: 2px solid red; */
+        padding: 10px 40px;
+        font-size: 20px;
+       
+    }
+    input[type=text] {
+        width: 100%;
+        padding: 10px 20px;
+        border-radius: 4px;
+    }
+    
+    input[type=date] {
+        width: 100%;
+        padding: 10px 5px;
+        border-radius: 4px;
+    }
+    
+    .input_form{
+        overflow-x: scroll;
+        margin-left: 40px;
+    }
+    
+    .input_form td select{
+        padding: 10px 20px;
+        width: 400px;
+    }
+    
+    .color_cell{
+        background-color: #73B4FF;
+    }
+    
+    .cancel_btn{
+        padding: 10px 25px;
+        background-color: #FF869A;
+        border-radius: 5px;
+        
+    }
+    .submit_btn{
+        padding: 10px 25px;
+        background-color: #73B4FF;
+        border-radius: 5px;
+        margin-left: 5px;
+        
+        
+    }
+    
+    .cancel_btn:hover{
+        box-shadow: 2px 2px 4px 5px darkgray;
+    }
+    .submit_btn:hover{
+        box-shadow: 2px 2px 4px 5px darkgray;
+    }
