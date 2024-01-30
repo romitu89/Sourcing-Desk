@@ -19,10 +19,12 @@
             <router-link to="/clientsMis"><h4><font-awesome-icon :icon="['fas', 'table']" /><br>
                 Clients MIS</h4></router-link>
         </div>
+
         <div class="subside">
             <router-link to="/userMis"><h4><font-awesome-icon :icon="['fas', 'chart-column']" /><br>
                 User MIS</h4></router-link>
         </div>
+        
         <div class="subside">
             <router-link to="/database"><h4><font-awesome-icon :icon="['fas', 'layer-group']" /><br>
                 Database</h4></router-link>

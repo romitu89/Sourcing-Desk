@@ -35,6 +35,7 @@
 <script>
 export default {
     name: 'UserViewForm',
+    
     data()
     {
         return{
@@ -60,6 +61,7 @@ export default {
       })
       
         },
+
         userViewApi(){
             console.log(this.selectedLocation, this.selectedUser)
             const formData = {
