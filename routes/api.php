@@ -26,6 +26,18 @@ use App\Http\Controllers\AccountManager\Candidate\Feedback;
 
 use App\Http\Controllers\TeamLead\Tracker\TLTrackerCreate;
 use App\Http\Controllers\TeamLead\Tracker\TLTrackerView;
+use App\Http\Controllers\TeamLead\TeamManagement\TLTeamCreate;
+use App\Http\Controllers\TeamLead\TeamManagement\TLTeamView;
+use App\Http\Controllers\TeamLead\Submission\TLApproval;
+use App\Http\Controllers\TeamLead\Submission\TLRecruiterSubmission;
+use App\Http\Controllers\TeamLead\Submission\TLRequirement;
+use App\Http\Controllers\TeamLead\Request\TLRequestCreate;
+
+//---------------------------------------------------------------------------
+
+use App\Http\Controllers\Recruiter\Submission\ActiveReq;
+use App\Http\Controllers\Recruiter\Submission\RecruiterSubmission;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -162,7 +174,47 @@ Route::get('/tltracker-create', [TLTrackerCreate::class, 'create']);
 Route::Post('/tltracker-create', [TLTrackerCreate::class, 'store']);
 
 //Tracker View
-Route::get('/tltracker-view', [TLTrackerView::class, 'create'])->name('tltracker-view');
-Route::Post('/tltracker-view', [TLTrackerView::class, 'store'])->name('tltracker.view.store');
+Route::get('/tltracker-view', [TLTrackerView::class, 'create']);
+Route::Post('/tltracker-view', [TLTrackerView::class, 'store']);
+
+// Team Management Create
+Route::get('/tlteam-create', [TLTeamCreate::class, 'create']);
+Route::Post('/tlteam-create', [TLTeamCreate::class, 'store']);
+
+//Team View
+Route::get('/tlteam-view', [TLTeamView::class, 'create']);
+Route::Post('/tlteam-view', [TLTeamView::class, 'store']);
+
+
+// Submission Approval
+Route::get('/tlsubmission-approve', [TLApproval::class, 'create']);
+Route::patch('/tlsubmission-update/{id}', [TLApproval::class, 'updateStatus']);
+Route::post('/tlsubmission-approve', [TLApproval::class, 'store']);
+
+
+// Submission Active Requirement
+Route::get('/tlsubmission-active/{id}', [TLRequirement::class, 'create']);
+Route::Post('/tlsubmission-active/{id}', [TLRequirement::class, 'store']);
+Route::get('/tlsubmission-inbox', [TLRecruiterSubmission::class, 'create']);
+
+
+// Request Create
+Route::get('/tlrequest-create', [TLRequestCreate::class, 'create']);
+Route::Post('/tlrequest-create', [TLRequestCreate::class, 'store']);
+
+//-----------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+
+// Recruiter Start
+
+
+// Submission Active Requirement
+
+Route::get('/submission-active/{id}', [ActiveReq::class, 'create']);
+
+Route::Post('/submission-active/{id}', [ActiveReq::class, 'store']);
+
+Route::get('/submission-inbox', [RecruiterSubmission::class, 'create']);
+
 
 // Additional routes if needed...
