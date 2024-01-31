@@ -24,8 +24,14 @@
     <td ><label >Select Matrix</label></td>
     <td ><select id="Location"   name="Location">
     <option value="">Choose Matrix</option>
-    <option value="India">India</option>
-    <option value="usa">USA</option>
+    <option value="Requirements">Requirements</option>
+    <option value="Submission">Submission</option>
+    <option value="Selection">Selection</option>
+    <option value="Rejections">Rejections</option>
+    <option value="Onboarded">Onboarded</option>
+    <option value="Dropouts">Dropouts</option>
+    <option value="Offboarded">Offboarded</option>
+    <option value="Daily Report">Daily Report</option>
     </select></td>
     </tr>
 
@@ -41,7 +47,7 @@
 
     <tr>
         <td></td>
-       <td> 
+       <td>
         <button  class="submit_btn">Submit</button> </td>
     </tr>
 </table>
@@ -51,6 +57,6 @@
 <script>
     export default {
         name:'UserRecruiterForm',
-        
+
     }
 </script>

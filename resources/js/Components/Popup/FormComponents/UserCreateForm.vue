@@ -50,8 +50,13 @@
     <td ><label >Role</label></td>
     <td ><select id="Role" v-model="role" name="Role">
     <option value="Role">Choose Role</option>
-    <option value="Admin">Admin</option>
-    <option value="Team Lead">Team Lead</option>
+    <option value="admin">Admin</option>
+    <option value="editor">Editor</option>
+    <option value="accountManager">Account-Manager</option>
+    <option value="teamLead">Team-Lead</option>
+    <option value="recruiter">Recruiter</option>
+    <option value="hr-payroll">Hr-Payroll</option>
+
     </select></td>
     </tr>
 
@@ -59,8 +64,11 @@
     <td ><label >Department</label></td>
     <td ><select id="Department" v-model="department" name="Department">
     <option value="Choose Department">Choose Department</option>
-    <option value="Development">Development</option>
-    <option value="HR">HR</option>
+    <option value="hrStaffing">HR-Staffing</option>
+    <option value="hrPayroll">HR-Payroll</option>
+    <option value="sales">Sales</option>
+    <option value="informationTechnology">Information Technology</option>
+    <option value="others">Others</option>
     </select></td>
     </tr>
 
@@ -75,7 +83,7 @@
         <button @click="userCreateApi()" class="submit_btn">Submit</button> </td>
     </tr>
     </table>
-    
+
    </form>
 
 </template>
@@ -98,7 +106,7 @@
             role:"",
             department:"",
             dob:"",
-           
+
             };
         },
         methods:{
@@ -114,7 +122,7 @@
         console.log(error)
         this.errored = true
       })
-      
+
         },
 
         userViewApi(){
@@ -124,7 +132,7 @@
                 user: this.selectedUser,
                // include other data as needed
            };
- 
+
           axios.post('/api/adminuser-view', formData)
               .then(response => {
                   console.log('Form submitted:', response.data.results);
@@ -137,7 +145,7 @@
     },
 mounted(){
     this.userLocationApi()
-    
+
 }
     }
 </script>
@@ -146,11 +154,11 @@ mounted(){
 <style scoped>
 
 .input_form td{
-    
+
     /* border: 2px solid red; */
     padding: 10px 40px;
     font-size: 20px;
-   
+
 }
 input[type=text] {
     width: 100%;
@@ -182,14 +190,14 @@ input[type=date] {
     padding: 10px 25px;
     background-color: rgb(252, 64, 64);
     border-radius: 5px;
-    
+
 }
 .submit_btn{
     padding: 10px 25px;
     background-color: #227C09;
     border-radius: 5px;
     margin-left: 5px;
-    
+
 }
 
 .cancel_btn:hover{

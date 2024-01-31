@@ -24,14 +24,14 @@
     <td ><label >Select Matrix</label></td>
     <td ><select id="Location"   name="Location">
     <option value="">Choose Matrix</option>
-    <option value="India">India</option>
-    <option value="usa">USA</option>
+    <option value="Selections-Skill">Selections-Skill</option>
+                            <option value="Rejections-Skill">Rejections-Skill</option>
     </select></td>
     </tr>
 
     <tr>
         <td></td>
-       <td> 
+       <td>
         <button  class="submit_btn">Submit</button> </td>
     </tr>
 </table>
@@ -41,6 +41,6 @@
 <script>
     export default {
         name:'UserMatrixForm',
-        
+
     }
 </script>
