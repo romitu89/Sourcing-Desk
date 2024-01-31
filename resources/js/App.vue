@@ -6,6 +6,7 @@
         <div class="main-content">
             <router-view :key="routeInstance"></router-view></div>
     </div>
+    
   </template>
 
 <script>    

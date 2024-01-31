@@ -11,7 +11,7 @@ import ProfileUpdating from '../Components/ProfileUpdating.vue'
 
 const routes=[
     {
-        // name:'Dashboard',
+        name:'Dashboard',
         path:'/dashboard',
         component: Dashboard
     },
@@ -45,8 +45,8 @@ const routes=[
         path:'/profileUpdating',
         component: ProfileUpdating
     },
-    
-
+// Trial work
+   
 ];
 
 const router=createRouter({

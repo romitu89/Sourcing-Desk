@@ -1,23 +1,59 @@
 <template>
-    <h2>The ProfileUpdating</h2>
 
     <div class="container">
-   <div class="form">
+
+   <div class="form" @click="profileCreatePopUp()">
         <div class="icon_div"><font-awesome-icon :icon="['fas', 'chart-gantt']" /></div>
        <h4>Create</h4>
     </div>
-    <div class="form">
+
+    <div class="form" @click="profileViewPopUp()">
         <div class="icon_div"><font-awesome-icon :icon="['fas', 'chart-gantt']" /></div>
        <h4>View</h4>
     </div>
     </div>
+    <ProfileUpdatingForm
+    :showPopUp="popup"
+    @closePopup ="closePopUp" 
+    :title="title"
+   v-if="popup">
+
+    </ProfileUpdatingForm>
 </template>
 
 
 <script>
+import ProfileUpdatingForm from './Popup/ProfileUpdatingForm.vue'
+
     export default {
         name: 'ProfileUpdating',
-        
+        components:{
+            ProfileUpdatingForm,
+        },
+
+        data ()
+       {
+        return{
+            popup:false,
+            title:'',
+        };
+       },
+
+       methods:{
+        profileCreatePopUp(){
+            this.popup=true;
+            this.title="Profile Create"
+        },
+        profileViewPopUp(){
+            this.popup=true;
+            this.title="Profile View"
+        },
+
+        closePopUp(data){
+            this.popup = data;
+        },
+    },
+
     }
 </script>
 

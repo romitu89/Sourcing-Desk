@@ -1,29 +1,73 @@
 <template>
-    <h2>The User MIS</h2>
 
     <div class="container">
-    <div class="form">
+    <div class="form" @click="accountManagerPopUp()">
         <div class="icon_div"><font-awesome-icon :icon="['fas', 'chart-gantt']" /></div>
        <h4>Account Manager</h4>
     </div>
-    <div class="form">
+    <div class="form" @click="teamLeadPopUp()">
         <div class="icon_div"><font-awesome-icon :icon="['fas', 'chart-gantt']" /></div>
        <h4>Team Lead</h4>
     </div>
-    <div class="form">
+    <div class="form" @click="recruiterPopUp()">
         <div class="icon_div"><font-awesome-icon :icon="['fas', 'chart-gantt']" /></div>
        <h4>Recruiter</h4>
     </div>
-    <div class="form">
+    <div class="form" @click="userMatrixPopUp()">
         <div class="icon_div"><font-awesome-icon :icon="['fas', 'chart-gantt']" /></div>
        <h4>Matrix</h4>
     </div>
 </div>
+<UserMisForm 
+:showPopUp="popup"
+    @closePopup ="closePopUp" 
+    :title="title"
+   v-if="popup">
+
+</UserMisForm>
+
 </template>
 
 <script>
+import UserMisForm from './Popup/UserMisForm.vue'
+
     export default {
         name: 'UserMis',
+
+        components:{
+            UserMisForm,
+             },
+
+             data ()
+       {
+        return{
+            popup:false,
+            title:'',
+        };
+       },
+
+       methods:{
+        accountManagerPopUp(){
+            this.popup=true;
+            this.title="Account Manager"
+        },
+        teamLeadPopUp(){
+            this.popup=true;
+            this.title="Team Lead"
+        },
+        recruiterPopUp(){
+            this.popup=true;
+            this.title="Recruiter"
+        },
+        userMatrixPopUp(){
+            this.popup=true;
+            this.title="User Matrix"
+        },
+
+        closePopUp(data){
+            this.popup = data;
+        },
+    },
     }
 </script>
 <style scoped>

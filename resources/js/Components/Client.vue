@@ -1,22 +1,59 @@
 <template>
-    <div class="colour">
-   <h2> Client</h2>
+    
    <div class="container">
-   <div class="form">
+
+   <div class="form" @click="clientPopUp()">
         <div class="icon_div"><font-awesome-icon :icon="['fas', 'chart-gantt']" /></div>
-       <h4>Create</h4>
+        <h4>Create</h4> 
     </div>
-    <div class="form">
+
+    <div class="form" @click="viewPopUp()">
         <div class="icon_div"><font-awesome-icon :icon="['fas', 'chart-gantt']" /></div>
        <h4>View</h4>
     </div>
+
     </div>
-</div>
+    <ClientForm
+    :showPopUp="popup"
+    @closePopup ="closePopUp" 
+    :title="title"
+   v-if="popup">
+
+   </ClientForm>
 </template>
 
 <script>
+import ClientForm from './Popup/ClientForm.vue'
+
     export default {
-        name: 'Client'
+        name: 'Client',
+    component:{
+        ClientForm,
+    },
+    
+    data ()
+       {
+        return{
+            popup:false,
+            title:'',
+        };
+       },
+       methods:{
+        clientPopUp(){
+            this.popup=true;
+            this.title="Client Create"
+        },
+        viewPopUp(){
+            this.popup=true;
+            this.title="Client View"
+        },
+
+        closePopUp(data){
+            this.popup = data;
+        },
+    },
+
+    components:{ClientForm,},
     }
 </script>
 
@@ -41,6 +78,7 @@
     border-radius: 10px;
     padding: 10px 20px;
     margin: 1%;
+    cursor: pointer;
     /* box-shadow: 0 0 6px 7px whitesmoke; */
 }
 
