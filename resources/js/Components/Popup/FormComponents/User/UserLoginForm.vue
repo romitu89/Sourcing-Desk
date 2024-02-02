@@ -44,6 +44,9 @@
 </template>
 
 <script>
+import Swal from 'sweetalert2'
+
+
     export default {
         name: 'UserLoginForm',
         
@@ -70,7 +73,7 @@
             };
             },
             isFormValid() {
-                return Object.values(this.validation).every(value => value);
+        return Object.values(this.validation).every(value => value);
             },
         },
 
@@ -79,13 +82,19 @@
 submitForm() {
         this.submitted = true; // Set the submitted flag to true when attempting to submit the form
         if (this.isFormValid) {
-        alert('Form submitted successfully!');
+            Swal.fire({
+                        position: "top-center",
+                        icon: "success",
+                        title: "Your form has been submitted",
+                        showConfirmButton: false,
+                        timer: 1500
+                        });
         // You might want to reset the form and submitted flag here if needed
         } 
         else {
-        alert('Please correct the errors before submitting.');
+            Swal.fire("Form not Submitted");
         }
-         },
+    },
         },
         }
 </script>

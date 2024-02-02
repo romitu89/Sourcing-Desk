@@ -143,7 +143,19 @@ import Swal from 'sweetalert2'
         methods:{
             submitForm() {
                 this.submitted = true; // Set the submitted flag to true when attempting to submit the form
-              
+                if (this.isFormValid) {
+                Swal.fire({
+                        position: "top-center",
+                        icon: "success",
+                        title: "Your form has been submitted",
+                        showConfirmButton: false,
+                        timer: 1500
+                        });
+// You might want to reset the form and submitted flag here if needed
+                        } 
+                else {
+                        Swal.fire("Form not Submitted");
+                        }
                 },
             },
         };
