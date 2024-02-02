@@ -88,3 +88,10 @@
     .submit_btn:hover{
         box-shadow: 2px 2px 4px 5px darkgray;
     }
+/* -----------------error msg  ---------- */
+    .error {
+        position: relative;
+        color: red;
+        font-size: medium;
+      
+    }

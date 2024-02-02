@@ -89,39 +89,3 @@ mounted(){
 }
 </script>
 
-<style scoped>
-.input_form td{
-    
-    /* border: 2px solid red; */
-    padding: 10px 40px;
-    font-size: 20px;
-}
-
-.input_form td select{
-    padding: 10px 20px;
-    width: 400px;
-}
-
-
-.cancel_btn{
-    padding: 10px 25px;
-    background-color: rgb(252, 64, 64);
-    border-radius: 5px;
-    
-}
-.submit_btn{
-    padding: 10px 25px;
-    background-color: #227C09;
-    border-radius: 5px;
-    margin-left: 5px;
-    
-}
-
-.cancel_btn:hover{
-    box-shadow: 2px 2px 4px 5px darkgray;
-}
-.submit_btn:hover{
-    box-shadow: 2px 2px 4px 5px darkgray;
-}
-
-</style>

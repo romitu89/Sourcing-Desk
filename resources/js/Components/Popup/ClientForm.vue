@@ -17,8 +17,8 @@
 </template>
 
 <script>
-import ClientCreateForm from './FormComponents/ClientCreateForm.vue'
-import ClientViewForm from './FormComponents/ClientViewForm.vue'
+import ClientCreateForm from './FormComponents/Client/ClientCreateForm.vue'
+import ClientViewForm from './FormComponents/Client/ClientViewForm.vue'
 
 export default {
     
