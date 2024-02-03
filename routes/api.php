@@ -68,6 +68,13 @@ Route::Post('/adminuser-create', [Create::class, 'store']);
 Route::get('/adminuser-view', [UserView::class, 'create']);
 Route::Post('/adminuser-view', [UserView::class, 'store']);
 
+//User Edit
+Route::get('/adminuser-edit/{id}', [UserView::class, 'edit']);
+Route::patch('/adminuser-edit/{id}', [UserView::class, 'update']);
+
+//User Delete
+Route::delete('/adminuser-delete/{id}', [UserView::class, 'destroy']);
+
 //--------------------------------------------------------------------------
 
 // Admin/Client/Create
@@ -78,10 +85,18 @@ Route::Post('/adminclient-create', [ClientCreate::class, 'store']);
 Route::get('/adminclient-view', [ClientView::class, 'create']);
 Route::Post('/adminclient-view', [ClientView::class, 'store']);
 
+//Client Edit
+Route::get('/adminclient-edit/{id}', [ClientView::class, 'edit']);
+Route::patch('/adminclient-edit/{id}', [ClientView::class, 'update']);
+
+//Client Delete
+Route::delete('/adminclient-delete/{id}', [ClientView::class, 'destroy']);
+
 //---------------------------------------------------------------------------
 
 // Admin/User/Login
-Route::get('adminuser-login', [UserLogin::class, 'create']);
+Route::get('/adminuser-login', [UserLogin::class, 'create']);
+Route::Post('/adminuser-login', [UserLogin::class, 'store']);
 
 //------------------------------------------------------------------------------
 
@@ -97,8 +112,17 @@ Route::Post('/editoruser-create', [EditorUserCreate::class, 'store']);
 Route::get('/editoruser-view', [EditorUserView::class, 'create']);
 Route::Post('/editoruser-view', [EditorUserView::class, 'store']);
 
+//User Edit
+Route::get('/editoruser-edit/{id}', [EditorUserView::class, 'edit']);
+Route::patch('/editoruser-edit/{id}', [EditorUserView::class, 'update']);
+
+//User Delete
+Route::delete('/editoruser-delete/{id}', [EditorUserView::class, 'destroy']);
+
+//-------------------------------------------------------------------------------------
+
 // User Login
-Route::get('editoruser-login', [EditorUserLogin::class, 'create']);
+Route::get('/editoruser-login', [EditorUserLogin::class, 'create']);
 Route::Post('/editoruser-login', [EditorUserLogin::class, 'store']);
 
 //--------------------------------------------------------------------------
@@ -112,6 +136,13 @@ Route::Post('/editorclient-create', [EditorClientCreate::class, 'store']);
 Route::get('/editorclient-view', [EditorClientView::class, 'create']);
 Route::Post('/editorclient-view', [EditorClientView::class, 'store']);
 
+//Client Edit
+Route::get('/editorclient-edit/{id}', [EditorClientView::class, 'edit']);
+Route::patch('/editorclient-edit/{id}', [EditorClientView::class, 'update']);
+
+//Client Delete
+
+Route::delete('/editorclient-delete/{id}', [EditorClientView::class, 'destroy']);
 
 
 
@@ -125,6 +156,13 @@ Route::Post('/amtracker-create', [AMTrackerCreate::class, 'store']);
 Route::get('/amtracker-view', [AMTrackerView::class, 'create']);
 Route::Post('/amtracker-view', [AMTrackerView::class, 'store']);
 
+//Tracker Edit
+Route::get('/amtracker-edit/{id}', [AMTrackerView::class, 'edit']);
+Route::patch('/amtracker-edit/{id}', [AMTrackerView::class, 'update']);
+
+//Tracker Delete
+// Route::delete('/amtracker-delete/{id}', [AMTrackerView::class, 'destroy']);
+
 //----------------------------------------------------------------------
 
 // Team Management Create
@@ -135,6 +173,9 @@ Route::Post('/amteam-create', [TeamCreate::class, 'store']);
 Route::get('/amteam-view', [TeamView::class, 'create']);
 Route::Post('/amteam-view', [TeamView::class, 'store']);
 
+//Team Edit
+Route::get('/amteam-edit/{id}', [TeamView::class, 'edit']);
+Route::patch('/amteam-edit/{id}', [TeamView::class, 'update']);
 //-----------------------------------------------------------------------
 
 // Submission Approval
@@ -176,6 +217,13 @@ Route::Post('/tltracker-create', [TLTrackerCreate::class, 'store']);
 //Tracker View
 Route::get('/tltracker-view', [TLTrackerView::class, 'create']);
 Route::Post('/tltracker-view', [TLTrackerView::class, 'store']);
+
+//Tracker Edit
+Route::get('/tltracker-edit/{id}', [TLTrackerView::class, 'edit']);
+Route::patch('/tltracker-edit/{id}', [TLTrackerView::class, 'update']);
+
+//Tracker Delete
+// Route::delete('/tltracker-delete/{id}', [TLTrackerView::class, 'destroy']);
 
 // Team Management Create
 Route::get('/tlteam-create', [TLTeamCreate::class, 'create']);

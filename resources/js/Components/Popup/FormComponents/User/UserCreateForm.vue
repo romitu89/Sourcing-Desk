@@ -149,7 +149,7 @@ import Swal from 'sweetalert2'
                         icon: "success",
                         title: "Your form has been submitted",
                         showConfirmButton: false,
-                        timer: 1500
+                        timer: 5000
                         });
 // You might want to reset the form and submitted flag here if needed
                         } 
