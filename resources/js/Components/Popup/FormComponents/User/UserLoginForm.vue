@@ -5,7 +5,7 @@
 
     <tr>
     <td ><label >Select Location</label></td>
-    <td ><select id="Location" v-model="employee.location"  name="Location">
+    <td ><select id="location" v-model="employee.location"  name="location">
     <option value="">Select Location</option>
     <option value="India">India</option>
     <option value="usa">USA</option>
@@ -14,7 +14,7 @@
 
     <tr>
     <td ><label >Employee Email</label></td>
-    <td ><select id="Email" v-model="employee.email" name="Email">
+    <td ><select id="email" v-model="employee.email" name="email">
     <option value="">Select Email</option>
     <option value="India">India</option>
     <option value="usa">USA</option>
@@ -49,7 +49,7 @@ import Swal from 'sweetalert2'
 
     export default {
         name: 'UserLoginForm',
-        
+
         data()
         {
             return{
@@ -90,7 +90,7 @@ submitForm() {
                         timer: 1500
                         });
         // You might want to reset the form and submitted flag here if needed
-        } 
+        }
         else {
             Swal.fire("Form not Submitted");
         }

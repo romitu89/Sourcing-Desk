@@ -5,16 +5,16 @@
 
     <tr>
     <td ><label >Select Location</label></td>
-    <td ><select id="Location" v-model="selectedLocation" name="Location">
+    <td ><select id="location" v-model="selectedLocation" name="location">
     <option value="">Select Location</option>
     <option v-for="item in userLocation" :key='item.location' :value="item.location">{{ item.location }}</option>
-    
+
     </select></td>
     </tr>
 
     <tr>
     <td ><label >Select User</label></td>
-    <td ><select id="User" v-model="selectedUser" name="User">
+    <td ><select id="user" v-model="selectedUser" name="user">
     <option value="">Select User</option>
     <option value="current">Current User</option>
     <option value="removed">Removed User</option>
@@ -35,7 +35,7 @@
 <script>
 export default {
     name: 'UserViewForm',
-    
+
     data()
     {
         return{
@@ -59,7 +59,7 @@ export default {
         console.log(error)
         this.errored = true
       })
-      
+
         },
 
         userViewApi(){
@@ -69,7 +69,7 @@ export default {
                 user: this.selectedUser,
                // include other data as needed
            };
- 
+
           axios.post('/api/adminuser-view', formData)
               .then(response => {
                   console.log('Form submitted:', response.data.results);
@@ -82,7 +82,7 @@ export default {
     },
 mounted(){
     this.userLocationApi()
-    
+
 }
 
 

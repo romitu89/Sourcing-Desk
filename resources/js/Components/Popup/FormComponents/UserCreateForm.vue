@@ -39,7 +39,7 @@
 
     <tr>
     <td ><label >Select Location</label></td>
-    <td ><select id="Location" v-model="selectLocation" class="color_cell"  name="Location">
+    <td ><select id="location" v-model="selectLocation" class="color_cell"  name="location">
     <option value="">Select Location</option>
     <option value="India">India</option>
     <option value="usa">USA</option>
@@ -48,7 +48,7 @@
 
     <tr>
     <td ><label >Role</label></td>
-    <td ><select id="Role" v-model="role" name="Role">
+    <td ><select id="role" v-model="role" name="role">
     <option value="Role">Choose Role</option>
     <option value="admin">Admin</option>
     <option value="editor">Editor</option>
@@ -62,7 +62,7 @@
 
     <tr>
     <td ><label >Department</label></td>
-    <td ><select id="Department" v-model="department" name="Department">
+    <td ><select id="department" v-model="department" name="department">
     <option value="Choose Department">Choose Department</option>
     <option value="hrStaffing">HR-Staffing</option>
     <option value="hrPayroll">HR-Payroll</option>
@@ -131,7 +131,7 @@
                 selectedLocation: this.selectedLocation,
                 user: this.selectedUser,
                // include other data as needed
-           };
+           };zzz
 
           axios.post('/api/adminuser-view', formData)
               .then(response => {

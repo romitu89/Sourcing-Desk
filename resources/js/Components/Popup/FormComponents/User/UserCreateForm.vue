@@ -1,7 +1,7 @@
 <template>
    <form @submit.prevent="submitForm">
     <table class="input_form">
-    
+
     <tr>
     <td ><label >Employee Name</label></td>
     <td ><input type="text" v-model.trim="employee.name" placeholder="Employee Name" >
@@ -46,7 +46,7 @@
 
     <tr>
     <td ><label >Select Location</label></td>
-    <td ><select id="Location" v-model.trim="employee.location" class="color_cell"  name="Location">
+    <td ><select id="location" v-model.trim="employee.location" class="color_cell"  name="location">
     <option value="">Select Location</option>
     <option value="India">India</option>
     <option value="usa">USA</option>
@@ -55,7 +55,7 @@
 
     <tr>
     <td ><label >Role</label></td>
-    <td ><select id="Role" v-model.trim="employee.role" name="Role">
+    <td ><select id="role" v-model.trim="employee.role" name="role">
     <option value="Role">Choose Role</option>
     <option value="Admin">Admin</option>
     <option value="Team Lead">Team Lead</option>
@@ -64,7 +64,7 @@
 
     <tr>
     <td ><label >Department</label></td>
-    <td ><select id="Department" v-model.trim="employee.department" name="Department">
+    <td ><select id="department" v-model.trim="employee.department" name="department">
     <option value="Choose Department">Choose Department</option>
     <option value="Development">Development</option>
     <option value="HR">HR</option>
@@ -84,7 +84,7 @@
     </tr>
 
     </table>
-    
+
    </form>
 
 </template>
@@ -94,7 +94,7 @@ import Swal from 'sweetalert2'
 
     export default {
         name:'UserCreateForm',
-        
+
 
         data()
         {
@@ -152,7 +152,7 @@ import Swal from 'sweetalert2'
                         timer: 5000
                         });
 // You might want to reset the form and submitted flag here if needed
-                        } 
+                        }
                 else {
                         Swal.fire("Form not Submitted");
                         }
