@@ -34,29 +34,29 @@ class Create extends Controller
     {
         dd($request->all());
 
-        $request->validate([
-            'empName' => 'required|string|max:100',
-            'userName' => 'required|string|unique:users,username',
-            'password' => [
-                'required',
-                Password::min(8)
-                    ->letters()
-                    ->mixedCase()
-                    ->numbers()
-                    ->symbols()
-                    ->uncompromised()
-            ],
-            'cnfrmPassword' => 'required|same:password',
-            'empId' => 'required|unique:users,employee_id',
-            'email' => 'required|email|max:255|unique:users,email_id',
-            'mobile' => 'required|integer|unique:users,mobile_number',
-            'selectedLocation' => 'required',
-            'department' => 'required',
-            'role' => 'required',
+        // $request->validate([
+        //     'empName' => 'required|string|max:100',
+        //     'userName' => 'required|string|unique:users,username',
+        //     'password' => [
+        //         'required',
+        //         Password::min(8)
+        //             ->letters()
+        //             ->mixedCase()
+        //             ->numbers()
+        //             ->symbols()
+        //             ->uncompromised()
+        //     ],
+        //     'cnfrmPassword' => 'required|same:password',
+        //     'empId' => 'required|unique:users,employee_id',
+        //     'email' => 'required|email|max:255|unique:users,email_id',
+        //     'mobile' => 'required|integer|unique:users,mobile_number',
+        //     'selectedLocation' => 'required',
+        //     'department' => 'required',
+        //     'role' => 'required',
 
-            'dob' => 'required'
+        //     'dob' => 'required'
 
-        ]);
+        // ]);
         $empName = ucwords($request->empName);
 
         $user = new User([

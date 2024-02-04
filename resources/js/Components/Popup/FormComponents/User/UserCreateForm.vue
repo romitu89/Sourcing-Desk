@@ -4,7 +4,7 @@
 
     <tr>
     <td ><label >Employee Name</label></td>
-    <td ><input type="text" v-model.trim="employee.name" placeholder="Employee Name" >
+    <td ><input type="text" v-model.trim="employee.empName" placeholder="Employee Name" >
         <span v-if="submitted && !validation.name" class="error">Name is required.</span></td>
     </tr>
 
@@ -28,7 +28,7 @@
 
     <tr>
     <td ><label >Employee Id</label></td>
-    <td ><input type="text" v-model.trim="employee.id" placeholder="Enter Employee Id">
+    <td ><input type="text" v-model.trim="employee.empId" placeholder="Enter Employee Id">
         <span v-if="submitted && !validation.id" class="error">Employee Id is required.</span></td>
     </tr>
 
@@ -46,17 +46,17 @@
 
     <tr>
     <td ><label >Select Location</label></td>
-    <td ><select id="location" v-model.trim="employee.location" class="color_cell"  name="location">
+    <td ><select id="location" v-model="employee.selectedLocation" name="location">
     <option value="">Select Location</option>
-    <option value="India">India</option>
-    <option value="usa">USA</option>
-    </select><span v-if="submitted && !validation.location" class="error">Employee Location required.</span></td>
+    <option v-for="item in userLocation" :key='item.location' :value="item.location">{{ item.location }}</option>
+
+    </select><span v-if="submitted && !validation.location" class="error">Mobile Number is required.</span></td>
     </tr>
 
     <tr>
     <td ><label >Role</label></td>
     <td ><select id="role" v-model.trim="employee.role" name="role">
-    <option value="Role">Choose Role</option>
+    <option value="">Select Role</option>
     <option value="Admin">Admin</option>
     <option value="Team Lead">Team Lead</option>
     </select><span v-if="submitted && !validation.role" class="error">Employee Role is required.</span></td>
@@ -65,7 +65,7 @@
     <tr>
     <td ><label >Department</label></td>
     <td ><select id="department" v-model.trim="employee.department" name="department">
-    <option value="Choose Department">Choose Department</option>
+    <option value="">Select Department</option>
     <option value="Development">Development</option>
     <option value="HR">HR</option>
     </select><span v-if="submitted && !validation.department" class="error">Department is required.</span></td>
@@ -100,33 +100,34 @@ import Swal from 'sweetalert2'
         {
             return{
                 employee: {
-            name:"",
+            empName:"",
             userName:"",
             password:"",
             cnfrmPassword:"",
-            id:"",
+            empId:"",
             email:"",
             mobile:"",
-            location:"",
+            selectedLocation:"",
             role:"",
             department:"",
             dob:"",
                 },
                 submitted:false,
+                userLocation:[],
             };
         },
 
         computed:{
             validation(){
                 return {
-            name: this.employee.name.trim() !== '',
+            name: this.employee.empName.trim() !== '',
             userName: this.employee.userName.trim() !== '',
             password: this.employee.password.trim() !== '',
             cnfrmPassword: this.employee.cnfrmPassword.trim() !== '',
-            id: this.employee.id.trim() !== '',
+            id: this.employee.empId.trim() !== '',
             email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.employee.email),
             mobile: this.employee.mobile.trim() !== '', // Adjust regex based on your mobile number format
-            location: this.employee.location.trim() !== '',
+            location: this.employee.selectedLocation.trim() !== '',
             role: this.employee.role.trim() !== '',
             department: this.employee.department.trim() !== '',
             dob: this.employee.dob.trim() !== '',
@@ -141,16 +142,44 @@ import Swal from 'sweetalert2'
             },
 
         methods:{
+
+            userLocationApi()
+        {
+            axios
+      .get('/api/adminuser-view')
+      .then(response => {
+        this.userLocation = response.data.locations
+        console.log(this.userLocation)
+      })
+      .catch(error => {
+        console.log(error)
+        this.errored = true
+      })
+
+        },
+
             submitForm() {
                 this.submitted = true; // Set the submitted flag to true when attempting to submit the form
                 if (this.isFormValid) {
-                Swal.fire({
-                        position: "top-center",
-                        icon: "success",
-                        title: "Your form has been submitted",
-                        showConfirmButton: false,
-                        timer: 5000
-                        });
+
+                    axios.post('/api/adminuser-create', this.employee)
+              .then(response => {
+                  console.log('Form submitted:', response.data.results);
+                  // Handle the response as needed
+               })
+              .catch(error => {
+                  console.error('Error submitting form:', error);
+               });
+
+                // Swal.fire({
+                //         position: "top-center",
+                //         icon: "success",
+                //         title: "Your form has been submitted",
+                //         showConfirmButton: false,
+                //         timer: 5000
+                //         });
+
+
 // You might want to reset the form and submitted flag here if needed
                         }
                 else {
@@ -158,6 +187,12 @@ import Swal from 'sweetalert2'
                         }
                 },
             },
+
+            mounted(){
+    this.userLocationApi()
+
+}
+
         };
 </script>
 
