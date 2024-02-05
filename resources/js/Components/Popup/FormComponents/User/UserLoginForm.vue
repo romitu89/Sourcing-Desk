@@ -7,7 +7,7 @@
     <td ><label >Select Location</label></td>
     <td ><select id="location" v-model="employee.selectedLocation" name="location">
     <option value="">Select Location</option>
-    <option v-for="item in userLocation" :key='item.location' :value="item.location">{{ item.location }}</option>
+    <option v-for="item in loginData" :key='item.location' :value="item.location">{{ item.location }}</option>
 
     </select><span v-if="errors.selectedLocation" class="error">{{errors.selectedLocation[0]}}</span></td>
     </tr>
@@ -16,8 +16,8 @@
     <td ><label >Employee Email</label></td>
     <td ><select id="email" v-model="employee.selectedEmail" name="email">
     <option value="">Select Email</option>
-    <option value="India">India</option>
-    <option value="usa">USA</option>
+    <option v-for="item in loginData" :key='item.email_id' :value="item.email_id">{{ item.email_id }}</option>
+    
     </select>
     <span v-if="errors.selectedEmail" class="error">{{errors.selectedEmail[0]}}</span></td>
     </tr>
@@ -60,7 +60,7 @@ import Swal from 'sweetalert2'
                     fromDate:"",
                     toDate:"",
                 },
-                submitted:false,
+                loginData:[],
                 userLocation:[],
                 errors:{},
             };
@@ -72,10 +72,11 @@ import Swal from 'sweetalert2'
             userLocationApi()
         {
             axios
-      .get('api/adminuser-view')
+      .get('api/adminuser-login')
       .then(response => {
-        this.userLocation = response.data.locations
-        console.log(this.userLocation)
+        this.loginData = response.data.login
+        
+        console.log(this.loginData)
       })
       .catch(error => {
         console.log(error)

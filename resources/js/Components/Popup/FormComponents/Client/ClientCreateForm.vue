@@ -26,17 +26,17 @@
     <td ><label >Select Location</label></td>
     <td ><select id="location" v-model="client.selectedLocation" name="location">
     <option value="">Select Location</option>
-    <option v-for="item in userLocation" :key='item.location' :value="item.location">{{ item.location }}</option>
+    <option v-for="item in managersData" :key='item.location' :value="item.location">{{ item.location }}</option>
 
     </select><span v-if="errors.selectedLocation" class="error">{{errors.selectedLocation[0]}}</span></td>
     </tr>
 
     <tr>
     <td ><label >Account Manager</label></td>
-    <td ><select id="manager" v-model="client.selectedManager" class="color_cell" name="manager">
-    <option value="">Choose Manager</option>
-    <option value="India">India</option>
-    <option value="usa">USA</option>
+    <td ><select id="location" v-model="client.selectedManager" name="location">
+    <option value="">Select Location</option>
+    <option v-for="item in managersData" :key='item.email_id' :value="item.email_id">{{ item.email_id }}</option>
+
     </select><span v-if="errors.selectedManager" class="error">{{errors.selectedManager[0]}}</span></td>
     </tr>
 
@@ -68,7 +68,7 @@ export default {
                     selectedManager:"",
                     selectedLocation:"",
                 },
-                submitted:false,
+                managersData:[],
                 userLocation:[],
                 errors:{},
             };
@@ -79,9 +79,9 @@ export default {
 userLocationApi()
 {
 axios
-.get('/api/adminuser-view')
+.get('/api/adminclient-create')
 .then(response => {
-this.userLocation = response.data.locations
+this.managersData = response.data.accountmanagers
 console.log(this.userLocation)
 })
 .catch(error => {
