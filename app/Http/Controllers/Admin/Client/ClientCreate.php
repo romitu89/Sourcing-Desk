@@ -23,16 +23,36 @@ class ClientCreate extends Controller
 
 
 
-        //dd($request->all());
+        // dd($request->all());
+
+        $successMessage = [
+
+            'selectedLocation.required' => 'Location is required.',
+
+            'selectedManager.required' => 'Manager is required.',
+
+            'businessName.required' => 'Unit is required.',
+
+            'subLocation.required' => 'Sub Location is required.',
+
+
+
+            // Add other custom messages as needed
+
+        ];
+
+
+
+
         $request->validate([
-            // 'clientName' => 'required|string|unique:clients,client_name',
-            // 'businessName' => 'required|string',
-            // 'subLocation' => 'required|string',
+            'clientName' => 'required|string|unique:clients,client_name',
+            'businessName' => 'required|string',
+            'subLocation' => 'required|string',
 
-            // 'selectedManager' => 'required',
-            // 'selectedLocation' => 'required',
+            'selectedManager' => 'required',
+            'selectedLocation' => 'required',
 
-        ]);
+        ],$successMessage);
         $man_id = $request->selectedManager;
         if ($man_id) {
             $man_id = User::where('email_id', $man_id)

@@ -80,11 +80,23 @@ class UserView extends Controller
 
     public function store(Request $request)
     {
-        try {
+        $customValidation = [
+
+            'selectedLocation.required' => 'Location is required.',
+
+            'user.required' => 'User is required.',
+
+
+
+            // Add other custom messages as needed
+
+        ];
+
+        // try {
             $request->validate([
                 'user' => 'required|string|max:100',
                 'selectedLocation' => 'required|string',
-            ]);
+            ], $customValidation);
 
             $user = $request->input('user');
             $defaultLocation = $request->input('defaultLocation');
@@ -101,9 +113,9 @@ class UserView extends Controller
             $results = $query->get();
 
             return response()->json(['results' => $results]);
-        } catch (ValidationException $e) {
-            return response()->json(['errors' => $e->errors()], 422);
-        }
+        // } catch (ValidationException $e) {
+        //     return response()->json(['errors' => $e->errors()], 422);
+        // }
     }
 
     public function destroy(string $id)

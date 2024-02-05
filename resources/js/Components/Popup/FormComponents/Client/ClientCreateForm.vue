@@ -5,40 +5,39 @@
 
     <tr>
     <td ><label >Client Name</label></td>
-    <td ><input type="text"  v-model.trim="client.name" placeholder="Client Name">
-        <span v-if="submitted && !validation.name" class="error">Client Name is required.</span></td>
+    <td ><input type="text"  v-model="client.clientName" placeholder="Client Name">
+        <span v-if="errors.clientName" class="error">{{errors.clientName[0]}}</span></td>
     </tr>
 
     <tr>
     <td ><label >Business Unit Name</label></td>
-    <td ><input type="text" v-model.trim="client.business" placeholder="Business Unit Name">
-        <span v-if="submitted && !validation.name" class="error">Business Unit is required.</span></td>
+    <td ><input type="text" v-model="client.businessName" placeholder="Business Unit Name">
+        <span v-if="errors.businessName" class="error">{{errors.businessName[0]}}</span></td>
     </tr>
 
     <tr>
     <td ><label >Sub Location</label></td>
-    <td ><input type="text" v-model.trim="client.subLocation" placeholder="Sub Location">
+    <td ><input type="text" v-model="client.subLocation" placeholder="Sub Location">
 
-        <span v-if="submitted && !validation.name" class="error">Sub Location is required.</span></td>
+        <span v-if="errors.subLocation" class="error">{{errors.subLocation[0]}}</span></td>
     </tr>
 
     <tr>
     <td ><label >Select Location</label></td>
-    <td ><select id="location" v-model.trim="client.location" class="color_cell" name="location">
-    <option value="">Choose Location</option>
-    <option value="India">India</option>
-    <option value="usa">USA</option>
-    </select>
-    <span v-if="submitted && !validation.name" class="error">Location is required.</span></td>
+    <td ><select id="location" v-model="client.selectedLocation" name="location">
+    <option value="">Select Location</option>
+    <option v-for="item in userLocation" :key='item.location' :value="item.location">{{ item.location }}</option>
+
+    </select><span v-if="errors.selectedLocation" class="error">{{errors.selectedLocation[0]}}</span></td>
     </tr>
 
     <tr>
     <td ><label >Account Manager</label></td>
-    <td ><select id="manager" v-model.trim="client.manager" class="color_cell" name="manager">
+    <td ><select id="manager" v-model="client.selectedManager" class="color_cell" name="manager">
     <option value="">Choose Manager</option>
     <option value="India">India</option>
     <option value="usa">USA</option>
-    </select><span v-if="submitted && !validation.name" class="error">Account Manager is required.</span></td>
+    </select><span v-if="errors.selectedManager" class="error">{{errors.selectedManager[0]}}</span></td>
     </tr>
 
     <tr>
@@ -63,53 +62,78 @@ export default {
         {
             return{
                 client: {
-                    name:"",
-                    business:"",
+                    clientName:"",
+                    businessName:"",
                     subLocation:"",
-                    location:"",
-                    manager:"",
+                    selectedManager:"",
+                    selectedLocation:"",
                 },
                 submitted:false,
+                userLocation:[],
+                errors:{},
             };
         },
 
-        computed:{
-            validation(){
-                return {
-            name: this.client.name.trim() !== '',
-            business: this.client.business.trim() !== '',
-            subLocation: this.client.subLocation.trim() !== '',
-            location: this.client.location.trim() !== '',
-            manager: this.client.manager.trim() !== '',
+        methods:{
 
-            };
-            },
+userLocationApi()
+{
+axios
+.get('/api/adminuser-view')
+.then(response => {
+this.userLocation = response.data.locations
+console.log(this.userLocation)
+})
+.catch(error => {
+console.log(error)
+this.errored = true
+})
 
-            isFormValid() {
+},
 
-                return Object.values(this.validation).every(value => value);
-            },
+submitForm() {
+    this.submitted = true; // Set the submitted flag to true when attempting to submit the form
+    // if (this.isFormValid) {
 
-            },
+        axios.post('api/adminclient-create', this.client)
+  .then(response => {
+      console.log('Form submitted:', response.data.successMessage);
+      if(response.data.successMessage){
+        this.errors={};
 
-            methods:{
-            submitForm() {
-                this.submitted = true; // Set the submitted flag to true when attempting to submit the form
-                if (this.isFormValid) {
-                Swal.fire({
-                        position: "top-center",
-                        icon: "success",
-                        title: "Your form has been submitted",
-                        showConfirmButton: false,
-                        timer: 5000
-                        });
+         Swal.fire({
+            position: "top-center",
+            icon: "success",
+            title: "User created successfully",
+            showConfirmButton: false,
+            timer: 5000
+            });
+
+      }
+      else{
+        Swal.fire("Form not Submitted");
+      }
+
+      // Handle the response as needed
+   })
+  .catch(error => {
+      console.error('Error submitting form:', error.response.data.errors);
+      this.errors= error.response.data.errors;
+   });
+
+
+
+
 // You might want to reset the form and submitted flag here if needed
-                        }
-                else {
-                        Swal.fire("Form not Submitted");
-                        }
-                },
-            },
+
+    },
+},
+
+mounted(){
+    this.userLocationApi()
+
+}
+
 
 }
 </script>

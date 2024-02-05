@@ -74,27 +74,15 @@ submitForm() {
 
         axios.post('api/adminuser-view', this.employee)
   .then(response => {
-      console.log('Form submitted:', response.data.locations);
-      if(response.data.locations){
-        this.errors={};
+      console.log('Form submitted:', response.data.results);
 
-         Swal.fire({
-            position: "top-center",
-            icon: "success",
-            title: "View successfully",
-            showConfirmButton: false,
-            timer: 3000
-            });
-
-      }
-      else{
-        Swal.fire("Form not Submitted");
-      }
+      this.errors={};
+    
 
       // Handle the response as needed
    })
   .catch(error => {
-    //   console.error('Error submitting form:', error.response.data.errors);
+      console.error('Error submitting form:', error.response.data.errors);
       this.errors= error.response.data.errors;
    });
 },
