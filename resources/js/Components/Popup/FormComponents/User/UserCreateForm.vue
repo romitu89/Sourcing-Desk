@@ -5,43 +5,43 @@
     <tr>
     <td ><label >Employee Name</label></td>
     <td ><input type="text" v-model.trim="employee.empName" placeholder="Employee Name" >
-        <span v-if="submitted && !validation.name" class="error">Name is required.</span></td>
+        <span v-if="errors.empName" class="error">{{errors.empName[0]}}</span></td>
     </tr>
 
     <tr>
     <td ><label >User Name</label></td>
     <td ><input type="text" v-model.trim="employee.userName" placeholder="User Name" >
-        <span v-if="submitted && !validation.userName" class="error">User Name is required.</span></td>
+        <span v-if="errors.userName" class="error">{{errors.userName[0]}}</span></td>
     </tr>
 
     <tr>
     <td ><label >Password</label></td>
     <td ><input type="text" v-model.trim="employee.password" placeholder="Password" >
-        <span v-if="submitted && !validation.password" class="error">Password is required.</span></td>
+        <span v-if="errors.password" class="error">{{errors.password[0]}}</span></td>
     </tr>
 
     <tr>
     <td ><label >Confirm Password</label></td>
     <td ><input type="text" v-model.trim="employee.cnfrmPassword" placeholder="Confirm Password">
-        <span v-if="submitted && !validation.cnfrmPassword" class="error">Password is required.</span></td>
+        <span v-if="errors.cnfrmPassword" class="error">{{errors.cnfrmPassword[0]}}</span></td>
     </tr>
 
     <tr>
     <td ><label >Employee Id</label></td>
     <td ><input type="text" v-model.trim="employee.empId" placeholder="Enter Employee Id">
-        <span v-if="submitted && !validation.id" class="error">Employee Id is required.</span></td>
+        <span v-if="errors.empId" class="error">{{errors.empId[0]}}</span></td>
     </tr>
 
     <tr>
     <td ><label >Email Id</label></td>
     <td ><input type="text" v-model.trim="employee.email" placeholder="Enter Email Id">
-        <span v-if="submitted && !validation.email" class="error">Email Id is required.</span></td>
+        <span v-if="errors.email" class="error">{{errors.email[0]}}</span></td>
     </tr>
 
     <tr>
     <td ><label >Mobile Number</label></td>
     <td ><input type="text" v-model.trim="employee.mobile" placeholder="Enter Mobile Number">
-        <span v-if="submitted && !validation.mobile" class="error">Mobile Number is required.</span></td>
+        <span v-if="errors.mobile" class="error">{{errors.mobile[0]}}</span></td>
     </tr>
 
     <tr>
@@ -50,7 +50,7 @@
     <option value="">Select Location</option>
     <option v-for="item in userLocation" :key='item.location' :value="item.location">{{ item.location }}</option>
 
-    </select><span v-if="submitted && !validation.location" class="error">Mobile Number is required.</span></td>
+    </select><span v-if="errors.selectedLocation" class="error">{{errors.selectedLocation[0]}}</span></td>
     </tr>
 
     <tr>
@@ -59,7 +59,7 @@
     <option value="">Select Role</option>
     <option value="Admin">Admin</option>
     <option value="Team Lead">Team Lead</option>
-    </select><span v-if="submitted && !validation.role" class="error">Employee Role is required.</span></td>
+    </select><span v-if="errors.role" class="error">{{errors.role[0]}}</span></td>
     </tr>
 
     <tr>
@@ -68,13 +68,13 @@
     <option value="">Select Department</option>
     <option value="Development">Development</option>
     <option value="HR">HR</option>
-    </select><span v-if="submitted && !validation.department" class="error">Department is required.</span></td>
+    </select><span v-if="errors.department" class="error">{{errors.department[0]}}</span></td>
     </tr>
 
     <tr>
     <td ><label >Date of Birth</label></td>
     <td ><input v-model.trim="employee.dob" type="date" >
-        <span v-if="submitted && !validation.dob" class="error">DOB is required.</span></td>
+        <span v-if="errors.dob" class="error">{{errors.dob[0]}}</span></td>
     </tr>
 
     <tr>
@@ -114,32 +114,10 @@ import Swal from 'sweetalert2'
                 },
                 submitted:false,
                 userLocation:[],
+                errors:{},
             };
         },
 
-        computed:{
-            validation(){
-                return {
-            name: this.employee.empName.trim() !== '',
-            userName: this.employee.userName.trim() !== '',
-            password: this.employee.password.trim() !== '',
-            cnfrmPassword: this.employee.cnfrmPassword.trim() !== '',
-            id: this.employee.empId.trim() !== '',
-            email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.employee.email),
-            mobile: this.employee.mobile.trim() !== '', // Adjust regex based on your mobile number format
-            location: this.employee.selectedLocation.trim() !== '',
-            role: this.employee.role.trim() !== '',
-            department: this.employee.department.trim() !== '',
-            dob: this.employee.dob.trim() !== '',
-            };
-            },
-
-            isFormValid() {
-
-                return Object.values(this.validation).every(value => value);
-            },
-
-            },
 
         methods:{
 
@@ -160,31 +138,39 @@ import Swal from 'sweetalert2'
 
             submitForm() {
                 this.submitted = true; // Set the submitted flag to true when attempting to submit the form
-                if (this.isFormValid) {
+                // if (this.isFormValid) {
 
                     axios.post('/api/adminuser-create', this.employee)
               .then(response => {
-                  console.log('Form submitted:', response.data.results);
+                  console.log('Form submitted:', response.data.message);
+                  if(response.data.message){
+                    this.errors={};
+
+                     Swal.fire({
+                        position: "top-center",
+                        icon: "success",
+                        title: "User created successfully",
+                        showConfirmButton: false,
+                        timer: 5000
+                        });
+
+                  }
+                  else{
+                    Swal.fire("Form not Submitted");
+                  }
+                 
                   // Handle the response as needed
                })
               .catch(error => {
-                  console.error('Error submitting form:', error);
+                //   console.error('Error submitting form:', error.response.data.errors);
+                  this.errors= error.response.data.errors;
                });
 
-                // Swal.fire({
-                //         position: "top-center",
-                //         icon: "success",
-                //         title: "Your form has been submitted",
-                //         showConfirmButton: false,
-                //         timer: 5000
-                //         });
+               
 
 
 // You might want to reset the form and submitted flag here if needed
-                        }
-                else {
-                        Swal.fire("Form not Submitted");
-                        }
+             
                 },
             },
 

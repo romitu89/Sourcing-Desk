@@ -32,31 +32,48 @@ class Create extends Controller
     }
     public function store(Request $request)
     {
-        dd($request->all());
+        // dd($request->all());
 
-        // $request->validate([
-        //     'empName' => 'required|string|max:100',
-        //     'userName' => 'required|string|unique:users,username',
-        //     'password' => [
-        //         'required',
-        //         Password::min(8)
-        //             ->letters()
-        //             ->mixedCase()
-        //             ->numbers()
-        //             ->symbols()
-        //             ->uncompromised()
-        //     ],
-        //     'cnfrmPassword' => 'required|same:password',
-        //     'empId' => 'required|unique:users,employee_id',
-        //     'email' => 'required|email|max:255|unique:users,email_id',
-        //     'mobile' => 'required|integer|unique:users,mobile_number',
-        //     'selectedLocation' => 'required',
-        //     'department' => 'required',
-        //     'role' => 'required',
+        $messages = [
 
-        //     'dob' => 'required'
+            'empName.required' => 'Employee Name is required.',
+    
+            'userName.required' => 'Username is required.',
+    
+            'userName.unique' => 'The Username has already been taken.', // Example for customizing unique constraint message
 
-        // ]);
+            'cnfrmPassword.required' => 'Confirm password is required.',
+
+            'cnfrmPassword.same' => 'The Confirm password field must match password.',
+    
+            // Add other custom messages as needed
+    
+        ];
+    
+
+        $request->validate([
+            'empName' => 'required|string|max:100',
+            'userName' => 'required|string|unique:users,username',
+            'password' => [
+                'required',
+                Password::min(8)
+                    ->letters()
+                    ->mixedCase()
+                    ->numbers()
+                    ->symbols()
+                    ->uncompromised()
+            ],
+            'cnfrmPassword' => 'required|same:password',
+            'empId' => 'required|unique:users,employee_id',
+            'email' => 'required|email|max:255|unique:users,email_id',
+            'mobile' => 'required|integer|unique:users,mobile_number',
+            'selectedLocation' => 'required',
+            'department' => 'required',
+            'role' => 'required',
+
+            'dob' => 'required'
+
+        ], $messages);
         $empName = ucwords($request->empName);
 
         $user = new User([
