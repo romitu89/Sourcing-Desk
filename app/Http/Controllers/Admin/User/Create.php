@@ -37,19 +37,19 @@ class Create extends Controller
         $messages = [
 
             'empName.required' => 'Employee Name is required.',
-    
+
             'userName.required' => 'Username is required.',
-    
+
             'userName.unique' => 'The Username has already been taken.', // Example for customizing unique constraint message
 
             'cnfrmPassword.required' => 'Confirm password is required.',
 
             'cnfrmPassword.same' => 'The Confirm password field must match password.',
-    
+
             // Add other custom messages as needed
-    
+
         ];
-    
+
 
         $request->validate([
             'empName' => 'required|string|max:100',

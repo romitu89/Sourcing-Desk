@@ -21,13 +21,30 @@ class UserLogin extends Controller
 
     public function store(Request $request)
     {
+
+        // dd($request->all());
+
+        $results = [
+
+            'selectedLocation.required' => 'Location is required.',
+
+            'selectedEmail.required' => 'Email is required.',
+
+
+
+            // Add other custom messages as needed
+
+        ];
+
+
+
         $request->validate([
             'toDate' => 'required',
             'fromDate' => 'required',
             'selectedEmail' => 'required',
             'selectedLocation' => 'required',
             // Add any other form field validations here
-        ]);
+        ], $results);
 
         $defaultLocation = $request->input('selectedLocation');
         $defaultEmail = $request->input('selectedEmail');

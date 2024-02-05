@@ -158,7 +158,7 @@ import Swal from 'sweetalert2'
                   else{
                     Swal.fire("Form not Submitted");
                   }
-                 
+
                   // Handle the response as needed
                })
               .catch(error => {
@@ -166,11 +166,11 @@ import Swal from 'sweetalert2'
                   this.errors= error.response.data.errors;
                });
 
-               
+
 
 
 // You might want to reset the form and submitted flag here if needed
-             
+
                 },
             },
 

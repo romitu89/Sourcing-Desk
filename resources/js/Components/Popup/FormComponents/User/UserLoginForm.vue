@@ -9,28 +9,29 @@
     <option value="">Select Location</option>
     <option v-for="item in userLocation" :key='item.location' :value="item.location">{{ item.location }}</option>
 
-    </select><span v-if="submitted && !validation.location" class="error">Mobile Number is required.</span></td>
+    </select><span v-if="errors.selectedLocation" class="error">{{errors.selectedLocation[0]}}</span></td>
     </tr>
 
     <tr>
     <td ><label >Employee Email</label></td>
-    <td ><select id="email" v-model="employee.email" name="email">
+    <td ><select id="email" v-model="employee.selectedEmail" name="email">
     <option value="">Select Email</option>
     <option value="India">India</option>
     <option value="usa">USA</option>
-    </select><span v-if="submitted && !validation.email" class="error">Employee email is required.</span></td>
+    </select>
+    <span v-if="errors.selectedEmail" class="error">{{errors.selectedEmail[0]}}</span></td>
     </tr>
 
     <tr>
     <td ><label >From Date</label></td>
     <td ><input type="date" v-model="employee.fromDate" >
-        <span v-if="submitted && !validation.fromDate" class="error"> From Date is required.</span></td>
+        <span v-if="errors.fromDate" class="error">{{errors.fromDate[0]}}</span></td>
     </tr>
 
     <tr>
     <td ><label >To Date</label></td>
     <td ><input type="date" v-model="employee.toDate" >
-        <span v-if="submitted && !validation.toDate" class="error"> To Date is required.</span></td>
+        <span v-if="errors.toDate" class="error">{{errors.toDate[0]}}</span></td>
     </tr>
 
     <tr>
@@ -55,35 +56,23 @@ import Swal from 'sweetalert2'
             return{
                 employee:{
                     selectedLocation:"",
-                    email:"",
+                    selectedEmail:"",
                     fromDate:"",
                     toDate:"",
                 },
                 submitted:false,
                 userLocation:[],
+                errors:{},
             };
         },
 
-        computed:{
-            validation(){
-                return {
-            location: this.employee.selectedLocation.trim() !== '',
-            email:this.employee.email.trim() !== '',
-            fromDate: this.employee.fromDate.trim() !== '',
-            toDate: this.employee.toDate.trim() !== '',
-            };
-            },
-            isFormValid() {
-        return Object.values(this.validation).every(value => value);
-            },
-        },
 
         methods: {
 
             userLocationApi()
         {
             axios
-      .get('/api/adminuser-view')
+      .get('api/adminuser-view')
       .then(response => {
         this.userLocation = response.data.locations
         console.log(this.userLocation)
@@ -96,25 +85,35 @@ import Swal from 'sweetalert2'
         },
 
 
+        submitForm() {
+                this.submitted = true; // Set the submitted flag to true when attempting to submit the form
+                // if (this.isFormValid) {
 
-submitForm() {
-        this.submitted = true; // Set the submitted flag to true when attempting to submit the form
-        if (this.isFormValid) {
+                    axios.post('api/adminuser-login', this.employee)
+              .then(response => {
+                  console.log('Form submitted:', response.data.results);
+                  if(response.data.results){
+                    this.errors={};
 
-           
+                     Swal.fire({
+                        position: "top-center",
+                        icon: "success",
+                        title: "Login successfully",
+                        showConfirmButton: false,
+                        timer: 5000
+                        });
 
-            // Swal.fire({
-            //             position: "top-center",
-            //             icon: "success",
-            //             title: "Your form has been submitted",
-            //             showConfirmButton: false,
-            //             timer: 1500
-            //             });
-        // You might want to reset the form and submitted flag here if needed
-        }
-        else {
-            Swal.fire("Form not Submitted");
-        }
+                  }
+                  else{
+                    Swal.fire("Form not Submitted");
+                  }
+
+                  // Handle the response as needed
+               })
+              .catch(error => {
+                //   console.error('Error submitting form:', error.response.data.errors);
+                  this.errors= error.response.data.errors;
+               });
     },
         },
         mounted(){
