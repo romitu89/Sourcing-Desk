@@ -23,10 +23,10 @@
 </template>
 
 <script>
-import UserAccountManagerForm from './FormComponents/User Mis/UserAccountManagerForm.vue'
-import UserTeamLeadForm from './FormComponents/User Mis/UserTeamLeadForm.vue'
-import UserRecruiterForm from './FormComponents/User Mis/UserRecruiterForm.vue'
-import UserMatrixForm from './FormComponents/User Mis/UserMatrixForm.vue'
+import UserAccountManagerForm from './UserAccountManagerForm.vue'
+import UserTeamLeadForm from './UserTeamLeadForm.vue'
+import UserRecruiterForm from './UserRecruiterForm.vue'
+import UserMatrixForm from './UserMatrixForm.vue'
 
     export default {
         name: 'UserMisForm',

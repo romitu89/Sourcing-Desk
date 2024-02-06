@@ -1,92 +1,102 @@
 <template>
 
     <div class="container">
-
-    <div class="form" @click="clientMisPopUp()">
+    <div class="form" @click="accountManagerPopUp()">
         <div class="icon_div"><font-awesome-icon :icon="['fas', 'chart-gantt']" /></div>
-       <h4>Client Report</h4>
+       <h4>Account Manager</h4>
     </div>
-    <div class="form" @click="clientManagerPopUp()">
+    <div class="form" @click="teamLeadPopUp()">
         <div class="icon_div"><font-awesome-icon :icon="['fas', 'chart-gantt']" /></div>
-       <h4>Client Manager Report</h4>
+       <h4>Team Lead</h4>
     </div>
-    <div class="form" @click="clientMatrixPopUp()">
+    <div class="form" @click="recruiterPopUp()">
+        <div class="icon_div"><font-awesome-icon :icon="['fas', 'chart-gantt']" /></div>
+       <h4>Recruiter</h4>
+    </div>
+    <div class="form" @click="userMatrixPopUp()">
         <div class="icon_div"><font-awesome-icon :icon="['fas', 'chart-gantt']" /></div>
        <h4>Matrix</h4>
     </div>
 </div>
-<ClientMisForm 
+<UserMisForm 
 :showPopUp="popup"
     @closePopup ="closePopUp" 
     :title="title"
    v-if="popup">
 
-</ClientMisForm>
+</UserMisForm>
+
 </template>
 
 <script>
-import ClientMisForm from './Popup/ClientMisForm.vue'
+import UserMisForm from './UserMisForm.vue'
 
-    export default{
-        name: 'ClientsMis',
+    export default {
+        name: 'UserMis',
+
         components:{
-            ClientMisForm,
-        },
-        data ()
+            UserMisForm,
+             },
+
+             data ()
        {
         return{
             popup:false,
             title:'',
         };
        },
+
        methods:{
-        clientMisPopUp(){
+        accountManagerPopUp(){
             this.popup=true;
-            this.title="Client Report"
+            this.title="Account Manager"
         },
-        clientManagerPopUp(){
+        teamLeadPopUp(){
             this.popup=true;
-            this.title="Client Manager Report"
+            this.title="Team Lead"
         },
-        clientMatrixPopUp(){
+        recruiterPopUp(){
             this.popup=true;
-            this.title="Client Matrix"
+            this.title="Recruiter"
+        },
+        userMatrixPopUp(){
+            this.popup=true;
+            this.title="User Matrix"
         },
 
         closePopUp(data){
             this.popup = data;
         },
     },
-
     }
 </script>
-
 <style scoped>
+*{
+    
+    background: cover;
+}
 .container{
     margin: 2% 5%;
     display: flex;
     flex-wrap: wrap;
     gap: 2%;
-    
 }
 .form{
     width: 250px;
-    background-color: #002147;
+    background-color:whitesmoke;
     opacity: 0.9;
     border-radius: 10px;
     padding: 10px 20px;
+    box-shadow: 0 0 6px 7px #F0F1F2;
     margin: 1%;
-    /* box-shadow: 0 0 6px 7px whitesmoke; */
 }
-
 .form h4{
-    color: rgb(213, 242, 253);
+    color: #002147;
     font-size: 25px;
     text-align: center;
 }
-
 .icon_div{
-    color: lightblue;
+    color: #002147;
     text-align: center;
     font-size: 30px;
 }

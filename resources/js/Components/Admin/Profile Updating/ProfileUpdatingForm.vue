@@ -5,29 +5,29 @@
 <div class="popup-inner">
     <h2 class="title">{{ title }}</h2>
 
-    <WorkingCandidateForm 
-    v-if="title=='Working Candidate'"/>
+    <ProfileCreate 
+    v-if="title=='Profile Create'"/>
 
-    <FilteredDatabaseForm 
-    v-if="title=='Filtered Database'"/>
+    <ProfileView 
+    v-if="title=='Profile View'"/>
 
 </div>
 </div>
 </template>
 
 <script>
-import WorkingCandidateForm from './FormComponents/Database Form/WorkingCandidateForm.vue'
-import FilteredDatabaseForm from './FormComponents/Database Form/FilteredDatabaseForm.vue'
+import ProfileCreate from './ProfileCreate.vue'
+import ProfileView from './ProfileView.vue'
 
-    export default {
-        name:'DatabaseForm',
+export default {
+    name:'ProfileUpdatingForm',
 
-        components:{
-            WorkingCandidateForm,
-            FilteredDatabaseForm,
-        },
+    components:{
+        ProfileCreate,
+        ProfileView,
+    },
 
-        props: {
+    props: {
         showPopUp: {
             type: Boolean,
             default: false
@@ -56,5 +56,6 @@ import FilteredDatabaseForm from './FormComponents/Database Form/FilteredDatabas
     },
 
 
-    }
+
+}
 </script>

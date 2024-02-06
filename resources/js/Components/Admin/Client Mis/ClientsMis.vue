@@ -2,35 +2,36 @@
 
     <div class="container">
 
-   <div class="form" @click="workingCandidatePopUp()">
+    <div class="form" @click="clientMisPopUp()">
         <div class="icon_div"><font-awesome-icon :icon="['fas', 'chart-gantt']" /></div>
-       <h4>Working Candidate</h4>
+       <h4>Client Report</h4>
     </div>
-
-    <div class="form" @click="filteredDatabasePopUp()">
+    <div class="form" @click="clientManagerPopUp()">
         <div class="icon_div"><font-awesome-icon :icon="['fas', 'chart-gantt']" /></div>
-       <h4>Filtered Database</h4>
+       <h4>Client Manager Report</h4>
     </div>
+    <div class="form" @click="clientMatrixPopUp()">
+        <div class="icon_div"><font-awesome-icon :icon="['fas', 'chart-gantt']" /></div>
+       <h4>Matrix</h4>
     </div>
-    <DatabaseForm 
-    :showPopUp="popup"
+</div>
+<ClientMisForm 
+:showPopUp="popup"
     @closePopup ="closePopUp" 
     :title="title"
    v-if="popup">
-   
-   </DatabaseForm>
+
+</ClientMisForm>
 </template>
 
 <script>
-import DatabaseForm from './Popup/DatabaseForm.vue'
+import ClientMisForm from './ClientMisForm.vue'
 
-    export default {
-        name: 'Database',
-
+    export default{
+        name: 'ClientsMis',
         components:{
-            DatabaseForm,
+            ClientMisForm,
         },
-
         data ()
        {
         return{
@@ -38,15 +39,18 @@ import DatabaseForm from './Popup/DatabaseForm.vue'
             title:'',
         };
        },
-
        methods:{
-        workingCandidatePopUp(){
+        clientMisPopUp(){
             this.popup=true;
-            this.title="Working Candidate"
+            this.title="Client Report"
         },
-        filteredDatabasePopUp(){
+        clientManagerPopUp(){
             this.popup=true;
-            this.title="Filtered Database"
+            this.title="Client Manager Report"
+        },
+        clientMatrixPopUp(){
+            this.popup=true;
+            this.title="Client Matrix"
         },
 
         closePopUp(data){
@@ -63,23 +67,26 @@ import DatabaseForm from './Popup/DatabaseForm.vue'
     display: flex;
     flex-wrap: wrap;
     gap: 2%;
+    
 }
 .form{
     width: 250px;
-    background-color:whitesmoke;
+    background-color: #002147;
     opacity: 0.9;
     border-radius: 10px;
     padding: 10px 20px;
-    box-shadow: 0 0 6px 7px #F0F1F2;
     margin: 1%;
+    /* box-shadow: 0 0 6px 7px whitesmoke; */
 }
+
 .form h4{
-    color: #002147;
+    color: rgb(213, 242, 253);
     font-size: 25px;
     text-align: center;
 }
+
 .icon_div{
-    color: #002147;
+    color: lightblue;
     text-align: center;
     font-size: 30px;
 }

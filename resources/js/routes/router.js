@@ -1,11 +1,11 @@
 import {createWebHistory, createRouter} from 'vue-router';
-import Dashboard from '../Components/Dashboard.vue';
-import User from '../Components/User.vue'
-import Client from '../Components/Client.vue'
-import ClientsMis from '../Components/ClientsMis.vue'
-import UserMis from '../Components/UserMis.vue'
-import Database from '../Components/Database.vue'
-import ProfileUpdating from '../Components/ProfileUpdating.vue'
+import Dashboard from '../Components/Admin/Dashboard/Dashboard.vue';
+import User from '../Components/Admin/User/User.vue'
+import Client from '../Components/Admin/Client/Client.vue'
+import ClientsMis from '../Components/Admin/Client Mis/ClientsMis.vue'
+import UserMis from '../Components/Admin/User Mis/UserMis.vue'
+import Database from '../Components/Admin/Database/Database.vue'
+import ProfileUpdating from '../Components/Admin/Profile Updating/ProfileUpdating.vue'
 
 
 

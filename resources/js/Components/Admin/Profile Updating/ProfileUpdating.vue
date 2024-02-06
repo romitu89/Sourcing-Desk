@@ -23,7 +23,7 @@
 
 
 <script>
-import ProfileUpdatingForm from './Popup/ProfileUpdatingForm.vue'
+import ProfileUpdatingForm from './ProfileUpdatingForm.vue'
 
     export default {
         name: 'ProfileUpdating',

@@ -1,42 +1,37 @@
 <template>
     
-    <div class="container">
-    <div class="form" @click="createPopUp()">
+   <div class="container">
+
+   <div class="form" @click="clientPopUp()">
         <div class="icon_div"><font-awesome-icon :icon="['fas', 'chart-gantt']" /></div>
-       <a ><h4>Create</h4></a>
+        <h4>Create</h4> 
     </div>
+
     <div class="form" @click="viewPopUp()">
         <div class="icon_div"><font-awesome-icon :icon="['fas', 'chart-gantt']" /></div>
-      <a > <h4>View</h4> </a>
+       <h4>View</h4>
     </div>
-    <div class="form" @click="loginPopUp()">
-        <div class="icon_div"><font-awesome-icon :icon="['fas', 'chart-gantt']" /></div>
-        <h4>Login</h4> 
+
     </div>
-    <div class="form">
-        <div class="icon_div"><font-awesome-icon :icon="['fas', 'chart-gantt']" /></div>
-       <h4>Idle Time</h4>
-    </div>
-   
-</div>
-<UserCreate
+    <ClientForm
     :showPopUp="popup"
     @closePopup ="closePopUp" 
     :title="title"
    v-if="popup">
 
-   </UserCreate>
+   </ClientForm>
 </template>
 
 <script>
-import UserCreate  from './Popup/usercreate.vue'
+import ClientForm from './ClientForm.vue'
 
     export default {
-        name:'User',
-       components:{
-        UserCreate,
-       },
-       data ()
+        name: 'Client',
+    component:{
+        ClientForm,
+    },
+    
+    data ()
        {
         return{
             popup:false,
@@ -44,29 +39,31 @@ import UserCreate  from './Popup/usercreate.vue'
         };
        },
        methods:{
-        createPopUp(){
+        clientPopUp(){
             this.popup=true;
-            this.title="Create Form"
-        },
-        closePopUp(data){
-            this.popup = data;
+            this.title="Client Create"
         },
         viewPopUp(){
             this.popup=true;
-            this.title="View Form"
+            this.title="Client View"
         },
 
-        loginPopUp(){
-            this.popup=true;
-            this.title="Login Form"
+        closePopUp(data){
+            this.popup = data;
         },
+    },
 
-       }
+    components:{ClientForm,},
     }
-
 </script>
 
 <style scoped>
+/* .colour {
+    background-color: #162541;
+    width: 1400px;
+    height: 100%;
+} */
+
 .container{
     margin: 2% 5%;
     display: flex;

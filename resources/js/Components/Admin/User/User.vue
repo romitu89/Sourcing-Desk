@@ -1,102 +1,98 @@
 <template>
-
+    
     <div class="container">
-    <div class="form" @click="accountManagerPopUp()">
+    <div class="form" @click="createPopUp()">
         <div class="icon_div"><font-awesome-icon :icon="['fas', 'chart-gantt']" /></div>
-       <h4>Account Manager</h4>
+       <a ><h4>Create</h4></a>
     </div>
-    <div class="form" @click="teamLeadPopUp()">
+    <div class="form" @click="viewPopUp()">
         <div class="icon_div"><font-awesome-icon :icon="['fas', 'chart-gantt']" /></div>
-       <h4>Team Lead</h4>
+      <a > <h4>View</h4> </a>
     </div>
-    <div class="form" @click="recruiterPopUp()">
+    <div class="form" @click="loginPopUp()">
         <div class="icon_div"><font-awesome-icon :icon="['fas', 'chart-gantt']" /></div>
-       <h4>Recruiter</h4>
+        <h4>Login</h4> 
     </div>
-    <div class="form" @click="userMatrixPopUp()">
+    <div class="form">
         <div class="icon_div"><font-awesome-icon :icon="['fas', 'chart-gantt']" /></div>
-       <h4>Matrix</h4>
+       <h4>Idle Time</h4>
     </div>
+   
 </div>
-<UserMisForm 
-:showPopUp="popup"
+<UserCreate
+    :showPopUp="popup"
     @closePopup ="closePopUp" 
     :title="title"
    v-if="popup">
 
-</UserMisForm>
-
+   </UserCreate>
 </template>
 
 <script>
-import UserMisForm from './Popup/UserMisForm.vue'
+import UserCreate  from './usercreate.vue'
 
     export default {
-        name: 'UserMis',
-
-        components:{
-            UserMisForm,
-             },
-
-             data ()
+        name:'User',
+       components:{
+        UserCreate,
+       },
+       data ()
        {
         return{
             popup:false,
             title:'',
         };
        },
-
        methods:{
-        accountManagerPopUp(){
+        createPopUp(){
             this.popup=true;
-            this.title="Account Manager"
+            this.title="Create Form"
         },
-        teamLeadPopUp(){
-            this.popup=true;
-            this.title="Team Lead"
-        },
-        recruiterPopUp(){
-            this.popup=true;
-            this.title="Recruiter"
-        },
-        userMatrixPopUp(){
-            this.popup=true;
-            this.title="User Matrix"
-        },
-
         closePopUp(data){
             this.popup = data;
         },
-    },
+        viewPopUp(){
+            this.popup=true;
+            this.title="View Form"
+        },
+
+        loginPopUp(){
+            this.popup=true;
+            this.title="Login Form"
+        },
+
+       }
     }
+
 </script>
+
 <style scoped>
-*{
-    
-    background: cover;
-}
 .container{
     margin: 2% 5%;
     display: flex;
     flex-wrap: wrap;
     gap: 2%;
+    
 }
 .form{
     width: 250px;
-    background-color:whitesmoke;
+    background-color: #002147;
     opacity: 0.9;
     border-radius: 10px;
     padding: 10px 20px;
-    box-shadow: 0 0 6px 7px #F0F1F2;
     margin: 1%;
+    cursor: pointer;
+    /* box-shadow: 0 0 6px 7px whitesmoke; */
 }
+
 .form h4{
-    color: #002147;
+    color: rgb(213, 242, 253);
     font-size: 25px;
     text-align: center;
 }
+
 .icon_div{
-    color: #002147;
+    color: lightblue;
     text-align: center;
     font-size: 30px;
 }

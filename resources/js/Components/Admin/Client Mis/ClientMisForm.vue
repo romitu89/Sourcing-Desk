@@ -19,9 +19,9 @@
 </template>
 
 <script>
-import ClientReportForm from './FormComponents/Client Mis/ClientReportForm.vue'
-import ClientManagerReportForm from './FormComponents/Client Mis/ClientManagerReportForm.vue'
-import ClienMatrixForm from './FormComponents/Client Mis/ClienMatrixForm.vue'
+import ClientReportForm from './clientreportform.vue'
+import ClientManagerReportForm from './ClientManagerReportForm.vue'
+import ClienMatrixForm from './ClienMatrixForm.vue'
 
 export default {
     name:'ClientMisForm',

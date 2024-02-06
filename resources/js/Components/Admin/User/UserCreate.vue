@@ -18,9 +18,9 @@
 </template>
 
 <script>
-import UserCreateForm from './FormComponents/User/UserCreateForm.vue'
-import UserViewForm from './FormComponents/User/UserViewForm.vue'
-import UserLoginForm from './FormComponents/User/UserLoginForm.vue'
+import UserCreateForm from './UserCreateForm.vue'
+import UserViewForm from './UserViewForm.vue'
+import UserLoginForm from './UserLoginForm.vue'
 
 
 export default {

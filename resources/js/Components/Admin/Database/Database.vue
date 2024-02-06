@@ -1,51 +1,52 @@
 <template>
-    
-   <div class="container">
 
-   <div class="form" @click="clientPopUp()">
+    <div class="container">
+
+   <div class="form" @click="workingCandidatePopUp()">
         <div class="icon_div"><font-awesome-icon :icon="['fas', 'chart-gantt']" /></div>
-        <h4>Create</h4> 
+       <h4>Working Candidate</h4>
     </div>
 
-    <div class="form" @click="viewPopUp()">
+    <div class="form" @click="filteredDatabasePopUp()">
         <div class="icon_div"><font-awesome-icon :icon="['fas', 'chart-gantt']" /></div>
-       <h4>View</h4>
+       <h4>Filtered Database</h4>
     </div>
-
     </div>
-    <ClientForm
+    <DatabaseForm 
     :showPopUp="popup"
     @closePopup ="closePopUp" 
     :title="title"
    v-if="popup">
-
-   </ClientForm>
+   
+   </DatabaseForm>
 </template>
 
 <script>
-import ClientForm from './Popup/ClientForm.vue'
+import DatabaseForm from './DatabaseForm.vue'
 
     export default {
-        name: 'Client',
-    component:{
-        ClientForm,
-    },
-    
-    data ()
+        name: 'Database',
+
+        components:{
+            DatabaseForm,
+        },
+
+        data ()
        {
         return{
             popup:false,
             title:'',
         };
        },
+
        methods:{
-        clientPopUp(){
+        workingCandidatePopUp(){
             this.popup=true;
-            this.title="Client Create"
+            this.title="Working Candidate"
         },
-        viewPopUp(){
+        filteredDatabasePopUp(){
             this.popup=true;
-            this.title="Client View"
+            this.title="Filtered Database"
         },
 
         closePopUp(data){
@@ -53,43 +54,32 @@ import ClientForm from './Popup/ClientForm.vue'
         },
     },
 
-    components:{ClientForm,},
     }
 </script>
 
 <style scoped>
-/* .colour {
-    background-color: #162541;
-    width: 1400px;
-    height: 100%;
-} */
-
 .container{
     margin: 2% 5%;
     display: flex;
     flex-wrap: wrap;
     gap: 2%;
-    
 }
 .form{
     width: 250px;
-    background-color: #002147;
+    background-color:whitesmoke;
     opacity: 0.9;
     border-radius: 10px;
     padding: 10px 20px;
+    box-shadow: 0 0 6px 7px #F0F1F2;
     margin: 1%;
-    cursor: pointer;
-    /* box-shadow: 0 0 6px 7px whitesmoke; */
 }
-
 .form h4{
-    color: rgb(213, 242, 253);
+    color: #002147;
     font-size: 25px;
     text-align: center;
 }
-
 .icon_div{
-    color: lightblue;
+    color: #002147;
     text-align: center;
     font-size: 30px;
 }
