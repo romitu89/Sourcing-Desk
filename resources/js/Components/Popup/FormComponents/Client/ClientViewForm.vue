@@ -4,19 +4,19 @@
 
         <tr>
     <td ><label >Select Location</label></td>
-    <td ><select id="location" v-model.trim="client.location" class="color_cell" name="location">
-    <option value="">Choose Location</option>
-    <option value="India">India</option>
-    <option value="usa">USA</option>
-    </select>
-    <span v-if="submitted && !validation.location" class="error">Location is required.</span></td>
+    <td ><select id="location" v-model="client.selectedLocation" name="location">
+    <option value="">Select Location</option>
+    <option v-for="item in clientLocation" :key='item.location' :value="item.location">{{ item.location }}</option>
+
+    </select><span v-if="errors.selectedLocation" class="error">{{errors.selectedLocation[0]}}</span></td>
     </tr>
+
 
     <tr>
     <td ><label >Sub Location</label></td>
-    <td ><input type="text" v-model.trim="client.subLocation" placeholder="Sub Location">
+    <td ><input type="text" v-model="client.selectedSubLocation" placeholder="Sub Location">
 
-        <span v-if="submitted && !validation.subLocation" class="error">Sub Location is required.</span></td>
+        <span v-if="errors.selectedSubLocation" class="error">{{errors.selectedSubLocation[0]}}</span></td>
     </tr>
 
     <tr>
@@ -39,50 +39,71 @@ export default {
             return{
                 client: {
 
-                    subLocation:"",
-                    location:"",
+                    selectedSubLocation:"",
+                    selectedLocation:"",
 
                 },
-                submitted:false,
+                clientLocation:[],
+                userLocation:[],
+                errors:{},
             };
         },
 
-    computed:{
-            validation(){
-                return {
+   
+        methods: {
 
-            subLocation: this.client.subLocation.trim() !== '',
-            location: this.client.location.trim() !== '',
+userLocationApi()
+{
+axios
+.get('/api/adminclient-view')
+.then(response => {
+this.clientLocation = response.data.locations
+
+console.log(this.loginData)
+})
+.catch(error => {
+console.log(error)
+this.errored = true
+})
+
+},
 
 
-            };
-            },
+submitForm() {
+    this.submitted = true; // Set the submitted flag to true when attempting to submit the form
+    // if (this.isFormValid) {
 
-            isFormValid() {
+        axios.post('api/adminclient-view', this.client)
+  .then(response => {
+      console.log('Form submitted:', response.data.results);
+      if(response.data.results){
+        this.errors={};
 
-                return Object.values(this.validation).every(value => value);
-            },
+         Swal.fire({
+            position: "top-center",
+            icon: "success",
+            // title: "Login successfully",
+            showConfirmButton: false,
+            timer: 3000
+            });
 
-            },
+      }
+      else{
+        Swal.fire("Form not Submitted");
+      }
 
-            methods:{
-            submitForm() {
-                this.submitted = true; // Set the submitted flag to true when attempting to submit the form
-                if (this.isFormValid) {
-                Swal.fire({
-                        position: "top-center",
-                        icon: "success",
-                        title: "Your form has been submitted",
-                        showConfirmButton: false,
-                        timer: 5000
-                        });
-// You might want to reset the form and submitted flag here if needed
-                        }
-                else {
-                        Swal.fire("Form not Submitted");
-                        }
-                },
-            },
+      // Handle the response as needed
+   })
+  .catch(error => {
+    //   console.error('Error submitting form:', error.response.data.errors);
+      this.errors= error.response.data.errors;
+   });
+},
+},
+mounted(){
+this.userLocationApi()
+
+}
 
 }
 
