@@ -59,7 +59,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 //Authentication
-Route::get('/', [AuthController::class, 'create']);
+Route::get('/login', [AuthController::class, 'create']);
 Route::post('/', [AuthController::class, 'store']);
 
 Route::middleware(['ensureAuthenticated'])->group(function () {
