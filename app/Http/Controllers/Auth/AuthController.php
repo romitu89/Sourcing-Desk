@@ -16,8 +16,6 @@ class AuthController extends Controller
         return response()->json();
     }
 
-
-
     public function login(Request $request)
     {
         $credentials = $request->validate([
