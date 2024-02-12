@@ -5,27 +5,27 @@
               <div class="content">
                   <h1>Web Design & <br><span>Development</span><br>Course</h1>
               <p class="par">Never Fight With A Pig, You Will Get Dirty <br> Then Pig Will Love It.</p>
-  
+
               <button class="cn"><a href="#">JOIN US</a></button>
               </div>
-  
+
               <div class="form">
                   <form action=""
                @submit.prevent="subLogin()"
                   >
                   <h2>Login Here</h2>
-                  <input type="text" name="username" v-model="email"  placeholder="Enter Username Here">
+                  <input type="text" name="username" v-model="login.username"  placeholder="Enter Username Here">
                   <span v-if="submitted && !validation.email" class="error">Enter Username.</span>
-                  <input type="password" name="" v-model="password" placeholder="Enter Password Here">
+                  <input type="password" name="" v-model="login.password" placeholder="Enter Password Here">
                   <span v-if="submitted && !validation.password" class="error">Password is required.</span>
                   <button type="submit" class="btnn">Login</button>
               </form>
-  
+
               </div>
           </div>
       </div>
-  
-  
+
+
   </template>
   <script>
 import {mapState} from 'vuex';
@@ -36,7 +36,7 @@ import axios from 'axios';
     data() {
         return{
             login: {
-            email:"",
+                username:"",
             password:"",
             },
             submitted:false,
@@ -48,7 +48,7 @@ import axios from 'axios';
             validation(){
 
                 return {
-                    email: this.login.email.trim() !== '',
+                    email: this.login.username.trim() !== '',
                     password: this.login.password.trim() !== '',
 
 
@@ -76,41 +76,43 @@ import axios from 'axios';
         this.errored = true
       })
     }   ,
-    
+
         subLogin(){
-            this.submitted = true; 
+            console.log(this.login)
+            this.submitted = true;
                 if (this.isFormValid) {
                     console.log("login successful")
                     axios.post('/api/login', {
-       email: this.email,
-       password: this.password
+       username: this.login.username,
+       password: this.login.password
    }).then(response => {
-       localStorage.setItem('auth_token', response.data.token);
-       localStorage.setItem('user_role', response.data.role);
-      this.redirectUserBasedOnRole(response.data.role);
+     //  localStorage.setItem('auth_token', response.data.token);
+       localStorage.setItem('user_role', response.data.user);
+       console.log(response.data.user.role,"role")
+      this.redirectUserBasedOnRole(response.data.user.role);
    }).catch(error => {
        console.error("There was an error:", error.response);
    });
                 }
-              
+
         },
 
         redirectUserBasedOnRole(role) {
    switch(role) {
        case 'admin':
-          this.$router.push('/admin/create');
+          this.$router.push('/admin');
            break;
        case 'account-manager':
-          this.$router.push('/account-manager/dashboard');
+          this.$router.push('/account-manager');
            break;
        case 'teamlead':
-          this.$router.push('/teamlead/dashboard');
+          this.$router.push('/teamlead');
            break;
        case 'recruiter':
-          this.$router.push('/recruiter/dashboard');
+          this.$router.push('/recruiter');
            break;
        default:
-           console.log('Role does not have a specific dashboard');
+       this.$router.push('/');
    }},
 
     },
@@ -121,16 +123,16 @@ import axios from 'axios';
 }
 
   }
-   
+
   </script>
-  
+
   <style scoped>
   *{
       margin: 0;
       padding: 0;
       box-sizing: border-box;
   }
-  
+
   .main{
       width: 100%;
       background: linear-gradient(to top,rgba(0,0,0,0.5)50%,rgba(0,0,0,0.5)50%),url(./image/loginpage.jpg);
@@ -141,12 +143,12 @@ import axios from 'axios';
   .logo_div{
   line-height: 75px;
   }
-  
+
   .sub{
       display: flex;
       margin: 1% 2%;
       gap: 25%;
-  
+
   }
   .logo{
       color: orange;
@@ -155,13 +157,13 @@ import axios from 'axios';
       padding-top: 10px;
       margin-left: 10%;
   }
-  
-  
+
+
   .content{
-  
-  
+
+
       height: auto;
-  
+
       color: white;
       position: relative;
   }
@@ -172,7 +174,7 @@ import axios from 'axios';
       letter-spacing: 1.2px;
       line-height: 30px;
   }
-  
+
   .content h1{
       font-family: 'Times New Roman';
       font-size: 50px;
@@ -180,7 +182,7 @@ import axios from 'axios';
       margin-top: 9%;
       letter-spacing: 2px;
   }
-  
+
   .content .cn{
       width: 160px;
       height: 40px;
@@ -192,32 +194,32 @@ import axios from 'axios';
       border-radius: 10px;
       cursor: pointer;
   }
-  
+
   .content .cn a{
       text-decoration: none;
       color: #000;
       transition: .3s ease;
   }
-  
+
   .cn:hover{
       background-color: white;
   }
-  
+
   .content span{
       color: orange;
       font-size: 60px;
   }
   .form{
       width: 300px;
-  
+
       background: linear-gradient(to top, rgba(0,0,0,0.8)50%, rgba(0,0,0,0.8)50%);
       position: relative;
       border-radius: 10px;
       padding: 25px;
       box-shadow: 0 0 9px 7px #097C7C;
-  
+
   }
-  
+
   .form h2{
       width: 220px;
       font-family: sans-serif;
@@ -228,7 +230,7 @@ import axios from 'axios';
       margin: 2px;
       padding: 8px;
   }
-  
+
   .form input{
       width: 240px;
       height: 35px;
@@ -243,16 +245,16 @@ import axios from 'axios';
       margin-top: 50px;
       font-family: sans-serif;
   }
-  
+
   .form input:focus{
       outline: none;
   }
-  
+
   ::placeholder{
       color: white;
       font-family: Arial;
   }
-  
+
   .btnn{
       width: 240px;
       height: 40px;
@@ -265,12 +267,12 @@ import axios from 'axios';
       color: white;
       transition: 0.2s ease;
   }
-  
+
   .btnn:hover{
       background: white;
       color: orange;
   }
-  
+
   .btnn a{
       text-decoration: none;
       color: black;
@@ -281,6 +283,5 @@ import axios from 'axios';
       .content span{font-size: 50px;}
       .main{height: auto;}
   }
-  
+
   </style>
-  

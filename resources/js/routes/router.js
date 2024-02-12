@@ -12,7 +12,7 @@ import ProfileUpdating from '../Components/Admin/Profile Updating/ProfileUpdatin
 const routes=[
     {
         name:'Dashboard',
-        path:'/dashboard',
+        path:'/admin',
         component: Dashboard
     },
     {
@@ -46,7 +46,7 @@ const routes=[
         component: ProfileUpdating
     },
 // Trial work
-   
+
 ];
 
 const router = createRouter({

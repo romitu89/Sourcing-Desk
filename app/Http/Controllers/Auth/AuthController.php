@@ -18,25 +18,36 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
+        // if (!Auth::attempt($request->validate([
+        //     'username' => 'required|string',
+        //     'password' => 'required|string'
+        // ]), true)) {
+
+        //     throw ValidationException::withMessages([
+        //         'username' => 'Authentication Failed'
+        //     ]);
+        // }
         $credentials = $request->validate([
-            'username' => 'required|string',
-            'password' => 'required|string'
+            'username' => 'required',
+            'password' => 'required',
         ]);
 
-        if (!Auth::attempt($credentials, true)) {
-            throw ValidationException::withMessages([
-                'username' => 'Authentication Failed'
+        if (Auth::attempt($credentials)) {
+            //$request->session()->regenerate();
+            $user = Auth::user();
+            Login::create([
+                'user_id' => auth()->user()->id,
+                'ip_address' => $request->ip(),
+                'email_id' => auth()->user()->email_id,
+                'location' => auth()->user()->location
             ]);
+            return response()->json(['message' => 'Success', 'user' => $user]);
         }
 
-        Login::create([
-            'user_id' => auth()->user()->id,
-            'ip_address' => $request->ip(),
-            'email_id' => auth()->user()->email_id,
-            'location' => auth()->user()->location
-        ]);
 
-        return response()->json(['message' => 'Login successful'], 200);
+
+
+        return response()->json(['error' => 'Invalid Credentials'], 401);
     }
 
     public function logout(Request $request)
