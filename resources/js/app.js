@@ -6,6 +6,8 @@ import '../assets/css/common.css'
 import router from './routes/router.js';
 import store from '../src/store/store.js';
 
+
+
 /* import the fontawesome core */
 import { library } from '@fortawesome/fontawesome-svg-core'
 
@@ -16,7 +18,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { faChartBar, faChartColumn, faChartGantt, faDesktop, faHome, faLayerGroup, faNetworkWired, faPaperclip, faPenToSquare, faPlus, faRectangleList, faTable, faUser, faUserSecret, faXmark } from '@fortawesome/free-solid-svg-icons'
 
 /* add icons to the library */
-library.add(faUserSecret, faHome, 
+library.add(faUserSecret, faHome,
     faTable, faChartColumn, faLayerGroup, faPaperclip, faPlus, faNetworkWired, faChartGantt, faUser, faXmark)
 
     // Vuetify

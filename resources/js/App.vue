@@ -63,62 +63,54 @@ import axios from 'axios';
             },
 
     methods:{
-        userLocationApi()
-{
-                axios
-      .get('/api/login')
-      .then(response => {
-        this.loginData = response.data.user
-        console.log(this.loginData)
-      })
-      .catch(error => {
-        console.log(error)
-        this.errored = true
-      })
-    }   ,
 
-        subLogin(){
-            console.log(this.login)
-            this.submitted = true;
-                if (this.isFormValid) {
-                    console.log("login successful")
-                    axios.post('/api/login', {
-       username: this.login.username,
-       password: this.login.password
-   }).then(response => {
-     //  localStorage.setItem('auth_token', response.data.token);
-       localStorage.setItem('user_role', response.data.user);
-       console.log(response.data.user.role,"role")
-      this.redirectUserBasedOnRole(response.data.user.role);
-   }).catch(error => {
-       console.error("There was an error:", error.response);
-   });
+
+        subLogin() {
+    console.log(this.login);
+    this.submitted = true;
+    if (this.isFormValid) {
+        console.log("login successful");
+        axios.post('/api/login', {
+            username: this.login.username,
+            password: this.login.password
+        }).then(response => {
+            // Check if the response contains user data
+            if (response.data && response.data.user && response.data.user.role) {
+                const role = response.data.user.role;
+                // Redirect based on user role
+                switch(role) {
+                    case 'admin':
+                        this.$router.push('/admin');
+                        break;
+                    case 'account-manager':
+                        this.$router.push('/account-manager');
+                        break;
+                    case 'teamlead':
+                        this.$router.push('/teamlead');
+                        break;
+                    case 'recruiter':
+                        this.$router.push('/recruiter');
+                        break;
+                    default:
+                        // Redirect to default page
+                        this.$router.push('/');
                 }
+            } else {
+                console.error("User role not found in response:", response.data);
+                // Handle error condition
+            }
+        }).catch(error => {
+            console.error("There was an error:", error);
+            // Handle error condition
+        });
+    }
+}
 
-        },
-
-        redirectUserBasedOnRole(role) {
-   switch(role) {
-       case 'admin':
-          this.$router.push('/admin');
-           break;
-       case 'account-manager':
-          this.$router.push('/account-manager');
-           break;
-       case 'teamlead':
-          this.$router.push('/teamlead');
-           break;
-       case 'recruiter':
-          this.$router.push('/recruiter');
-           break;
-       default:
-       this.$router.push('/');
-   }},
 
     },
 
     mounted(){
-    this.userLocationApi()
+
 
 }
 

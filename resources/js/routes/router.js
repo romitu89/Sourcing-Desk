@@ -1,5 +1,5 @@
 import {createWebHistory, createRouter} from 'vue-router';
-import Dashboard from '../Components/Admin/Dashboard/Dashboard.vue';
+import Dashboard from '../Components/Admin/Admin.vue';
 import User from '../Components/Admin/User/User.vue'
 import Client from '../Components/Admin/Client/Client.vue'
 import ClientsMis from '../Components/Admin/Client Mis/ClientsMis.vue'
