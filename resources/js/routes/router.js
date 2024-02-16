@@ -1,6 +1,8 @@
 import {createWebHistory, createRouter} from 'vue-router';
-import Dashboard from '../Components/Admin/Admin.vue';
-import User from '../Components/Admin/User/User.vue'
+import Admin from '../Components/Admin/Admin.vue';
+import Home from '../App.vue';
+import Dashboard from '../Components/Admin/User/User.vue'
+import User from '../Components/Admin/Dashboard/Dashboard.vue'
 import Client from '../Components/Admin/Client/Client.vue'
 import ClientsMis from '../Components/Admin/Client Mis/ClientsMis.vue'
 import UserMis from '../Components/Admin/User Mis/UserMis.vue'
@@ -11,40 +13,65 @@ import ProfileUpdating from '../Components/Admin/Profile Updating/ProfileUpdatin
 
 const routes=[
     {
-        name:'Dashboard',
+        name:'Home',
+        path:'/',
+        component: Home
+    },
+    
+    {
+        name:'Admin',
         path:'/admin',
-        component: Dashboard
+        component: Admin,
+        meta: { layout: 'admin' },
+        children: [
+            {
+                name:'Dashboard',
+                path:'/dashboard',
+                component: Dashboard,
+                meta: { layout: 'dashboard' }
+            },
+        
+            {
+                name:'User',
+                path:'/user',
+                component: User,
+                meta: { layout: 'user' },
+            },
+            {
+                name:'Client',
+                path:'/client',
+                component: Client,
+                meta: { layout: 'client' },
+            },
+            {
+                name:'ClientsMis',
+                path:'/clientsMis',
+                component: ClientsMis,
+                meta: { layout: 'clientsMis' },
+                
+            },
+            {
+                name:'UserMis',
+                path:'/userMis',
+                component: UserMis,
+                meta: { layout: 'userMis' },
+            },
+            {
+                name:'Database',
+                path:'/database',
+                component: Database,
+                meta: { layout: 'database' },
+            },
+            {
+                name:'ProfileUpdating',
+                path:'/profileUpdating',
+                component: ProfileUpdating,
+                meta: { layout: 'profileUpdating' },
+            },
+            // additional child routes can be added here
+          ]
     },
-    {
-        name:'User',
-        path:'/user',
-        component: User
-    },
-    {
-        name:'Client',
-        path:'/client',
-        component: Client
-    },
-    {
-        name:'ClientsMis',
-        path:'/clientsMis',
-        component: ClientsMis
-    },
-    {
-        name:'UserMis',
-        path:'/userMis',
-        component: UserMis
-    },
-    {
-        name:'Database',
-        path:'/database',
-        component: Database
-    },
-    {
-        name:'ProfileUpdating',
-        path:'/profileUpdating',
-        component: ProfileUpdating
-    },
+   
 // Trial work
 
 ];

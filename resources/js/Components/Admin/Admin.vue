@@ -3,8 +3,7 @@
         <div class="sidebar">
         <SideBar />
     </div>
-        <div class="main-content">
-            <router-view :key="routeInstance"></router-view></div>
+       
     </div>
 
   </template>

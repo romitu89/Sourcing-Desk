@@ -1,5 +1,5 @@
 <template>
-    <div class="main">
+    <div class="main"  v-if="!$route.meta.layout">
           <div class="logo_div"><h2 class="logo">Sourcing Desk </h2></div>
           <div class="sub">
               <div class="content">
@@ -23,7 +23,12 @@
 
               </div>
           </div>
+          <div>
+          
+          </div>
       </div>
+        <div >
+                <router-view :key="routeInstance"></router-view></div>
 
 
   </template>
@@ -80,7 +85,7 @@ import axios from 'axios';
                 // Redirect based on user role
                 switch(role) {
                     case 'admin':
-                        this.$router.push('/admin');
+                        this.$router.push('/admin/dashboard');
                         break;
                     case 'account-manager':
                         this.$router.push('/account-manager');
