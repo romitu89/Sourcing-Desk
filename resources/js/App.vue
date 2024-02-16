@@ -85,7 +85,7 @@ import axios from 'axios';
                 // Redirect based on user role
                 switch(role) {
                     case 'admin':
-                        this.$router.push('/admin/dashboard');
+                        this.$router.push('/admin');
                         break;
                     case 'account-manager':
                         this.$router.push('/account-manager');
