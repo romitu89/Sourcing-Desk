@@ -2,6 +2,7 @@
     
     <div class="container">
     <div class="form" @click="createPopUp()">
+        
         <div class="icon_div"><font-awesome-icon :icon="['fas', 'chart-gantt']" /></div>
        <a ><h4>Create</h4></a>
     </div>
