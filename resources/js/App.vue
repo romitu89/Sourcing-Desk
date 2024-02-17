@@ -81,6 +81,8 @@ import axios from 'axios';
         }).then(response => {
             // Check if the response contains user data
             if (response.data && response.data.user && response.data.user.role) {
+                localStorage.setItem('userData',response.data.user);
+                localStorage.setItem('userRole',response.data.user.role);
                 const role = response.data.user.role;
                 // Redirect based on user role
                 switch(role) {

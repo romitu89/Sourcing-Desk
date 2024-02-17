@@ -1,8 +1,8 @@
 import {createWebHistory, createRouter} from 'vue-router';
 import Admin from '../Components/Admin/Admin.vue';
 import Home from '../App.vue';
-import Dashboard from '../Components/Admin/User/User.vue'
-import User from '../Components/Admin/Dashboard/Dashboard.vue'
+import Dashboard from  '../Components/Admin/Dashboard/Dashboard.vue'
+import User from '../Components/Admin/User/User.vue'
 import Client from '../Components/Admin/Client/Client.vue'
 import ClientsMis from '../Components/Admin/Client Mis/ClientsMis.vue'
 import UserMis from '../Components/Admin/User Mis/UserMis.vue'
@@ -13,12 +13,6 @@ import ProfileUpdating from '../Components/Admin/Profile Updating/ProfileUpdatin
 
 const routes=[
     {
-        name:'Home',
-        path:'/',
-        component: Home
-    },
-    
-    {
         name:'Admin',
         path:'/admin',
         component: Admin,
@@ -26,45 +20,45 @@ const routes=[
         children: [
             {
                 name:'Dashboard',
-                path:'/dashboard',
+                path:'dashboard',
                 component: Dashboard,
                 meta: { layout: 'dashboard' }
             },
         
             {
                 name:'User',
-                path:'/user',
+                path:'user',
                 component: User,
                 meta: { layout: 'user' },
             },
             {
                 name:'Client',
-                path:'/client',
+                path:'client',
                 component: Client,
                 meta: { layout: 'client' },
             },
             {
                 name:'ClientsMis',
-                path:'/clientsMis',
+                path:'clientsMis',
                 component: ClientsMis,
                 meta: { layout: 'clientsMis' },
                 
             },
             {
                 name:'UserMis',
-                path:'/userMis',
+                path:'userMis',
                 component: UserMis,
                 meta: { layout: 'userMis' },
             },
             {
                 name:'Database',
-                path:'/database',
+                path:'database',
                 component: Database,
                 meta: { layout: 'database' },
             },
             {
                 name:'ProfileUpdating',
-                path:'/profileUpdating',
+                path:'profileUpdating',
                 component: ProfileUpdating,
                 meta: { layout: 'profileUpdating' },
             },

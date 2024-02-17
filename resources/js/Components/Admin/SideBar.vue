@@ -3,35 +3,35 @@
     
         <h3>Source Desk</h3>
         <div class="subside">
-            <router-link  to="admin/dashboard"><h4><font-awesome-icon :icon="['fas', 'house']" /><br>
+            <router-link  to="/admin/dashboard"><h4><font-awesome-icon :icon="['fas', 'house']" /><br>
             Dashboard</h4></router-link>
         </div>
         <div class="subside">
-            <router-link to="admin/user"><h4><font-awesome-icon :icon="['fas', 'user']" /><br>
+            <router-link to="/admin/user"><h4><font-awesome-icon :icon="['fas', 'user']" /><br>
                 User</h4></router-link>
         </div>
         <div class="subside">
-            <router-link to="admin/client"><h4><font-awesome-icon :icon="['fas', 'network-wired']" /><br>
+            <router-link to="/admin/client"><h4><font-awesome-icon :icon="['fas', 'network-wired']" /><br>
                 Client</h4></router-link>
         </div>
 
         <div class="subside">
-            <router-link to="admin/clientsMis"><h4><font-awesome-icon :icon="['fas', 'table']" /><br>
+            <router-link to="/admin/clientsMis"><h4><font-awesome-icon :icon="['fas', 'table']" /><br>
                 Clients MIS</h4></router-link>
         </div>
 
         <div class="subside">
-            <router-link to="admin/userMis"><h4><font-awesome-icon :icon="['fas', 'chart-column']" /><br>
+            <router-link to="/admin/userMis"><h4><font-awesome-icon :icon="['fas', 'chart-column']" /><br>
                 User MIS</h4></router-link>
         </div>
         
         <div class="subside">
-            <router-link to="admin/database"><h4><font-awesome-icon :icon="['fas', 'layer-group']" /><br>
+            <router-link to="/admin/database"><h4><font-awesome-icon :icon="['fas', 'layer-group']" /><br>
                 Database</h4></router-link>
         </div>
         
         <div class="subside">
-            <router-link to="admin/profileUpdating"><h4><font-awesome-icon :icon="['fas', 'paperclip']" /><br>
+            <router-link to="/admin/profileUpdating"><h4><font-awesome-icon :icon="['fas', 'paperclip']" /><br>
                 Profile Updating </h4></router-link>
         </div>
        
