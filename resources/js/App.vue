@@ -46,6 +46,7 @@ import axios from 'axios';
             },
             submitted:false,
             loginData:[],
+            isAuthenticated:false,
         };
     },
 
@@ -81,6 +82,8 @@ import axios from 'axios';
         }).then(response => {
             // Check if the response contains user data
             if (response.data && response.data.user && response.data.user.role) {
+                this.isAuthenticated=true;
+                localStorage.setItem("isAuthenticated", this.isAuthenticated);
                 localStorage.setItem('userData',response.data.user);
                 localStorage.setItem('userRole',response.data.user.role);
                 const role = response.data.user.role;
@@ -89,8 +92,8 @@ import axios from 'axios';
                     case 'admin':
                         this.$router.push('/admin/dashboard');
                         break;
-                    case 'account-manager':
-                        this.$router.push('/editor');
+                    case 'editor':
+                        this.$router.push('/editor/dashboard');
                         break;
                     case 'teamlead':
                         this.$router.push('/teamlead');
@@ -103,7 +106,9 @@ import axios from 'axios';
                         this.$router.push('/');
                 }
             } else {
-                console.error("User role not found in response:", response.data);
+                this.isAuthenticated=false;
+                localStorage.setItem("isAuthenticated", this.isAuthenticated);
+                // console.error("User role not found in response:", response.data);
                 // Handle error condition
             }
         }).catch(error => {
