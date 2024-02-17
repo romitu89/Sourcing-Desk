@@ -9,6 +9,8 @@ import UserMis from '../Components/Admin/User Mis/UserMis.vue'
 import Database from '../Components/Admin/Database/Database.vue'
 import ProfileUpdating from '../Components/Admin/Profile Updating/ProfileUpdating.vue'
 
+import Editor from '../Components/Editor/Editor.vue'
+
 
 
 const routes=[
@@ -71,6 +73,14 @@ const routes=[
             // additional child routes can be added here
           ]
     },
+
+    {
+        name:'Editor',
+        path:'/Editor',
+        component: Editor,
+        meta: { layout: 'Editor' },
+    },
+
    
 // Trial work
 
