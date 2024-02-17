@@ -1,5 +1,4 @@
 import {createWebHistory, createRouter} from 'vue-router';
-import Home from '../App.vue'
 import Admin from '../Components/Admin/Admin.vue';
 import Dashboard from  '../Components/Admin/Dashboard/Dashboard.vue'
 import User from '../Components/Admin/User/User.vue'
@@ -21,17 +20,11 @@ import EditorClientsMis from '../Components/Editor/Clients MIS/EditorClientsMis.
 
 const routes=[
 
-{
-    name:'Home',
-    path:'/',
-    component: Home,
-},    
-
     {
         name:'Admin',
         path:'/admin',
         component: Admin,
-        meta: { layout: 'admin' },
+        meta: { requiresAuth: true, allowedRoles: ['admin'] },
         children: [
             {
                 name:'Dashboard',
@@ -85,7 +78,7 @@ const routes=[
         name:'Editor',
         path:'/editor',
         component: Editor,
-        meta: { layout: 'Editor' },
+        meta: { requiresAuth: true, allowedRoles: ['editor'] },
         children: [
             {
                 name:'EditorDashboard',
@@ -140,26 +133,30 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-    const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
-    const userRole = localStorage.getItem('userRole'); // Assuming user role is stored in localStorage after login
-    const isAuthenticated = localStorage.getItem('isAuthenticated'); // Or however you choose to determine if the user is logged in
-   
-    if (requiresAuth && isAuthenticated) {
-     
-      if (userRole == 'admin'){
-        next('/admin/dashboard'); 
-
-      }
-      else if (userRole == 'editor'){
-        next('/editor/dashboard');
-      }
-      else {
-        next('/');
-      }
+    // Check if the user is authenticated
+    const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
+    const userRole = localStorage.getItem('userRole');
+    
+    // If the route requires authentication
+    if (to.matched.some(record => record.meta.requiresAuth)) {
+        if (!isAuthenticated) {
+            // Redirect to login form in App.vue if not authenticated
+            next('/');
+        } else {
+            // Check if the route is restricted by role
+            if (to.matched.some(record => record.meta.allowedRoles && !record.meta.allowedRoles.includes(userRole))) {
+                // Redirect to a default route or show an error/notification
+                next('/unauthorized'); // Make sure to handle this path in your routes
+            } else {
+                // Proceed to the route
+                next();
+            }
+        }
+    } else {
+        // If the route does not require authentication, always allow
+        next();
     }
-    else {
-        next('/');
-      }
-  });
+});
+
 
 export default router;
