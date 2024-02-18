@@ -17,6 +17,9 @@ import EditorRequest from '../Components/Editor/Request/EditorRequest.vue'
 import EditorClientsMis from '../Components/Editor/Clients MIS/EditorClientsMis.vue'
 
 
+import AccountManager from '../Components/Account Manager/Dashboard/Dashboard.vue'
+
+
 
 const routes=[
 
@@ -123,9 +126,22 @@ const routes=[
           ]
     },
 
-// Trial work
-
-];
+    {
+        name: 'AccountManager',
+        path: '/accountManager',
+        component: AccountManager,
+        meta: { requiresAuth: true, allowedRoles: ['accountManager'] },
+        children: [
+            {
+                name:'Dashboard',
+                path:'dashboard',
+                component: Dashboard,
+                meta: { layout: 'Dashboard' }
+            },
+        ]
+      },
+      // Additional routes...
+    ];
 
 const router = createRouter({
     history:createWebHistory(),

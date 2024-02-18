@@ -96,8 +96,8 @@ import axios from 'axios';
                     case 'editor':
                         this.$router.push('/editor/dashboard');
                         break;
-                    case 'teamlead':
-                        this.$router.push('/teamlead');
+                    case 'accountManager':
+                        this.$router.push('/accountManager/dashboard');
                         break;
                     case 'recruiter':
                         this.$router.push('/recruiter');
