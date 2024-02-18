@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="container_main">
         <div class="sidebar">
         <SideBar />
     </div>
@@ -30,7 +30,7 @@ export default {
 </script>
 
 <style scoped>
-.container {
+.container_main {
     display: flex; /* Use flexbox to lay out children side by side */
     
 }
@@ -42,7 +42,9 @@ export default {
 }
 
 .main-content {
-    
+    display: flex;
+    flex-wrap: wrap;
+    /* background-color: #0C1423; */
     flex-grow: 1; /* The main content area takes up the remaining space */
 
 

@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="container_main">
         <div class="sidebar">
         <SideBar />
     </div>
@@ -30,7 +30,7 @@ export default {
 
 </script>
 <style scoped>
-.container {
+.container_main {
     display: flex; /* Use flexbox to lay out children side by side */
     height: 100vh; /* Adjust height as needed */
 }

@@ -98,7 +98,7 @@
 
 /* -----------------Sub button  ---------- */    
 
-.containerButn{
+.container{
     margin: 2% 5%;
     display: flex;
     flex-wrap: wrap;
@@ -113,6 +113,7 @@
     padding: 10px 20px;
     margin: 1%;
     cursor: pointer;
+   
     /* box-shadow: 0 0 6px 7px whitesmoke; */
 }
 
