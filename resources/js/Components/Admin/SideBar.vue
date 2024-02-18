@@ -1,6 +1,6 @@
 <template>
  <div class="sidebar">
-    
+
         <h3>Source Desk</h3>
         <div class="subside">
             <router-link  to="/admin/dashboard"><h4><font-awesome-icon :icon="['fas', 'house']" /><br>
@@ -24,17 +24,17 @@
             <router-link to="/admin/userMis"><h4><font-awesome-icon :icon="['fas', 'chart-column']" /><br>
                 User MIS</h4></router-link>
         </div>
-        
+
         <div class="subside">
             <router-link to="/admin/database"><h4><font-awesome-icon :icon="['fas', 'layer-group']" /><br>
                 Database</h4></router-link>
         </div>
-        
+
         <div class="subside">
             <router-link to="/admin/profileUpdating"><h4><font-awesome-icon :icon="['fas', 'paperclip']" /><br>
                 Profile Updating </h4></router-link>
         </div>
-       
+
  </div>
 
 </template>
@@ -44,8 +44,8 @@
 
 export default {
     name:'SideBar',
-    
-    
+
+
 }
 </script>
 
@@ -57,7 +57,7 @@ body{
 .sidebar{
     background-color: #0C1423;
     width: 140px;
-    text-align: center; 
+    text-align: center;
     padding: 10px 0px;
 }
 .sidebar h3{
@@ -78,15 +78,15 @@ body{
 }
 .subside a:hover{
     color: white;
-    
+
 }
 .subside :hover{
     box-shadow: 0px 0px 5px whitesmoke;
-} 
+}
 
-.router-link-active h4,.router-link-active.fa{    
+.router-link-active h4,.router-link-active.fa{
 color: white;
-/* Change color to white */  
+/* Change color to white */
 background-color:#1A233A;
 /* Optional: change background color */
 }

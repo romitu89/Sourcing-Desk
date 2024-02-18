@@ -32,7 +32,7 @@ const routes=[
                 component: Dashboard,
                 meta: { layout: 'dashboard' }
             },
-        
+
             {
                 name:'User',
                 path:'user',
@@ -50,7 +50,7 @@ const routes=[
                 path:'clientsMis',
                 component: ClientsMis,
                 meta: { layout: 'clientsMis' },
-                
+
             },
             {
                 name:'UserMis',
@@ -86,7 +86,7 @@ const routes=[
                 component: EditorDashboard,
                 meta: { layout: 'EditorDashboard' }
             },
-        
+
             {
                 name:'EditorUser',
                 path:'user',
@@ -104,7 +104,7 @@ const routes=[
                 path:'candidate',
                 component: EditorCandidate,
                 meta: { layout: 'EditorCandidate' },
-                
+
             },
             {
                 name:'EditorRequest',
@@ -118,11 +118,11 @@ const routes=[
                 component: EditorClientsMis,
                 meta: { layout: 'EditorClientsMis' },
             },
-        
+
             // additional child routes can be added here
           ]
     },
-   
+
 // Trial work
 
 ];
@@ -136,7 +136,7 @@ router.beforeEach((to, from, next) => {
     // Check if the user is authenticated
     const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
     const userRole = localStorage.getItem('userRole');
-    
+
     // If the route requires authentication
     if (to.matched.some(record => record.meta.requiresAuth)) {
         if (!isAuthenticated) {
