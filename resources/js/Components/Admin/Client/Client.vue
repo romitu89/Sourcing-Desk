@@ -1,10 +1,10 @@
 <template>
-    
+
    <div class="container">
 
    <div class="form" @click="clientPopUp()">
         <div class="icon_div"><font-awesome-icon :icon="['fas', 'chart-gantt']" /></div>
-        <h4>Create</h4> 
+        <h4>Create</h4>
     </div>
 
     <div class="form" @click="viewPopUp()">
@@ -15,7 +15,7 @@
     </div>
     <ClientForm
     :showPopUp="popup"
-    @closePopup ="closePopUp" 
+    @closePopup ="closePopUp"
     :title="title"
    v-if="popup">
 
@@ -30,7 +30,7 @@ import ClientForm from './ClientForm.vue'
     component:{
         ClientForm,
     },
-    
+
     data ()
        {
         return{
@@ -69,7 +69,7 @@ import ClientForm from './ClientForm.vue'
     display: flex;
     flex-wrap: wrap;
     gap: 2%;
-    
+
 }
 .form{
     width: 250px;
