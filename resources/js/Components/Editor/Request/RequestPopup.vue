@@ -4,31 +4,29 @@
         <div class="popup-inner">
             <h2 class="title">{{ title }}</h2>
           
-      <EditorCreateForm 
-      v-if="title=='Create Form'"/>
+      <RequestCreate 
+      v-if="title=='Request Create'"/>
       
-      <EditorViewForm 
-      v-if="title=='View Form'"/>
+      <ActiveRequest 
+      v-if="title=='Active Inactive Request'"/>
 
-      <EditorLoginForm 
-      v-if="title=='Login Form'"/>
-
+      
         </div>
     </div>
 </template>
 
 <script>
-import EditorCreateForm from './EditorCreateForm.vue'
-import EditorViewForm from './EditorViewForm.vue'
-import EditorLoginForm from './EditorLoginForm.vue'
+import RequestCreate from './RequestCreate.vue'
+import ActiveRequest from './ActiveRequest.vue'
+
 
 
 export default {
-    name: 'UserCreate',
+    name: 'RequestPopup',
     component: {
-        EditorCreateForm,
-        EditorViewForm,
-        EditorLoginForm,
+        RequestCreate,
+        ActiveRequest,
+        
     },
     props: {
         showPopUp: {
@@ -57,7 +55,7 @@ export default {
             this.$emit('closePopup', this.showUserCreate);
         }
     },
-    components: { EditorCreateForm, EditorViewForm, EditorLoginForm }
+    components: { RequestCreate, ActiveRequest }
 }
 
 </script>

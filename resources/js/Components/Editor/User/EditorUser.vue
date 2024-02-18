@@ -22,24 +22,24 @@
    
 </div>
 
-<EditorUserForm
+<EditorUserPopup
     :showPopUp="popup"
     @closePopup ="closePopUp" 
     :title="title"
    v-if="popup">
 
-   </EditorUserForm>
+   </EditorUserPopup>
 
 </template>
 
 <script>
-import EditorUserForm  from './EditorUserForm.vue'
+import EditorUserPopup  from './EditorUserPopup.vue'
 
     export default {
         name:'EditorUser',
 
         components:{
-            EditorUserForm,
+            EditorUserPopup,
        },
        data ()
        {

@@ -42,11 +42,8 @@ export default {
 }
 
 .main-content {
-    display: flex;
-    flex-wrap: wrap;
     /* background-color: #0C1423; */
     flex-grow: 1; /* The main content area takes up the remaining space */
-
 
 }
 </style>
