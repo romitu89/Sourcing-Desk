@@ -16,8 +16,16 @@ import EditorCandidate from '../Components/Editor/Candidate/EditorCandidate.vue'
 import EditorRequest from '../Components/Editor/Request/EditorRequest.vue'
 import EditorClientsMis from '../Components/Editor/Clients MIS/EditorClientsMis.vue'
 
+import AccountManager from '../Components/Account Manager/AccountManager.vue'
 
-import AccountManager from '../Components/Account Manager/Dashboard/Dashboard.vue'
+import AmDashboard from '../Components/Account Manager/Dashboard/AmDashboard.vue'
+import AmTracker from '../Components/Account Manager/Tracker/AmTracker.vue'
+import AmTeamManagement from '../Components/Account Manager/Team Management/AmTeamManagement.vue'
+import AmRequest from '../Components/Account Manager/Request/AmRequest.vue'
+import AmSubmission from '../Components/Account Manager/Submission/AmSubmission.vue'
+import AmCandidate from '../Components/Account Manager/Candidate/AmCandidate.vue'
+import AmClientMis from '../Components/Account Manager/ClientMis/AmClientMis.vue'
+import AmUserMis from '../Components/Account Manager/UserMis/AmUserMis.vue'
 
 
 
@@ -133,11 +141,60 @@ const routes=[
         meta: { requiresAuth: true, allowedRoles: ['accountManager'] },
         children: [
             {
-                name:'Dashboard',
+                name:'AmDashboard',
                 path:'dashboard',
-                component: Dashboard,
-                meta: { layout: 'Dashboard' }
+                component: AmDashboard,
+                meta: { layout: 'AmDashboard' }
             },
+            {
+                name:'AmTracker',
+                path:'amTracker',
+                component: AmTracker,
+                meta: { layout: 'AmTracker' }
+            },
+            {
+                name:'AmTeamManagement',
+                path:'amTeamManagement',
+                component: AmTeamManagement,
+                meta: { layout: 'AmTeamManagement' }
+            },
+            {
+                name:'AmRequest',
+                path:'amRequest',
+                component: AmRequest,
+                meta: { layout: 'AmRequest' }
+            },
+            {
+                name:'AmSubmission',
+                path:'amSubmission',
+                component: AmSubmission,
+                meta: { layout: 'AmSubmission' }
+            },
+            {
+                name:'AmTracker',
+                path:'amTracker',
+                component: AmTracker,
+                meta: { layout: 'AmTracker' }
+            },
+            {
+                name:'AmCandidate',
+                path:'amCandidate',
+                component: AmCandidate,
+                meta: { layout: 'AmCandidate' }
+            },
+            {
+                name:'AmClientMis',
+                path:'amClientMis',
+                component: AmClientMis,
+                meta: { layout: 'AmClientMis' }
+            },
+             {
+                name:'AmUserMis',
+                path:'amUserMis',
+                component: AmUserMis,
+                meta: { layout: 'AmUserMis' }
+            },
+
         ]
       },
       // Additional routes...

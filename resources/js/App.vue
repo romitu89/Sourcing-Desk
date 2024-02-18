@@ -98,6 +98,7 @@ import axios from 'axios';
                         break;
                     case 'accountManager':
                         this.$router.push('/accountManager/dashboard');
+                        
                         break;
                     case 'recruiter':
                         this.$router.push('/recruiter');

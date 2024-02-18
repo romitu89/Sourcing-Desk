@@ -2,46 +2,44 @@
     <div class="sidebar">
 
            <h3>Source Desk</h3>
+
            <div class="subside">
                <router-link  to="/accountManager/dashboard"><h4><font-awesome-icon :icon="['fas', 'house']" /><br>
             Dashboard</h4></router-link>
            </div>
+
            <div class="subside">
-               <router-link to="/accountManager/tracker"><h4><font-awesome-icon :icon="['fas', 'user']" /><br>
+               <router-link to="/accountManager/amTracker"><h4><font-awesome-icon :icon="['fas', 'user']" /><br>
                 Tracker</h4></router-link>
            </div>
+
            <div class="subside">
-               <router-link to="/accountManager/teamManagement"><h4><font-awesome-icon :icon="['fas', 'network-wired']" /><br>
+               <router-link to="/accountManager/amTeamManagement"><h4><font-awesome-icon :icon="['fas', 'network-wired']" /><br>
                 Team Management</h4></router-link>
            </div>
 
            <div class="subside">
-               <router-link to="/accountManager/request"><h4><font-awesome-icon :icon="['fas', 'user-check']" /><br>
+               <router-link to="/accountManager/amRequest"><h4><font-awesome-icon :icon="['fas', 'user-check']" /><br>
                 Request</h4></router-link>
            </div>
 
            <div class="subside">
-               <router-link to="/accountManager/submission"><h4><font-awesome-icon :icon="['fas', 'person-circle-question']" /><br>
+               <router-link to="/accountManager/amSubmission"><h4><font-awesome-icon :icon="['fas', 'person-circle-question']" /><br>
                 Submission</h4></router-link>
            </div>
 
            <div class="subside">
-               <router-link to="/accountManager/candidate"><h4><font-awesome-icon :icon="['fas', 'table']" /><br>
+               <router-link to="/accountManager/amCandidate"><h4><font-awesome-icon :icon="['fas', 'user-check']" /><br>
                 Candidate</h4></router-link>
            </div>
 
            <div class="subside">
-               <router-link to="/accountManager/candidate"><h4><font-awesome-icon :icon="['fas', 'table']" /><br>
-                Candidate</h4></router-link>
-           </div>
-
-           <div class="subside">
-               <router-link to="/accountManager/clientMis"><h4><font-awesome-icon :icon="['fas', 'table']" /><br>
+               <router-link to="/accountManager/amClientMis"><h4><font-awesome-icon :icon="['fas', 'table']" /><br>
                 Client MIS</h4></router-link>
            </div>
 
            <div class="subside">
-               <router-link to="/accountManager/userMis"><h4><font-awesome-icon :icon="['fas', 'table']" /><br>
+               <router-link to="/accountManager/amUserMis"><h4><font-awesome-icon :icon="['fas', 'chart-column']" /><br>
                 User MIS</h4></router-link>
            </div>
 
@@ -54,13 +52,8 @@
 
 
     export default {
-        name:'SidebarAccountManager',
+        name:'Sidebar',
 
-        data () {
-            return{
-                switchButton:'',
-            }
-        },
 
 
     }
@@ -76,7 +69,7 @@
         width: 140px;
         text-align: center;
         padding: 10px 0px;
-        height: 100vh;
+        height: 100%;
     }
     .sidebar h3{
         color: white;
