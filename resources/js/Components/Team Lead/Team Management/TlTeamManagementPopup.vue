@@ -4,26 +4,26 @@
            <div class="popup-inner">
                <h2 class="title">{{ title }}</h2>
 
-               <AmTrackerCreate
-               v-if="title=='Tracker Create'"/>
+               <TlTeamManagementCreate
+               v-if="title=='Team Management Create'"/>
 
-               <AmTrackerView
-               v-if="title=='Tracker View'"/>
+               <TlTeamManagementView
+               v-if="title=='Team Management View'"/>
 
            </div>
        </div>
    </template>
 
    <script>
-   import AmTrackerCreate from './AmTrackerCreate.vue'
-   import AmTrackerView from './AmTrackerView.vue'
+   import TlTeamManagementCreate from './Tlteammanagementcreate.vue'
+   import TlTeamManagementView from './TlTeamManagementView.vue'
 
        export default {
-           name:'AmTrackerPopup',
+           name:'TlTeamManagementPopup',
 
            components:{
-            AmTrackerCreate,
-               AmTrackerView,
+            TlTeamManagementCreate,
+            TlTeamManagementView,
            },
            props: {
            showPopUp: {
@@ -52,7 +52,7 @@
                this.$emit('closePopup', this.showUserCreate);
            }
        },
-       components: { AmTrackerCreate, AmTrackerView }
+       components: { TlTeamManagementCreate, TlTeamManagementView }
 
        }
    </script>

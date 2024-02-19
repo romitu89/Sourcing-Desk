@@ -4,10 +4,10 @@
            <div class="popup-inner">
                <h2 class="title">{{ title }}</h2>
 
-               <AmTrackerCreate
+               <TlTrackerCreate
                v-if="title=='Tracker Create'"/>
 
-               <AmTrackerView
+               <TlTrackerView
                v-if="title=='Tracker View'"/>
 
            </div>
@@ -15,15 +15,15 @@
    </template>
 
    <script>
-   import AmTrackerCreate from './AmTrackerCreate.vue'
-   import AmTrackerView from './AmTrackerView.vue'
+   import TlTrackerCreate from './TlTrackerCreate.vue'
+   import TlTrackerView from './TlTrackerView.vue'
 
        export default {
-           name:'AmTrackerPopup',
+           name:'TlTrackerPopup',
 
            components:{
-            AmTrackerCreate,
-               AmTrackerView,
+            TlTrackerCreate,
+               TlTrackerView,
            },
            props: {
            showPopUp: {
@@ -52,7 +52,7 @@
                this.$emit('closePopup', this.showUserCreate);
            }
        },
-       components: { AmTrackerCreate, AmTrackerView }
+       components: { TlTrackerCreate, TlTrackerView }
 
        }
    </script>
