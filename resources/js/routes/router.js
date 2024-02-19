@@ -27,6 +27,15 @@ import AmCandidate from '../Components/Account Manager/Candidate/AmCandidate.vue
 import AmClientMis from '../Components/Account Manager/ClientMis/AmClientMis.vue'
 import AmUserMis from '../Components/Account Manager/UserMis/AmUserMis.vue'
 
+import TeamLead from '../Components/Team Lead/TeamLead.vue'
+
+import TlDashboard from '../Components/Team Lead/Dashboard/TlDashboard.vue'
+import TlTracker from '../Components/Team Lead/Tracker/TlTracker.vue'
+import TlTeamManagement from '../Components/Team Lead/Team Management/TlTeamManagement.vue'
+import TlRequest from '../Components/Team Lead/Request/TlRequest.vue'
+import TlSubmission from '../Components/Team Lead/Submission/TlSubmission.vue'
+import TlClientMis from '../Components/Team Lead/ClientMis/TlClientMis.vue'
+import TlUserMis from '../Components/Team Lead/UserMis/TlUserMis.vue'
 
 
 const routes=[
@@ -197,6 +206,60 @@ const routes=[
 
         ]
       },
+
+      {
+        name: 'TeamLead',
+        path: '/teamLead',
+        component: TeamLead,
+        meta: { requiresAuth: true, allowedRoles: ['teamLead'] },   
+        children: [
+            {
+                name:'TlDashboard',
+                path:'tlDashboard',
+                component: TlDashboard,
+                meta: { layout: 'TlDashboard' }
+            },
+            {
+                name:'TlTracker',
+                path:'tlTracker',
+                component: TlTracker,
+                meta: { layout: 'TlTracker' }
+            },
+            {
+                name:'TlTeamManagement',
+                path:'tlTeamManagement',
+                component: TlTeamManagement,
+                meta: { layout: 'TlTeamManagement' }
+            },
+            {
+                name:'TlRequest',
+                path:'tlRequest',
+                component: TlRequest,
+                meta: { layout: 'TlRequest' }
+            },
+            {
+                name:'TlSubmission',
+                path:'tlSubmission',
+                component: TlSubmission,
+                meta: { layout: 'TlSubmission' }
+            },
+            {
+                name:'TlClientMis',
+                path:'tlClientMis',
+                component: TlClientMis,
+                meta: { layout: 'TlClientMis' }
+            },
+            {
+                name:'TlUserMis',
+                path:'tlUserMis',
+                component: TlUserMis,
+                meta: { layout: 'TlUserMis' }
+            },
+
+            ]
+            },
+      
+
       // Additional routes...
     ];
 

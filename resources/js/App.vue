@@ -100,8 +100,8 @@ import axios from 'axios';
                         this.$router.push('/accountManager/dashboard');
                         
                         break;
-                    case 'recruiter':
-                        this.$router.push('/recruiter');
+                    case 'teamLead':
+                        this.$router.push('/teamLead/tlDashboard');
                         break;
                     default:
                         // Redirect to default page
