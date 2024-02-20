@@ -4,22 +4,22 @@
            <div class="popup-inner">
                <h2 class="title">{{ title }}</h2>
 
-               <AmRequestCreation
-               v-if="title=='Request Creation'"/>
+               <TlSubmissionRequest
+               v-if="title=='Submission Request'"/>
 
            </div>
        </div>
 </template>
 
 <script>
-import AmRequestCreation from './AmRequestCreation.vue'
+import TlSubmissionRequest from './TlSubmissionRequest.vue'
 
 
 export default {
-    name:'AmRequestPopup',
+    name:'TlSubmissionPopup',
 
     components:{
-        AmRequestCreation,
+        TlSubmissionRequest,
     },
 
     props: {
@@ -49,7 +49,7 @@ export default {
                this.$emit('closePopup', this.showUserCreate);
            }
        },
-       components: { AmRequestCreation }
+       components: { TlSubmissionRequest }
 
 }
 
