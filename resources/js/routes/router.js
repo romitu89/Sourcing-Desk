@@ -37,6 +37,13 @@ import TlSubmission from '../Components/Team Lead/Submission/TlSubmission.vue'
 import TlClientMis from '../Components/Team Lead/ClientMis/TlClientMis.vue'
 import TlUserMis from '../Components/Team Lead/UserMis/TlUserMis.vue'
 
+import Recruiter from '../Components/Recruiter/Recruiter.vue'
+
+import RecruiterDashboard from '../Components/Recruiter/Dashboard/RecruiterDashboard.vue'
+import RecruiterSubmission from '../Components/Recruiter/Submission/RecruiterSubmission.vue'
+import RecruiterCallingCandidate from '../Components/Recruiter/Calling Candidate/RecruiterCallingCandidate.vue'
+import RecruiterClientsMis from '../Components/Recruiter/Clients Mis/RecruiterClientsMis.vue'
+
 
 const routes=[
 
@@ -259,6 +266,39 @@ const routes=[
             ]
             },
       
+            {
+                name: 'Recruiter',
+                path: '/recruiter',
+                component: Recruiter,
+                // meta: { layout: 'Recruiter' }
+                meta: { requiresAuth: true, allowedRoles: ['recruiter'] },   
+                children: [
+                    {
+                        name:'RecruiterDashboard',
+                        path:'dashboard',
+                        component: RecruiterDashboard,
+                        meta: { layout: 'RecruiterDashboard' }
+                    },
+                    {
+                        name:'RecruiterSubmission',
+                        path:'submission',
+                        component: RecruiterSubmission,
+                        meta: { layout: 'RecruiterSubmission' }
+                    },
+                    {
+                        name:'RecruiterCallingCandidate',
+                        path:'callingCandidate',
+                        component: RecruiterCallingCandidate,
+                        meta: { layout: 'RecruiterCallingCandidate' }
+                    },
+                    {
+                        name:'RecruiterClientsMis',
+                        path:'clientsMis',
+                        component: RecruiterClientsMis,
+                        meta: { layout: 'RecruiterClientsMis' }
+                    },
+                ]
+            }
 
       // Additional routes...
     ];

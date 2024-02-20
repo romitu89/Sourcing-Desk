@@ -103,6 +103,9 @@ import axios from 'axios';
                     case 'teamLead':
                         this.$router.push('/teamLead/tlDashboard');
                         break;
+                    case 'recruiter':
+                        this.$router.push('/recruiter/dashboard');
+                        break;
                     default:
                         // Redirect to default page
                         this.$router.push('/');
