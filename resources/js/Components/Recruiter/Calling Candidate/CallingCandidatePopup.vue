@@ -9,7 +9,7 @@
 
            </div>
        </div>
-       
+
 </template>
 
 <script>
@@ -17,7 +17,7 @@ import CallingCandidateScreening from './CallingCandidateScreening.vue'
 
 
 export default {
-    
+
     name:'CallingCandidatePopup',
 
     components:{

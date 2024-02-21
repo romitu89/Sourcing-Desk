@@ -6,6 +6,7 @@
      <h4>Screening</h4>
  </div>
 
+
  </div>
  <CallingCandidatePopup
 :showPopUp="popup"
@@ -14,7 +15,7 @@
 v-if="popup">
 
 </CallingCandidatePopup>
- 
+
 </template>
 
 <script>
