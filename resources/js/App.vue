@@ -144,7 +144,7 @@ import axios from 'axios';
 
   .main{
       width: 100%;
-      background: linear-gradient(to top,rgba(0,0,0,0.5)50%,rgba(0,0,0,0.5)50%),url(./image/loginpage.jpg);
+      background: linear-gradient(to top,rgba(0,0,0,0.5)50%,rgba(0,0,0,0.5)50%),url(./image/loginwebsite1.jpg);
       background-position: center;
       background-size: cover;
       height: 100vh;
@@ -220,7 +220,7 @@ import axios from 'axios';
   }
   .form{
       width: 300px;
-
+    
       background: linear-gradient(to top, rgba(0,0,0,0.8)50%, rgba(0,0,0,0.8)50%);
       position: relative;
       border-radius: 10px;
@@ -253,6 +253,7 @@ import axios from 'axios';
       letter-spacing: 1px;
       margin-top: 50px;
       font-family: sans-serif;
+     
   }
 
   .form input:focus{
