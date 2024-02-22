@@ -30,7 +30,7 @@
         <div >
                 <router-view :key="routeInstance"></router-view></div>
 
-
+               
   </template>
   <script>
 
@@ -39,6 +39,9 @@ import axios from 'axios';
 
   export default {
     name: 'App',
+
+
+
     data() {
         return{
             login: {

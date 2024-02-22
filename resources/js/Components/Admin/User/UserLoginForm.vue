@@ -72,7 +72,7 @@ import Swal from 'sweetalert2'
             userLocationApi()
         {
             axios
-      .get('api/adminuser-login')
+      .get('/api/adminuser-login')
       .then(response => {
         this.loginData = response.data.login
         
@@ -90,7 +90,7 @@ import Swal from 'sweetalert2'
                 this.submitted = true; // Set the submitted flag to true when attempting to submit the form
                 // if (this.isFormValid) {
 
-                    axios.post('api/adminuser-login', this.employee)
+                    axios.post('/api/adminuser-login', this.employee)
               .then(response => {
                   console.log('Form submitted:', response.data.results);
                   if(response.data.results){

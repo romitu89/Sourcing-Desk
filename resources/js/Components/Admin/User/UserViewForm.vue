@@ -30,7 +30,7 @@
 </table>
 </form>
 
-<div v-if="results">
+<!-- <div v-if="results">
                     <responsive-table :results="results" :columns="columns">
 
 
@@ -45,7 +45,7 @@
                         >
                       </template>
                     </responsive-table>
-                  </div>
+                  </div> -->
 
 </template>
 
@@ -58,7 +58,7 @@ export default {
         return{
             employee:
             {
-            selectedLocation: "",
+              selectedLocation: "",
             user:"",
             },
             // formData:{},
@@ -72,7 +72,7 @@ export default {
 userLocationApi()
 {
 axios
-.get('api/adminuser-view')
+.get('/api/adminuser-view')
 .then(response => {
 this.userLocation = response.data.locations
 console.log(this.userLocation)
@@ -89,7 +89,7 @@ submitForm() {
     this.submitted = true; // Set the submitted flag to true when attempting to submit the form
     // if (this.isFormValid) {
 
-        axios.post('api/adminuser-view', this.employee)
+        axios.post('/api/adminuser-view', this.employee)
   .then(response => {
       console.log('Form submitted:', response.data.results);
 
@@ -101,6 +101,7 @@ submitForm() {
   .catch(error => {
       console.error('Error submitting form:', error.response.data.errors);
       this.errors= error.response.data.errors;
+      console.log(this.errors, "error")
    });
 },
     },
