@@ -30,6 +30,23 @@
 </table>
 </form>
 
+<div v-if="results">
+                    <responsive-table :results="results" :columns="columns">
+
+
+                      <template #edit="{ row }">
+                        <Link
+                          :href="
+                            route('adminuser.view.edit', {
+                              id: row.id,
+                            })
+                          "
+                          >Edit</Link
+                        >
+                      </template>
+                    </responsive-table>
+                  </div>
+
 </template>
 
 <script>

@@ -101,7 +101,7 @@ import axios from 'axios';
                         
                         break;
                     case 'teamLead':
-                        this.$router.push('/teamLead/tlDashboard');
+                        this.$router.push('/teamLead/dashboard');
                         break;
                     case 'recruiter':
                         this.$router.push('/recruiter/dashboard');
@@ -253,6 +253,7 @@ import axios from 'axios';
       letter-spacing: 1px;
       margin-top: 50px;
       font-family: sans-serif;
+      padding: 0;
      
   }
 
