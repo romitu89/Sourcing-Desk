@@ -139,6 +139,7 @@
     background: linear-gradient(45deg, #007bff, #0056b3);
     border-radius: 0 25px 25px 0;
   }
+  
   td:nth-child(2n) {
     background-color: #f2f2f2cb;
   }

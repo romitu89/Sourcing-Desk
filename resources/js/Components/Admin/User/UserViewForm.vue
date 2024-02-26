@@ -30,29 +30,28 @@
 </table>
 </form>
 
-<!-- <div v-if="results">
+<div v-if="results">
                     <responsive-table :results="results" :columns="columns">
 
 
-                      <template #edit="{ row }">
+                      <!-- <template #edit="{ row }">
                         <Link
-                          :href="
-                            route('adminuser.view.edit', {
-                              id: row.id,
-                            })
-                          "
+                          
                           >Edit</Link
                         >
-                      </template>
+                      </template> -->
                     </responsive-table>
-                  </div> -->
+                  </div>
 
 </template>
 
 <script>
+import ResponsiveTable from '../../Shared Folder/ResponsiveTable.vue'
 export default {
     name: 'UserViewForm',
-
+    components:{
+      ResponsiveTable
+    },
     data()
     {
         return{
@@ -64,6 +63,24 @@ export default {
             // formData:{},
             userLocation:[],
             errors:[],
+            results:[],
+            columns: [
+  { label: 'Date-Time', key: 'created_at' },
+  { label: 'Employee Name', key: 'employee_name' },
+  { label: 'UserName', key: 'username' },
+  { label: 'Employee Id', key: 'employee_id' },
+  { label: 'Mobile Number', key: 'mobile_number' },
+  { label: 'Email Id', key: 'email_id' },
+  { label: 'Location', key: 'location' },
+  { label: 'Role', key: 'role' },
+  { label: 'Department', key: 'department' },
+  { label: 'Reporting To', key: 'reporting_to' },
+  { label: 'DOB', key: ' dob' },
+  { label: 'Edit', key: 'edit' },
+
+
+  // ... etc. for other columns
+],
         };
     },
 
@@ -92,6 +109,8 @@ submitForm() {
         axios.post('/api/adminuser-view', this.employee)
   .then(response => {
       console.log('Form submitted:', response.data.results);
+      this.results = response.data.results;
+      console.log(this.results,"results")
 
       this.errors={};
     
