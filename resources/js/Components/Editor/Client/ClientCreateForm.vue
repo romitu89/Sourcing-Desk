@@ -79,9 +79,9 @@ export default {
 userLocationApi()
 {
 axios
-.get('/api/adminclient-create')
+.get('/api/editorclient-create')
 .then(response => {
-this.managersData = response.data.accountmanagers
+this.managersData = response.data.accountmanager
 console.log(this.userLocation)
 })
 .catch(error => {
@@ -95,10 +95,10 @@ submitForm() {
     this.submitted = true; // Set the submitted flag to true when attempting to submit the form
     // if (this.isFormValid) {
 
-        axios.post('api/adminclient-create', this.client)
+        axios.post('/api/editorclient-create', this.client)
   .then(response => {
-      console.log('Form submitted:', response.data.successMessage);
-      if(response.data.successMessage){
+      console.log('Form submitted:', response.data.message);
+      if(response.data.message){
         this.errors={};
 
          Swal.fire({

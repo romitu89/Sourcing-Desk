@@ -95,7 +95,7 @@ submitForm() {
     this.submitted = true; // Set the submitted flag to true when attempting to submit the form
     // if (this.isFormValid) {
 
-        axios.post('api/adminclient-create', this.client)
+        axios.post('/api/adminclient-create', this.client)
   .then(response => {
       console.log('Form submitted:', response.data.successMessage);
       if(response.data.successMessage){
