@@ -134,8 +134,9 @@
   background-color: #007bff;
   color: white;
   padding: .375rem .75rem;
-  border: none;
+  border: 2px solid #007bff;
   cursor: pointer;
+
 }
 
 .search-button:hover {
@@ -145,16 +146,20 @@
 /* Styling for Tables */
 .table-responsive {
   overflow-x: auto; /* Allows table to scroll horizontally on smaller screens */
+  box-shadow: 2px 2px 2px 4px lightgray;
+  border-radius: 5px;
 }
 
 .table {
   width: 100%;
   border-collapse: collapse;
+ 
+  
 }
 
 .table th {
   background-color: #0C1423; /* Deep navy blue for table headers */
-  color: #ffffff; /* White text for contrast */
+  color: lightblue; /* White text for contrast */
   padding: 12px;
   white-space: nowrap; /* Prevents text from wrapping */
   min-width: 120px; /* Adjust as needed to prevent wrapping */
@@ -163,11 +168,13 @@
   padding: 12px;
   background-color: #f8f9fa;
   color: #333;
-  border-bottom: 1px solid #dee2e6;
+  border-bottom: 1px solid lightblue;
+  text-align: center;
+
 }
 
-.table tr:nth-child(even) td {
-  background-color: #e9ecef;
+.table tr:nth-child(odd) td {
+  background-color: rgb(217, 217, 217);
 }
 
 /* Pagination */
