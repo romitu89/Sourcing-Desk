@@ -1,9 +1,11 @@
 <template>
+    
     <div class="container_main">
         <div class="sidebar">
         <SideBar />
     </div>
     <div class="main-content">
+        <div><NavigationBar /></div>
         <router-view></router-view>
     </div>
     </div>
@@ -11,6 +13,7 @@
   </template>
 
 <script>
+import NavigationBar from '../Shared Folder/navigationBar.vue'
 import SideBar from './SideBar.vue'
 
 
@@ -19,6 +22,7 @@ export default {
     name:'Admin',
     components:{
         SideBar,
+        NavigationBar,
     },
     data(){
         return{

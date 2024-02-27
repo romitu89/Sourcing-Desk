@@ -1,63 +1,62 @@
 <template>
- 
-    <div class="container-fluid mt-4">
-        <!-- Enhanced Search Bar -->
-        <div class="input-group mb-3 search-bar">
-          <input
-            type="text"
-            class="form-control search-input"
-            v-model="searchTerm"
-            placeholder="Search..."
-            @input="filterData"
-          />
-          <div class="input-group-append">
-            <button class="btn btn-primary search-button" type="button">
-              <i class="fas fa-search text-white"></i>
-            </button>
-          </div>
-        </div>
- 
-      <div v-if="paginatedResults.length > 0">
-        <!-- Data Table -->
-        <div class="table-responsive">
-          <table class="table table-striped table-hover">
-            <thead class="thead-dark">
-              <tr>
-                <th v-for="col in columns" :key="col.key">{{ col.label }}</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="res in paginatedResults" :key="res.id">
-                <td v-for="col in columns" :key="col.key" :data-label="col.label">
-                  <slot :name="col.key" :row="res">
-                    {{ res[col.key] }}
-                  </slot>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <!-- Pagination -->
-        <nav>
-          <ul class="pagination">
-            <li class="page-item" :class="{ disabled: currentPage === 1 }">
-              <button class="page-link" @click="currentPage--">Previous</button>
-            </li>
-            <li class="page-item" v-for="n in pageCount" :key="n" :class="{ active: n === currentPage }">
-              <button class="page-link" @click="currentPage = n">{{ n }}</button>
-            </li>
-            <li class="page-item" :class="{ disabled: currentPage === pageCount }">
-              <button class="page-link" @click="currentPage++">Next</button>
-            </li>
-          </ul>
-        </nav>
-      </div>
-      <div v-else>
-        <p class="text-center no-results">No results found</p>
+  <div class="container-fluid mt-4">
+    <!-- Enhanced Search Bar -->
+    <div class="input-group mb-3 search-bar">
+      <input
+        type="text"
+        class="form-control search-input"
+        v-model="searchTerm"
+        placeholder="Search..."
+        @input="filterData"
+      />
+      <div class="input-group-append">
+        <button class="btn btn-outline-secondary search-button" type="button">
+          <font-awesome-icon icon="search" /> <!-- Ensure you include FontAwesome for this icon -->
+        </button>
       </div>
     </div>
- 
-  </template>
+
+    <div v-if="paginatedResults.length > 0">
+      <!-- Data Table -->
+      <div class="table-responsive">
+        <table class="table table-striped table-hover">
+          <thead class="thead-dark">
+            <tr>
+              <th v-for="col in columns" :key="col.key">{{ col.label }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="res in paginatedResults" :key="res.id">
+              <td v-for="col in columns" :key="col.key" :data-label="col.label">
+                <slot :name="col.key" :row="res">
+                  {{ res[col.key] }}
+                </slot>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <!-- Pagination -->
+      <nav>
+        <ul class="pagination">
+          <li class="page-item" :class="{ disabled: currentPage === 1 }">
+            <button class="page-link" @click="currentPage--" :disabled="currentPage === 1">Previous</button>
+          </li>
+          <li class="page-item" v-for="n in pageCount" :key="n" :class="{ active: n === currentPage }">
+            <button class="page-link" @click="changePage(n)">{{ n }}</button>
+          </li>
+          <li class="page-item" :class="{ disabled: currentPage === pageCount }">
+            <button class="page-link" @click="currentPage++" :disabled="currentPage === pageCount">Next</button>
+          </li>
+        </ul>
+      </nav>
+    </div>
+    <div v-else>
+      <p class="text-center no-results">No results found</p>
+    </div>
+  </div>
+</template>
+
  
   <script>
   export default {
@@ -90,6 +89,9 @@
       },
     },
     methods: {
+        changePage(pageNumber) {
+      this.currentPage = pageNumber;
+    },
       filterData() {
         if (!this.searchTerm) {
           this.filteredResults = this.results;
@@ -105,52 +107,140 @@
   };
   </script>
  
-  <style scoped>
-  .table-responsive {
-    width: 100%;
-    overflow-x: auto;
-  }
+ <style scoped>
+.container-fluid {
+  padding: 0 15px;
+}
+
+/* Enhanced Search Bar */
+.search-bar {
+  display: flex;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto 20px;
+  border: 1px solid #ced4da;
+  border-radius: .375rem;
+  overflow: hidden;
+}
+
+.search-input {
+  flex-grow: 1;
+  border: none;
+  padding: .375rem .75rem;
+  font-size: 1rem;
+}
+
+.search-button {
+  background-color: #007bff;
+  color: white;
+  padding: .375rem .75rem;
+  border: 2px solid #007bff;
+  cursor: pointer;
+
+}
+
+.search-button:hover {
+  background-color: #0056b3;
+}
+
+/* Styling for Tables */
+.table-responsive {
+  overflow-x: auto; /* Allows table to scroll horizontally on smaller screens */
+  box-shadow: 2px 2px 2px 4px lightgray;
+  border-radius: 5px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
  
-  .table {
-    max-width: none;
-    width: 100%;
-  }
+  
+}
+
+.table th {
+  background-color: #0C1423; /* Deep navy blue for table headers */
+  color: lightblue; /* White text for contrast */
+  padding: 12px;
+  white-space: nowrap; /* Prevents text from wrapping */
+  min-width: 120px; /* Adjust as needed to prevent wrapping */
+}
+.table td {
+  padding: 12px;
+  background-color: #f8f9fa;
+  color: #333;
+  border-bottom: 1px solid lightblue;
+  text-align: center;
+
+}
+
+.table tr:nth-child(odd) td {
+  background-color: rgb(217, 217, 217);
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  padding: 0;
+}
+
+.page-item {
+  margin: 0 2px;
+}
+
+.page-link {
+  color: #007bff;
+  background-color: #fff;
+  border: 1px solid #dee2e6;
+  padding: .375rem .75rem;
+  border-radius: .375rem;
+  cursor: pointer;
+}
+
+.page-item.active .page-link {
+  color: #fff;
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.page-item.disabled .page-link {
+  color: #6c757d;
+  background-color: #e9ecef;
+  border-color: #dee2e6;
+  cursor: not-allowed;
+}
+
+.page-link:hover {
+  color: #0056b3;
+  background-color: #e2e6ea;
+  border-color: #d3d9df;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
   .search-bar {
-    border-radius: 25px;
-    overflow: hidden;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    width: 95%;
+    max-width: none;
   }
+
+  .search-input, .search-button, .page-link {
+    padding: .25rem .5rem;
+    font-size: .875rem;
+  }
+
+  .table th, .table td {
+    padding: 8px; /* Adjust padding */
+    font-size: 14px; /* Adjust font size if necessary for space */
+  }
+}
+
+.no-results {
+  font-size: 1.5rem;
+  color: #d9534f;
+  text-align: center;
+  padding: 20px 0;
+}
+</style>
+
  
-  .search-input {
- 
-    border-radius: 25px 0 0 25px;
-    padding-left: 20px;
-    transition: all 0.3s ease;
-    border: 2px solid #ccc;
-  }
- 
-  .search-input:focus {
-    box-shadow: none;
-    outline: none;
-  }
- 
-  .search-button {
-    border: none;
-    background: linear-gradient(45deg, #007bff, #0056b3);
-    border-radius: 0 25px 25px 0;
-  }
-  td:nth-child(2n) {
-    background-color: #f2f2f2cb;
-  }
- 
-  /* Hover effect for columns */
-  td:hover {
-    background-color: #ddd;
-  }
-  .no-results {
-    font-size: 1.5rem; /* Increase the font size */
-    font-weight: bold; /* Make it bold */
-    color: #d9534f; /* Set the text color to a kind of red */
-    text-align: center; /* Center-align the text */
-  }
-  </style>

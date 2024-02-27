@@ -80,6 +80,7 @@ class UserView extends Controller
 
     public function store(Request $request)
     {
+        // dd($request);
         $customValidation = [
 
             'selectedLocation.required' => 'Location is required.',
@@ -99,7 +100,7 @@ class UserView extends Controller
             ], $customValidation);
 
             $user = $request->input('user');
-            $defaultLocation = $request->input('defaultLocation');
+            $defaultLocation = $request->input('selectedLocation');
             $query = User::query();
 
             if ($user) {

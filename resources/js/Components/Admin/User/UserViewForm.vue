@@ -30,23 +30,57 @@
 </table>
 </form>
 
+<div v-if="results">
+                    <responsive-table :results="results" :columns="columns">
+
+
+                      <!-- <template #edit="{ row }">
+                        <Link
+                          
+                          >Edit</Link
+                        >
+                      </template> -->
+                    </responsive-table>
+                  </div>
+
 </template>
 
 <script>
+import ResponsiveTable from '../../Shared Folder/ResponsiveTable.vue'
 export default {
     name: 'UserViewForm',
-
+    components:{
+      ResponsiveTable
+    },
     data()
     {
         return{
             employee:
             {
-            selectedLocation: "",
+              selectedLocation: "",
             user:"",
             },
             // formData:{},
             userLocation:[],
             errors:[],
+            results:[],
+            columns: [
+  { label: 'Date-Time', key: 'created_at' },
+  { label: 'Employee Name', key: 'employee_name' },
+  { label: 'UserName', key: 'username' },
+  { label: 'Employee Id', key: 'employee_id' },
+  { label: 'Mobile Number', key: 'mobile_number' },
+  { label: 'Email Id', key: 'email_id' },
+  { label: 'Location', key: 'location' },
+  { label: 'Role', key: 'role' },
+  { label: 'Department', key: 'department' },
+  { label: 'Reporting To', key: 'reporting_to' },
+  { label: 'DOB', key: ' dob' },
+  { label: 'Edit', key: 'edit' },
+
+
+  // ... etc. for other columns
+],
         };
     },
 
@@ -55,7 +89,7 @@ export default {
 userLocationApi()
 {
 axios
-.get('api/adminuser-view')
+.get('/api/adminuser-view')
 .then(response => {
 this.userLocation = response.data.locations
 console.log(this.userLocation)
@@ -67,14 +101,19 @@ this.errored = true
 
 },
 
+getDateTime() {
+
+},
 
 submitForm() {
     this.submitted = true; // Set the submitted flag to true when attempting to submit the form
     // if (this.isFormValid) {
 
-        axios.post('api/adminuser-view', this.employee)
+        axios.post('/api/adminuser-view', this.employee)
   .then(response => {
       console.log('Form submitted:', response.data.results);
+      this.results = response.data.results;
+      console.log(this.results,"results")
 
       this.errors={};
     
@@ -84,6 +123,7 @@ submitForm() {
   .catch(error => {
       console.error('Error submitting form:', error.response.data.errors);
       this.errors= error.response.data.errors;
+      console.log(this.errors, "error")
    });
 },
     },

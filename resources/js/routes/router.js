@@ -46,6 +46,12 @@ import RecruiterClientsMis from '../Components/Recruiter/Clients Mis/RecruiterCl
 
 
 const routes=[
+    {
+        path: '/',
+        name: 'App',
+        component: () => import('../App.vue'), // Adjust the path as needed
+        meta: { layout: 'App' }
+      },
 
     {
         name:'Admin',
@@ -222,7 +228,7 @@ const routes=[
         children: [
             {
                 name:'TlDashboard',
-                path:'tlDashboard',
+                path:'dashboard',
                 component: TlDashboard,
                 meta: { layout: 'TlDashboard' }
             },
@@ -298,8 +304,9 @@ const routes=[
                         meta: { layout: 'RecruiterClientsMis' }
                     },
                 ]
-            }
+            },
 
+        
       // Additional routes...
     ];
 
@@ -312,20 +319,58 @@ router.beforeEach((to, from, next) => {
     // Check if the user is authenticated
     const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
     const userRole = localStorage.getItem('userRole');
-
+    const pathsThatClearStorage = ['/']; // Assuming '/login' is your login path and '/' is your home page
+ 
+    if (pathsThatClearStorage.includes(to.path)) {
+        // Clear localStorage when navigating directly to login or home page
+        clearLocalStorageAndRedirect()
+    }
+    if (to.name === 'App') {
+        clearLocalStorageAndRedirect(); // Clear localStorage when navigating to App.vue
+      }
     // If the route requires authentication
     if (to.matched.some(record => record.meta.requiresAuth)) {
         if (!isAuthenticated) {
+            clearLocalStorageAndRedirect()
             // Redirect to login form in App.vue if not authenticated
-            next('/');
-        } else {
+            
+        } 
+        else {
             // Check if the route is restricted by role
             if (to.matched.some(record => record.meta.allowedRoles && !record.meta.allowedRoles.includes(userRole))) {
                 // Redirect to a default route or show an error/notification
-                next('/unauthorized'); // Make sure to handle this path in your routes
-            } else {
-                // Proceed to the route
-                next();
+                clearLocalStorageAndRedirect()
+              
+            } 
+            else {
+                if (to.path === '/admin' && userRole === 'admin') {
+                    next('/admin/dashboard');
+                } else if (to.path === '/editor' && userRole === 'editor') {
+                    next('/editor/dashboard');
+                }
+                else if (to.path === '/accountManager' && userRole === 'accountManager') {
+                    next('/accountManager/dashboard');
+                }
+                else if (to.path === '/teamLead' && userRole === 'teamLead') {
+                    next('/teamLead/dashboard');
+                }
+                else if (to.path === '/recruiter' && userRole === 'recruiter') {
+                    next('/recruiter/dashboard');
+                }
+                else {
+           if (!to.matched.length) {
+
+            // Clear localStorage and redirect to login page for any undefined routes
+            clearLocalStorageAndRedirect()
+           
+            
+
+        }
+        else{
+                    next();
+        }
+                }
+              
             }
         }
     } else {
@@ -333,6 +378,15 @@ router.beforeEach((to, from, next) => {
         next();
     }
 });
+
+function clearLocalStorageAndRedirect() {
+    localStorage.removeItem('isAuthenticated');
+    localStorage.removeItem('userData');
+    localStorage.removeItem('userRole');
+
+    localStorage.clear(); // Clear all localStorage data
+    next('/'); // Redirect to the login page or root path
+}
 
 
 export default router;

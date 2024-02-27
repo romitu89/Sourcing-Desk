@@ -124,10 +124,13 @@ import Swal from 'sweetalert2'
             userLocationApi()
         {
             axios
-      .get('/api/adminuser-view')
+      .get('/api/adminuser-create')
       .then(response => {
-        this.userLocation = response.data.locations
-        console.log(this.userLocation)
+        console.log(response.data, "data")
+        // console.log(response.data.location, "location")
+        
+        this.userLocation = response.data
+        console.log(this.userLocation, "location")
       })
       .catch(error => {
         console.log(error)

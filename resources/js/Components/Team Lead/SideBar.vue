@@ -4,7 +4,7 @@
            <h3>Source Desk</h3>
 
            <div class="subside">
-               <router-link  to="/teamLead/tlDashboard"><h4><font-awesome-icon :icon="['fas', 'house']" /><br>
+               <router-link  to="/teamLead/dashboard"><h4><font-awesome-icon :icon="['fas', 'house']" /><br>
             Dashboard</h4></router-link>
            </div>
 
