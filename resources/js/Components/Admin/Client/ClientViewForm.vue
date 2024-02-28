@@ -26,13 +26,33 @@
     </tr>
 </table>
 </form>
+
+<div v-if="results">
+                    <responsive-table :results="results" :columns="columns">
+
+
+                      <!-- <template #edit="{ row }">
+                        <Link
+
+                          >Edit</Link
+                        >
+                      </template> -->
+                    </responsive-table>
+                  </div>
+
 </template>
 
 <script>
+import ResponsiveTable from '../../Shared Folder/ResponsiveTable.vue'
+
 import Swal from 'sweetalert2'
 
 export default {
     name:'ClientViewForm',
+
+    components:{
+      ResponsiveTable
+    },
 
     data()
         {
@@ -46,10 +66,24 @@ export default {
                 clientLocation:[],
                 userLocation:[],
                 errors:{},
+                results:[],
+
+                columns: [
+  { label: 'Client Name', key: 'client_name' },
+  { label: 'Business Unit Name', key: 'business_unit_name' },
+  { label: 'Sub Location', key: 'sub_location' },
+  { label: 'Select Location', key: 'location' },
+  { label: 'Account Manager', key: 'account_manager' },
+
+  { label: 'Edit', key: 'edit' },
+
+
+  // ... etc. for other columns
+],
             };
         },
 
-   
+
         methods: {
 
 userLocationApi()
@@ -73,9 +107,10 @@ submitForm() {
     this.submitted = true; // Set the submitted flag to true when attempting to submit the form
     // if (this.isFormValid) {
 
-        axios.post('api/adminclient-view', this.client)
+        axios.post('/api/adminclient-view', this.client)
   .then(response => {
       console.log('Form submitted:', response.data.results);
+      this.results = response.data.results;
       if(response.data.results){
         this.errors={};
 

@@ -78,7 +78,7 @@ class ClientView extends Controller
         $request->validate([
             'selectedSubLocation' => 'required',
             'selectedLocation' => 'required',
-        ],$clientValidation );
+        ], $clientValidation);
 
         $subLocation = $request->input('selectedSubLocation');
         $defaultLocation = $request->input('selectedLocation');

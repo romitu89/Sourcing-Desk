@@ -57,7 +57,7 @@
   </div>
 </template>
 
- 
+
   <script>
   export default {
     props: {
@@ -106,7 +106,7 @@
     },
   };
   </script>
- 
+
  <style scoped>
 .container-fluid {
   padding: 0 15px;
@@ -153,8 +153,8 @@
 .table {
   width: 100%;
   border-collapse: collapse;
- 
-  
+
+
 }
 
 .table th {
@@ -243,4 +243,3 @@
 }
 </style>
 
- 

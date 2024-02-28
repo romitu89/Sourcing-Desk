@@ -36,7 +36,7 @@
 
                       <!-- <template #edit="{ row }">
                         <Link
-                          
+
                           >Edit</Link
                         >
                       </template> -->
@@ -47,6 +47,7 @@
 
 <script>
 import ResponsiveTable from '../../Shared Folder/ResponsiveTable.vue'
+
 export default {
     name: 'UserViewForm',
     components:{
@@ -101,9 +102,6 @@ this.errored = true
 
 },
 
-getDateTime() {
-
-},
 
 submitForm() {
     this.submitted = true; // Set the submitted flag to true when attempting to submit the form
@@ -116,7 +114,7 @@ submitForm() {
       console.log(this.results,"results")
 
       this.errors={};
-    
+
 
       // Handle the response as needed
    })
