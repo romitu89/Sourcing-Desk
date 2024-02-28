@@ -6,6 +6,11 @@
       <h4>Request For Approval</h4>
   </div>
 
+  <div class="form" @click="inboxPopUp()">
+      <div class="icon_div"><font-awesome-icon :icon="['fas', 'chart-gantt']" /></div>
+      <h4>Inbox</h4>
+  </div>
+
 
   </div>
 
@@ -38,6 +43,11 @@ import TlSubmissionPopup from './TlSubmissionPopup.vue'
         updatePopUp(){
             this.popup=true;
             this.title="Submission Request"
+        },
+
+        inboxPopUp(){
+            this.popup=true;
+            this.title="Submission Inbox"
         },
         closePopUp(data){
             this.popup = data;
