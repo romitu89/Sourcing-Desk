@@ -4,6 +4,7 @@
         <SideBar />
     </div>
     <div class="main-content">
+        <div><NavigationBar /></div>
         <router-view></router-view> 
     </div>
     </div>
@@ -11,6 +12,7 @@
   </template>
 
 <script>
+import NavigationBar from '../Shared Folder/navigationBar.vue'
 import SideBar from './SideBar.vue'
 
 
@@ -19,6 +21,8 @@ export default {
     name:'Editor',
     components:{
         SideBar,
+        NavigationBar,
+
     },
     data(){
         return{

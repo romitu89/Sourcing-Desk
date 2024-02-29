@@ -15,10 +15,10 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 /* import specific icons */
-import { faBell, faSearch, faChartBar, faChartColumn, faChartGantt, faChevronDown, faDesktop, faHome, faLayerGroup, faMagnifyingGlass, faMessage, faNetworkWired, faPaperclip, faPenToSquare, faPersonCircleQuestion, faPlus, faRectangleList, faTable, faUser, faUserCheck, faUserSecret, faXmark } from '@fortawesome/free-solid-svg-icons'
+import { faBell, faSearch, faChartBar, faChartColumn, faChartGantt, faChevronDown, faDesktop, faHome, faLayerGroup, faMagnifyingGlass, faMessage, faNetworkWired, faPaperclip, faPenToSquare, faPersonCircleQuestion, faPlus, faRectangleList, faTable, faUser, faUserCheck, faUserSecret, faXmark, faGears, faGear, faEnvelope, faRightFromBracket, faChevronUp, faChevronLeft } from '@fortawesome/free-solid-svg-icons'
 
 /* add icons to the library */
-library.add(faUserSecret, faHome, faNetworkWired, faChartGantt, faUser, faXmark, faMagnifyingGlass,
+library.add(faUserSecret, faHome, faNetworkWired, faChartGantt, faUser, faXmark, faMagnifyingGlass, faGear, faEnvelope, faRightFromBracket,faChevronLeft,
     faTable, faChartColumn, faSearch, faLayerGroup, faPaperclip, faPlus, faPersonCircleQuestion, faUserCheck, faMessage, faBell, faChevronDown )
 
     // Vuetify

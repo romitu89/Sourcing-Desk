@@ -6,13 +6,16 @@
 
                <TlSubmissionRequest
                v-if="title=='Submission Request'"/>
-
+               
+               <TlInbox
+               v-if="title=='Submission Inbox'"/>
            </div>
        </div>
 </template>
 
 <script>
 import TlSubmissionRequest from './TlSubmissionRequest.vue'
+import TlInbox from './TlInbox.vue'
 
 
 export default {
@@ -20,6 +23,7 @@ export default {
 
     components:{
         TlSubmissionRequest,
+        TlInbox,
     },
 
     props: {
@@ -49,7 +53,7 @@ export default {
                this.$emit('closePopup', this.showUserCreate);
            }
        },
-       components: { TlSubmissionRequest }
+       components: { TlSubmissionRequest, TlInbox }
 
 }
 
