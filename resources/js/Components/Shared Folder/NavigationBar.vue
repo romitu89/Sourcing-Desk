@@ -8,7 +8,10 @@
       
       <div><span><font-awesome-icon :icon="['fas', 'bell']" /></span></div>
       
-      <div class="dropdown" @click="dropDownFunction()"><span><b>Ash</b></span> <font-awesome-icon :icon="['fas', 'chevron-down']" /> 
+      <div class="dropdown" @click="dropDownFunction()"><span><b>Ashock kumar panday</b></span> 
+        <span v-if="dropDown" style="margin-left: 10px; color: goldenrod;">        <font-awesome-icon :icon="['fas', 'chevron-down']" /> </span>
+        <span v-else style="margin-left: 10px;color: goldenrod;">        <font-awesome-icon :icon="['fas', 'chevron-left']" /> </span>
+        
         <div class="dropdown-content" v-if="dropDown" >
             <a href="#"><font-awesome-icon :icon="['fas', 'gear']" /> Settings</a>
             <a href="#"><font-awesome-icon :icon="['fas', 'user']" /> Profile</a>
