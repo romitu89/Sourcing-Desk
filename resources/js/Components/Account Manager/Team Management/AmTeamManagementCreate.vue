@@ -23,11 +23,9 @@
     <tr>
         <td><label>Select Team</label></td>
         <td>
-          <!-- <multi-select :selectedTeam="employee.selectedTeam" :options="teams" @update:selected="updateSelectedOptions"></multi-select> -->
-
+          <multi-select :selectedTeam="selectedTeam" :options="teams" @update:selected="updateSelectedOptions"></multi-select>
         </td>
       </tr>
-
       <tr>
          <td></td>
         <td> <button class="cancel_btn">Cancel</button>
@@ -41,9 +39,24 @@
  </template>
 
 <script>
+import MultiSelect from '../../Shared Folder/MultiSelect.vue';
+
     export default {
 
         name:'AmTeamManagementCreate',
 
-    }
+        components: {
+    MultiSelect
+  },
+
+  data() {
+    return {
+      userLocation: [],
+      teams: [],
+      selectedTeam: [],
+    };
+  },
+
+
+};
 </script>
