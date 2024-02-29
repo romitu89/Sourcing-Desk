@@ -12,7 +12,7 @@
         <button @click.prevent="selectAll" class="btn btn-primary me-2">Select All</button>
         <button @click.prevent="deselectAll" class="btn btn-danger">Deselect All</button>
       </div>
- 
+
       <div class="options-container">
         <div v-for="option in filteredOptions" :key="option.value" class="form-check">
           <input class="form-check-input" type="checkbox" :value="option.value" :id="option.value" v-model="selectedOptions" />
@@ -21,12 +21,12 @@
       </div>
     </div>
   </template>
- 
+
   <script>
   export default {
- 
+
     props: ['options','selectedTeam'],
- 
+
     data() {
       return {
         searchTerm: '',
@@ -57,7 +57,7 @@
   },
     },
     watch: {
- 
+
     selectedOptions: {
       immediate: true,
       deep: true,
@@ -75,13 +75,13 @@
       },
     },
   },
- 
- 
- 
+
+
+
   };
   </script>
- 
- 
+
+
   <style scoped>
   .options-container {
     max-height: 200px;  /* Set the maximum height */

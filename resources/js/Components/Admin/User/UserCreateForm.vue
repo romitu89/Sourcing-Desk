@@ -128,7 +128,7 @@ import Swal from 'sweetalert2'
       .then(response => {
         console.log(response.data, "data")
         // console.log(response.data.location, "location")
-        
+
         this.userLocation = response.data
         console.log(this.userLocation, "location")
       })

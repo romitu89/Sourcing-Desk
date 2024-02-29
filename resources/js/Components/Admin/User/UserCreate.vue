@@ -3,14 +3,14 @@
         <div @click="closePopup()" class="close_btn"> <a ><font-awesome-icon :icon="['fas', 'xmark']" /></a></div>
         <div class="popup-inner">
             <h2 class="title">{{ title }}</h2>
-          
-      <UserCreateForm 
+
+      <UserCreateForm
       v-if="title=='Create Form'"/>
-      
-      <UserViewForm 
+
+      <UserViewForm
       v-if="title=='View Form'"/>
 
-      <UserLoginForm 
+      <UserLoginForm
       v-if="title=='Login Form'"/>
 
         </div>
