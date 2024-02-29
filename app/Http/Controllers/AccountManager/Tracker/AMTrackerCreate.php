@@ -12,24 +12,38 @@ class AMTrackerCreate extends Controller
 {
     public function create(Request $request)
     {
-        $am = Client::select('client_name', 'business_unit_name', 'location')->distinct()->get();
+        $am =  Client::select('client_name', 'business_unit_name', 'location')
+        ->distinct()
+        ->where('location','!=', null)
+        ->whereRaw("TRIM(location) != ''") // Add this for spaces
+        ->get();
 
         return response()->json(['client' => $am]);
     }
 
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
+        // $customValidation = [
+
+        //     'selectedClient.required' => 'required',
+        //     'clientManagerName' => 'required',
+        //     'selectedBusiness' => 'required',
+        //     'selectedLocation' => 'required',
+        //     'file' => 'required|file|mimes:xls,xlsx|max:2048',
+
+
+
+        //     // Add other custom messages as needed
+
+        // ];
+        $request->validate([
             'selectedClient' => 'required',
             'clientManagerName' => 'required',
             'selectedBusiness' => 'required',
             'selectedLocation' => 'required',
             'file' => 'required|file|mimes:xls,xlsx|max:2048',
         ]);
-
-        if ($validator->fails()) {
-            return response()->json(['error' => $validator->errors()], 400);
-        }
+    
 
         $file = $request->file('file');
         $fileName = time() . '_' . $file->getClientOriginalName();

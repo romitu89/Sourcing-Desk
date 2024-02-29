@@ -18,22 +18,14 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        // if (!Auth::attempt($request->validate([
-        //     'username' => 'required|string',
-        //     'password' => 'required|string'
-        // ]), true)) {
-
-        //     throw ValidationException::withMessages([
-        //         'username' => 'Authentication Failed'
-        //     ]);
-        // }
+        
         $credentials = $request->validate([
             'username' => 'required',
             'password' => 'required',
         ]);
 
         if (Auth::attempt($credentials)) {
-            //$request->session()->regenerate();
+            $request->session()->regenerate();
             $user = Auth::user();
             Login::create([
                 'user_id' => auth()->user()->id,

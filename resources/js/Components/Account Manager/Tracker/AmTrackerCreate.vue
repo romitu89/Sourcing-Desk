@@ -6,7 +6,7 @@
         <td>
           <select id="client" v-model="tracker.selectedClient" name="client">
             <option value="">Select Client</option>
-            <!-- <span v-if="errors.selectedClient" class="error">{{errors.selectedClient[0]}}</span> -->
+           
             <option
               v-for="item in clientData"
               :key="item.client_name"
@@ -15,6 +15,7 @@
               {{ item.client_name }}
             </option>
           </select>
+           <span v-if="errors.selectedClient" class="error">{{errors.selectedClient[0]}}</span>
         </td>
       </tr>
 
@@ -26,7 +27,7 @@
             v-model="tracker.clientManagerName"
             placeholder="Client Manager Name"
           />
-          <!-- <span v-if="errors.clientManagerName" class="error">{{errors.clientManagerName[0]}}</span> -->
+          <span v-if="errors.clientManagerName" class="error">{{errors.clientManagerName[0]}}</span>
         </td>
       </tr>
 
@@ -35,7 +36,7 @@
         <td>
           <select id="buisness" v-model="tracker.selectedBusiness" name="buisness">
             <option value="">Select Unit</option>
-            <span v-if="errors.selectedBusiness" class="error">{{errors.selectedBusiness[0]}}</span>
+            
 
             <option
               v-for="item in clientData"
@@ -45,6 +46,7 @@
               {{ item.business_unit_name }}
             </option>
           </select>
+          <span v-if="errors.selectedBusiness" class="error">{{errors.selectedBusiness[0]}}</span>
         </td>
       </tr>
 
@@ -53,7 +55,7 @@
         <td>
           <select id="location" v-model="tracker.selectedLocation" name="location">
             <option value="">Select Location</option>
-            <span v-if="errors.selectedLocation" class="error">{{errors.selectedLocation[0]}}</span>
+           
 
             <option
               v-for="item in clientData"
@@ -63,6 +65,7 @@
               {{ item.location }}
             </option>
           </select>
+          <span v-if="errors.selectedLocation" class="error">{{errors.selectedLocation[0]}}</span>
         </td>
       </tr>
 
@@ -76,7 +79,7 @@
             name="file"
             placeholder="Upload"
           />
-          <!-- <span v-if="errors.file" class="error">{{errors.file[0]}}</span> -->
+          <span v-if="errors.file" class="error">{{errors.file[0]}}</span>
         </td>
       </tr>
 
@@ -153,9 +156,9 @@ export default {
           // Handle the response as needed
         })
         .catch((error) => {
-            console.error('Error submitting form:', error.response.data.errors);
+           
           this.errors = error.response.data.errors;
-          console.log(this.errors, "Tracker error")
+         
         });
 
       // You might want to reset the form and submitted flag here if needed

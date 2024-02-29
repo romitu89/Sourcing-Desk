@@ -31,11 +31,11 @@
 
      <tr>
      <td ><label >Client Manager Name</label></td>
-     <td ><select id="buisness" v-model="tracker.clientManagerName" name="buisness">
+     <td ><select id="buisness" v-model="tracker.selectedManager" name="buisness">
      <option value="">Select Manager</option>
      <!-- <option v-for="item in userLocation" :key='item.location' :value="item.location">{{ item.location }}</option> -->
 
-     </select><span v-if="errors.clientManagerName" class="error">{{errors.clientManagerName[0]}}</span></td>
+     </select><span v-if="errors.selectedManager" class="error">{{errors.selectedManager[0]}}</span></td>
      </tr>
 
 
@@ -62,7 +62,7 @@
                 selectedLocation:'',
                 selectedClient:'',
                 selectedBusiness:'',
-                clientManagerName:'',
+                selectedManager:'',
                 },
                 userLocation:[],
                 errors:{},

@@ -59,6 +59,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 //Authentication
+Route::middleware('web')->group(function () {
 Route::get('/login', [AuthController::class, 'login']);
 Route::post('/login', [AuthController::class, 'login']);
 
@@ -275,6 +276,6 @@ Route::Post('/submission-active/{id}', [ActiveReq::class, 'store']);
 
 Route::get('/submission-inbox', [RecruiterSubmission::class, 'create']);
 
-
+});
     // Additional routes if needed...
 //});
