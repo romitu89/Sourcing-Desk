@@ -155,6 +155,7 @@ export default {
         .catch((error) => {
             console.error('Error submitting form:', error.response.data.errors);
           this.errors = error.response.data.errors;
+          console.log(this.errors, "Tracker error")
         });
 
       // You might want to reset the form and submitted flag here if needed

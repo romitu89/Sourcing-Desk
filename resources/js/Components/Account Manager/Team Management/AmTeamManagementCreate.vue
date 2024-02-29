@@ -4,20 +4,20 @@
 
         <tr>
      <td ><label >Select Location</label></td>
-     <td ><select id="location" name="location">
+     <td ><select id="location" v-model="teamManager.selectedLocation" name="location">
      <option value="">Select Location</option>
      <option v-for="item in userLocation" :key='item.location' :value="item.location">{{ item.location }}</option>
 
-     </select></td>
+     </select><span v-if="errors.selectedLocation" class="error">{{errors.selectedLocation[0]}}</span></td>
      </tr>
 
      <tr>
     <td ><label >Job Type</label></td>
-    <td ><select id="role" name="role">
+    <td ><select id="role" v-model="teamManager.jobType" name="role">
     <option value="">Select Job</option>
     <option value="Admin">Admin</option>
     <option value="Team Lead">Team Lead</option>
-    </select></td>
+    </select><span v-if="errors.jobType" class="error">{{errors.jobType[0]}}</span></td>
     </tr>
 
     <tr>
@@ -39,6 +39,7 @@
  </template>
 
 <script>
+
 import MultiSelect from '../../Shared Folder/MultiSelect.vue';
 
     export default {
@@ -51,12 +52,62 @@ import MultiSelect from '../../Shared Folder/MultiSelect.vue';
 
   data() {
     return {
+      teamManager:{
+      selectedLocation:'',
+      jobType:'',
+      selectedTeam:'',
+      },
+      errors:{},
       userLocation: [],
       teams: [],
       selectedTeam: [],
     };
   },
+  methods: {
+
+userLocationApi()
+{
+axios
+.get('/api/amtracker-view')
+.then(response => {
+this.userLocation = response.data.locations
+console.log(this.userLocation)
+})
+.catch(error => {
+console.log(error)
+this.errored = true
+})
+
+},
 
 
-};
+submitForm() {
+this.submitted = true; // Set the submitted flag to true when attempting to submit the form
+// if (this.isFormValid) {
+
+    axios.post('/api/amtracker-view', this.teamManager)
+.then(response => {
+  console.log('Form submitted:', response.data.results);
+  this.results = response.data.results;
+  console.log(this.results,"results")
+
+  this.errors={};
+
+
+  // Handle the response as needed
+})
+.catch(error => {
+  console.error('Error submitting form:', error.response.data.errors);
+  this.errors= error.response.data.errors;
+  console.log(this.errors, "error")
+});
+},
+},
+mounted(){
+this.userLocationApi()
+
+},
+
+
+}
 </script>
