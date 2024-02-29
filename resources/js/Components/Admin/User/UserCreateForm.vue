@@ -4,43 +4,43 @@
 
     <tr>
     <td ><label >Employee Name</label></td>
-    <td ><input type="text" v-model.trim="employee.empName" placeholder="Employee Name" >
+    <td ><input type="text" v-model="employee.empName" placeholder="Employee Name" >
         <span v-if="errors.empName" class="error">{{errors.empName[0]}}</span></td>
     </tr>
 
     <tr>
     <td ><label >User Name</label></td>
-    <td ><input type="text" v-model.trim="employee.userName" placeholder="User Name" >
+    <td ><input type="text" v-model="employee.userName" placeholder="User Name" >
         <span v-if="errors.userName" class="error">{{errors.userName[0]}}</span></td>
     </tr>
 
     <tr>
     <td ><label >Password</label></td>
-    <td ><input type="text" v-model.trim="employee.password" placeholder="Password" >
+    <td ><input type="text" v-model="employee.password" placeholder="Password" >
         <span v-if="errors.password" class="error">{{errors.password[0]}}</span></td>
     </tr>
 
     <tr>
     <td ><label >Confirm Password</label></td>
-    <td ><input type="text" v-model.trim="employee.cnfrmPassword" placeholder="Confirm Password">
+    <td ><input type="text" v-model="employee.cnfrmPassword" placeholder="Confirm Password">
         <span v-if="errors.cnfrmPassword" class="error">{{errors.cnfrmPassword[0]}}</span></td>
     </tr>
 
     <tr>
     <td ><label >Employee Id</label></td>
-    <td ><input type="text" v-model.trim="employee.empId" placeholder="Enter Employee Id">
+    <td ><input type="text" v-model="employee.empId" placeholder="Enter Employee Id">
         <span v-if="errors.empId" class="error">{{errors.empId[0]}}</span></td>
     </tr>
 
     <tr>
     <td ><label >Email Id</label></td>
-    <td ><input type="text" v-model.trim="employee.email" placeholder="Enter Email Id">
+    <td ><input type="text" v-model="employee.email" placeholder="Enter Email Id">
         <span v-if="errors.email" class="error">{{errors.email[0]}}</span></td>
     </tr>
 
     <tr>
     <td ><label >Mobile Number</label></td>
-    <td ><input type="text" v-model.trim="employee.mobile" placeholder="Enter Mobile Number">
+    <td ><input type="text" v-model="employee.mobile" placeholder="Enter Mobile Number">
         <span v-if="errors.mobile" class="error">{{errors.mobile[0]}}</span></td>
     </tr>
 
@@ -55,7 +55,7 @@
 
     <tr>
     <td ><label >Role</label></td>
-    <td ><select id="role" v-model.trim="employee.role" name="role">
+    <td ><select id="role" v-model="employee.role" name="role">
     <option value="">Select Role</option>
     <option value="Admin">Admin</option>
     <option value="Team Lead">Team Lead</option>
@@ -128,7 +128,7 @@ import Swal from 'sweetalert2'
       .then(response => {
         console.log(response.data, "data")
         // console.log(response.data.location, "location")
-        
+
         this.userLocation = response.data
         console.log(this.userLocation, "location")
       })
