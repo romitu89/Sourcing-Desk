@@ -13,16 +13,31 @@ class AMTrackerCreate extends Controller
     public function create(Request $request)
     {
         $am =  Client::select('client_name', 'business_unit_name', 'location')
-        ->distinct()
-        ->where('location','!=', null)
-        ->whereRaw("TRIM(location) != ''") // Add this for spaces
-        ->get();
+            ->distinct()
+            ->where('location', '!=', null)
+            ->whereRaw("TRIM(location) != ''") // Add this for spaces
+            ->get();
 
         return response()->json(['client' => $am]);
     }
 
     public function store(Request $request)
     {
+        $messages = [
+
+            'selectedClient.required' => 'Client Name is required.',
+
+            'clientManagerName.required' => 'Client Manager is required.',
+
+            'selectedBusiness.required' => ' Buisness Unit is required.', // Example for customizing unique constraint message
+
+            'selectedLocation.required' => 'Location is required.',
+
+            'file.required' => ' File Upload is required.',
+
+            // Add other custom messages as needed
+
+        ];
         // $customValidation = [
 
         //     'selectedClient.required' => 'required',
@@ -42,8 +57,8 @@ class AMTrackerCreate extends Controller
             'selectedBusiness' => 'required',
             'selectedLocation' => 'required',
             'file' => 'required|file|mimes:xls,xlsx|max:2048',
-        ]);
-    
+        ], $messages);
+
 
         $file = $request->file('file');
         $fileName = time() . '_' . $file->getClientOriginalName();
