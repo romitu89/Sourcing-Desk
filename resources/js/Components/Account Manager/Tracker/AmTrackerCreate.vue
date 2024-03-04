@@ -6,7 +6,7 @@
         <td>
           <select id="client" v-model="tracker.selectedClient" name="client">
             <option value="">Select Client</option>
-           
+
             <option
               v-for="item in clientData"
               :key="item.client_name"
@@ -36,7 +36,7 @@
         <td>
           <select id="buisness" v-model="tracker.selectedBusiness" name="buisness">
             <option value="">Select Unit</option>
-            
+
 
             <option
               v-for="item in clientData"
@@ -55,7 +55,7 @@
         <td>
           <select id="location" v-model="tracker.selectedLocation" name="location">
             <option value="">Select Location</option>
-           
+
 
             <option
               v-for="item in clientData"
@@ -115,6 +115,10 @@ export default {
   },
 
   methods: {
+    handleFileChange(event) {
+      this.tracker.file = event.target.files[0];
+    },
+
     userLocationApi() {
       axios
         .get("/api/amtracker-create")
@@ -156,9 +160,9 @@ export default {
           // Handle the response as needed
         })
         .catch((error) => {
-           
+
           this.errors = error.response.data.errors;
-         
+
         });
 
       // You might want to reset the form and submitted flag here if needed
