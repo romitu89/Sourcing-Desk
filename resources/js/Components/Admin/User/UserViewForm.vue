@@ -50,7 +50,7 @@ import ResponsiveTable from '../../Shared Folder/ResponsiveTable.vue'
 
 export default {
     name: 'UserViewForm',
-    
+
     components:{
       ResponsiveTable
     },

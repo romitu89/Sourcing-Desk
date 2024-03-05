@@ -68,7 +68,7 @@
 
     <tr>
     <td ><label >Department</label></td>
-    <td ><select id="department" v-model.trim="employee.department" name="department">
+    <td ><select id="department" v-model="employee.department" name="department">
     <option value="">Select Department</option>
 
     <option value="hrStaffing">HR-Staffing</option>
@@ -81,7 +81,7 @@
 
     <tr>
     <td ><label >Date of Birth</label></td>
-    <td ><input v-model.trim="employee.dob" type="date" >
+    <td ><input v-model="employee.dob" type="date" >
         <span v-if="errors.dob" class="error">{{errors.dob[0]}}</span></td>
     </tr>
 

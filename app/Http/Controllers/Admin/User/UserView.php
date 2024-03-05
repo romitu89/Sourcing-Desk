@@ -94,26 +94,26 @@ class UserView extends Controller
         ];
 
         // try {
-            $request->validate([
-                'user' => 'required|string|max:100',
-                'selectedLocation' => 'required|string',
-            ], $customValidation);
+        $request->validate([
+            'user' => 'required|string|max:100',
+            'selectedLocation' => 'required|string',
+        ], $customValidation);
 
-            $user = $request->input('user');
-            $defaultLocation = $request->input('selectedLocation');
-            $query = User::query();
+        $user = $request->input('user');
+        $defaultLocation = $request->input('selectedLocation');
+        $query = User::query();
 
-            if ($user) {
-                $query->where('user_status', '=', $user);
-            }
+        if ($user) {
+            $query->where('user_status', '=', $user);
+        }
 
-            if ($defaultLocation) {
-                $query->where('location', '=', $defaultLocation);
-            }
+        if ($defaultLocation) {
+            $query->where('location', '=', $defaultLocation);
+        }
 
-            $results = $query->get();
+        $results = $query->get();
 
-            return response()->json(['results' => $results]);
+        return response()->json(['results' => $results]);
         // } catch (ValidationException $e) {
         //     return response()->json(['errors' => $e->errors()], 422);
         // }
