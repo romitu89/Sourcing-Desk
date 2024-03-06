@@ -65,12 +65,24 @@ class EditorClientView extends Controller
     {
         //dd($request->all());
 
+        $clientValidation = [
+
+            'selectedLocation.required' => 'Location is required.',
+
+            'selectedSubLocation.required' => 'Sub Location is required.',
+
+
+
+            // Add other custom messages as needed
+
+        ];
+
         $request->validate([
             'selectedSubLocation' => 'required',
             'selectedLocation' => 'required',
 
 
-        ]);
+        ], $clientValidation);
 
         $subLocation = $request->input('selectedSubLocation');
         $defaultLocation = $request->input('selectedLocation');

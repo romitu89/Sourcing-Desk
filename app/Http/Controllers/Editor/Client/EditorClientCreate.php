@@ -23,6 +23,25 @@ class EditorClientCreate extends Controller
 
 
         //dd($request->all());
+
+        $successMessage = [
+
+            'clientName.required' => 'Client Name is required.',
+
+            'selectedLocation.required' => 'Location is required.',
+
+            'selectedManager.required' => 'Manager is required.',
+
+            'businessName.required' => 'Buisness Unit is required.',
+
+            'subLocation.required' => 'Sub Location is required.',
+
+
+            // Add other custom messages as needed
+
+        ];
+
+
         $request->validate([
             'clientName' => 'required|string|unique:clients,client_name',
             'businessName' => 'required|string',
@@ -31,7 +50,7 @@ class EditorClientCreate extends Controller
             'selectedManager' => 'required',
             'selectedLocation' => 'required',
 
-        ]);
+        ], $successMessage);
         $man_id = $request->selectedManager;
         if ($man_id) {
             $man_id = User::where('email_id', $man_id)

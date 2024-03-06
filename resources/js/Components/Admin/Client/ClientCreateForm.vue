@@ -34,7 +34,7 @@
     <tr>
     <td ><label >Account Manager</label></td>
     <td ><select id="location" v-model="client.selectedManager" name="location">
-    <option value="">Select Location</option>
+    <option value="">Select Manager</option>
     <option v-for="item in managersData" :key='item.email_id' :value="item.email_id">{{ item.email_id }}</option>
 
     </select><span v-if="errors.selectedManager" class="error">{{errors.selectedManager[0]}}</span></td>
@@ -104,7 +104,7 @@ submitForm() {
          Swal.fire({
             position: "top-center",
             icon: "success",
-            title: "User created successfully",
+            title: "Client created successfully",
             showConfirmButton: false,
             timer: 5000
             });
