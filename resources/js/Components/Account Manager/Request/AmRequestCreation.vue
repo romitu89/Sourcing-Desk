@@ -128,7 +128,7 @@ import MultiSelect from '../../Shared Folder/MultiSelect.vue';
 userLocationApi()
 {
 axios
-.get('/api/adminuser-create')
+.get('/api/amrequest-create')
 .then(response => {
 console.log(response.data, "data")
 // console.log(response.data.location, "location")
@@ -147,7 +147,7 @@ submitForm() {
     this.submitted = true; // Set the submitted flag to true when attempting to submit the form
     // if (this.isFormValid) {
 
-        axios.post('/api/adminuser-create', this.amRequest)
+        axios.post('/api/amrequest-create', this.amRequest)
   .then(response => {
       console.log('Form submitted:', response.data.message);
       if(response.data.message){
