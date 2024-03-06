@@ -16,8 +16,10 @@
      <td ><label >Select Duration</label></td>
      <td ><select id="duration"  v-model.trim="client.duration" name="Choose duration">
      <option value="">Choose Duration</option>
-     <option value="India">India</option>
-     <option value="usa">USA</option>
+     <option value="5 year">5 Years</option>
+    <option value="7 year">7 Years</option>
+    <option value="10 year">10 Years</option>
+    <option value="more">More</option>
      </select>
      <span v-if="submitted && !validation.duration" class="error">Duration is required.</span></td>
      </tr>
