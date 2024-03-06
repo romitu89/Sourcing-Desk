@@ -81,12 +81,24 @@ class EditorUserView extends Controller
     {
         //dd($request->all());
 
+        $customValidation = [
+
+            'selectedLocation.required' => 'Location is required.',
+
+            'user.required' => 'User is required.',
+
+
+
+            // Add other custom messages as needed
+
+        ];
+
         $request->validate([
             'user' => 'required|string|max:100',
             'selectedLocation' => 'required|string',
 
 
-        ]);
+        ], $customValidation);
 
         $user = $request->input('user');
         $defaultLocation = $request->input('selectedLocation');

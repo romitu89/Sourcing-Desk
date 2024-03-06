@@ -14,9 +14,11 @@
 
     <tr>
     <td ><label >Sub Location</label></td>
-    <td ><input type="text" v-model="client.selectedSubLocation" placeholder="Sub Location">
+    <td ><select id="location" v-model="client.selectedSubLocation" name="location">
+    <option value="">Select Location</option>
+    <option v-for="item in clientLocation" :key='item.location' :value="item.location">{{ item.location }}</option>
 
-        <span v-if="errors.selectedSubLocation" class="error">{{errors.selectedSubLocation[0]}}</span></td>
+    </select><span v-if="errors.selectedSubLocation" class="error">{{errors.selectedSubLocation[0]}}</span></td>
     </tr>
 
     <tr>
@@ -115,13 +117,13 @@ submitForm() {
       if(response.data.results){
         this.errors={};
 
-         Swal.fire({
-            position: "top-center",
-            icon: "success",
-            // title: "Login successfully",
-            showConfirmButton: false,
-            timer: 3000
-            });
+        //  Swal.fire({
+        //     position: "top-center",
+        //     icon: "success",
+        //     // title: "Login successfully",
+        //     showConfirmButton: false,
+        //     timer: 3000
+        //     });
 
       }
       else{
