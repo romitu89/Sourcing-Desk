@@ -1,88 +1,94 @@
 <template>
     <form @submit.prevent="submitForm">
-     <table class="input_form">
+      <table class="input_form">
 
         <tr>
-     <td ><label >Client Name</label></td>
-     <td ><select id="client" v-model="tlTracker.selectedClient" name="client">
-     <option value="">Select Client</option>
-     <option v-for="item in userLocation" :key='item.location' :value="item.location">{{ item.location }}</option>
+          <td><label>Client Name</label></td>
+          <td>
+            <select id="client" v-model="tlTracker.selectedClient" name="client">
+              <option value="">Select Client</option>
+              <option v-for="item in userLocation" :key='item.client_name' :value="item.client_name">{{ item.client_name }}</option>
+            </select>
+            <span v-if="errors.selectedClient" class="error">{{errors.selectedClient[0]}}</span>
+          </td>
+        </tr>
 
-     </select><span v-if="errors.selectedClient" class="error">{{errors.selectedClient[0]}}</span></td>
-     </tr>
+        <tr>
+          <td><label>Client Manager Name</label></td>
+          <td>
+            <select id="clientManager" v-model="tlTracker.clientManagerName" name="clientManager">
+              <option value="">Select Manager</option>
+              <option v-for="item in userLocation" :key='item.client_manager_name' :value="item.client_manager_name">{{ item.client_manager_name }}</option>
+            </select>
+            <span v-if="errors.clientManagerName" class="error">{{errors.clientManagerName[0]}}</span>
+          </td>
+        </tr>
 
-     <tr>
-     <td ><label >Client Manager Name</label></td>
-     <td ><select id="buisness" v-model="tlTracker.clientManagerName" name="buisness">
-     <option value="">Select Manager</option>
-     <!-- <option v-for="item in userLocation" :key='item.location' :value="item.location">{{ item.location }}</option> -->
+        <tr>
+          <td><label>Business Unit</label></td>
+          <td>
+            <select id="businessUnit" v-model="tlTracker.selectedBusiness" name="businessUnit">
+              <option value="">Select Unit</option>
+              <option v-for="item in userLocation" :key='item.business_unit_name' :value="item.business_unit_name">{{ item.business_unit_name }}</option>
+            </select>
+            <span v-if="errors.selectedBusiness" class="error">{{errors.selectedBusiness[0]}}</span>
+          </td>
+        </tr>
 
-     </select><span v-if="errors.clientManagerName" class="error">{{errors.clientManagerName[0]}}</span></td>
-     </tr>
+        <tr>
+          <td><label>Select Location</label></td>
+          <td>
+            <select id="location" v-model="tlTracker.selectedLocation" name="location">
+              <option value="">Select Location</option>
+              <option v-for="item in userLocation" :key='item.location' :value="item.location">{{ item.location }}</option>
+            </select>
+            <span v-if="errors.selectedLocation" class="error">{{errors.selectedLocation[0]}}</span>
+          </td>
+        </tr>
 
-     <tr>
-        <td><label>Upload File</label></td>
-        <td>
-          <input type="file" @change="handleFileChange" accept=".xls, .xlsx" name="file" placeholder="Upload"/>
+        <tr>
+          <td><label>Upload File</label></td>
+          <td>
+            <input type="file" @change="handleFileChange" accept=".xls, .xlsx" name="file" placeholder="Upload" />
+            <span v-if="errors.file" class="error">{{errors.file[0]}}</span>
+          </td>
+        </tr>
 
-          <span v-if="errors.file" class="error">{{errors.file[0]}}</span></td>
-      </tr>
+        <tr>
+          <td></td>
+          <td>
+            <button class="cancel_btn">Cancel</button>
+            <button class="submit_btn">Submit</button>
+          </td>
+        </tr>
 
-     <tr>
-     <td ><label >Buisness Unit</label></td>
-     <td ><select id="buisness" v-model="tlTracker.selectedBusiness" name="buisness">
-     <option value="">Select Unit</option>
-     <!-- <option v-for="item in userLocation" :key='item.location' :value="item.location">{{ item.location }}</option> -->
-
-     </select><span v-if="errors.selectedBusiness" class="error">{{errors.selectedBusiness[0]}}</span></td>
-     </tr>
-
-     <tr>
-     <td ><label >Select Location</label></td>
-     <td ><select id="location" v-model="tlTracker.selectedLocation" name="location">
-     <option value="">Select Location</option>
-     <option v-for="item in userLocation" :key='item.location' :value="item.location">{{ item.location }}</option>
-
-     </select><span v-if="errors.selectedLocation" class="error">{{errors.selectedLocation[0]}}</span></td>
-     </tr>
-
-
-     <tr>
-         <td></td>
-        <td> <button class="cancel_btn">Cancel</button>
-         <button  class="submit_btn">Submit</button> </td>
-     </tr>
-
-     </table>
-
+      </table>
     </form>
+  </template>
 
- </template>
+  <script>
+  import Swal from "sweetalert2";
 
-<script>
-    export default {
-        name:'TlTrackerCreate',
+  export default {
+    name: 'TlTrackerCreate',
 
-        data()
-        {
-            return{
-                tlTracker:
-                {
-                selectedClient:"",
-                clientManagerName:"",
-                file:null,
-                selectedBusiness:"",
-                selectedLocation:"",
-                },
-                userLocation:[],
-                tlTrackerData:[],
-                errors:[],
-
-            };
+    data() {
+      return {
+        tlTracker: {
+          selectedClient: "",
+          clientManagerName: "",
+          file: null,
+          selectedBusiness: "",
+          selectedLocation: "",
         },
+        userLocation: [],
+        tlTrackerData: [],
+        errors: [],
+      };
+    },
 
-        methods: {
-            handleFileChange(event) {
+    methods: {
+      handleFileChange(event) {
         this.tlTracker.file = event.target.files[0];
       },
 
@@ -91,10 +97,9 @@
           .get("/api/tltracker-create")
           .then((response) => {
             console.log(response.data, "data");
-            // console.log(response.data.location, "location")
 
-            this.tlTrackerData = response.data.client;
-            console.log(this.tlTrackerData, "client");
+            this.userLocation = response.data.client;
+            console.log(this.userLocation, "client");
           })
           .catch((error) => {
             console.log(error);
@@ -103,7 +108,7 @@
       },
 
       submitForm() {
-        this.submitted = true; // Set the submitted flag to true when attempting to submit the form
+        this.submitted = true;
         let formData = new FormData();
         formData.append('selectedClient', this.tlTracker.selectedClient);
         formData.append('clientManagerName', this.tlTracker.clientManagerName);
@@ -128,23 +133,15 @@
             } else {
               Swal.fire("Form not Submitted");
             }
-
-            // Handle the response as needed
           })
           .catch((error) => {
-
             this.errors = error.response.data.errors;
-
           });
-
-        // You might want to reset the form and submitted flag here if needed
       },
-
-        },
-
-        mounted() {
-      this.userLocationApi();
     },
 
-    }
-</script>
+    mounted() {
+      this.userLocationApi();
+    },
+  };
+  </script>

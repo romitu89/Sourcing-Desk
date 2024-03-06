@@ -75,10 +75,6 @@ class AMTrackerView extends Controller
 
             'selectedLocation.required' => 'Location is required.',
 
-            'file.required' => ' File Upload is required.',
-
-            // Add other custom messages as needed
-
         ];
 
         $request->validate([

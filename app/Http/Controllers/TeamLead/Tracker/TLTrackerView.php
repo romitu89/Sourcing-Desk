@@ -61,13 +61,27 @@ class TLTrackerView extends Controller
     public function store(Request $request)
     {
         //dd($request->all());
+
+        $messages = [
+
+            'selectedClient.required' => 'Client Name is required.',
+
+            'selectedManager.required' => 'Client Manager is required.',
+
+            'selectedBusiness.required' => ' Buisness Unit is required.', // Example for customizing unique constraint message
+
+            'selectedLocation.required' => 'Location is required.',
+
+        ];
+
+
         $request->validate([
             'selectedClient' => 'required', // Assuming 'clients' is the table name
             'selectedBusiness' => 'required',
             'selectedManager' => 'required', // Assuming 'users' is the table name
             'selectedLocation' => 'required',
             // Add any other form field validations here
-        ]);
+        ], $messages);
 
         $defaultClient = $request->input('selectedClient');
         $defaultLocation = $request->input('selectedLocation');

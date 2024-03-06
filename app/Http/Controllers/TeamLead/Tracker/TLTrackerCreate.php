@@ -22,6 +22,24 @@ class TLTrackerCreate extends Controller
     {
 
         //dd($request->all());
+
+        $messages = [
+
+            'selectedClient.required' => 'Client Name is required.',
+
+            'clientManagerName.required' => 'Client Manager is required.',
+
+            'selectedBusiness.required' => ' Buisness Unit is required.', // Example for customizing unique constraint message
+
+            'selectedLocation.required' => 'Location is required.',
+
+            'file.required' => ' File Upload is required.',
+
+            // Add other custom messages as needed
+
+        ];
+
+
         $request->validate([
             'selectedClient' => 'required',
             'clientManagerName' => 'required',
@@ -29,7 +47,7 @@ class TLTrackerCreate extends Controller
             'selectedLocation' => 'required',
             'file' => 'required|file|mimes:xls,xlsx|max:2048', // Max file size in kilobytes (2MB in this example)
 
-        ]);
+        ], $messages);
         $file = $request->file('file');
         $fileName = time() . '_' . $file->getClientOriginalName();
         $filePath = $file->storeAs('trackers', $fileName, 'public'); // Store file in 'public/uploads' directory
