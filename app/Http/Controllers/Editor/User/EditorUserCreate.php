@@ -32,6 +32,38 @@ class EditorUserCreate extends Controller
     {
         //dd($request->all());
 
+        $messages = [
+
+            'empName.required' => 'Employee Name is required.',
+
+            'userName.required' => 'Username is required.',
+
+            'password.required' => 'Password is required.',
+
+            'userName.unique' => 'The Username has already been taken.', // Example for customizing unique constraint message
+
+            'cnfrmPassword.required' => 'Confirm Password is required.',
+
+            'cnfrmPassword.same' => 'The Confirm password field must match password.',
+
+            'empId.required' => 'Employee Id is required.',
+
+            'email.required' => 'Email is required.',
+
+            'mobile.required' => 'Mobile is required.',
+
+            'selectedLocation.required' => 'Location is required.',
+
+            'department.required' => 'Department is required.',
+
+            'role.required' => 'Role is required.',
+
+            'dob.required' => 'Date Of Birth is required.',
+
+            // Add other custom messages as needed
+
+        ];
+
         /*  password
         English uppercase characters (A – Z)
 English lowercase characters (a – z)
@@ -61,7 +93,7 @@ Unicode characters */
 
             'dob' => 'required'
 
-        ]);
+        ], $messages);
         $empName = ucwords($request->empName);
 
         $user = new User([

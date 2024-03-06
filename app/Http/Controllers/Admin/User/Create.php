@@ -40,11 +40,27 @@ class Create extends Controller
 
             'userName.required' => 'Username is required.',
 
+            'password.required' => 'Password is required.',
+
             'userName.unique' => 'The Username has already been taken.', // Example for customizing unique constraint message
 
-            'cnfrmPassword.required' => 'Confirm password is required.',
+            'cnfrmPassword.required' => 'Confirm Password is required.',
 
             'cnfrmPassword.same' => 'The Confirm password field must match password.',
+
+            'empId.required' => 'Employee Id is required.',
+
+            'email.required' => 'Email is required.',
+
+            'mobile.required' => 'Mobile is required.',
+
+            'selectedLocation.required' => 'Location is required.',
+
+            'department.required' => 'Department is required.',
+
+            'role.required' => 'Role is required.',
+
+            'dob.required' => 'Date Of Birth is required.',
 
             // Add other custom messages as needed
 

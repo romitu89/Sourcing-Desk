@@ -4,7 +4,7 @@
 
         <tr>
     <td ><label >Select Location</label></td>
-    <td ><select id="location" v-model.trim="client.location" class="color_cell" name="location">
+    <td ><select id="location" v-model="client.location" class="color_cell" name="location">
     <option value="">Choose Location</option>
     <option value="India">India</option>
     <option value="usa">USA</option>
@@ -14,7 +14,7 @@
 
     <tr>
     <td ><label >Client Name</label></td>
-    <td ><select id="client"  v-model.trim="client.name" class="color_cell"  name="client">
+    <td ><select id="client"  v-model="client.name" class="color_cell"  name="client">
     <option value="">Choose Client</option>
     <option value="India">India</option>
     <option value="usa">USA</option>
@@ -25,7 +25,7 @@
 
     <tr>
     <td ><label >Business Unit</label></td>
-    <td ><select id="business"  v-model.trim="client.business" class="color_cell"  name="business">
+    <td ><select id="business"  v-model="client.business" class="color_cell"  name="business">
     <option value="">Choose B-Unit</option>
     <option value="India">India</option>
     <option value="usa">USA</option>
@@ -36,18 +36,18 @@
 
     <tr>
     <td ><label >Client Manager Name</label></td>
-    <td ><select id="manager"  v-model.trim="client.manager" class="color_cell"  name="manager">
+    <td ><select id="manager"  v-model="client.manager" class="color_cell"  name="manager">
     <option value="">Choose Manager</option>
     <option value="India">India</option>
     <option value="usa">USA</option>
     </select>
-    <span v-if="submitted && !validation.manager" class="error">Business Unit is required.</span>
+    <span v-if="submitted && !validation.manager" class="error">Client Manager is required.</span>
     </td>
     </tr>
 
     <tr>
     <td ><label >Select Matrix</label></td>
-    <td ><select id="matrix"  v-model.trim="client.matrix"  name="matrix">
+    <td ><select id="matrix"  v-model="client.matrix"  name="matrix">
     <option value="">Choose Matrix</option>
     <option value="requirements">Requirements</option>
     <option value="submission">Submission</option>
@@ -63,18 +63,13 @@
 
     <tr>
     <td ><label >From Date</label></td>
-    <td ><input  v-model.trim="client.from"  type="date" >
+    <td ><input  v-model="client.from"  type="date" >
         <span v-if="submitted && !validation.from" class="error">From Date is required.</span></td>
     </tr>
 
     <tr>
     <td ><label >To Date</label></td>
-    <td ><input  type="date" ></td>
-    </tr>
-
-    <tr>
-    <td ><label >To Date</label></td>
-    <td ><input  v-model.trim="client.to"  type="date" >
+    <td ><input  v-model="client.to"  type="date" >
         <span v-if="submitted && !validation.to" class="error">To Date is required.</span></td>
     </tr>
 

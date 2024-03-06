@@ -57,23 +57,31 @@
     <td ><label >Role</label></td>
     <td ><select id="role" v-model="employee.role" name="role">
     <option value="">Select Role</option>
-    <option value="Admin">Admin</option>
-    <option value="Team Lead">Team Lead</option>
+    <option value="admin">Admin</option>
+    <option value="editor">Editor</option>
+    <option value="accountManager">Account-Manager</option>
+    <option value="teamLead">Team-Lead</option>
+    <option value="recruiter">Recruiter</option>
+    <option value="hr-payroll">Hr-Payroll</option>
     </select><span v-if="errors.role" class="error">{{errors.role[0]}}</span></td>
     </tr>
 
     <tr>
     <td ><label >Department</label></td>
-    <td ><select id="department" v-model.trim="employee.department" name="department">
+    <td ><select id="department" v-model="employee.department" name="department">
     <option value="">Select Department</option>
-    <option value="Development">Development</option>
-    <option value="HR">HR</option>
+
+    <option value="hrStaffing">HR-Staffing</option>
+    <option value="hrPayroll">HR-Payroll</option>
+    <option value="sales">Sales</option>
+    <option value="informationTechnology">Information Technology</option>
+    <option value="others">Others</option>
     </select><span v-if="errors.department" class="error">{{errors.department[0]}}</span></td>
     </tr>
 
     <tr>
     <td ><label >Date of Birth</label></td>
-    <td ><input v-model.trim="employee.dob" type="date" >
+    <td ><input v-model="employee.dob" type="date" >
         <span v-if="errors.dob" class="error">{{errors.dob[0]}}</span></td>
     </tr>
 
