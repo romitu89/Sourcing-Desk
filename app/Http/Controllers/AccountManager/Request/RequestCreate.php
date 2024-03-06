@@ -43,6 +43,31 @@ class RequestCreate extends Controller
     {
         // Validate the incoming request data
         //dd($request->all());
+
+        $messages = [
+
+            'subject.required' => 'Subject is required.',
+
+            'requestBody.required' => 'Request Body is required.',
+
+            'requirement.required' => 'Requirement is required.',
+
+            'jobType.required' => 'Job Type is required.',
+
+            'selectedClient.required' => 'Client Name is required.',
+
+            'clientManager.required' => 'Client Manager is required.',
+
+            'selectedBusiness.required' => ' Buisness Unit is required.',
+
+            'selectedLocation.required' => 'Location is required.',
+
+
+            'selectedTeam.required' => 'Location is required.',
+
+        ];
+
+
         $request->validate([
             'subject' => 'required',
 
@@ -58,7 +83,7 @@ class RequestCreate extends Controller
 
 
             'selectedTeam' => 'required',
-        ]);
+        ], $messages);
         $currentTime = Carbon::now()->format('YmdHis'); // Get current time as YYYYMMDDHHMMSS string
         $randomNumber = rand(100, 99999); // generate a random number between 10000 and 9999999
 
