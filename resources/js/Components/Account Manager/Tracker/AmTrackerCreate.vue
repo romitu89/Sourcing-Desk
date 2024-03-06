@@ -100,6 +100,7 @@
 
   export default {
     name: "AmTrackerCreate",
+    
     data() {
       return {
         tracker: {

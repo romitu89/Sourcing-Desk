@@ -43,7 +43,7 @@
 userLocationApi()
 {
 axios
-.get('/api/amtracker-view')
+.get('/api/amteam-view')
 .then(response => {
 this.userLocation = response.data.locations
 console.log(this.userLocation)
@@ -60,7 +60,7 @@ submitForm() {
 this.submitted = true; // Set the submitted flag to true when attempting to submit the form
 // if (this.isFormValid) {
 
-    axios.post('/api/amtracker-view', this.teamManager)
+    axios.post('/api/amteam-view', this.teamManager)
 .then(response => {
   console.log('Form submitted:', response.data.results);
   this.results = response.data.results;

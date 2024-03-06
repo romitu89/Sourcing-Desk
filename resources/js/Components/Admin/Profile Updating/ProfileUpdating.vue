@@ -4,12 +4,12 @@
 
    <div class="form" @click="profileCreatePopUp()">
         <div class="icon_div"><font-awesome-icon :icon="['fas', 'chart-gantt']" /></div>
-       <h4>Create</h4>
+       <h4>Request For Update</h4>
     </div>
 
     <div class="form" @click="profileViewPopUp()">
         <div class="icon_div"><font-awesome-icon :icon="['fas', 'chart-gantt']" /></div>
-       <h4>View</h4>
+       <h4>Request For Deletion</h4>
     </div>
     </div>
     <ProfileUpdatingForm
