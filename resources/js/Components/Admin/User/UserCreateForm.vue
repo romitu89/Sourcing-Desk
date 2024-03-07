@@ -28,19 +28,19 @@
 
     <tr>
     <td ><label >Employee Id</label></td>
-    <td ><input type="text" v-model="employee.empId" placeholder="Enter Employee Id">
+    <td ><input type="text" v-model="employee.empId" placeholder="Employee Id">
         <span v-if="errors.empId" class="error">{{errors.empId[0]}}</span></td>
     </tr>
 
     <tr>
     <td ><label >Email Id</label></td>
-    <td ><input type="text" v-model="employee.email" placeholder="Enter Email Id">
+    <td ><input type="text" v-model="employee.email" placeholder="Email Id">
         <span v-if="errors.email" class="error">{{errors.email[0]}}</span></td>
     </tr>
 
     <tr>
     <td ><label >Mobile Number</label></td>
-    <td ><input type="text" v-model="employee.mobile" placeholder="Enter Mobile Number">
+    <td ><input type="text" v-model="employee.mobile" placeholder="Mobile Number">
         <span v-if="errors.mobile" class="error">{{errors.mobile[0]}}</span></td>
     </tr>
 

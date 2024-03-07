@@ -5,19 +5,19 @@
 
     <tr>
     <td ><label >Candidate Name</label></td>
-    <td ><input type="text"  placeholder="Employee Name" >
+    <td ><input type="text"  placeholder="Candidate Name" >
        </td>
     </tr>
 
     <tr>
     <td ><label >Candidate Mobile Number</label></td>
-    <td ><input type="text" placeholder="User Name" >
+    <td ><input type="text" placeholder="Mobile Number" >
        </td>
     </tr>
 
     <tr>
     <td ><label >Comments</label></td>
-    <td ><input type="text"  placeholder="Password" >
+    <td ><input type="text"  placeholder="Comments" >
         </td>
     </tr>
 

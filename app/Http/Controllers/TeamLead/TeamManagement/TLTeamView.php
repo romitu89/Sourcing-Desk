@@ -72,11 +72,19 @@ class TLTeamView extends Controller
     public function store(Request $request)
     {
         //dd($request->all());
+
+        $messages = [
+
+            'selectedLocation.required' => 'Location is required.',
+
+        ];
+
+
         $request->validate([
 
             'selectedLocation' => 'required',
             // Add any other form field validations here
-        ]);
+        ], $messages);
 
 
         $defaultLocation = $request->input('selectedLocation');

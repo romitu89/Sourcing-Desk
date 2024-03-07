@@ -22,12 +22,24 @@ class TLTeamCreate extends Controller
     {
         // Validate the incoming request data
         //dd($request->all());
+
+        $messages = [
+
+            'selectedLocation.required' => 'Location is required.',
+
+            'jobType.required' => 'Job Type is required.',
+
+            // 'selectedTeam.required' => 'Team is required.',
+
+        ];
+
+
         $request->validate([
             'selectedTeam' => 'required',
 
             'selectedLocation' => 'required',
             'jobType' => 'required',
-        ]);
+        ], $messages);
 
         $teams = new Teams([
 
