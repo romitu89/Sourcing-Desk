@@ -67,13 +67,15 @@
     methods: {
       userLocationApi() {
         axios.get('/api/adminclient-view')
-          .then(response => {
-            this.locations = response.data.locations.map(location => location.location);
-            this.subLocations = response.data.subLocations.map(subLocation => subLocation.sub_location);
-          })
-          .catch(error => {
-            console.error('Error fetching user location:', error);
-          });
+    .then(response => {
+      this.locations = response.data.locations
+        .filter(location => location.location) // Filter out blank or null locations
+        .map(location => location.location);
+
+      this.subLocations = response.data.subLocations
+        .filter(subLocation => subLocation.sub_location) // Filter out blank or null sub-locations
+        .map(subLocation => subLocation.sub_location);
+    })
       },
       submitForm() {
         axios.post('/api/adminclient-view', this.client)
