@@ -63,7 +63,7 @@ class TLRequestCreate extends Controller
             'selectedLocation.required' => 'Location is required.',
 
 
-            'selectedTeam.required' => 'Location is required.',
+            'selectedTeam.required' => 'Team is required.',
 
         ];
 
