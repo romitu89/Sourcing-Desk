@@ -55,7 +55,7 @@
     export default {
         name:'AmTrackerView',
 
-        data () 
+        data ()
         {
             return {
                 tracker:{
