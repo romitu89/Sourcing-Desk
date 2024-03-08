@@ -58,19 +58,19 @@
 
      <tr>
      <td ><label >Client Manager Name</label></td>
-     <td ><select id="buisness" v-model="TlRequest.selectedLocation" name="buisness">
+     <td ><select id="buisness" v-model="TlRequest.clientManager" name="buisness">
      <option value="">Select Manager</option>
      <!-- <option v-for="item in userLocation" :key='item.location' :value="item.location">{{ item.location }}</option> -->
 
-     </select><span v-if="errors.selectedLocation" class="error">{{errors.selectedLocation[0]}}</span></td>
+     </select><span v-if="errors.clientManager" class="error">{{errors.clientManager[0]}}</span></td>
      </tr>
 
      <tr>
         <td><label>Select Team</label></td>
         <td>
-          <!-- <multi-select :selectedTeam="employee.selectedTeam" :options="teams" @update:selected="updateSelectedOptions"></multi-select> -->
+            <multi-select :selectedTeam="selectedTeam" :options="teams" @update:selected="updateSelectedOptions"></multi-select>
 
-        </td>
+            <span v-if="errors.selectedTeam" class="error">{{errors.selectedTeam[0]}}</span></td>
       </tr>
 
 
@@ -95,8 +95,14 @@
  </template>
 
 <script>
+import MultiSelect from '../../Shared Folder/MultiSelect.vue';
+
     export default {
         name:'TlRequestCreation',
+
+        components: {
+    MultiSelect,
+  },
 
         data()
         {
@@ -114,6 +120,8 @@
                 },
                 userLocation:[],
                 errors:{},
+                teams: [],
+                selectedTeam: [],
 
             };
         },

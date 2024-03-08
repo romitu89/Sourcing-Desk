@@ -31,5 +31,12 @@
     export default {
         name:'CallingCandidateScreening',
 
+        data()
+        {
+            return{
+                
+            }
+        }
+
     }
 </script>
