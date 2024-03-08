@@ -30,6 +30,10 @@ class UserLogin extends Controller
 
             'selectedEmail.required' => 'Email is required.',
 
+            'fromDate.required' => 'From Date is required.',
+
+            'toDate.required' => 'To Date is required.',
+
 
 
             // Add other custom messages as needed
