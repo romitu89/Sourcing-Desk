@@ -67,10 +67,7 @@
         <span v-if="submitted && !validation.from" class="error">From Date is required.</span></td>
     </tr>
 
-    <tr>
-    <td ><label >To Date</label></td>
-    <td ><input  type="date" ></td>
-    </tr>
+
 
     <tr>
     <td ><label >To Date</label></td>
