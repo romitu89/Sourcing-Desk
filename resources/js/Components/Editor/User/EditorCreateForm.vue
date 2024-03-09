@@ -50,7 +50,7 @@
      <option value="">Select Location</option>
      <option v-for="item in userLocation" :key='item.location' :value="item.location">{{ item.location }}</option>
 
-     </select><span v-if="errors.selectedLocation" class="error">{{errors.selectedLocation[0]}}</span></td>
+     </select><br><span v-if="errors.selectedLocation" class="error">{{errors.selectedLocation[0]}}</span></td>
      </tr>
 
      <tr>
@@ -63,7 +63,7 @@
     <option value="teamLead">Team-Lead</option>
     <option value="recruiter">Recruiter</option>
     <option value="hr-payroll">Hr-Payroll</option>
-    </select><span v-if="errors.role" class="error">{{errors.role[0]}}</span></td>
+    </select><br><span v-if="errors.role" class="error">{{errors.role[0]}}</span></td>
     </tr>
 
      <tr>
@@ -76,7 +76,7 @@
     <option value="sales">Sales</option>
     <option value="informationTechnology">Information Technology</option>
     <option value="others">Others</option>
-    </select><span v-if="errors.department" class="error">{{errors.department[0]}}</span></td>
+    </select><br><span v-if="errors.department" class="error">{{errors.department[0]}}</span></td>
     </tr>
 
      <tr>

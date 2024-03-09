@@ -8,7 +8,7 @@
     <option value="">Choose Country</option>
     <option value="India">India</option>
     <option value="usa">USA</option>
-    </select>
+    </select><br>
     <span v-if="submitted && !validation.location" class="error">Country is required.</span></td>
     </tr>
 
@@ -85,9 +85,7 @@ import Swal from 'sweetalert2'
                        });
 // You might want to reset the form and submitted flag here if needed
                        }
-               else {
-                       Swal.fire("Form not Submitted");
-                       }
+            
                },
            },
     }

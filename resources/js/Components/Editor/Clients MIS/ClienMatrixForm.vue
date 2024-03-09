@@ -8,7 +8,7 @@
     <option value="">Choose Location</option>
     <option value="India">India</option>
     <option value="usa">USA</option>
-    </select>
+    </select><br>
     <span v-if="submitted && !validation.location" class="error">Location is required.</span></td>
     </tr>
 
@@ -18,7 +18,7 @@
     <option value="">Choose Client</option>
     <option value="India">India</option>
     <option value="usa">USA</option>
-    </select>
+    </select><br>
     <span v-if="submitted && !validation.name" class="error">Client Name is required.</span>
     </td>
     </tr>
@@ -29,7 +29,7 @@
     <option value="">Choose B-Unit</option>
     <option value="India">India</option>
     <option value="usa">USA</option>
-    </select>
+    </select><br>
     <span v-if="submitted && !validation.business" class="error">Business Unit is required.</span>
     </td>
     </tr>
@@ -45,7 +45,7 @@
     <option value="Onboarded">Onboarded</option>
     <option value="Dropouts">Dropouts</option>
     <option value="Offboarded">Offboarded</option>
-    </select>
+    </select><br>
     <span v-if="submitted && !validation.matrix" class="error">Matrix is required.</span>
     </td>
     </tr>
@@ -111,9 +111,7 @@ export default {
                         });
 // You might want to reset the form and submitted flag here if needed
                         }
-                else {
-                        Swal.fire("Form not Submitted");
-                        }
+                
                 },
             },
 }

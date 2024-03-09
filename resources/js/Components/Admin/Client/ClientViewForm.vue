@@ -8,7 +8,7 @@
               <select v-model="client.selectedLocation" name="location">
                 <option value="">Select Location</option>
                 <option v-for="location in locations" :key="location" :value="location">{{ location }}</option>
-              </select>
+              </select><br>
               <span v-if="errors.selectedLocation" class="error">{{ errors.selectedLocation[0] }}</span>
             </td>
           </tr>
@@ -18,7 +18,7 @@
               <select v-model="client.selectedSubLocation" name="subLocation">
                 <option value="">Select Sub Location</option>
                 <option v-for="subLocation in subLocations" :key="subLocation" :value="subLocation">{{ subLocation }}</option>
-              </select>
+              </select><br>
               <span v-if="errors.selectedSubLocation" class="error">{{ errors.selectedSubLocation[0] }}</span>
             </td>
           </tr>

@@ -13,7 +13,7 @@
             >
               {{ item.location }}
             </option></select
-          ><span v-if="errors.selectedLocation" class="error">{{
+          ><br><span v-if="errors.selectedLocation" class="error">{{
             errors.selectedLocation[0]
           }}</span>
         </td>
@@ -26,7 +26,7 @@
             <option value="">Select User</option>
             <option value="current">Current User</option>
             <option value="removed">Removed User</option></select
-          ><span v-if="errors.user" class="error">{{ errors.user[0] }}</span>
+          ><br><span v-if="errors.user" class="error">{{ errors.user[0] }}</span>
         </td>
       </tr>
 

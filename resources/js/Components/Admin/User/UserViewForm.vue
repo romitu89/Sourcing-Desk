@@ -9,7 +9,7 @@
     <option value="">Select Location</option>
     <option v-for="item in userLocation" :key='item.location' :value="item.location">{{ item.location }}</option>
 
-    </select><span v-if="errors.selectedLocation" class="error">{{errors.selectedLocation[0]}}</span></td>
+    </select><br><span v-if="errors.selectedLocation" class="error">{{errors.selectedLocation[0]}}</span></td>
     </tr>
 
     <tr>
@@ -18,7 +18,7 @@
     <option value="">Select User</option>
     <option value="current">Current User</option>
     <option value="removed">Removed User</option>
-    </select><span v-if="errors.user" class="error">{{errors.user[0]}}</span></td>
+    </select><br><span v-if="errors.user" class="error">{{errors.user[0]}}</span></td>
     </tr>
 
     <tr>

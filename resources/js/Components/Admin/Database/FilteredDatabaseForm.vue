@@ -8,7 +8,7 @@
     <option value="">Choose Country</option>
     <option value="India">India</option>
     <option value="usa">USA</option>
-    </select>
+    </select><br>
     <span v-if="submitted && !validation.location" class="error">Country is required.</span></td>
     </tr>
 
@@ -22,7 +22,7 @@
     <option value="6">6 Months</option>
     <option value="One">One Year</option>
     <option value="All">All</option>
-    </select>
+    </select><br>
     <span v-if="submitted && !validation.duration" class="error">Duration is required.</span></td>
     </tr>
 
@@ -83,9 +83,6 @@ import Swal from 'sweetalert2'
                        timer: 5000
                        });
 // You might want to reset the form and submitted flag here if needed
-                       }
-               else {
-                       Swal.fire("Form not Submitted");
                        }
                },
            },

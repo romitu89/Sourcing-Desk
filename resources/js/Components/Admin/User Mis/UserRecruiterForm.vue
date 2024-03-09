@@ -8,7 +8,7 @@
    <option value="">Choose Employee</option>
    <option value="India">India</option>
    <option value="usa">USA</option>
-   </select>
+   </select><br>
    <span v-if="submitted && !validation.name" class="error">Name is required.</span></td>
    </tr>
 
@@ -18,7 +18,7 @@
    <option value="">Choose Email</option>
    <option value="India">India</option>
    <option value="usa">USA</option>
-   </select>
+   </select><br>
    <span v-if="submitted && !validation.email" class="error">Email is required.</span></td>
    </tr>
 
@@ -34,7 +34,7 @@
    <option value="Dropouts">Dropouts</option>
    <option value="Offboarded">Offboarded</option>
    <option value="Daily Report">Daily Report</option>
-   </select>
+   </select><br>
    <span v-if="submitted && !validation.matrix" class="error">Matrix is required.</span></td>
    </tr>
 
@@ -111,9 +111,7 @@ import Swal from 'sweetalert2'
                        });
 // You might want to reset the form and submitted flag here if needed
                        }
-               else {
-                       Swal.fire("Form not Submitted");
-                       }
+              
                },
            },
    }

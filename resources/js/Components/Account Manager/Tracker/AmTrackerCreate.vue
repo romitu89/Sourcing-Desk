@@ -14,7 +14,7 @@
               >
                 {{ item.client_name }}
               </option>
-            </select>
+            </select><br>
              <span v-if="errors.selectedClient" class="error">{{errors.selectedClient[0]}}</span>
           </td>
         </tr>
@@ -45,7 +45,7 @@
               >
                 {{ item.business_unit_name }}
               </option>
-            </select>
+            </select><br>
             <span v-if="errors.selectedBusiness" class="error">{{errors.selectedBusiness[0]}}</span>
           </td>
         </tr>
@@ -64,7 +64,7 @@
               >
                 {{ item.location }}
               </option>
-            </select>
+            </select><br>
             <span v-if="errors.selectedLocation" class="error">{{errors.selectedLocation[0]}}</span>
           </td>
         </tr>
@@ -79,7 +79,7 @@
               accept=".xls, .xlsx"
               name="file"
               placeholder="Upload"
-            />
+            /><br>
             <span v-if="errors.file" class="error">{{errors.file[0]}}</span>
           </td>
         </tr>

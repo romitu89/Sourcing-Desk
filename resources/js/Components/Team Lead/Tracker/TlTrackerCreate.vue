@@ -8,7 +8,7 @@
             <select id="client" v-model="tlTracker.selectedClient" name="client">
               <option value="">Select Client</option>
               <option v-for="item in userLocation" :key='item.client_name' :value="item.client_name">{{ item.client_name }}</option>
-            </select>
+            </select><br>
             <span v-if="errors.selectedClient" class="error">{{errors.selectedClient[0]}}</span>
           </td>
         </tr>
@@ -19,7 +19,7 @@
             <select id="clientManager" v-model="tlTracker.clientManagerName" name="clientManager">
               <option value="">Select Manager</option>
               <option v-for="item in userLocation" :key='item.client_manager_name' :value="item.client_manager_name">{{ item.client_manager_name }}</option>
-            </select>
+            </select><br>
             <span v-if="errors.clientManagerName" class="error">{{errors.clientManagerName[0]}}</span>
           </td>
         </tr>
@@ -30,7 +30,7 @@
             <select id="businessUnit" v-model="tlTracker.selectedBusiness" name="businessUnit">
               <option value="">Select Unit</option>
               <option v-for="item in userLocation" :key='item.business_unit_name' :value="item.business_unit_name">{{ item.business_unit_name }}</option>
-            </select>
+            </select><br>
             <span v-if="errors.selectedBusiness" class="error">{{errors.selectedBusiness[0]}}</span>
           </td>
         </tr>
@@ -41,7 +41,7 @@
             <select id="location" v-model="tlTracker.selectedLocation" name="location">
               <option value="">Select Location</option>
               <option v-for="item in userLocation" :key='item.location' :value="item.location">{{ item.location }}</option>
-            </select>
+            </select><br>
             <span v-if="errors.selectedLocation" class="error">{{errors.selectedLocation[0]}}</span>
           </td>
         </tr>
@@ -49,7 +49,7 @@
         <tr>
           <td><label>Upload File</label></td>
           <td>
-            <input type="file" @change="handleFileChange" accept=".xls, .xlsx" name="file" placeholder="Upload" />
+            <input type="file" @change="handleFileChange" accept=".xls, .xlsx" name="file" placeholder="Upload" /><br>
             <span v-if="errors.file" class="error">{{errors.file[0]}}</span>
           </td>
         </tr>
