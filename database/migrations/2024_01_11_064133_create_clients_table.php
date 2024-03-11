@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('client_name');
             $table->string('business_unit_name');
             $table->string('sub_location');
+            $table->string('location');
             $table->string('account_manager');
             $table->unsignedBigInteger('account_manager_id'); // Foreign Key to Users Table
             $table->timestamps();

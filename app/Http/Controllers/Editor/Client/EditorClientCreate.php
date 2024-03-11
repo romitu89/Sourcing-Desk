@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Editor\Client;
 use App\Models\Client;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Location;
 use App\Models\User;
 use Illuminate\Support\Facades\Response;
 
@@ -12,7 +13,7 @@ class EditorClientCreate extends Controller
 {
     public function create()
     {
-        $am = User::where('role', 'accountManager')->distinct()
+        $am = Location::select('country')->distinct()
             ->get();
 
         return response()->json(['accountmanager' => $am]);
@@ -20,7 +21,7 @@ class EditorClientCreate extends Controller
 
     public function store(Request $request)
     {
-
+       
 
         //dd($request->all());
 
@@ -46,16 +47,13 @@ class EditorClientCreate extends Controller
             'clientName' => 'required|string|unique:clients,client_name',
             'businessName' => 'required|string',
             'subLocation' => 'required|string',
-
+            'selectedManagerName' => 'required',
             'selectedManager' => 'required',
             'selectedLocation' => 'required',
 
         ], $successMessage);
         $man_id = $request->selectedManager;
-        if ($man_id) {
-            $man_id = User::where('email_id', $man_id)
-                ->pluck('id')->implode('');
-        }
+        
         $clientName = ucwords($request->clientName);
         $bun = ucwords($request->businessName);
         $subLoc = ucwords($request->subLocation);
@@ -67,11 +65,10 @@ class EditorClientCreate extends Controller
 
             'sub_location' => $subLoc,
             'location' => $request->selectedLocation,
-            'account_manager_id' =>  $man_id,
-            'account_manager' =>  $request->selectedManager
-
-
-
+            'client_manager_name' =>  ucwords($request->selectedManagerName),
+            'client_manager_email' =>  $man_id,
+            'account_manager_id' => auth()->user()->id
+            
         ]);
         $client->save();
         return response()->json(['message' => 'Client created successfully']);
