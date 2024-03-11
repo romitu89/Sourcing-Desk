@@ -13,7 +13,16 @@ class TLTrackerCreate extends Controller
     public function create(Request $request)
     {
 
-        $am = Client::Select('client_name', 'business_unit_name', 'location')->distinct()
+        $am = Client::select('client_name', 'business_unit_name', 'location', 'client_manager_name')
+            ->whereNotNull('client_name')
+            ->whereNotNull('business_unit_name')
+            ->whereNotNull('location')
+            ->whereNotNull('client_manager_name')
+            ->where('client_name', '!=', '')
+            ->where('business_unit_name', '!=', '')
+            ->where('location', '!=', '')
+            ->where('client_manager_name', '!=', '')
+            ->distinct()
             ->get();
         return response()->json(['client' => $am]);
     }

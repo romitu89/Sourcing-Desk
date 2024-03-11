@@ -48,7 +48,7 @@ class EditorClientCreate extends Controller
             'businessName' => 'required|string',
             'subLocation' => 'required|string',
             'selectedManagerName' => 'required',
-            'selectedManager' => 'required',
+            'selectedManager' => 'required|email|unique:clients,client_manager_email',
             'selectedLocation' => 'required',
 
         ], $successMessage);

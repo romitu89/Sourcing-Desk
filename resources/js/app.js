@@ -5,6 +5,8 @@ import App from './App.vue'
 import '../assets/css/common.css'
 import router from './routes/router.js';
 import store from '../src/store/store.js';
+import { commonFunctionsMixin } from './function.js';
+
 
 
 
@@ -36,6 +38,8 @@ library.add(faUserSecret, faHome, faNetworkWired, faChartGantt, faUser, faXmark,
 createApp(App).component('font-awesome-icon', FontAwesomeIcon)
 .use(router)
 .use(store)
+.use(commonFunctionsMixin)
 // .use(vuetify)
+
 .mount("#app")
 

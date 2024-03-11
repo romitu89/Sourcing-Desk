@@ -18,7 +18,7 @@
 
    import TlTrackerCreate from './TlTrackerCreate.vue'
    import TlTrackerView from './TlTrackerView.vue'
-
+   
        export default {
            name:'TlTrackerPopup',
 
