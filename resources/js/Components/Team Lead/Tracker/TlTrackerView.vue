@@ -56,6 +56,7 @@
 import { commonFunctionsMixin } from '../../../function.js';
     export default {
         name:'TlTrackerView',
+        
         mixins:[commonFunctionsMixin],
 
         data()
