@@ -15,16 +15,16 @@
     <td ><label >Job Type</label></td>
     <td ><select id="role" v-model="tlTeamManagement.jobType" name="role">
     <option value="">Select Job</option>
-    <option value="Admin">Admin</option>
-    <option value="Team Lead">Team Lead</option>
+    <option value="permanent">Permanent</option>
+    <option value="contract">Contract</option>
+    <option value="both">Both</option>
     </select><br><span v-if="errors.jobType" class="error">{{errors.jobType[0]}}</span></td>
     </tr>
 
     <tr>
         <td><label>Select Team</label></td>
         <td>
-          <!-- <multi-select :selectedTeam="employee.selectedTeam" :options="teams" @update:selected="updateSelectedOptions"></multi-select> -->
-
+          <multi-select :selectedTeam="selectedTeam" :options="teams" @update:selected="updateSelectedOptions"></multi-select>
         </td>
       </tr>
 
@@ -41,9 +41,16 @@
  </template>
 
 <script>
+
+import MultiSelect from '../../Shared Folder/MultiSelect.vue';
+
     export default {
 
         name:'TlTeamManagementCreate',
+
+        components: {
+    MultiSelect
+  },
 
         data()
         {
@@ -51,9 +58,12 @@
                 tlTeamManagement:{
                     selectedLocation:"",
                     jobType:"",
+                    selectedTeam:'',
                 },
                 errors:{},
                 userLocation: [],
+                teams: [],
+      selectedTeam: [],
             };
         },
 
