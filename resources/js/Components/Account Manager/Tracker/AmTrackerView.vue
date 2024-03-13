@@ -1,7 +1,7 @@
 <template>
     <form @submit.prevent="submitForm">
      <table class="input_form">
-        
+
         <tr>
      <td ><label >Select Location</label></td>
      <td ><select id="location" v-model="tracker.selectedLocation" name="location">
@@ -49,11 +49,29 @@
 
     </form>
 
+    <div v-if="results">
+                    <responsive-table :results="results" :columns="columns">
+
+
+                      <!-- <template #edit="{ row }">
+                        <Link
+
+                          >Edit</Link
+                        >
+                      </template> -->
+                    </responsive-table>
+                  </div>
+
  </template>
 
 <script>
+import axios from 'axios';
+import ResponsiveTable from '../../Shared Folder/ResponsiveTable.vue'
     export default {
         name:'AmTrackerView',
+        components:{
+      ResponsiveTable
+    },
 
         data ()
         {
@@ -66,6 +84,20 @@
                 },
                 userLocation:[],
                 errors:{},
+                results:[],
+                columns: [
+                    { label: 'Client Name', key: 'client_name' },
+                    { label: 'Client Manager Name', key: 'client_manager_name' },
+                    { label: 'Business Unit', key: 'business_unit' },
+                    { label: 'Select Location', key: 'location' },
+
+
+
+          { label: 'Edit', key: 'edit' }
+
+
+  // ... etc. for other columns
+],
             };
         },
 

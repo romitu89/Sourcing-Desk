@@ -13,15 +13,14 @@ class AMTrackerView extends Controller
     public function create()
     {
 
+        $am = Tracker::Select('client_name', 'business_unit', 'client_manager_name', 'location')->distinct()->where('created_by', auth()->user()->email_id)
+            ->get();
+        $user = auth()->user();
+        return response()->json(['data' => $user, 'client' => $am]);
+
         // $am = Tracker::Select('client_name', 'business_unit', 'client_manager_name', 'location')->distinct()->where('created_by', auth()->user()->email_id)
         //     ->get();
-        // $user = auth()->user();
-        // return response()->json(['data' => $user]);
-
-        $am = Tracker::Select('client_name', 'business_unit', 'client_manager_name', 'location')->distinct()->where('created_by', auth()->user()->email_id)
-        ->get();
-        return response()->json(['client' => $am]);
-
+        // return response()->json(['client' => $am]);
     }
 
     public function edit(string $id)
@@ -64,7 +63,7 @@ class AMTrackerView extends Controller
             'client_manager_name' => $cmn,
             'location' => $request->selectedLocation,
         ]);
-        return response()->json(['message' => 'Tracker has been updated']);
+        return response()->json(['results' => 'Tracker has been updated']);
     }
 
     public function store(Request $request)
@@ -113,7 +112,7 @@ class AMTrackerView extends Controller
         }
         $results = $query->get();
 
-        return response()->json(['message' => 'Tracker has been stored']);
+        return response()->json(['results' => 'Tracker has been stored']);
     }
 
     // public function destroy(string $id)

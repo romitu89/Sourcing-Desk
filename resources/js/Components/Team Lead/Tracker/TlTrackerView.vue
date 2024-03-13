@@ -70,7 +70,7 @@ import { commonFunctionsMixin } from '../../../function.js';
 import ResponsiveTable from '../../Shared Folder/ResponsiveTable.vue'
     export default {
         name:'TlTrackerView',
-        
+
         mixins:[commonFunctionsMixin],
 
         components:{
