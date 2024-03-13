@@ -60,7 +60,7 @@
           { label: 'Sub Location', key: 'sub_location' },
           { label: 'Select Location', key: 'location' },
           { label: 'Client Manager', key: 'client_manager_name' },
-          { label: 'Client Manager', key: 'client_manager_email' },
+          { label: 'Client Manager Email ID', key: 'client_manager_email' },
           { label: 'Edit', key: 'edit' }
         ]
       };

@@ -82,7 +82,7 @@ export default {
         { label: "Role", key: "role" },
         { label: "Department", key: "department" },
         { label: "Reporting To", key: "reporting_to" },
-        { label: "DOB", key: " dob" },
+        { label: "DOB", key: "dob" },
         { label: "Edit", key: "edit" },
 
         // ... etc. for other columns
