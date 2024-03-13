@@ -1,7 +1,7 @@
 <template>
     <form @submit.prevent="submitForm">
      <table class="input_form">
-
+        
         <tr>
      <td ><label >Select Location</label></td>
      <td ><select id="location" v-model="tracker.selectedLocation" name="location">
@@ -15,7 +15,7 @@
      <td ><label >Client Name</label></td>
      <td ><select id="client" v-model="tracker.selectedClient" name="client">
      <option value="">Select Client</option>
-     <!-- <option v-for="item in userLocation" :key='item.location' :value="item.location">{{ item.location }}</option> -->
+     <option v-for="item in userLocation" :key='item.client_name' :value="item.client_name">{{ item.client_name }}</option>
 
      </select><br><span v-if="errors.selectedClient" class="error">{{errors.selectedClient[0]}}</span></td>
      </tr>
@@ -24,7 +24,7 @@
      <td ><label >Buisness Unit</label></td>
      <td ><select id="buisness" v-model="tracker.selectedBusiness" name="buisness">
      <option value="">Select Unit</option>
-     <!-- <option v-for="item in userLocation" :key='item.location' :value="item.location">{{ item.location }}</option> -->
+     <option v-for="item in userLocation" :key='item.business_unit' :value="item.business_unit">{{ item.business_unit }}</option>
 
      </select><br><span v-if="errors.selectedBusiness" class="error">{{errors.selectedBusiness[0]}}</span></td>
      </tr>
@@ -33,7 +33,7 @@
      <td ><label >Client Manager Name</label></td>
      <td ><select id="buisness" v-model="tracker.selectedManager" name="buisness">
      <option value="">Select Manager</option>
-     <!-- <option v-for="item in userLocation" :key='item.location' :value="item.location">{{ item.location }}</option> -->
+     <option v-for="item in userLocation" :key='item.client_manager_name' :value="item.client_manager_name">{{ item.client_manager_name }}</option>
 
      </select><br><span v-if="errors.selectedManager" class="error">{{errors.selectedManager[0]}}</span></td>
      </tr>
@@ -76,7 +76,7 @@
     axios
     .get('/api/amtracker-view')
     .then(response => {
-    this.userLocation = response.data.locations
+    this.userLocation = response.data.client
     console.log(this.userLocation)
     })
     .catch(error => {

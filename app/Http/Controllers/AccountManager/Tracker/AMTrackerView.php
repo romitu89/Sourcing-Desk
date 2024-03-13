@@ -15,8 +15,13 @@ class AMTrackerView extends Controller
 
         // $am = Tracker::Select('client_name', 'business_unit', 'client_manager_name', 'location')->distinct()->where('created_by', auth()->user()->email_id)
         //     ->get();
-        $user = auth()->user();
-        return response()->json(['data' => $user]);
+        // $user = auth()->user();
+        // return response()->json(['data' => $user]);
+
+        $am = Tracker::Select('client_name', 'business_unit', 'client_manager_name', 'location')->distinct()->where('created_by', auth()->user()->email_id)
+        ->get();
+        return response()->json(['client' => $am]);
+
     }
 
     public function edit(string $id)
