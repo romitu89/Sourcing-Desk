@@ -59,7 +59,8 @@
           { label: 'Business Unit Name', key: 'business_unit_name' },
           { label: 'Sub Location', key: 'sub_location' },
           { label: 'Select Location', key: 'location' },
-          { label: 'Account Manager', key: 'account_manager' },
+          { label: 'Client Manager', key: 'client_manager_name' },
+          { label: 'Client Manager', key: 'client_manager_email' },
           { label: 'Edit', key: 'edit' }
         ]
       };
@@ -82,13 +83,7 @@
           .then(response => {
             this.results = response.data.results;
             this.errors = {};
-            Swal.fire({
-              position: 'top-center',
-              icon: 'success',
-              title: 'Form submitted successfully',
-              showConfirmButton: false,
-              timer: 3000
-            });
+          
           })
           .catch(error => {
             console.error('Error submitting form:', error);

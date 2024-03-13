@@ -59,7 +59,8 @@
           { label: 'Business Unit Name', key: 'business_unit_name' },
           { label: 'Sub Location', key: 'sub_location' },
           { label: 'Select Location', key: 'location' },
-          { label: 'Account Manager', key: 'account_manager' },
+          { label: 'Client Manager', key: 'client_manager_name' },
+          { label: 'Client Email ID', key: 'client_manager_email' },
           { label: 'Edit', key: 'edit' }
         ]
       };

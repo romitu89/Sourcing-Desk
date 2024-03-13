@@ -7,12 +7,14 @@ use App\Http\Controllers\Controller;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Location;
 
 class Create extends Controller
 {
     public function create()
     {
-        $user = User::all();
+        $user = Location::select('country')->distinct()
+        ->get();
         return response()->json($user);
         // return view('Admin/User/Create');
     }

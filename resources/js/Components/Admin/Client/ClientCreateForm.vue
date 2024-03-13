@@ -26,18 +26,25 @@
     <td ><label >Select Location</label></td>
     <td ><select id="location" v-model="client.selectedLocation" name="location">
     <option value="">Select Location</option>
-    <option v-for="item in managersData" :key='item.location' :value="item.location">{{ item.location }}</option>
+    <option v-for="item in managersData" :key='item.country' :value="item.country">{{ item.country }}</option>
 
     </select><br><span v-if="errors.selectedLocation" class="error">{{errors.selectedLocation[0]}}</span></td>
     </tr>
 
     <tr>
-    <td ><label >Account Manager</label></td>
-    <td ><select id="location" v-model="client.selectedManager" name="location">
-    <option value="">Select Manager</option>
-    <option v-for="item in managersData" :key='item.email_id' :value="item.email_id">{{ item.email_id }}</option>
+    <td ><label >Client Manager Name</label></td>
+    <td ><input type="text" v-model="client.selectedManagerName" placeholder="Client Manager Name">
+    
 
-    </select><br><span v-if="errors.selectedManager" class="error">{{errors.selectedManager[0]}}</span></td>
+    </input><br><span v-if="errors.selectedManagerName" class="error">{{errors.selectedManagerName[0]}}</span></td>
+    </tr>
+
+    <tr>
+    <td ><label >Client Manager Email ID</label></td>
+    <td ><input type="text" v-model="client.selectedManager" placeholder="Client Manager Email ID">
+    
+
+    </input><br><span v-if="errors.selectedManager" class="error">{{errors.selectedManager[0]}}</span></td>
     </tr>
 
     <tr>
@@ -67,6 +74,7 @@ export default {
                     subLocation:"",
                     selectedManager:"",
                     selectedLocation:"",
+                    selectedManagerName:"",
                 },
                 managersData:[],
                 userLocation:[],
@@ -82,7 +90,7 @@ axios
 .get('/api/adminclient-create')
 .then(response => {
 this.managersData = response.data.accountmanagers
-console.log(this.userLocation)
+console.log(this.managersData)
 })
 .catch(error => {
 console.log(error)
@@ -106,7 +114,7 @@ submitForm() {
             icon: "success",
             title: "Client created successfully",
             showConfirmButton: false,
-            timer: 5000
+            timer: 3000
             });
 
       }

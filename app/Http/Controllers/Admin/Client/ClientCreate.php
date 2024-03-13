@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Client;
 use App\Models\Client;
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Location;
 use Illuminate\Http\Request;
 
 
@@ -12,7 +13,8 @@ class ClientCreate extends Controller
 {
     public function create()
     {
-        $accountManagers = User::where('role', 'accountManager')->distinct()->get();
+        $accountManagers = Location::select('country')->distinct()
+        ->get();
 
         return response()->json(['accountmanagers' => $accountManagers]);
     }
@@ -46,8 +48,8 @@ class ClientCreate extends Controller
             'clientName' => 'required|string|unique:clients,client_name',
             'businessName' => 'required|string',
             'subLocation' => 'required|string',
-
-            'selectedManager' => 'required',
+            'selectedManagerName' => 'required',
+            'selectedManager' => 'required|email|unique:clients,client_manager_email',
             'selectedLocation' => 'required',
 
         ], $successMessage);
@@ -67,8 +69,9 @@ class ClientCreate extends Controller
 
             'sub_location' => $subLoc,
             'location' => $request->selectedLocation,
-            'account_manager_id' =>  $man_id,
-            'account_manager' =>  $request->selectedManager
+            'client_manager_name' =>  ucwords($request->selectedManagerName),
+            'client_manager_email' =>  $man_id,
+            'account_manager_id' => auth()->user()->id
 
 
 

@@ -5,14 +5,17 @@ namespace App\Http\Controllers\Editor\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Location;
 use Illuminate\Validation\Rules\Password;
 
 class EditorUserCreate extends Controller
 {
     public function create()
     {
-
-        return response()->json(['message' => 'This is the create method']);
+        $user = Location::select('country')->distinct()
+        ->get();
+        return response()->json($user);
+        // return response()->json(['message' => 'This is the create method']);
     }
     public function getreporting($role)
     {
