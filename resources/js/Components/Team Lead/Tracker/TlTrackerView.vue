@@ -4,7 +4,7 @@
 
         <tr>
      <td ><label >Select Location</label></td>
-     
+
      <td ><select id="location" v-model="TlTracker.selectedLocation" name="location">
      <option value="">Select Location</option>
      <option v-for="item in getUniqueValues(userLocation,'location')" :key='item' :value="item">{{ item}} </option>
@@ -50,13 +50,31 @@
 
     </form>
 
+    <div v-if="results">
+                    <responsive-table :results="results" :columns="columns">
+
+
+                      <!-- <template #edit="{ row }">
+                        <Link
+
+                          >Edit</Link
+                        >
+                      </template> -->
+                    </responsive-table>
+                  </div>
+
  </template>
 
 <script>
 import { commonFunctionsMixin } from '../../../function.js';
+import ResponsiveTable from '../../Shared Folder/ResponsiveTable.vue'
     export default {
         name:'TlTrackerView',
         mixins:[commonFunctionsMixin],
+
+        components:{
+      ResponsiveTable
+    },
 
         data()
         {
@@ -69,10 +87,24 @@ import { commonFunctionsMixin } from '../../../function.js';
                 },
                 userLocation:[],
                 errors:[],
+                results:[],
+                columns: [
+                    { label: 'Client Name', key: 'client_name' },
+                    { label: 'Client Manager Name', key: 'client_manager_name' },
+                    { label: 'Business Unit Name', key: 'business_unit' },
+                    { label: 'Select Location', key: 'location' },
+
+
+
+          { label: 'Edit', key: 'edit' }
+
+
+  // ... etc. for other columns
+],
             };
         },
 
-        methods: {            
+        methods: {
 
 userLocationApi()
 {

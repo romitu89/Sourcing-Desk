@@ -24,8 +24,8 @@
     <td ><label >Job Type</label></td>
     <td ><select id="role" v-model="amRequest.jobType" name="role">
     <option value="">Select Job</option>
-    <option value="Admin">Admin</option>
-    <option value="Team Lead">Team Lead</option>
+    <option value="permanent">Permanent</option>
+    <option value="contract">Contract</option>
     </select><br><span v-if="errors.jobType" class="error">{{errors.jobType[0]}}</span></td>
     </tr>
 

@@ -21,21 +21,50 @@
 
     </form>
 
+    <div v-if="results">
+                    <responsive-table :results="results" :columns="columns">
+
+
+                      <!-- <template #edit="{ row }">
+                        <Link
+
+                          >Edit</Link
+                        >
+                      </template> -->
+                    </responsive-table>
+                  </div>
+
  </template>
 
 <script>
+
+import ResponsiveTable from '../../Shared Folder/ResponsiveTable.vue'
+
     export default {
         name:'TlTeamManagementView',
+
+        components:{
+      ResponsiveTable
+    },
 
         data()
         {
             return{
                 tlTeamManagement:{
                     selectedLocation:"",
-                
+
                 },
                 errors:{},
                 userLocation: [],
+                results:[],
+                columns: [
+                    { label: 'Select Location', key: 'location' },
+                    { label: 'Job Type', key: 'jobtype' },
+          { label: 'Edit', key: 'edit' }
+
+
+  // ... etc. for other columns
+],
             };
         },
 
