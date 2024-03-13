@@ -111,8 +111,8 @@ class AMTrackerView extends Controller
             $query->where('client_manager_name', '=', $defaultManager);
         }
         $results = $query->get();
-
-        return response()->json(['results' => 'Tracker has been stored']);
+        return response()->json(['results' => $results]);
+        // return response()->json(['results' => 'Tracker has been stored']);
     }
 
     // public function destroy(string $id)

@@ -1,7 +1,7 @@
 <template>
     <form @submit.prevent="submitForm">
      <table class="input_form">
-
+      
         <tr>
      <td ><label >Select Location</label></td>
 
@@ -68,13 +68,14 @@
 <script>
 import { commonFunctionsMixin } from '../../../function.js';
 import ResponsiveTable from '../../Shared Folder/ResponsiveTable.vue'
+
     export default {
         name:'TlTrackerView',
 
         mixins:[commonFunctionsMixin],
 
         components:{
-      ResponsiveTable
+      ResponsiveTable,
     },
 
         data()
@@ -94,10 +95,7 @@ import ResponsiveTable from '../../Shared Folder/ResponsiveTable.vue'
                     { label: 'Client Manager Name', key: 'client_manager_name' },
                     { label: 'Business Unit Name', key: 'business_unit' },
                     { label: 'Select Location', key: 'location' },
-
-
-
-          { label: 'Edit', key: 'edit' }
+                    { label: 'Edit', key: 'edit' }
 
 
   // ... etc. for other columns

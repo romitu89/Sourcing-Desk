@@ -48,7 +48,7 @@ import MultiSelect from '../../Shared Folder/MultiSelect.vue';
         name:'AmTeamManagementCreate',
 
         components: {
-    MultiSelect
+            MultiSelect,
   },
 
   data() {
