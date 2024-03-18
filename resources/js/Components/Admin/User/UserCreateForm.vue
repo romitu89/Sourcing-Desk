@@ -48,7 +48,7 @@
     <td ><label >Select Location</label></td>
     <td ><select id="location" v-model="employee.selectedLocation" name="location">
     <option value="">Select Location</option>
-    <option v-for="item in userLocation" :key='item.location' :value="item.location">{{ item.location }}</option>
+    <option v-for="item in userLocation" :key='item.country' :value="item.country">{{ item.country }}</option>
 
     </select><br><span v-if="errors.selectedLocation" class="error">{{errors.selectedLocation[0]}}</span></td>
     </tr>
