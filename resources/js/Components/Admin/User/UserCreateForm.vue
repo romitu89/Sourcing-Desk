@@ -66,6 +66,18 @@
     </select><br><span v-if="errors.role" class="error">{{errors.role[0]}}</span></td>
     </tr>
 
+    <tr v-show="employee.role == 'recruiter'" >
+    <td ><label >Reporting Manager</label></td>
+    <td ><input type="text" v-model="employee.empId" @blur="checkValidation()" placeholder="Employee Id">
+        <span v-if="errors.empId" class="error">{{errors.empId[0]}}</span></td>
+    </tr>
+
+    <tr v-show="employee.role == 'recruiter'">
+    <td ><label >Reporting Team Lead</label></td>
+    <td ><input type="text" v-model="employee.empId" @blur="checkValidation()" placeholder="Employee Id">
+        <span v-if="errors.empId" class="error">{{errors.empId[0]}}</span></td>
+    </tr>
+
     <tr>
     <td ><label >Department</label></td>
     <td ><select id="department" v-model="employee.department" @blur="checkValidation()" name="department">
@@ -122,36 +134,29 @@ import Swal from 'sweetalert2'
                 submitted:false,
                 userLocation:[],
                 errors:{},
+
             };
         },
 
         computed:{
             isFormValid(){
-                return Object.values(this.errors).every(value => value);
+                return Object.values(this.errors);
+
             }
         },
 
         methods:{
 
-            resetForm(){
-                this.employee.empName=""
-                this.employee.userName=""
-                this.employee.password=""
-                this.employee.cnfrmPassword=""
-                this.employee.empId=""
-                this.employee.email=""
-                this.employee.mobile=""
-                this.employee.selectedLocation=""
-                this.employee.role=""
-                this.employee.department=""
-                this.employee.dob=""
-            },
-
             checkValidation()
             {
-                if (this.isFormValid){
+                let submit =Object.values(this.errors);
+                console.log(submit, "is form valid")
+                if (this.isFormValid.length > 0){
+                    // if(this.isFormValid.length!=0)
+                    // { this.submitForm() }
                     this.submitForm()
                 }
+               
             },
 
             userLocationApi()
@@ -172,6 +177,20 @@ import Swal from 'sweetalert2'
 
         },
 
+        resetForm(){
+                this.employee.empName=""
+                this.employee.userName=""
+                this.employee.password=""
+                this.employee.cnfrmPassword=""
+                this.employee.empId=""
+                this.employee.email=""
+                this.employee.mobile=""
+                this.employee.selectedLocation=""
+                this.employee.role=""
+                this.employee.department=""
+                this.employee.dob=""
+            },
+
             submitForm() {
                 this.submitted = true; // Set the submitted flag to true when attempting to submit the form
                 // if (this.isFormValid) {
@@ -181,15 +200,19 @@ import Swal from 'sweetalert2'
                   console.log('Form submitted:', response.data.message);
                   if(response.data.message){
                     this.errors={};
-
-                     Swal.fire({
+                    // if( Object.values(this.errors).length == 0)
+                    // {
+                        Swal.fire({
                         position: "top-center",
                         icon: "success",
                         title: "User created successfully",
                         showConfirmButton: false,
-                        timer: 5000
+                        timer: 3000
                         });
                         this.resetForm()
+                    // }
+
+                    
 
                   }
                   else{
