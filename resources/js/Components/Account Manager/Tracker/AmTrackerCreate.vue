@@ -137,6 +137,15 @@
           });
       },
 
+      resetForm()
+    {
+    this.tracker.selectedClient=""
+    this.tracker.clientManagerName=""
+    this.tracker.selectedBusiness=""
+    this.tracker.selectedLocation=""
+    this.tracker.file=""
+    },
+
       submitForm() {
         this.submitted = true; // Set the submitted flag to true when attempting to submit the form
         let formData = new FormData();
@@ -158,8 +167,10 @@
                 icon: "success",
                 title: "User created successfully",
                 showConfirmButton: false,
-                timer: 5000,
+                timer: 3000,
               });
+              this.resetForm()
+
             } else {
               Swal.fire("Form not Submitted");
             }
