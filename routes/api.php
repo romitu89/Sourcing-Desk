@@ -7,6 +7,9 @@ use App\Http\Controllers\Admin\User\UserView;
 use App\Http\Controllers\Admin\User\UserLogin;
 use App\Http\Controllers\Admin\Client\ClientCreate;
 use App\Http\Controllers\Admin\Client\ClientView;
+use App\Http\Controllers\Admin\ClientMIS\ClientReport;
+use App\Http\Controllers\Admin\ClientMIS\ClientManagerReport;
+use App\Http\Controllers\Admin\ClientMIS\Matrix;
 //------------------------------------------------------------
 use App\Http\Controllers\Editor\User\EditorUserCreate;
 use App\Http\Controllers\Editor\User\EditorUserView;
@@ -60,222 +63,241 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 //Authentication
 Route::middleware('web')->group(function () {
-Route::get('/login', [AuthController::class, 'login']);
-Route::post('/login', [AuthController::class, 'login']);
+    Route::get('/login', [AuthController::class, 'login']);
+    Route::post('/login', [AuthController::class, 'login']);
 
-//Route::middleware(['ensureAuthenticated'])->group(function () {
+    //Route::middleware(['ensureAuthenticated'])->group(function () {
 
-Route::post('/logout', [AuthController::class, 'logout']);
+    Route::post('/logout', [AuthController::class, 'logout']);
 
-// Route for creating a user (POST request)
+    // Route for creating a user (POST request)
 
-// Admin Start
+    // Admin Start
 
-// Admin/User/Create
-Route::get('/adminuser-create', [Create::class, 'create']);
-Route::get('/adminuser-report/{role}', [Create::class, 'getreporting']);
-Route::Post('/adminuser-create', [Create::class, 'store']);
+    // Admin/User/Create
+    Route::get('/adminuser-create', [Create::class, 'create']);
+    Route::get('/adminuser-report/{role}', [Create::class, 'getreporting']);
+    Route::Post('/adminuser-create', [Create::class, 'store']);
 
-// Admin/User/View
-Route::get('/adminuser-view', [UserView::class, 'create']);
-Route::Post('/adminuser-view', [UserView::class, 'store']);
+    // Admin/User/View
+    Route::get('/adminuser-view', [UserView::class, 'create']);
+    Route::Post('/adminuser-view', [UserView::class, 'store']);
 
-//User Edit
-Route::get('/adminuser-edit/{id}', [UserView::class, 'edit']);
-Route::patch('/adminuser-edit/{id}', [UserView::class, 'update']);
+    //User Edit
+    Route::get('/adminuser-edit/{id}', [UserView::class, 'edit']);
+    Route::patch('/adminuser-edit/{id}', [UserView::class, 'update']);
 
-//User Delete
-Route::delete('/adminuser-delete/{id}', [UserView::class, 'destroy']);
+    //User Delete
+    Route::delete('/adminuser-delete/{id}', [UserView::class, 'destroy']);
 
-//--------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
 
-// Admin/Client/Create
-Route::get('/adminclient-create', [ClientCreate::class, 'create']);
-Route::Post('/adminclient-create', [ClientCreate::class, 'store']);
+    // Admin/Client/Create
+    Route::get('/adminclient-create', [ClientCreate::class, 'create']);
+    Route::Post('/adminclient-create', [ClientCreate::class, 'store']);
 
-// Admin/Client/View
-Route::get('/adminclient-view', [ClientView::class, 'create']);
-Route::Post('/adminclient-view', [ClientView::class, 'store']);
+    // Admin/Client/View
+    Route::get('/adminclient-view', [ClientView::class, 'create']);
+    Route::Post('/adminclient-view', [ClientView::class, 'store']);
 
-//Client Edit
-Route::get('/adminclient-edit/{id}', [ClientView::class, 'edit']);
-Route::patch('/adminclient-edit/{id}', [ClientView::class, 'update']);
+    //Client Edit
+    Route::get('/adminclient-edit/{id}', [ClientView::class, 'edit']);
+    Route::patch('/adminclient-edit/{id}', [ClientView::class, 'update']);
 
-//Client Delete
-Route::delete('/adminclient-delete/{id}', [ClientView::class, 'destroy']);
+    //Client Delete
+    Route::delete('/adminclient-delete/{id}', [ClientView::class, 'destroy']);
 
-//---------------------------------------------------------------------------
+    //---------------------------------------------------------------------------
 
-// Admin/User/Login
-Route::get('/adminuser-login', [UserLogin::class, 'create']);
-Route::Post('/adminuser-login', [UserLogin::class, 'store']);
+    // Admin/User/Login
+    Route::get('/adminuser-login', [UserLogin::class, 'create']);
+    Route::Post('/adminuser-login', [UserLogin::class, 'store']);
 
-//------------------------------------------------------------------------------
+    //------------------------------------------------------------------------------
 
+    // Admin/ClientMIS/Client Report
 
-// Editor start-----
+    Route::get('/adminclient/report', [ClientReport::class, 'create']);
+    Route::Post('/adminclient/report', [ClientReport::class, 'store']);
 
-//User Create
-Route::get('/editoruser-create', [EditorUserCreate::class, 'create']);
-Route::get('/editoruser-report/{role}', [EditorUserCreate::class, 'getreporting']);
-Route::Post('/editoruser-create', [EditorUserCreate::class, 'store']);
+    //------------------------------------------------------------------------------
 
-//User View
-Route::get('/editoruser-view', [EditorUserView::class, 'create']);
-Route::Post('/editoruser-view', [EditorUserView::class, 'store']);
+    // Admin/ClientMIS/Client Manager Report
 
-//User Edit
-Route::get('/editoruser-edit/{id}', [EditorUserView::class, 'edit']);
-Route::patch('/editoruser-edit/{id}', [EditorUserView::class, 'update']);
+    Route::get('/adminclient/managerreport', [ClientManagerReport::class, 'create']);
+    Route::Post('/adminclient/managerreport', [ClientManagerReport::class, 'store']);
 
-//User Delete
-Route::delete('/editoruser-delete/{id}', [EditorUserView::class, 'destroy']);
+    //------------------------------------------------------------------------------
 
-//-------------------------------------------------------------------------------------
+    // Admin/ClientMIS/Client Manager Report
 
-// User Login
-Route::get('/editoruser-login', [EditorUserLogin::class, 'create']);
-Route::Post('/editoruser-login', [EditorUserLogin::class, 'store']);
+    Route::get('/adminclient/matrix', [Matrix::class, 'create']);
+    Route::Post('/adminclient/matrix', [Matrix::class, 'store']);
 
-//--------------------------------------------------------------------------
+    //------------------------------------------------------------------------------
 
-// Client Create
+    // Editor start-----
 
-Route::get('/editorclient-create', [EditorClientCreate::class, 'create']);
-Route::Post('/editorclient-create', [EditorClientCreate::class, 'store']);
+    //User Create
+    Route::get('/editoruser-create', [EditorUserCreate::class, 'create']);
+    Route::get('/editoruser-report/{role}', [EditorUserCreate::class, 'getreporting']);
+    Route::Post('/editoruser-create', [EditorUserCreate::class, 'store']);
 
-// Client View
-Route::get('/editorclient-view', [EditorClientView::class, 'create']);
-Route::Post('/editorclient-view', [EditorClientView::class, 'store']);
+    //User View
+    Route::get('/editoruser-view', [EditorUserView::class, 'create']);
+    Route::Post('/editoruser-view', [EditorUserView::class, 'store']);
 
-//Client Edit
-Route::get('/editorclient-edit/{id}', [EditorClientView::class, 'edit']);
-Route::patch('/editorclient-edit/{id}', [EditorClientView::class, 'update']);
+    //User Edit
+    Route::get('/editoruser-edit/{id}', [EditorUserView::class, 'edit']);
+    Route::patch('/editoruser-edit/{id}', [EditorUserView::class, 'update']);
 
-//Client Delete
+    //User Delete
+    Route::delete('/editoruser-delete/{id}', [EditorUserView::class, 'destroy']);
 
-Route::delete('/editorclient-delete/{id}', [EditorClientView::class, 'destroy']);
+    //-------------------------------------------------------------------------------------
 
+    // User Login
+    Route::get('/editoruser-login', [EditorUserLogin::class, 'create']);
+    Route::Post('/editoruser-login', [EditorUserLogin::class, 'store']);
 
+    //--------------------------------------------------------------------------
 
-// Account Manager Start
+    // Client Create
 
-// AM/Tracker/Create
-Route::get('/amtracker-create', [AMTrackerCreate::class, 'create']);
-Route::Post('/amtracker-create', [AMTrackerCreate::class, 'store']);
+    Route::get('/editorclient-create', [EditorClientCreate::class, 'create']);
+    Route::Post('/editorclient-create', [EditorClientCreate::class, 'store']);
 
-// AM/Tracker/View
-Route::get('/amtracker-view', [AMTrackerView::class, 'create']);
-Route::Post('/amtracker-view', [AMTrackerView::class, 'store']);
+    // Client View
+    Route::get('/editorclient-view', [EditorClientView::class, 'create']);
+    Route::Post('/editorclient-view', [EditorClientView::class, 'store']);
 
-//Tracker Edit
-Route::get('/amtracker-edit/{id}', [AMTrackerView::class, 'edit']);
-Route::patch('/amtracker-edit/{id}', [AMTrackerView::class, 'update']);
+    //Client Edit
+    Route::get('/editorclient-edit/{id}', [EditorClientView::class, 'edit']);
+    Route::patch('/editorclient-edit/{id}', [EditorClientView::class, 'update']);
 
-//Tracker Delete
-// Route::delete('/amtracker-delete/{id}', [AMTrackerView::class, 'destroy']);
+    //Client Delete
 
-//----------------------------------------------------------------------
+    Route::delete('/editorclient-delete/{id}', [EditorClientView::class, 'destroy']);
 
-// Team Management Create
-Route::get('/amteam-create', [TeamCreate::class, 'create']);
-Route::Post('/amteam-create', [TeamCreate::class, 'store']);
 
-//Team View
-Route::get('/amteam-view', [TeamView::class, 'create']);
-Route::Post('/amteam-view', [TeamView::class, 'store']);
 
-//Team Edit
-Route::get('/amteam-edit/{id}', [TeamView::class, 'edit']);
-Route::patch('/amteam-edit/{id}', [TeamView::class, 'update']);
-//-----------------------------------------------------------------------
+    // Account Manager Start
 
-// Submission Approval
-Route::get('/submission-approve', [AMApproval::class, 'create']);
-Route::patch('/amsubmission-update/{id}', [AMApproval::class, 'updateStatus']);
-Route::post('/submission-approve', [AMApproval::class, 'store']);
+    // AM/Tracker/Create
+    Route::get('/amtracker-create', [AMTrackerCreate::class, 'create']);
+    Route::Post('/amtracker-create', [AMTrackerCreate::class, 'store']);
 
-//---------------------------------------------------------------------------
+    // AM/Tracker/View
+    Route::get('/amtracker-view', [AMTrackerView::class, 'create']);
+    Route::Post('/amtracker-view', [AMTrackerView::class, 'store']);
 
-// Request Create
-Route::get('/amrequest-create', [RequestCreate::class, 'create']);
-Route::Post('/amrequest-create', [RequestCreate::class, 'store']);
+    //Tracker Edit
+    Route::get('/amtracker-edit/{id}', [AMTrackerView::class, 'edit']);
+    Route::patch('/amtracker-edit/{id}', [AMTrackerView::class, 'update']);
 
+    //Tracker Delete
+    // Route::delete('/amtracker-delete/{id}', [AMTrackerView::class, 'destroy']);
 
-// Interview
-// Route::get('/candidate-interview', [AMInterview::class, 'create']);
-// Route::get('/interview-search', [AMInterview::class, 'search']);
-// Route::post('/candidate-interview', [AMInterview::class, 'store']);
-// Route::post('/interview-update', [AMInterview::class, 'updateStatus']);
+    //----------------------------------------------------------------------
 
-//--------------------------------------------------------------------------
+    // Team Management Create
+    Route::get('/amteam-create', [TeamCreate::class, 'create']);
+    Route::Post('/amteam-create', [TeamCreate::class, 'store']);
 
-// Candidate Feedback
-Route::get('/candidate-feedback', [Feedback::class, 'create']);
-Route::get('/search', [Feedback::class, 'search']);
-Route::post('/candidate-feedback', [Feedback::class, 'store']);
-Route::post('/candidate-update', [Feedback::class, 'updateStatus']);
+    //Team View
+    Route::get('/amteam-view', [TeamView::class, 'create']);
+    Route::Post('/amteam-view', [TeamView::class, 'store']);
 
+    //Team Edit
+    Route::get('/amteam-edit/{id}', [TeamView::class, 'edit']);
+    Route::patch('/amteam-edit/{id}', [TeamView::class, 'update']);
+    //-----------------------------------------------------------------------
 
-//------------------------------------------------------------------------------
-//------------------------------------------------------------------------------
+    // Submission Approval
+    Route::get('/submission-approve', [AMApproval::class, 'create']);
+    Route::patch('/amsubmission-update/{id}', [AMApproval::class, 'updateStatus']);
+    Route::post('/submission-approve', [AMApproval::class, 'store']);
 
-// Team Lead Start
+    //---------------------------------------------------------------------------
 
-// Tracker Create
-Route::get('/tltracker-create', [TLTrackerCreate::class, 'create']);
-Route::Post('/tltracker-create', [TLTrackerCreate::class, 'store']);
+    // Request Create
+    Route::get('/amrequest-create', [RequestCreate::class, 'create']);
+    Route::Post('/amrequest-create', [RequestCreate::class, 'store']);
 
-//Tracker View
-Route::get('/tltracker-view', [TLTrackerView::class, 'create']);
-Route::Post('/tltracker-view', [TLTrackerView::class, 'store']);
 
-//Tracker Edit
-Route::get('/tltracker-edit/{id}', [TLTrackerView::class, 'edit']);
-Route::patch('/tltracker-edit/{id}', [TLTrackerView::class, 'update']);
+    // Interview
+    // Route::get('/candidate-interview', [AMInterview::class, 'create']);
+    // Route::get('/interview-search', [AMInterview::class, 'search']);
+    // Route::post('/candidate-interview', [AMInterview::class, 'store']);
+    // Route::post('/interview-update', [AMInterview::class, 'updateStatus']);
 
-//Tracker Delete
-// Route::delete('/tltracker-delete/{id}', [TLTrackerView::class, 'destroy']);
+    //--------------------------------------------------------------------------
 
-// Team Management Create
-Route::get('/tlteam-create', [TLTeamCreate::class, 'create']);
-Route::Post('/tlteam-create', [TLTeamCreate::class, 'store']);
+    // Candidate Feedback
+    Route::get('/candidate-feedback', [Feedback::class, 'create']);
+    Route::get('/search', [Feedback::class, 'search']);
+    Route::post('/candidate-feedback', [Feedback::class, 'store']);
+    Route::post('/candidate-update', [Feedback::class, 'updateStatus']);
 
-//Team View
-Route::get('/tlteam-view', [TLTeamView::class, 'create']);
-Route::Post('/tlteam-view', [TLTeamView::class, 'store']);
 
+    //------------------------------------------------------------------------------
+    //------------------------------------------------------------------------------
 
-// Submission Approval
-Route::get('/tlsubmission-approve', [TLApproval::class, 'create']);
-Route::patch('/tlsubmission-update/{id}', [TLApproval::class, 'updateStatus']);
-Route::post('/tlsubmission-approve', [TLApproval::class, 'store']);
+    // Team Lead Start
 
+    // Tracker Create
+    Route::get('/tltracker-create', [TLTrackerCreate::class, 'create']);
+    Route::Post('/tltracker-create', [TLTrackerCreate::class, 'store']);
 
-// Submission Active Requirement
-Route::get('/tlsubmission-active/{id}', [TLRequirement::class, 'create']);
-Route::Post('/tlsubmission-active/{id}', [TLRequirement::class, 'store']);
-Route::get('/tlsubmission-inbox', [TLRecruiterSubmission::class, 'create']);
+    //Tracker View
+    Route::get('/tltracker-view', [TLTrackerView::class, 'create']);
+    Route::Post('/tltracker-view', [TLTrackerView::class, 'store']);
 
+    //Tracker Edit
+    Route::get('/tltracker-edit/{id}', [TLTrackerView::class, 'edit']);
+    Route::patch('/tltracker-edit/{id}', [TLTrackerView::class, 'update']);
 
-// Request Create
-Route::get('/tlrequest-create', [TLRequestCreate::class, 'create']);
-Route::Post('/tlrequest-create', [TLRequestCreate::class, 'store']);
+    //Tracker Delete
+    // Route::delete('/tltracker-delete/{id}', [TLTrackerView::class, 'destroy']);
 
-//-----------------------------------------------------------------------------
-//------------------------------------------------------------------------------
+    // Team Management Create
+    Route::get('/tlteam-create', [TLTeamCreate::class, 'create']);
+    Route::Post('/tlteam-create', [TLTeamCreate::class, 'store']);
 
-// Recruiter Start
+    //Team View
+    Route::get('/tlteam-view', [TLTeamView::class, 'create']);
+    Route::Post('/tlteam-view', [TLTeamView::class, 'store']);
 
 
-// Submission Active Requirement
+    // Submission Approval
+    Route::get('/tlsubmission-approve', [TLApproval::class, 'create']);
+    Route::patch('/tlsubmission-update/{id}', [TLApproval::class, 'updateStatus']);
+    Route::post('/tlsubmission-approve', [TLApproval::class, 'store']);
 
-Route::get('/submission-active/{id}', [ActiveReq::class, 'create']);
 
-Route::Post('/submission-active/{id}', [ActiveReq::class, 'store']);
+    // Submission Active Requirement
+    Route::get('/tlsubmission-active/{id}', [TLRequirement::class, 'create']);
+    Route::Post('/tlsubmission-active/{id}', [TLRequirement::class, 'store']);
+    Route::get('/tlsubmission-inbox', [TLRecruiterSubmission::class, 'create']);
 
-Route::get('/submission-inbox', [RecruiterSubmission::class, 'create']);
 
+    // Request Create
+    Route::get('/tlrequest-create', [TLRequestCreate::class, 'create']);
+    Route::Post('/tlrequest-create', [TLRequestCreate::class, 'store']);
+
+    //-----------------------------------------------------------------------------
+    //------------------------------------------------------------------------------
+
+    // Recruiter Start
+
+
+    // Submission Active Requirement
+
+    Route::get('/submission-active/{id}', [ActiveReq::class, 'create']);
+
+    Route::Post('/submission-active/{id}', [ActiveReq::class, 'store']);
+
+    Route::get('/submission-inbox', [RecruiterSubmission::class, 'create']);
 });
     // Additional routes if needed...
 //});
