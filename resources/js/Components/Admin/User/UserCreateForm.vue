@@ -4,58 +4,58 @@
 
     <tr>
     <td ><label >Employee Name</label></td>
-    <td ><input type="text" v-model="employee.empName" placeholder="Employee Name" >
+    <td ><input type="text" v-model="employee.empName"  @blur="checkValidation()" placeholder="Employee Name" >
         <span v-if="errors.empName" class="error">{{errors.empName[0]}}</span></td>
     </tr>
 
     <tr>
     <td ><label >User Name</label></td>
-    <td ><input type="text" v-model="employee.userName" placeholder="User Name" >
+    <td ><input type="text" v-model="employee.userName" @blur="checkValidation()" placeholder="User Name" >
         <span v-if="errors.userName" class="error">{{errors.userName[0]}}</span></td>
     </tr>
 
     <tr>
     <td ><label >Password</label></td>
-    <td ><input type="text" v-model="employee.password" placeholder="Password" >
+    <td ><input type="text" v-model="employee.password" @blur="checkValidation()" placeholder="Password" >
         <span v-if="errors.password" class="error">{{errors.password[0]}}</span></td>
     </tr>
 
     <tr>
     <td ><label >Confirm Password</label></td>
-    <td ><input type="text" v-model="employee.cnfrmPassword" placeholder="Confirm Password">
+    <td ><input type="text" v-model="employee.cnfrmPassword" @blur="checkValidation()" placeholder="Confirm Password">
         <span v-if="errors.cnfrmPassword" class="error">{{errors.cnfrmPassword[0]}}</span></td>
     </tr>
 
     <tr>
     <td ><label >Employee Id</label></td>
-    <td ><input type="text" v-model="employee.empId" placeholder="Employee Id">
+    <td ><input type="text" v-model="employee.empId" @blur="checkValidation()" placeholder="Employee Id">
         <span v-if="errors.empId" class="error">{{errors.empId[0]}}</span></td>
     </tr>
 
     <tr>
     <td ><label >Email Id</label></td>
-    <td ><input type="text" v-model="employee.email" placeholder="Email Id">
+    <td ><input type="text" v-model="employee.email" @blur="checkValidation()" placeholder="Email Id">
         <span v-if="errors.email" class="error">{{errors.email[0]}}</span></td>
     </tr>
 
     <tr>
     <td ><label >Mobile Number</label></td>
-    <td ><input type="text" v-model="employee.mobile" placeholder="Mobile Number">
+    <td ><input type="text" v-model="employee.mobile" @blur="checkValidation()" placeholder="Mobile Number">
         <span v-if="errors.mobile" class="error">{{errors.mobile[0]}}</span></td>
     </tr>
 
     <tr>
     <td ><label >Select Location</label></td>
-    <td ><select id="location" v-model="employee.selectedLocation" name="location">
+    <td ><select id="location" v-model="employee.selectedLocation" @blur="checkValidation()" name="location">
     <option value="">Select Location</option>
-    <option v-for="item in userLocation" :key='item.location' :value="item.location">{{ item.location }}</option>
+    <option v-for="item in userLocation" :key='item.country' :value="item.country">{{ item.country }}</option>
 
     </select><br><span v-if="errors.selectedLocation" class="error">{{errors.selectedLocation[0]}}</span></td>
     </tr>
 
     <tr>
     <td ><label >Role</label></td>
-    <td ><select id="role" v-model="employee.role" name="role">
+    <td ><select id="role" v-model="employee.role" @blur="checkValidation()" name="role">
     <option value="">Select Role</option>
     <option value="admin">Admin</option>
     <option value="editor">Editor</option>
@@ -66,9 +66,21 @@
     </select><br><span v-if="errors.role" class="error">{{errors.role[0]}}</span></td>
     </tr>
 
+    <tr v-show="employee.role == 'recruiter'" >
+    <td ><label >Reporting Manager</label></td>
+    <td ><input type="text" v-model="employee.empId" @blur="checkValidation()" placeholder="Employee Id">
+        <span v-if="errors.empId" class="error">{{errors.empId[0]}}</span></td>
+    </tr>
+
+    <tr v-show="employee.role == 'recruiter'">
+    <td ><label >Reporting Team Lead</label></td>
+    <td ><input type="text" v-model="employee.empId" @blur="checkValidation()" placeholder="Employee Id">
+        <span v-if="errors.empId" class="error">{{errors.empId[0]}}</span></td>
+    </tr>
+
     <tr>
     <td ><label >Department</label></td>
-    <td ><select id="department" v-model="employee.department" name="department">
+    <td ><select id="department" v-model="employee.department" @blur="checkValidation()" name="department">
     <option value="">Select Department</option>
     <option value="hrStaffing">HR-Staffing</option>
     <option value="hrPayroll">HR-Payroll</option>
@@ -80,7 +92,7 @@
 
     <tr>
     <td ><label >Date of Birth</label></td>
-    <td ><input v-model="employee.dob" type="date" >
+    <td ><input v-model="employee.dob" @blur="checkValidation()" type="date" >
         <span v-if="errors.dob" class="error">{{errors.dob[0]}}</span></td>
     </tr>
 
@@ -122,11 +134,30 @@ import Swal from 'sweetalert2'
                 submitted:false,
                 userLocation:[],
                 errors:{},
+
             };
         },
 
+        computed:{
+            isFormValid(){
+                return Object.values(this.errors);
+
+            }
+        },
 
         methods:{
+
+            checkValidation()
+            {
+                let submit =Object.values(this.errors);
+                console.log(submit, "is form valid")
+                if (this.isFormValid.length > 0){
+                    // if(this.isFormValid.length!=0)
+                    // { this.submitForm() }
+                    this.submitForm()
+                }
+               
+            },
 
             userLocationApi()
         {
@@ -146,6 +177,20 @@ import Swal from 'sweetalert2'
 
         },
 
+        resetForm(){
+                this.employee.empName=""
+                this.employee.userName=""
+                this.employee.password=""
+                this.employee.cnfrmPassword=""
+                this.employee.empId=""
+                this.employee.email=""
+                this.employee.mobile=""
+                this.employee.selectedLocation=""
+                this.employee.role=""
+                this.employee.department=""
+                this.employee.dob=""
+            },
+
             submitForm() {
                 this.submitted = true; // Set the submitted flag to true when attempting to submit the form
                 // if (this.isFormValid) {
@@ -155,14 +200,19 @@ import Swal from 'sweetalert2'
                   console.log('Form submitted:', response.data.message);
                   if(response.data.message){
                     this.errors={};
-
-                     Swal.fire({
+                    // if( Object.values(this.errors).length == 0)
+                    // {
+                        Swal.fire({
                         position: "top-center",
                         icon: "success",
                         title: "User created successfully",
                         showConfirmButton: false,
-                        timer: 5000
+                        timer: 3000
                         });
+                        this.resetForm()
+                    // }
+
+                    
 
                   }
                   else{
