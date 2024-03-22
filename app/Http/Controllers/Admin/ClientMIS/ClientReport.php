@@ -15,16 +15,16 @@ class ClientReport extends Controller
     public function create()
     {
         // Fetch data for locations, client names, and business unit names
-        $clients = Client::select('client_name')->get();
-        $businessUnits = Client::select('business_unit_name')->distinct()->get();
-        $locations = Client::select('location')->distinct()->get();
+        $clients = Client::select('client_name', 'business_unit_name', 'location')->get();
+        // $businessUnits = Client::select('business_unit_name')->distinct()->get();
+        // $locations = Client::select('location')->distinct()->get();
 
 
         // Return the fetched data as JSON response
         return response()->json([
             'clients' => $clients,
-            'businessUnits' => $businessUnits,
-            'locations' => $locations,
+            // 'businessUnits' => $businessUnits,
+            // 'locations' => $locations,
 
         ]);
     }
@@ -36,14 +36,17 @@ class ClientReport extends Controller
             'clientName' => 'required',
             'businessName' => 'required',
             'selectedLocation' => 'required',
-            'matrix' => 'required',
-            'from' => 'required|date',
-            'to' => 'required|date',
+            'selectedMatrix' => 'required',
+            'fromDate' => 'required|date',
+            'toDate' => 'required|date',
         ]);
 
         $clientName = $request->input('clientName');
         $business = $request->input('businessName');
         $defaultLocation = $request->input('selectedLocation');
+        // $matrix = $request->input('selectedMatrix');
+        // $fromDate = $request->input('fromDate');
+        // $toDate = $request->input('toDate');
         $query = Client::query();
 
         if ($defaultLocation) {
@@ -57,6 +60,18 @@ class ClientReport extends Controller
         if ($clientName) {
             $query->where('client_name', '=', $clientName);
         }
+
+        // if ($matrix) {
+        //     $query->where('location', '=', $matrix);
+        // }
+
+        // if ($business) {
+        //     $query->where('business_unit_name', '=', $business);
+        // }
+
+        // if ($clientName) {
+        //     $query->where('client_name', '=', $clientName);
+        // }
 
         $results = $query->get();
 

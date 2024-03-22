@@ -117,22 +117,22 @@ Route::middleware('web')->group(function () {
 
     // Admin/ClientMIS/Client Report
 
-    Route::get('/adminclient/report', [ClientReport::class, 'create']);
-    Route::Post('/adminclient/report', [ClientReport::class, 'store']);
+    Route::get('/adminclient-report', [ClientReport::class, 'create']);
+    Route::Post('/adminclient-report', [ClientReport::class, 'store']);
 
     //------------------------------------------------------------------------------
 
     // Admin/ClientMIS/Client Manager Report
 
-    Route::get('/adminclient/managerreport', [ClientManagerReport::class, 'create']);
-    Route::Post('/adminclient/managerreport', [ClientManagerReport::class, 'store']);
+    Route::get('/adminclient-managerreport', [ClientManagerReport::class, 'create']);
+    Route::Post('/adminclient-managerreport', [ClientManagerReport::class, 'store']);
 
     //------------------------------------------------------------------------------
 
     // Admin/ClientMIS/Client Manager Report
 
-    Route::get('/adminclient/matrix', [Matrix::class, 'create']);
-    Route::Post('/adminclient/matrix', [Matrix::class, 'store']);
+    Route::get('/adminclient-matrix', [Matrix::class, 'create']);
+    Route::Post('/adminclient-matrix', [Matrix::class, 'store']);
 
     //------------------------------------------------------------------------------
 
