@@ -144,6 +144,20 @@
 
          },
 
+         resetForm(){
+                this.employee.empName=""
+                this.employee.userName=""
+                this.employee.password=""
+                this.employee.cnfrmPassword=""
+                this.employee.empId=""
+                this.employee.email=""
+                this.employee.mobile=""
+                this.employee.selectedLocation=""
+                this.employee.role=""
+                this.employee.department=""
+                this.employee.dob=""
+         },
+
              submitForm() {
                  this.submitted = true; // Set the submitted flag to true when attempting to submit the form
                  // if (this.isFormValid) {
@@ -161,6 +175,8 @@
                          showConfirmButton: false,
                          timer: 5000
                          });
+                         
+                         this.resetForm()
 
                    }
                    else{

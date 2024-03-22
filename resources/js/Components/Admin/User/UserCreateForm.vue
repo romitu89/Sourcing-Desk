@@ -68,14 +68,20 @@
 
     <tr v-show="employee.role == 'recruiter'" >
     <td ><label >Reporting Manager</label></td>
-    <td ><input type="text" v-model="employee.empId" @blur="checkValidation()" placeholder="Employee Id">
-        <span v-if="errors.empId" class="error">{{errors.empId[0]}}</span></td>
+    <td ><select id="amManager" v-model="employee.selectedReportAM" @blur="checkValidation()" name="amManager">
+    <option value="">Select Email ID</option>
+    <option v-for="item in userAm" :key='item.email_id' :value="item.email_id">{{ item.email_id }}</option>
+
+    </select><br><span v-if="errors.selectedReportAM" class="error">{{errors.selectedReportAM[0]}}</span></td>
     </tr>
 
     <tr v-show="employee.role == 'recruiter'">
     <td ><label >Reporting Team Lead</label></td>
-    <td ><input type="text" v-model="employee.empId" @blur="checkValidation()" placeholder="Employee Id">
-        <span v-if="errors.empId" class="error">{{errors.empId[0]}}</span></td>
+    <td ><select id="tlManager" v-model="employee.selectedReportTL" @blur="checkValidation()" name="tlManager">
+    <option value="">Select Email ID</option>
+    <option v-for="item in userTl" :key='item.email_id' :value="item.email_id">{{ item.email_id }}</option>
+
+    </select><br><span v-if="errors.selectedReportTL" class="error">{{errors.selectedReportTL[0]}}</span></td>
     </tr>
 
     <tr>
@@ -128,12 +134,16 @@ import Swal from 'sweetalert2'
             mobile:"",
             selectedLocation:"",
             role:"",
+            selectedReportAM:"",
+            selectedReportTL:"",
             department:"",
             dob:"",
                 },
                 submitted:false,
                 userLocation:[],
                 errors:{},
+                userAm:[],
+                userTl:[],
 
             };
         },
@@ -164,10 +174,12 @@ import Swal from 'sweetalert2'
             axios
       .get('/api/adminuser-create')
       .then(response => {
-        console.log(response.data, "data")
+        console.log(response.data.locations, "data")
         // console.log(response.data.location, "location")
 
-        this.userLocation = response.data
+        this.userLocation = response.data.locations
+        this.userAm = response.data.userAm
+        this.userTl = response.data.userTl
         console.log(this.userLocation, "location")
       })
       .catch(error => {
@@ -224,6 +236,7 @@ import Swal from 'sweetalert2'
               .catch(error => {
                 //   console.error('Error submitting form:', error.response.data.errors);
                   this.errors= error.response.data.errors;
+                  console.log(this.errors, "errors")
                });
 
 

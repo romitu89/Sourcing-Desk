@@ -8,16 +8,24 @@ use Illuminate\Validation\Rules\Password;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Location;
+use Illuminate\Support\Facades\Validator;
 
 class Create extends Controller
 {
     public function create()
     {
-        $user = Location::select('country')->distinct()
-        ->get();
-        return response()->json($user);
-        // return view('Admin/User/Create');
-    }
+        $location = Location::select('country')->distinct()->get();
+ 
+        $userAm = User::select('email_id')
+                    ->distinct()
+                    ->where('role', 'accountManager')
+                    ->get();
+        $userTl = User::select('email_id')
+                    ->distinct()
+                    ->where('role', 'teamLead')
+                    ->get();
+         
+        return response()->json(['userAm' => $userAm,'userTl' => $userTl, 'locations' => $location]);    }
     public function getreporting($role)
     {
         if ($role == 'teamLead') {
@@ -92,6 +100,22 @@ class Create extends Controller
             'dob' => 'required'
 
         ], $messages);
+        $rules = [
+            'role' => 'required|string',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+        $validator->after(function ($validator) use ($request) {
+            if ($request->role == 'recruiter' && !$request->filled(['selectedReportAM', 'selectedReportTL'])) {
+                // Add a custom error message
+                $validator->errors()->add('selectedReportAM', 'When role is recruiter, either selectedReportAM or selectedReportTL must be selected.');
+            }
+        });
+  
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
+        
         $empName = ucwords($request->empName);
 
         $user = new User([
@@ -105,7 +129,8 @@ class Create extends Controller
             'location' => $request->selectedLocation,
             'department' => $request->department,
             'role' => $request->role,
-            'reporting_to' => $request->selectedReport,
+            'reporting_to_am' => $request->selectedReportAM,
+            'reporting_to_tl' => $request->selectedReportTL,
             'dob' => $request->dob,
         ]);
 

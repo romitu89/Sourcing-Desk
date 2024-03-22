@@ -80,7 +80,7 @@ export default {
                 managersData:[],
                 userLocation:[],
                 errors:{},
-                submitted:false,
+               
             };
         },
 
@@ -114,6 +114,16 @@ this.errored = true
 
 },
 
+resetForm()
+{
+    this.client.clientName=""
+    this.client.businessName=""
+    this.client.subLocation=""
+    this.client.selectedManager=""
+    this.client.selectedLocation=""
+    this.client.selectedManagerName=""
+},
+
 submitForm() {
     this.submitted = true; // Set the submitted flag to true when attempting to submit the form
     // if (this.isFormValid) {
@@ -131,6 +141,7 @@ submitForm() {
             showConfirmButton: false,
             timer: 3000
             });
+            this.resetForm()
 
       }
       else{

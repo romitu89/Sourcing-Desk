@@ -116,6 +116,14 @@ import ResponsiveTable from '../../Shared Folder/ResponsiveTable.vue'
 
     },
 
+    resetForm()
+    {
+      this.tracker.selectedLocation=""
+      this.tracker.selectedClient=""
+      this.tracker.selectedBusiness=""
+      this.tracker.selectedManager=""
+    },
+
 
 submitForm() {
     this.submitted = true; // Set the submitted flag to true when attempting to submit the form
@@ -137,6 +145,8 @@ submitForm() {
       this.errors= error.response.data.errors;
       console.log(this.errors, "error")
     });
+    this.resetForm()
+
 },
     },
     mounted(){
