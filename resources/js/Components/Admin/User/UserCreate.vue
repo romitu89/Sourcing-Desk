@@ -1,99 +1,94 @@
 <template>
-    <div class="popup">
-        <div @click="closePopup()" class="close_btn"> <a ><font-awesome-icon :icon="['fas', 'xmark']" /></a></div>
-        <div class="popup-inner">
-            <h2 class="title">{{ title }}</h2>
-
-      <UserCreateForm
-      v-if="title=='Create Form'"/>
-
-      <UserViewForm
-      v-if="title=='View Form'"/>
-
-      <UserLoginForm
-      v-if="title=='Login Form'"/>
-
-        </div>
+  <div class="popup">
+    <div @click="closePopup()" class="close_btn">
+      <a><font-awesome-icon :icon="['fas', 'xmark']" /></a>
     </div>
+    <div class="popup-inner">
+      <h2 class="title">{{ title }}</h2>
+
+      <UserCreateForm @closePopup="closePopup()" v-if="title == 'Create Form'" />
+
+      <UserViewForm v-if="title == 'View Form'" />
+
+      <UserLoginForm v-if="title == 'Login Form'" />
+    </div>
+  </div>
 </template>
 
 <script>
-import UserCreateForm from './UserCreateForm.vue'
-import UserViewForm from './UserViewForm.vue'
-import UserLoginForm from './UserLoginForm.vue'
-
+import UserCreateForm from "./UserCreateForm.vue";
+import UserViewForm from "./UserViewForm.vue";
+import UserLoginForm from "./UserLoginForm.vue";
 
 export default {
-    name: 'UserCreate',
-    component: {
-        UserCreateForm,
-        UserViewForm,
-        UserLoginForm,
+  name: "UserCreate",
+  component: {
+    UserCreateForm,
+    UserViewForm,
+    UserLoginForm,
+  },
+  props: {
+    showPopUp: {
+      type: Boolean,
+      default: false,
     },
-    props: {
-        showPopUp: {
-            type: Boolean,
-            default: false
-        },
-        title: {
-            type: String,
-            default: 'Head'
-        }
+    title: {
+      type: String,
+      default: "Head",
     },
-    watch: {
-        tab(newVal) {
-            this.showUserCreate = newVal;
-        }
+  },
+  watch: {
+    tab(newVal) {
+      this.showUserCreate = newVal;
     },
-    data() {
-        return {
-            showUserCreate: this.tab,
-        };
+  },
+  data() {
+    return {
+      showUserCreate: this.tab,
+    };
+  },
+  methods: {
+    closePopup() {
+      console.log(this.showUserCreate);
+      this.showUserCreate = false;
+      this.$emit("closePopup", this.showUserCreate);
     },
-    methods: {
-        closePopup() {
-            console.log(this.showUserCreate);
-            this.showUserCreate = false;
-            this.$emit('closePopup', this.showUserCreate);
-        }
-    },
-    components: { UserCreateForm, UserViewForm, UserLoginForm }
-}
-
+  },
+  components: { UserCreateForm, UserViewForm, UserLoginForm },
+};
 </script>
 
 <style scoped>
-.popup{
-    position: fixed;
-    top: 25px;
-    left: 190px;
-    padding: 15px 25px;
-    z-index: 1;
-    background-color: whitesmoke;
-    /* opacity: 0.9; */
-    width: 70%;
-    height: 90%;
-    border-radius: 25px;
-    box-shadow: 2px 2px 7px 8px lightgray;
+.popup {
+  position: fixed;
+  top: 25px;
+  left: 190px;
+  padding: 15px 25px;
+  z-index: 1;
+  background-color: whitesmoke;
+  /* opacity: 0.9; */
+  width: 70%;
+  height: 90%;
+  border-radius: 25px;
+  box-shadow: 2px 2px 7px 8px lightgray;
 
-    overflow: scroll;
+  overflow: scroll;
 }
 
-    .close_btn {
-        position: absolute;
-        right: 25px;
-        color: #002147;
-        font-size: 25px;
-        cursor: pointer;
-        padding: 10px;
-    }
+.close_btn {
+  position: absolute;
+  right: 25px;
+  color: #002147;
+  font-size: 25px;
+  cursor: pointer;
+  padding: 10px;
+}
 
-    .title{
-        color: #002147;
-        margin-left: 5%;
-        font-size: 30px;
-        letter-spacing: 5px;
-        text-decoration: underline;
-    }
-
+.title {
+  color: #002147;
+  margin-left: 5%;
+  font-size: 30px;
+  letter-spacing: 5px;
+  text-decoration: underline;
+}
 </style>
