@@ -23,6 +23,7 @@
 <UserCreate
     :showPopUp="popup"
     @closePopup ="closePopUp" 
+    @updateForm="updateForm"
     :title="title"
    v-if="popup">
 
@@ -61,6 +62,11 @@ import UserCreate  from './usercreate.vue'
             this.popup=true;
             this.title="Login Form"
         },
+        updateForm(title){
+            this.popup=true;
+            this.title= title
+            console.log('user.vue')
+        }
 
        }
     }

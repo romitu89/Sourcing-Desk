@@ -6,11 +6,20 @@
     <div class="popup-inner">
       <h2 class="title">{{ title }}</h2>
 
-      <UserCreateForm @closePopup="closePopup()" v-if="title == 'Create Form'" />
+      <UserCreateForm @closePopup="closePopup()" v-if="titleProp == 'Create Form'" />
 
-      <UserViewForm v-if="title == 'View Form'" />
+      <UserViewForm
+      @updateForm="updateForm"
+      v-if="titleProp == 'View Form'" />
 
-      <UserLoginForm v-if="title == 'Login Form'" />
+      <UserLoginForm v-if="titleProp == 'Login Form'" />
+
+      <UserEditForm 
+     
+      @closePopup="closePopup()"
+       v-if="titleProp == 'Edit Form'" />
+
+
     </div>
   </div>
 </template>
@@ -19,6 +28,7 @@
 import UserCreateForm from "./UserCreateForm.vue";
 import UserViewForm from "./UserViewForm.vue";
 import UserLoginForm from "./UserLoginForm.vue";
+import UserEditForm from "./UserEditForm.vue";
 
 export default {
   name: "UserCreate",
@@ -26,6 +36,8 @@ export default {
     UserCreateForm,
     UserViewForm,
     UserLoginForm,
+    UserEditForm,
+
   },
   props: {
     showPopUp: {
@@ -41,20 +53,33 @@ export default {
     tab(newVal) {
       this.showUserCreate = newVal;
     },
+
+    title(newVal){
+      this.titleProp=newVal
+    },
   },
   data() {
     return {
       showUserCreate: this.tab,
+      titleProp: this.title,
+
     };
   },
   methods: {
+    updateForm(id){
+      console.log(id, "edit form")
+      let title = "Edit Form"
+      this.$emit('updateForm' ,title )
+      
+    },
+
     closePopup() {
       console.log(this.showUserCreate);
       this.showUserCreate = false;
       this.$emit("closePopup", this.showUserCreate);
     },
   },
-  components: { UserCreateForm, UserViewForm, UserLoginForm },
+  components: { UserCreateForm, UserViewForm, UserLoginForm,UserEditForm },
 };
 </script>
 

@@ -34,12 +34,18 @@
                     <responsive-table :results="results" :columns="columns">
 
 
-                      <!-- <template #edit="{ row }">
-                        <Link
+                      <template #edit="{ row }">
+                        <div>
+                        <button title="Edit" @click="editItem(row.id)"
 
-                          >Edit</Link
+                          ><font-awesome-icon :icon="['fas', 'pen-to-square']" /></button
                         >
-                      </template> -->
+                        <button title="Delete"
+
+                          ><font-awesome-icon :icon="['fas', 'trash']" /></button
+                        >
+                        </div>
+                      </template>
                     </responsive-table>
                   </div>
 
@@ -87,6 +93,11 @@ export default {
     },
 
     methods: {
+
+      editItem(id){
+        console.log("edit item")
+        this.$emit('updateForm', id)
+      },
 
 userLocationApi()
 {
