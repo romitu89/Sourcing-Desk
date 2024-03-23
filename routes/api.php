@@ -10,6 +10,10 @@ use App\Http\Controllers\Admin\Client\ClientView;
 use App\Http\Controllers\Admin\ClientMIS\ClientReport;
 use App\Http\Controllers\Admin\ClientMIS\ClientManagerReport;
 use App\Http\Controllers\Admin\ClientMIS\Matrix;
+use App\Http\Controllers\Admin\UserMIS\AccountManager;
+use App\Http\Controllers\Admin\UserMIS\TeamLead;
+use App\Http\Controllers\Admin\UserMIS\Recruiter;
+use App\Http\Controllers\Admin\UserMIS\UserMatrix;
 //------------------------------------------------------------
 use App\Http\Controllers\Editor\User\EditorUserCreate;
 use App\Http\Controllers\Editor\User\EditorUserView;
@@ -117,23 +121,44 @@ Route::middleware('web')->group(function () {
 
     // Admin/ClientMIS/Client Report
 
-    Route::get('/adminclient/report', [ClientReport::class, 'create']);
-    Route::Post('/adminclient/report', [ClientReport::class, 'store']);
-
-    //------------------------------------------------------------------------------
+    Route::get('/adminclient-report', [ClientReport::class, 'create']);
+    Route::Post('/adminclient-report', [ClientReport::class, 'store']);
 
     // Admin/ClientMIS/Client Manager Report
 
-    Route::get('/adminclient/managerreport', [ClientManagerReport::class, 'create']);
-    Route::Post('/adminclient/managerreport', [ClientManagerReport::class, 'store']);
-
-    //------------------------------------------------------------------------------
+    Route::get('/adminclient-managerreport', [ClientManagerReport::class, 'create']);
+    Route::Post('/adminclient-managerreport', [ClientManagerReport::class, 'store']);
 
     // Admin/ClientMIS/Client Manager Report
 
-    Route::get('/adminclient/matrix', [Matrix::class, 'create']);
-    Route::Post('/adminclient/matrix', [Matrix::class, 'store']);
+    Route::get('/adminclient-matrix', [Matrix::class, 'create']);
+    Route::Post('/adminclient-matrix', [Matrix::class, 'store']);
 
+    //------------------------------------------------------------------------------
+
+    // Admin/UserMIS/Account Manager
+
+    Route::get('/adminuserMis-accountManager', [AccountManager::class, 'create']);
+    Route::Post('/adminuserMis-accountManager', [AccountManager::class, 'store']);
+
+    // Admin/UserMIS/Team Lead
+
+    Route::get('/adminuserMis-teamLead', [TeamLead::class, 'create']);
+    Route::Post('/adminuserMis-teamLead', [TeamLead::class, 'store']);
+
+    // Admin/UserMIS/Recruiter
+
+    Route::get('/adminuserMis-recruiter', [Recruiter::class, 'create']);
+    Route::Post('/adminuserMis-recruiter', [Recruiter::class, 'store']);
+
+    // Admin/UserMIS/Matrix
+
+    Route::get('/adminuserMis-userMatrix', [UserMatrix::class, 'create']);
+    Route::Post('/adminuserMis-userMatrix', [UserMatrix::class, 'store']);
+
+    //------------------------------------------------------------------------------
+
+    //------------------------------------------------------------------------------
     //------------------------------------------------------------------------------
 
     // Editor start-----
