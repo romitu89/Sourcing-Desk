@@ -1,61 +1,67 @@
 <template>
-  <div class="container-fluid mt-4">
-    <!-- Enhanced Search Bar -->
-    <div class="input-group mb-3 search-bar">
-      <input
-        type="text"
-        class="form-control search-input"
-        v-model="searchTerm"
-        placeholder="Search..."
-        @input="filterData"
-      />
-      <div class="input-group-append">
-        <button class="btn btn-outline-secondary search-button" type="button">
-          <font-awesome-icon icon="search" /> <!-- Ensure you include FontAwesome for this icon -->
-        </button>
+    <div class="container-fluid mt-4">
+      <!-- Enhanced Search Bar -->
+      <div class="input-group mb-3 search-bar">
+        <input
+          type="text"
+          class="form-control search-input"
+          v-model="searchTerm"
+          placeholder="Search..."
+          @input="filterData"
+        />
+        <div class="input-group-append">
+          <button class="btn btn-outline-secondary search-button" type="button">
+            <font-awesome-icon icon="search" /> <!-- Ensure you include FontAwesome for this icon -->
+          </button>
+        </div>
       </div>
-    </div>
 
-    <div v-if="paginatedResults.length > 0">
-      <!-- Data Table -->
-      <div class="table-responsive">
-        <table class="table table-striped table-hover">
-          <thead class="thead-dark">
-            <tr>
-              <th v-for="col in columns" :key="col.key">{{ col.label }}</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="res in paginatedResults" :key="res.id">
-              <td v-for="col in columns" :key="col.key" :data-label="col.label">
-                <slot :name="col.key" :row="res">
-                  {{ res[col.key] }}
-                </slot>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+      <div>
+        <!-- Data Table -->
+        <div class="table-responsive">
+          <table class="table table-striped table-hover">
+            <thead class="thead-dark">
+              <tr>
+                <th v-for="col in columns" :key="col.key">{{ col.label }}</th>
+              </tr>
+            </thead>
+            <tbody v-if="paginatedResults.length > 0">
+              <tr v-for="res in paginatedResults" :key="res.id">
+                <td v-for="col in columns" :key="col.key" :data-label="col.label">
+                  <slot :name="col.key" :row="res">
+                    {{ res[col.key] }}
+                  </slot>
+                </td>
+              </tr>
+            </tbody>
+            <tbody v-else>
+              <tr>
+                <td :colspan="columns.length" class="text-center">
+                  No results found
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <!-- Pagination -->
+        <nav v-if="paginatedResults.length > 0">
+          <ul class="pagination">
+            <li class="page-item" :class="{ disabled: currentPage === 1 }">
+              <button class="page-link" @click="currentPage--" :disabled="currentPage === 1">Previous</button>
+            </li>
+            <li class="page-item" v-for="n in pageCount" :key="n" :class="{ active: n === currentPage }">
+              <button class="page-link" @click="changePage(n)">{{ n }}</button>
+            </li>
+            <li class="page-item" :class="{ disabled: currentPage === pageCount }">
+              <button class="page-link" @click="currentPage++" :disabled="currentPage === pageCount">Next</button>
+            </li>
+          </ul>
+        </nav>
       </div>
-      <!-- Pagination -->
-      <nav>
-        <ul class="pagination">
-          <li class="page-item" :class="{ disabled: currentPage === 1 }">
-            <button class="page-link" @click="currentPage--" :disabled="currentPage === 1">Previous</button>
-          </li>
-          <li class="page-item" v-for="n in pageCount" :key="n" :class="{ active: n === currentPage }">
-            <button class="page-link" @click="changePage(n)">{{ n }}</button>
-          </li>
-          <li class="page-item" :class="{ disabled: currentPage === pageCount }">
-            <button class="page-link" @click="currentPage++" :disabled="currentPage === pageCount">Next</button>
-          </li>
-        </ul>
-      </nav>
     </div>
-    <div v-else>
-      <p class="text-center no-results">No results found</p>
-    </div>
-  </div>
-</template>
+  </template>
+
+
 
 
   <script>
@@ -92,17 +98,24 @@
         changePage(pageNumber) {
       this.currentPage = pageNumber;
     },
-      filterData() {
-        if (!this.searchTerm) {
-          this.filteredResults = this.results;
-          return;
-        }
-        this.filteredResults = this.results.filter((row) =>
-          Object.values(row).some((value) =>
-            String(value).toLowerCase().includes(this.searchTerm.toLowerCase())
-          )
-        );
-      },
+    filterData() {
+  if (!this.searchTerm) {
+    this.filteredResults = this.results;
+    return;
+  }
+
+  this.filteredResults = this.results.filter((row) =>
+    Object.values(row).some((value) =>
+      String(value)
+        .toLowerCase()
+        .includes(this.searchTerm.toLowerCase())
+    )
+  );
+  // If after filtering there are no results, reset the currentPage to 1
+  if (this.filteredResults.length === 0) {
+    this.currentPage = 1;
+  }
+},
     },
   };
   </script>

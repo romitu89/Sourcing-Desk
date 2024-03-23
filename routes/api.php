@@ -20,6 +20,9 @@ use App\Http\Controllers\Editor\User\EditorUserView;
 use App\Http\Controllers\Editor\User\EditorUserLogin;
 use App\Http\Controllers\Editor\Client\EditorClientCreate;
 use App\Http\Controllers\Editor\Client\EditorClientView;
+use App\Http\Controllers\Editor\ClientMIS\EditorClientReport;
+use App\Http\Controllers\Editor\ClientMIS\EditorClientManager;
+use App\Http\Controllers\Editor\ClientMIS\EditorMatrix;
 //-------------------------------------------------------------
 use App\Http\Controllers\AccountManager\Tracker\AMTrackerCreate;
 use App\Http\Controllers\AccountManager\Tracker\AMTrackerView;
@@ -29,6 +32,11 @@ use App\Http\Controllers\AccountManager\Submission\AMApproval;
 use App\Http\Controllers\AccountManager\Request\RequestCreate;
 use App\Http\Controllers\AccountManager\Candidate\AMInterview;
 use App\Http\Controllers\AccountManager\Candidate\Feedback;
+use App\Http\Controllers\AccountManager\ClientMIS\AMClientReport;
+use App\Http\Controllers\AccountManager\ClientMIS\AMClientManager;
+use App\Http\Controllers\AccountManager\ClientMIS\AMMatrix;
+use App\Http\Controllers\AccountManager\UserMIS\AMRecruiter;
+use App\Http\Controllers\AccountManager\UserMIS\AMTeamLead;
 //----------------------------------------------------------------
 
 use App\Http\Controllers\TeamLead\Tracker\TLTrackerCreate;
@@ -39,6 +47,10 @@ use App\Http\Controllers\TeamLead\Submission\TLApproval;
 use App\Http\Controllers\TeamLead\Submission\TLRecruiterSubmission;
 use App\Http\Controllers\TeamLead\Submission\TLRequirement;
 use App\Http\Controllers\TeamLead\Request\TLRequestCreate;
+use App\Http\Controllers\TeamLead\ClientMIS\TLClientReport;
+use App\Http\Controllers\TeamLead\ClientMIS\TLClientManager;
+use App\Http\Controllers\TeamLead\ClientMIS\TLMatrix;
+use App\Http\Controllers\TeamLead\UserMIS\TLRecruiter;
 
 //---------------------------------------------------------------------------
 
@@ -204,6 +216,25 @@ Route::middleware('web')->group(function () {
 
     Route::delete('/editorclient-delete/{id}', [EditorClientView::class, 'destroy']);
 
+    //-----------------------------------------------------------------------------------
+
+    // Editor/ClientMIS/Client Report
+
+    Route::get('/editorclient-report', [EditorClientReport::class, 'create']);
+    Route::Post('/editorclient-report', [EditorClientReport::class, 'store']);
+
+    // Editor/ClientMIS/Client Manager Report
+
+    Route::get('/editorclient-managerreport', [EditorClientManager::class, 'create']);
+    Route::Post('/editorclient-managerreport', [EditorClientManager::class, 'store']);
+
+    // Editor/ClientMIS/Matrix
+
+    Route::get('/editorclient-matrix', [EditorMatrix::class, 'create']);
+    Route::Post('/editorclient-matrix', [EditorMatrix::class, 'store']);
+
+    //------------------------------------------------------------------------------
+
 
 
     // Account Manager Start
@@ -248,6 +279,35 @@ Route::middleware('web')->group(function () {
     // Request Create
     Route::get('/amrequest-create', [RequestCreate::class, 'create']);
     Route::Post('/amrequest-create', [RequestCreate::class, 'store']);
+
+    //---------------------------------------------------------------------------
+
+    // AccountManager/ClientMIS/Client Report
+
+    Route::get('/amclient-report', [AMClientReport::class, 'create']);
+    Route::Post('/amclient-report', [AMClientReport::class, 'store']);
+
+    // AccountManager/ClientMIS/Client Manager Report
+
+    Route::get('/amclient-managerreport', [AMClientManager::class, 'create']);
+    Route::Post('/amclient-managerreport', [AMClientManager::class, 'store']);
+
+    // AccountManager/ClientMIS/Matrix
+
+    Route::get('/amclient-matrix', [AMMatrix::class, 'create']);
+    Route::Post('/amclient-matrix', [AMMatrix::class, 'store']);
+
+    //------------------------------------------------------------------------------
+
+    // AccountManager/UserMIS/Team Lead
+
+    Route::get('/amuserMis-teamLead', [AMTeamLead::class, 'create']);
+    Route::Post('/amuserMis-teamLead', [AMTeamLead::class, 'store']);
+
+    // AccountManager/UserMIS/Recruiter
+
+    Route::get('/amuserMis-recruiter', [AMRecruiter::class, 'create']);
+    Route::Post('/amuserMis-recruiter', [AMRecruiter::class, 'store']);
 
 
     // Interview
@@ -309,6 +369,29 @@ Route::middleware('web')->group(function () {
     // Request Create
     Route::get('/tlrequest-create', [TLRequestCreate::class, 'create']);
     Route::Post('/tlrequest-create', [TLRequestCreate::class, 'store']);
+
+    // Team Lead/ClientMIS/Client Report
+
+    Route::get('/tlclient-report', [TLClientReport::class, 'create']);
+    Route::Post('/tlclient-report', [TLClientReport::class, 'store']);
+
+    // Team Lead/ClientMIS/Client Manager Report
+
+    Route::get('/tlclient-managerreport', [TLClientManager::class, 'create']);
+    Route::Post('/tlclient-managerreport', [TLClientManager::class, 'store']);
+
+    // Team Lead/ClientMIS/Matrix
+
+    Route::get('/tlclient-matrix', [TLMatrix::class, 'create']);
+    Route::Post('/tlclient-matrix', [TLMatrix::class, 'store']);
+
+    //------------------------------------------------------------------------------
+
+    // AccountManager/UserMIS/Recruiter
+
+    Route::get('/tlclient-recruiter', [TLRecruiter::class, 'create']);
+    Route::Post('/tlclient-recruiter', [TLRecruiter::class, 'store']);
+
 
     //-----------------------------------------------------------------------------
     //------------------------------------------------------------------------------

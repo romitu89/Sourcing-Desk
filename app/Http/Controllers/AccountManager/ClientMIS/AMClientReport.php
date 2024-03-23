@@ -1,29 +1,21 @@
 <?php
 
-namespace App\Http\Controllers\Admin\ClientMIS;
+namespace App\Http\Controllers\AccountManager\ClientMIS;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Http\Request;
 use App\Models\Client;
-use Illuminate\Support\Facades\Validator;
 
-
-class ClientReport extends Controller
+class AMClientReport extends Controller
 {
     public function create()
     {
-        // Fetch data for locations, client names, and business unit names
+
         $clients = Client::select('client_name', 'business_unit_name', 'location')->get();
-        // $businessUnits = Client::select('business_unit_name')->distinct()->get();
-        // $locations = Client::select('location')->distinct()->get();
 
-
-        // Return the fetched data as JSON response
         return response()->json([
             'clients' => $clients,
-            // 'businessUnits' => $businessUnits,
-            // 'locations' => $locations,
 
         ]);
     }
@@ -60,37 +52,10 @@ class ClientReport extends Controller
             $query->where('client_name', '=', $clientName);
         }
 
-        // if ($matrix) {
-        //     $query->where('location', '=', $matrix);
-        // }
 
-        // if ($business) {
-        //     $query->where('business_unit_name', '=', $business);
-        // }
-
-        // if ($clientName) {
-        //     $query->where('client_name', '=', $clientName);
-        // }
 
         $results = $query->get();
 
         return Response::json(['results' => $results]);
     }
-
-    //     $client = new Client([
-
-    //         'client_name' => $request->userName,
-    //         'business_unit_name' =>  $request->businessName,
-    //         'location' => $request->selectedLocation,
-    //         'matrix' =>  $request->matrix,
-    //         'from' =>   $request->from,
-    //         'to' =>  $request->to,
-
-    //     ]);
-    //     $client->save();
-
-    //     $results = Client::all();
-
-    //     return Response::json(['results' => $results]);
-    // }
 }

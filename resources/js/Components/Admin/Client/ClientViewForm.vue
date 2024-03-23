@@ -25,7 +25,7 @@
           <tr>
             <td></td>
             <td>
-              <button class="submit_btn">Submit</button>
+                <button type="submit" class="submit_btn">Submit</button>
             </td>
           </tr>
         </table>
@@ -83,7 +83,7 @@
           .then(response => {
             this.results = response.data.results;
             this.errors = {};
-          
+
           })
           .catch(error => {
             console.error('Error submitting form:', error);

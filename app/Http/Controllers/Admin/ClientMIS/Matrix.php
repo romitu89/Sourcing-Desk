@@ -12,16 +12,12 @@ class Matrix extends Controller
     public function create()
     {
         // Fetch data for locations, client names, and business unit names
-        $clients = Client::select('client_name')->get();
-        $businessUnits = Client::select('business_unit_name')->distinct()->get();
-        $locations = Client::select('location')->distinct()->get();
+        $clients = Client::select('client_name', 'business_unit_name', 'location')->distinct()->get();
 
 
         // Return the fetched data as JSON response
         return response()->json([
             'clients' => $clients,
-            'businessUnits' => $businessUnits,
-            'locations' => $locations,
 
         ]);
     }
