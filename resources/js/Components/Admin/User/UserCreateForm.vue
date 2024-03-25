@@ -31,7 +31,7 @@
         <td><label>Password</label></td>
         <td>
           <input
-            type="text"
+            type="password"
             v-model="employee.password"
             @blur="checkValidation()"
             placeholder="Password"
@@ -44,7 +44,7 @@
         <td><label>Confirm Password</label></td>
         <td>
           <input
-            type="text"
+            type="password"
             v-model="employee.cnfrmPassword"
             @blur="checkValidation()"
             placeholder="Confirm Password"
@@ -132,7 +132,7 @@
         </td>
       </tr>
 
-      <tr v-show="employee.role == 'recruiter'">
+      <tr v-show="employee.role == 'recruiter' || employee.role == 'teamLead'">
         <td><label>Reporting Manager</label></td>
         <td>
           <select
@@ -164,8 +164,8 @@
             <option v-for="item in userTl" :key="item.email_id" :value="item.email_id">
               {{ item.email_id }}
             </option></select
-          ><br /><span v-if="errors.selectedReportTL" class="error">{{
-            errors.selectedReportTL[0]
+          ><br /><span v-if="errors.selectedReportAM" class="error">{{
+            errors.selectedReportAM[0]
           }}</span>
         </td>
       </tr>
@@ -238,6 +238,7 @@ export default {
       errors: {},
       userAm: [],
       userTl: [],
+      checkZeroError: false,
     };
   },
 
@@ -254,7 +255,7 @@ export default {
     checkValidation() {
       let submit = Object.values(this.errors);
       console.log(submit, "is form valid");
-      if (this.isFormValid.length > 0) {
+      if (this.isFormValid.length > 0 && !this.checkZeroError) {
         // if(this.isFormValid.length!=0)
         // { this.submitForm() }
         this.submitForm();
@@ -302,7 +303,6 @@ export default {
         .then((response) => {
           console.log("Form submitted:", response.data.message);
           if (response.data.message) {
-            this.errors = {};
             // if( Object.values(this.errors).length == 0)
             // {
             Swal.fire({
@@ -313,16 +313,18 @@ export default {
               timer: 3000,
             });
             this.resetForm();
+            this.errors = {};
             // }
-          } else {
-            Swal.fire("Form not Submitted");
           }
-
           // Handle the response as needed
         })
         .catch((error) => {
           //   console.error('Error submitting form:', error.response.data.errors);
           this.errors = error.response.data.errors;
+          if (Object.keys(this.errors).length === 0) {
+            console.log(this.heckZeroError, "checkZeroError");
+            this.checkZeroError = true;
+          }
           console.log(this.errors, "errors");
         });
 
