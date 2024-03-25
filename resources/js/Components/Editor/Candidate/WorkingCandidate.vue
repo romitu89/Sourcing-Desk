@@ -25,11 +25,11 @@
     <td ><input  type="date" ></td>
     </tr>
 
-     <tr>
-         <td></td>
-        <td>
-         <button  class="submit_btn">Submit</button> </td>
-     </tr>
+    <tr>
+        <td></td>
+       <td> <button @click="closePopup()" class="cancel_btn">Cancel</button>
+        <button class="submit_btn">Submit</button> </td>
+    </tr>
  </table>
  </form>
  </template>

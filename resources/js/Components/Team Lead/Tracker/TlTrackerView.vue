@@ -1,7 +1,7 @@
 <template>
     <form @submit.prevent="submitForm">
      <table class="input_form">
-      
+
         <tr>
      <td ><label >Select Location</label></td>
 
@@ -41,10 +41,10 @@
 
 
      <tr>
-         <td></td>
-        <td>
-         <button  class="submit_btn">Submit</button> </td>
-     </tr>
+        <td></td>
+       <td> <button @click="closePopup()" class="cancel_btn">Cancel</button>
+        <button class="submit_btn">Submit</button> </td>
+    </tr>
 
      </table>
 
@@ -104,6 +104,9 @@ import ResponsiveTable from '../../Shared Folder/ResponsiveTable.vue'
         },
 
         methods: {
+            closePopup() {
+      this.$emit("closePopup");
+    },
 
 userLocationApi()
 {

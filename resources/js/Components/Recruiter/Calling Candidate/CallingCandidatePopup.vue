@@ -4,7 +4,7 @@
            <div class="popup-inner">
                <h2 class="title">{{ title }}</h2>
 
-               <CallingCandidateScreening
+               <CallingCandidateScreening @closePopup="closePopup()"
                v-if="title=='Recruiter Screening'"/>
 
            </div>

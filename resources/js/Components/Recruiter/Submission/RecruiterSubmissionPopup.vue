@@ -4,12 +4,12 @@
            <div class="popup-inner">
                <h2 class="title">{{ title }}</h2>
 
-               <RecruiterSubmissionInbox
+               <RecruiterSubmissionInbox @closePopup="closePopup()"
                v-if="title=='Recruiter Inbox'"/>
 
            </div>
        </div>
-       
+
 </template>
 
 <script>

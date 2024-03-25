@@ -34,7 +34,7 @@
     <tr>
     <td ><label >Client Manager Name</label></td>
     <td ><input type="text" v-model="client.selectedManagerName" @blur="checkValidation()" placeholder="Client Manager Name">
-    
+
 
     </input><br><span v-if="errors.selectedManagerName" class="error">{{errors.selectedManagerName[0]}}</span></td>
     </tr>
@@ -42,14 +42,15 @@
     <tr>
     <td ><label >Client Manager Email ID</label></td>
     <td ><input type="text" v-model="client.selectedManager" @blur="checkValidation()" placeholder="Client Manager Email ID">
-    
+
 
     </input><br><span v-if="errors.selectedManager" class="error">{{errors.selectedManager[0]}}</span></td>
     </tr>
 
     <tr>
         <td></td>
-       <td> <button class="cancel_btn">Cancel</button><button class="submit_btn">Submit</button> </td>
+       <td> <button @click="closePopup()" class="cancel_btn">Cancel</button>
+        <button class="submit_btn">Submit</button> </td>
     </tr>
 
 </table>
@@ -80,7 +81,7 @@ export default {
                 managersData:[],
                 userLocation:[],
                 errors:{},
-               
+
             };
         },
 
@@ -91,6 +92,10 @@ export default {
         },
 
         methods:{
+
+            closePopup() {
+      this.$emit("closePopup");
+    },
 
             checkValidation()
             {

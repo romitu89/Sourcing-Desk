@@ -4,7 +4,7 @@
            <div class="popup-inner">
                <h2 class="title">{{ title }}</h2>
 
-               <AmSubmissionRequest
+               <AmSubmissionRequest @closePopup="closePopup()"
                v-if="title=='Submission Request'"/>
 
            </div>

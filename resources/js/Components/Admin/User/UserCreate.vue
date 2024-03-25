@@ -8,9 +8,9 @@
 
       <UserCreateForm @closePopup="closePopup()" v-if="title == 'Create Form'" />
 
-      <UserViewForm v-if="title == 'View Form'" />
+      <UserViewForm @closePopup="closePopup()" v-if="title == 'View Form'" />
 
-      <UserLoginForm v-if="title == 'Login Form'" />
+      <UserLoginForm @closePopup="closePopup()" v-if="title == 'Login Form'" />
     </div>
   </div>
 </template>

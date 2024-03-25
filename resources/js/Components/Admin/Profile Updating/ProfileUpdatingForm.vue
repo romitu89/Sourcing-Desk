@@ -5,10 +5,10 @@
 <div class="popup-inner">
     <h2 class="title">{{ title }}</h2>
 
-    <ProfileCreate 
+    <ProfileCreate @closePopup="closePopup()"
     v-if="title=='Profile Create'"/>
 
-    <ProfileView 
+    <ProfileView @closePopup="closePopup()"
     v-if="title=='Profile View'"/>
 
 </div>

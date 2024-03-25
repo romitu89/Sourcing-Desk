@@ -85,12 +85,10 @@
         </tr>
 
         <tr>
-          <td></td>
-          <td>
-            <button type="button" class="cancel_btn">Cancel</button> <!-- Change type to button -->
-            <button type="submit" class="submit_btn">Submit</button> <!-- Change type to submit -->
-          </td>
-        </tr>
+        <td></td>
+       <td> <button @click="closePopup()" class="cancel_btn">Cancel</button>
+        <button class="submit_btn">Submit</button> </td>
+    </tr>
       </table>
     </form>
   </template>
@@ -100,7 +98,7 @@
 
   export default {
     name: "AmTrackerCreate",
-    
+
     data() {
       return {
         tracker: {
@@ -117,6 +115,9 @@
     },
 
     methods: {
+        closePopup() {
+      this.$emit("closePopup");
+    },
       handleFileChange(event) {
         this.tracker.file = event.target.files[0];
       },

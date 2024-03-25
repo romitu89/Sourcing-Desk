@@ -4,13 +4,13 @@
         <div class="popup-inner">
             <h2 class="title">{{ title }}</h2>
 
-            <ClientReportForm
+            <ClientReportForm @closePopup="closePopup()"
             v-if="title=='Client Report'"/>
 
-            <ClientManagerReportForm
+            <ClientManagerReportForm @closePopup="closePopup()"
             v-if="title=='Client Manager Report'"/>
 
-            <ClienMatrixForm
+            <ClienMatrixForm @closePopup="closePopup()"
             v-if="title=='Client Matrix'"/>
 
         </div>
@@ -52,6 +52,9 @@ export default {
         };
     },
     methods: {
+        closePopup() {
+      this.$emit("closePopup");
+    },
         closePopup() {
             console.log(this.showUserCreate);
             this.showUserCreate = false;

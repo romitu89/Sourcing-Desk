@@ -15,9 +15,9 @@
        <h4>Matrix</h4>
     </div>
 </div>
-<ClientMisForm 
+<ClientMisForm
 :showPopUp="popup"
-    @closePopup ="closePopUp" 
+    @closePopup ="closePopUp"
     :title="title"
    v-if="popup">
 
@@ -67,7 +67,7 @@ import ClientMisForm from './ClientMisForm.vue'
     display: flex;
     flex-wrap: wrap;
     gap: 2%;
-    
+
 }
 .form{
     width: 250px;

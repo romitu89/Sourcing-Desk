@@ -4,10 +4,10 @@
            <div class="popup-inner">
                <h2 class="title">{{ title }}</h2>
 
-               <AmTrackerCreate
+               <AmTrackerCreate @closePopup="closePopup()"
                v-if="title=='Tracker Create'"/>
 
-               <AmTrackerView
+               <AmTrackerView @closePopup="closePopup()"
                v-if="title=='Tracker View'"/>
 
            </div>

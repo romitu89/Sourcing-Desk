@@ -3,11 +3,11 @@
         <div @click="closePopup()" class="close_btn"> <a ><font-awesome-icon :icon="['fas', 'xmark']" /></a></div>
         <div class="popup-inner">
             <h2 class="title">{{ title }}</h2>
-          
-            <CandidateUpdate 
+
+            <CandidateUpdate @closePopup="closePopup()"
             v-if="title=='Candidate Update'"/>
 
-            <WorkingCandidate 
+            <WorkingCandidate @closePopup="closePopup()"
             v-if="title=='Working Candidate'"/>
 
         </div>

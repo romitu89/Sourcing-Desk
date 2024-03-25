@@ -32,11 +32,9 @@
 
       <tr>
         <td></td>
-        <td>
-          <button class="cancel_btn">Cancel</button>
-          <button class="submit_btn">Submit</button>
-        </td>
-      </tr>
+       <td> <button @click="closePopup()" class="cancel_btn">Cancel</button>
+        <button class="submit_btn">Submit</button> </td>
+    </tr>
     </table>
   </form>
 
@@ -91,6 +89,9 @@ export default {
   },
 
   methods: {
+    closePopup() {
+      this.$emit("closePopup");
+    },
     userLocationApi() {
       axios
         .get("/api/editoruser-view")

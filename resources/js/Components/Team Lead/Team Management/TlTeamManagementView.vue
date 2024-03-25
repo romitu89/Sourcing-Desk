@@ -12,10 +12,10 @@
      </tr>
 
      <tr>
-         <td></td>
-        <td>
-         <button  class="submit_btn">Submit</button> </td>
-     </tr>
+        <td></td>
+       <td> <button @click="closePopup()" class="cancel_btn">Cancel</button>
+        <button class="submit_btn">Submit</button> </td>
+    </tr>
 
      </table>
 
@@ -69,7 +69,9 @@ import ResponsiveTable from '../../Shared Folder/ResponsiveTable.vue'
         },
 
         methods: {
-
+            closePopup() {
+      this.$emit("closePopup");
+    },
 userLocationApi()
 {
 axios

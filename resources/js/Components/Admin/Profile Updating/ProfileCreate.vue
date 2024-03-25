@@ -27,10 +27,10 @@
      </tr>
 
      <tr>
-         <td></td>
-        <td>
-         <button  class="submit_btn">Submit</button> </td>
-     </tr>
+        <td></td>
+       <td> <button @click="closePopup()" class="cancel_btn">Cancel</button>
+        <button class="submit_btn">Submit</button> </td>
+    </tr>
  </table>
  </form>
  </template>
@@ -72,6 +72,9 @@
             },
 
             methods:{
+                closePopup() {
+      this.$emit("closePopup");
+    },
             submitForm() {
                 this.submitted = true; // Set the submitted flag to true when attempting to submit the form
                 if (this.isFormValid) {

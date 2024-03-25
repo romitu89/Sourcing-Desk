@@ -54,10 +54,10 @@
    </tr>
 
    <tr>
-       <td></td>
-      <td>
-       <button  class="submit_btn">Submit</button> </td>
-   </tr>
+        <td></td>
+       <td> <button @click="closePopup()" class="cancel_btn">Cancel</button>
+        <button class="submit_btn">Submit</button> </td>
+    </tr>
 </table>
 </form>
 </template>
@@ -82,7 +82,56 @@ export default {
                submitted:false,
            };
        },
+       methods: {
+    closePopup() {
+      this.$emit("closePopup");
+    },
+
+userLocationApi()
+{
+axios
+.get('/api/amteam-view')
+.then(response => {
+this.userLocation = response.data.locations
+console.log(this.userLocation)
+})
+.catch(error => {
+console.log(error)
+this.errored = true
+})
+
+},
+
+
+submitForm() {
+this.submitted = true; // Set the submitted flag to true when attempting to submit the form
+// if (this.isFormValid) {
+
+    axios.post('/api/amteam-view', this.teamManager)
+.then(response => {
+  console.log('Form submitted:', response.data.results);
+  this.results = response.data.results;
+  console.log(this.results,"results")
+
+  this.errors={};
+
+
+  // Handle the response as needed
+})
+.catch(error => {
+  console.error('Error submitting form:', error.response.data.errors);
+  this.errors= error.response.data.errors;
+  console.log(this.errors, "error")
+});
+},
+},
+mounted(){
+this.userLocationApi()
+
+},
+
     }
+
 
 
 

@@ -23,7 +23,7 @@
 
     <tr>
         <td></td>
-       <td> <button class="cancel_btn">Cancel</button>
+       <td> <button @click="closePopup()" class="cancel_btn">Cancel</button>
         <button class="submit_btn">Submit</button> </td>
     </tr>
 
@@ -87,6 +87,9 @@ export default {
     },
 
     methods: {
+        closePopup() {
+      this.$emit("closePopup");
+    },
 
 userLocationApi()
 {

@@ -4,15 +4,15 @@
            <div class="popup-inner">
                <h2 class="title">{{ title }}</h2>
 
-               <RecruiterClientReport
+               <RecruiterClientReport @closePopup="closePopup()"
                v-if="title=='Client Report'"/>
 
-               <RecruiterManagerReport
+               <RecruiterManagerReport @closePopup="closePopup()"
                v-if="title=='Manager Report'"/>
 
            </div>
        </div>
-       
+
 </template>
 
 <script>
@@ -21,7 +21,7 @@ import RecruiterManagerReport from './RecruiterManagerReport.vue'
 
 
 export default {
-    
+
     name:'RecruiterClientsMisPopup',
 
     components:{

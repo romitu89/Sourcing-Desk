@@ -4,10 +4,10 @@
            <div class="popup-inner">
                <h2 class="title">{{ title }}</h2>
 
-               <TlSubmissionRequest
+               <TlSubmissionRequest @closePopup="closePopup()"
                v-if="title=='Submission Request'"/>
-               
-               <TlInbox
+
+               <TlInbox @closePopup="closePopup()"
                v-if="title=='Submission Inbox'"/>
            </div>
        </div>

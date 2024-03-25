@@ -5,10 +5,10 @@
         <div class="popup-inner">
             <h2 class="title">{{ title }}</h2>
 
-            <ClientCreateForm 
+            <ClientCreateForm @closePopup="closePopup()"
             v-if="title=='Client Create'"/>
 
-            <ClientViewForm 
+            <ClientViewForm @closePopup="closePopup()"
             v-if="title=='Client View'"/>
 
 
@@ -21,9 +21,9 @@ import ClientCreateForm from './ClientCreateForm.vue'
 import ClientViewForm from './ClientViewForm.vue'
 
 export default {
-    
+
     name:'ClientForm',
-   
+
     props: {
         showPopUp: {
             type: Boolean,

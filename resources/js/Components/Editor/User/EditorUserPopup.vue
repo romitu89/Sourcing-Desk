@@ -4,13 +4,13 @@
         <div class="popup-inner">
             <h2 class="title">{{ title }}</h2>
 
-      <EditorCreateForm
+      <EditorCreateForm @closePopup="closePopup()"
       v-if="title=='Create Form'"/>
 
-      <EditorViewForm
+      <EditorViewForm @closePopup="closePopup()"
       v-if="title=='View Form'"/>
 
-      <EditorLoginForm
+      <EditorLoginForm @closePopup="closePopup()"
       v-if="title=='Login Form'"/>
 
         </div>

@@ -18,9 +18,9 @@
        <h4>Matrix</h4>
     </div>
 </div>
-<UserMisForm 
+<UserMisForm
 :showPopUp="popup"
-    @closePopup ="closePopUp" 
+    @closePopup ="closePopUp"
     :title="title"
    v-if="popup">
 
@@ -72,7 +72,7 @@ import UserMisForm from './UserMisForm.vue'
 </script>
 <style scoped>
 *{
-    
+
     background: cover;
 }
 .container{

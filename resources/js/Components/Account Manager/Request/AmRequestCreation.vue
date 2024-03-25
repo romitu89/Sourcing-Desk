@@ -81,11 +81,11 @@
         </td>
       </tr>
 
-     <tr>
-         <td></td>
-        <td> <button class="cancel_btn">Cancel</button>
-         <button  class="submit_btn">Submit</button> </td>
-     </tr>
+      <tr>
+        <td></td>
+       <td> <button @click="closePopup()" class="cancel_btn">Cancel</button>
+        <button class="submit_btn">Submit</button> </td>
+    </tr>
 
      </table>
 
@@ -124,6 +124,9 @@ import MultiSelect from '../../Shared Folder/MultiSelect.vue';
   },
 
   methods:{
+    closePopup() {
+      this.$emit("closePopup");
+    },
 
 userLocationApi()
 {

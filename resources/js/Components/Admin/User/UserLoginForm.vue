@@ -17,7 +17,7 @@
     <td ><select id="email" v-model="employee.selectedEmail" name="email">
     <option value="">Select Email</option>
     <option v-for="item in loginData" :key='item.email_id' :value="item.email_id">{{ item.email_id }}</option>
-    
+
     </select><br>
     <span v-if="errors.selectedEmail" class="error">{{errors.selectedEmail[0]}}</span></td>
     </tr>
@@ -36,7 +36,8 @@
 
     <tr>
         <td></td>
-       <td> <button class="submit_btn">Submit</button> </td>
+       <td> <button @click="closePopup()" class="cancel_btn">Cancel</button>
+        <button class="submit_btn">Submit</button> </td>
     </tr>
 
 </table>
@@ -69,13 +70,17 @@ import Swal from 'sweetalert2'
 
         methods: {
 
+            closePopup() {
+      this.$emit("closePopup");
+    },
+
             userLocationApi()
         {
             axios
       .get('/api/adminuser-login')
       .then(response => {
         this.loginData = response.data.login
-        
+
         console.log(this.loginData)
       })
       .catch(error => {

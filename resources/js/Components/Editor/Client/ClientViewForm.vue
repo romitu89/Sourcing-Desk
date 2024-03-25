@@ -23,11 +23,10 @@
             </td>
           </tr>
           <tr>
-            <td></td>
-            <td>
-              <button class="submit_btn">Submit</button>
-            </td>
-          </tr>
+        <td></td>
+       <td> <button @click="closePopup()" class="cancel_btn">Cancel</button>
+        <button class="submit_btn">Submit</button> </td>
+    </tr>
         </table>
       </form>
       <div v-if="results">
@@ -66,6 +65,9 @@
       };
     },
     methods: {
+        closePopup() {
+      this.$emit("closePopup");
+    },
       userLocationApi() {
         axios.get('/api/editorclient-view')
     .then(response => {
@@ -94,7 +96,7 @@
           .catch(error => {
             console.error('Error submitting form:', error);
             this.errors = error.response.data.errors;
-           
+
           });
       }
     },

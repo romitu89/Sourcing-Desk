@@ -4,10 +4,10 @@
            <div class="popup-inner">
                <h2 class="title">{{ title }}</h2>
 
-               <TlTeamManagementCreate
+               <TlTeamManagementCreate @closePopup="closePopup()"
                v-if="title=='Team Management Create'"/>
 
-               <TlTeamManagementView
+               <TlTeamManagementView @closePopup="closePopup()"
                v-if="title=='Team Management View'"/>
 
            </div>

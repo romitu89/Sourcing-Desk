@@ -5,10 +5,10 @@
 <div class="popup-inner">
     <h2 class="title">{{ title }}</h2>
 
-    <WorkingCandidateForm 
+    <WorkingCandidateForm @closePopup="closePopup()"
     v-if="title=='Working Candidate'"/>
 
-    <FilteredDatabaseForm 
+    <FilteredDatabaseForm @closePopup="closePopup()"
     v-if="title=='Filtered Database'"/>
 
 </div>

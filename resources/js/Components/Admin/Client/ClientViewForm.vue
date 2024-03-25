@@ -23,11 +23,10 @@
             </td>
           </tr>
           <tr>
-            <td></td>
-            <td>
-                <button type="submit" class="submit_btn">Submit</button>
-            </td>
-          </tr>
+        <td></td>
+       <td> <button @click="closePopup()" class="cancel_btn">Cancel</button>
+        <button class="submit_btn">Submit</button> </td>
+    </tr>
         </table>
       </form>
       <div v-if="results">
@@ -66,6 +65,9 @@
       };
     },
     methods: {
+        closePopup() {
+      this.$emit("closePopup");
+    },
       userLocationApi() {
         axios.get('/api/adminclient-view')
     .then(response => {

@@ -4,10 +4,10 @@
            <div class="popup-inner">
                <h2 class="title">{{ title }}</h2>
 
-               <TlTrackerCreate
+               <TlTrackerCreate @closePopup="closePopup()"
                v-if="title=='Tracker Create'"/>
 
-               <TlTrackerView
+               <TlTrackerView @closePopup="closePopup()"
                v-if="title=='Tracker View'"/>
 
            </div>
@@ -18,7 +18,7 @@
 
    import TlTrackerCreate from './TlTrackerCreate.vue'
    import TlTrackerView from './TlTrackerView.vue'
-   
+
        export default {
            name:'TlTrackerPopup',
 

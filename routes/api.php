@@ -14,6 +14,10 @@ use App\Http\Controllers\Admin\UserMIS\AccountManager;
 use App\Http\Controllers\Admin\UserMIS\TeamLead;
 use App\Http\Controllers\Admin\UserMIS\Recruiter;
 use App\Http\Controllers\Admin\UserMIS\UserMatrix;
+use App\Http\Controllers\Admin\Database\WorkingCandidate;
+use App\Http\Controllers\Admin\Database\FilteredDatabase;
+use App\Http\Controllers\Admin\ProfileUpdating\AdminUpdateRequest;
+use App\Http\Controllers\Admin\ProfileUpdating\AdminDeletionRequest;
 //------------------------------------------------------------
 use App\Http\Controllers\Editor\User\EditorUserCreate;
 use App\Http\Controllers\Editor\User\EditorUserView;
@@ -37,6 +41,8 @@ use App\Http\Controllers\AccountManager\ClientMIS\AMClientManager;
 use App\Http\Controllers\AccountManager\ClientMIS\AMMatrix;
 use App\Http\Controllers\AccountManager\UserMIS\AMRecruiter;
 use App\Http\Controllers\AccountManager\UserMIS\AMTeamLead;
+use App\Http\Controllers\Admin\ProfileUpdating\DeletionRequest;
+use App\Http\Controllers\Admin\ProfileUpdating\UpdateRequest;
 //----------------------------------------------------------------
 
 use App\Http\Controllers\TeamLead\Tracker\TLTrackerCreate;
@@ -169,6 +175,32 @@ Route::middleware('web')->group(function () {
     Route::Post('/adminuserMis-userMatrix', [UserMatrix::class, 'store']);
 
     //------------------------------------------------------------------------------
+
+    // Admin/Database/WorkingCandidate
+
+    Route::get('/adminDatabase-workingcandidate', [WorkingCandidate::class, 'create']);
+    Route::Post('/adminDatabase-workingcandidate', [WorkingCandidate::class, 'store']);
+
+    //------------------------------------------------------------------------------
+
+    // Admin/Database/FilteredDatabase
+
+    Route::get('/adminDatabase-filteredData', [FilteredDatabase::class, 'create']);
+    Route::Post('/adminDatabase-filteredData', [FilteredDatabase::class, 'store']);
+
+    //------------------------------------------------------------------------------
+
+    // Admin/Database/Update Request
+
+    Route::get('/adminProfile-updateRequest', [AdminUpdateRequest::class, 'create']);
+    Route::Post('/adminProfile-updateRequest', [AdminUpdateRequest::class, 'store']);
+
+    //------------------------------------------------------------------------------
+
+    // Admin/Database/Deletion Request
+
+    Route::get('/adminProfile-deletionRequest', [AdminDeletionRequest::class, 'create']);
+    Route::Post('/adminProfile-deletionRequest', [AdminDeletionRequest::class, 'store']);
 
     //------------------------------------------------------------------------------
     //------------------------------------------------------------------------------

@@ -4,7 +4,7 @@
            <div class="popup-inner">
                <h2 class="title">{{ title }}</h2>
 
-               <TlRequestCreation
+               <TlRequestCreation @closePopup="closePopup()"
                v-if="title=='Request Creation'"/>
 
            </div>

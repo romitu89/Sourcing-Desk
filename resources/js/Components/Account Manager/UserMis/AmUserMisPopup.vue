@@ -3,15 +3,15 @@
            <div @click="closePopup()" class="close_btn"> <a ><font-awesome-icon :icon="['fas', 'xmark']" /></a></div>
            <div class="popup-inner">
                <h2 class="title">{{ title }}</h2>
-             
-               <AmUserTeamLead 
+
+               <AmUserTeamLead @closePopup="closePopup()"
                v-if="title =='Team Lead'"/>
 
-               <AmUserMisRecruiter 
+               <AmUserMisRecruiter @closePopup="closePopup()"
                v-if="title =='Recruiter'"/>
 
-              
-   
+
+
            </div>
        </div>
 </template>
@@ -27,7 +27,7 @@ export default {
     components:{
         AmUserTeamLead,
         AmUserMisRecruiter,
-        
+
     },
 
     props: {

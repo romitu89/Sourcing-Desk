@@ -3,14 +3,14 @@
         <div @click="closePopup()" class="close_btn"> <a ><font-awesome-icon :icon="['fas', 'xmark']" /></a></div>
         <div class="popup-inner">
             <h2 class="title">{{ title }}</h2>
-          
-      <RequestCreate 
+
+      <RequestCreate @closePopup="closePopup()"
       v-if="title=='Request Create'"/>
-      
-      <ActiveRequest 
+
+      <ActiveRequest @closePopup="closePopup()"
       v-if="title=='Active Inactive Request'"/>
 
-      
+
         </div>
     </div>
 </template>
@@ -26,7 +26,7 @@ export default {
     component: {
         RequestCreate,
         ActiveRequest,
-        
+
     },
     props: {
         showPopUp: {

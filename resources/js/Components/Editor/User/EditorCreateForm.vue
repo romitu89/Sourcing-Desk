@@ -86,10 +86,10 @@
      </tr>
 
      <tr>
-         <td></td>
-        <td> <button class="cancel_btn">Cancel</button>
-         <button  class="submit_btn">Submit</button> </td>
-     </tr>
+        <td></td>
+       <td> <button @click="closePopup()" class="cancel_btn">Cancel</button>
+        <button class="submit_btn">Submit</button> </td>
+    </tr>
 
      </table>
 
@@ -128,6 +128,9 @@
 
 
          methods:{
+            closePopup() {
+      this.$emit("closePopup");
+    },
 
              userLocationApi()
          {
@@ -175,7 +178,7 @@
                          showConfirmButton: false,
                          timer: 5000
                          });
-                         
+
                          this.resetForm()
 
                    }

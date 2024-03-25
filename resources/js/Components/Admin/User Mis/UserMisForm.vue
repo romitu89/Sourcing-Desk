@@ -1,21 +1,21 @@
 <template>
-    
+
     <div class="popup">
 
         <div @click="closePopup()" class="close_btn"> <a ><font-awesome-icon :icon="['fas', 'xmark']" /></a></div>
         <div class="popup-inner">
             <h2 class="title">{{ title }}</h2>
 
-            <UserAccountManagerForm 
+            <UserAccountManagerForm @closePopup="closePopup()"
             v-if="title=='Account Manager'"/>
 
-            <UserTeamLeadForm 
+            <UserTeamLeadForm @closePopup="closePopup()"
             v-if="title=='Team Lead'"/>
 
-            <UserRecruiterForm 
+            <UserRecruiterForm @closePopup="closePopup()"
             v-if="title=='Recruiter'"/>
 
-            <UserMatrixForm 
+            <UserMatrixForm @closePopup="closePopup()"
             v-if="title=='User Matrix'"/>
 
         </div>
