@@ -82,7 +82,8 @@ export default {
         { label: "Location", key: "location" },
         { label: "Role", key: "role" },
         { label: "Department", key: "department" },
-        { label: "Reporting To", key: "reporting_to" },
+        { label: "Reporting Manager", key: "reporting_to_am" },
+        { label: "Reporting Team Lead", key: "reporting_to_tl" },
         { label: "DOB", key: "dob" },
         { label: "Edit", key: "edit" },
 
