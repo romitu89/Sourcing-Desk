@@ -37,7 +37,7 @@
           </tbody>
           <tbody v-else>
             <tr>
-              <td :colspan="columns.length" class="text-center">No results found</td>
+              <td :colspan="columns.length" class="no-results">No results found</td>
             </tr>
           </tbody>
         </table>
@@ -266,6 +266,7 @@ export default {
   font-size: 1.5rem;
   color: #d9534f;
   text-align: center;
+  justify-content: center;
   padding: 20px 0;
 }
 </style>
