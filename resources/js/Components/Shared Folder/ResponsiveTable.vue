@@ -1,126 +1,141 @@
 <template>
-    <div class="container-fluid mt-4">
-      <!-- Enhanced Search Bar -->
-      <div class="input-group mb-3 search-bar">
-        <input
-          type="text"
-          class="form-control search-input"
-          v-model="searchTerm"
-          placeholder="Search..."
-          @input="filterData"
-        />
-        <div class="input-group-append">
-          <button class="btn btn-outline-secondary search-button" type="button">
-            <font-awesome-icon icon="search" /> <!-- Ensure you include FontAwesome for this icon -->
-          </button>
-        </div>
-      </div>
-
-      <div>
-        <!-- Data Table -->
-        <div class="table-responsive">
-          <table class="table table-striped table-hover">
-            <thead class="thead-dark">
-              <tr>
-                <th v-for="col in columns" :key="col.key">{{ col.label }}</th>
-              </tr>
-            </thead>
-            <tbody v-if="paginatedResults.length > 0">
-              <tr v-for="res in paginatedResults" :key="res.id">
-                <td v-for="col in columns" :key="col.key" :data-label="col.label">
-                  <slot :name="col.key" :row="res">
-                    {{ res[col.key] }}
-                  </slot>
-                </td>
-              </tr>
-            </tbody>
-            <tbody v-else>
-              <tr>
-                <td :colspan="columns.length" class="text-center">
-                  No results found
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <!-- Pagination -->
-        <nav v-if="paginatedResults.length > 0">
-          <ul class="pagination">
-            <li class="page-item" :class="{ disabled: currentPage === 1 }">
-              <button class="page-link" @click="currentPage--" :disabled="currentPage === 1">Previous</button>
-            </li>
-            <li class="page-item" v-for="n in pageCount" :key="n" :class="{ active: n === currentPage }">
-              <button class="page-link" @click="changePage(n)">{{ n }}</button>
-            </li>
-            <li class="page-item" :class="{ disabled: currentPage === pageCount }">
-              <button class="page-link" @click="currentPage++" :disabled="currentPage === pageCount">Next</button>
-            </li>
-          </ul>
-        </nav>
+  <div v-if="buttonAction" class="container-fluid mt-4">
+    <!-- Enhanced Search Bar -->
+    <div class="input-group mb-3 search-bar">
+      <input
+        type="text"
+        class="form-control search-input"
+        v-model="searchTerm"
+        placeholder="Search..."
+        @input="filterData"
+      />
+      <div class="input-group-append">
+        <button class="btn btn-outline-secondary search-button" type="button">
+          <font-awesome-icon icon="search" />
+          <!-- Ensure you include FontAwesome for this icon -->
+        </button>
       </div>
     </div>
-  </template>
 
+    <div>
+      <!-- Data Table -->
+      <div class="table-responsive">
+        <table class="table table-striped table-hover">
+          <thead class="thead-dark">
+            <tr>
+              <th v-for="col in columns" :key="col.key">{{ col.label }}</th>
+            </tr>
+          </thead>
+          <tbody v-if="paginatedResults.length > 0">
+            <tr v-for="res in paginatedResults" :key="res.id">
+              <td v-for="col in columns" :key="col.key" :data-label="col.label">
+                <slot :name="col.key" :row="res">
+                  {{ res[col.key] }}
+                </slot>
+              </td>
+            </tr>
+          </tbody>
+          <tbody v-else>
+            <tr>
+              <td :colspan="columns.length" class="text-center">No results found</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <!-- Pagination -->
+      <nav v-if="paginatedResults.length > 0">
+        <ul class="pagination">
+          <li class="page-item" :class="{ disabled: currentPage === 1 }">
+            <button
+              class="page-link"
+              @click="currentPage--"
+              :disabled="currentPage === 1"
+            >
+              Previous
+            </button>
+          </li>
+          <li
+            class="page-item"
+            v-for="n in pageCount"
+            :key="n"
+            :class="{ active: n === currentPage }"
+          >
+            <button class="page-link" @click="changePage(n)">{{ n }}</button>
+          </li>
+          <li class="page-item" :class="{ disabled: currentPage === pageCount }">
+            <button
+              class="page-link"
+              @click="currentPage++"
+              :disabled="currentPage === pageCount"
+            >
+              Next
+            </button>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</template>
 
-
-
-  <script>
-  export default {
-    props: {
-      results: Array,
-      columns: Array,
+<script>
+export default {
+  props: {
+    results: Array,
+    columns: Array,
+    buttonAction: {
+      Type: Boolean,
+      default: false,
     },
-    data() {
-      return {
-        searchTerm: "",
-        filteredResults: [],
-        currentPage: 1,
-        perPage: 10,
-      };
+  },
+  data() {
+    return {
+      searchTerm: "",
+      filteredResults: [],
+      currentPage: 1,
+      perPage: 10,
+    };
+  },
+  mounted() {
+    this.filteredResults = this.results;
+  },
+  watch: {
+    results: "filterData",
+  },
+  computed: {
+    pageCount() {
+      return Math.ceil(this.filteredResults.length / this.perPage);
     },
-    mounted() {
-      this.filteredResults = this.results;
+    paginatedResults() {
+      const start = (this.currentPage - 1) * this.perPage;
+      const end = this.currentPage * this.perPage;
+      return this.filteredResults.slice(start, end);
     },
-    watch: {
-      results: "filterData",
-    },
-    computed: {
-      pageCount() {
-        return Math.ceil(this.filteredResults.length / this.perPage);
-      },
-      paginatedResults() {
-        const start = (this.currentPage - 1) * this.perPage;
-        const end = this.currentPage * this.perPage;
-        return this.filteredResults.slice(start, end);
-      },
-    },
-    methods: {
-        changePage(pageNumber) {
+  },
+  methods: {
+    changePage(pageNumber) {
       this.currentPage = pageNumber;
     },
     filterData() {
-  if (!this.searchTerm) {
-    this.filteredResults = this.results;
-    return;
-  }
+      if (!this.searchTerm) {
+        this.filteredResults = this.results;
+        return;
+      }
 
-  this.filteredResults = this.results.filter((row) =>
-    Object.values(row).some((value) =>
-      String(value)
-        .toLowerCase()
-        .includes(this.searchTerm.toLowerCase())
-    )
-  );
-  // If after filtering there are no results, reset the currentPage to 1
-  if (this.filteredResults.length === 0) {
-    this.currentPage = 1;
-  }
-},
+      this.filteredResults = this.results.filter((row) =>
+        Object.values(row).some((value) =>
+          String(value).toLowerCase().includes(this.searchTerm.toLowerCase())
+        )
+      );
+      // If after filtering there are no results, reset the currentPage to 1
+      if (this.filteredResults.length === 0) {
+        this.currentPage = 1;
+      }
     },
-  };
-  </script>
+  },
+};
+</script>
 
- <style scoped>
+<style scoped>
 .container-fluid {
   padding: 0 15px;
 }
@@ -132,24 +147,23 @@
   max-width: 600px;
   margin: 0 auto 20px;
   border: 1px solid #ced4da;
-  border-radius: .375rem;
+  border-radius: 0.375rem;
   overflow: hidden;
 }
 
 .search-input {
   flex-grow: 1;
   border: none;
-  padding: .375rem .75rem;
+  padding: 0.375rem 0.75rem;
   font-size: 1rem;
 }
 
 .search-button {
   background-color: #007bff;
   color: white;
-  padding: .375rem .75rem;
+  padding: 0.375rem 0.75rem;
   border: 2px solid #007bff;
   cursor: pointer;
-
 }
 
 .search-button:hover {
@@ -166,12 +180,10 @@
 .table {
   width: 100%;
   border-collapse: collapse;
-
-
 }
 
 .table th {
-  background-color: #0C1423; /* Deep navy blue for table headers */
+  background-color: #0c1423; /* Deep navy blue for table headers */
   color: lightblue; /* White text for contrast */
   padding: 12px;
   white-space: nowrap; /* Prevents text from wrapping */
@@ -183,7 +195,6 @@
   color: #333;
   border-bottom: 1px solid lightblue;
   text-align: center;
-
 }
 
 .table tr:nth-child(odd) td {
@@ -206,8 +217,8 @@
   color: #007bff;
   background-color: #fff;
   border: 1px solid #dee2e6;
-  padding: .375rem .75rem;
-  border-radius: .375rem;
+  padding: 0.375rem 0.75rem;
+  border-radius: 0.375rem;
   cursor: pointer;
 }
 
@@ -237,12 +248,15 @@
     max-width: none;
   }
 
-  .search-input, .search-button, .page-link {
-    padding: .25rem .5rem;
-    font-size: .875rem;
+  .search-input,
+  .search-button,
+  .page-link {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
   }
 
-  .table th, .table td {
+  .table th,
+  .table td {
     padding: 8px; /* Adjust padding */
     font-size: 14px; /* Adjust font size if necessary for space */
   }
@@ -255,4 +269,3 @@
   padding: 20px 0;
 }
 </style>
-
