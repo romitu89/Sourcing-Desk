@@ -90,13 +90,7 @@
             this.buttonAction = true;
           }
           this.results = response.data.results;
-            Swal.fire({
-              position: 'top-center',
-              icon: 'success',
-              title: 'Form submitted successfully',
-              showConfirmButton: false,
-              timer: 3000
-            });
+
           })
           .catch(error => {
             console.error('Error submitting form:', error);

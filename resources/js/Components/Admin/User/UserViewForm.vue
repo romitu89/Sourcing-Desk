@@ -110,8 +110,8 @@ export default {
     },
 
     submitForm() {
-      this.submitted = true; // Set the submitted flag to true when attempting to submit the form
-      // if (this.isFormValid) {
+      this.submitted = true;
+
 
       axios
         .post("/api/adminuser-view", this.employee)
