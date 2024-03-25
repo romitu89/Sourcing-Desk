@@ -13,7 +13,7 @@ class EditorUserCreate extends Controller
     public function create()
     {
         $user = Location::select('country')->distinct()
-        ->get();
+            ->get();
         return response()->json($user);
         // return response()->json(['message' => 'This is the create method']);
     }
@@ -94,7 +94,7 @@ Unicode characters */
             'department' => 'required',
             'role' => 'required',
 
-            'dob' => 'required'
+            'dob' => 'required|date|before:today',
 
         ], $messages);
         $empName = ucwords($request->empName);
