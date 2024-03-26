@@ -4,32 +4,42 @@
 
         <tr>
    <td ><label >Employee Name</label></td>
-   <td ><select id="client"  v-model.trim="client.name" class="color_cell"  name="Choose Location">
+   <td ><select id="employee"  v-model="client.employeeName" name="employee">
    <option value="">Choose Employee</option>
-   <option value="India">India</option>
-   <option value="usa">USA</option>
-   </select><br>
-   <span v-if="submitted && !validation.name" class="error">Name is required.</span></td>
-   </tr>
+   <option
+              v-for="item in userData"
+              :key="item.employee_name"
+              :value="item.employee_name"
+            >
+              {{ item.employee_name }}
+            </option></select
+          ><br /><span v-if="errors.employeeName" class="error">{{ errors.employeeName[0] }}</span>
+        </td>
+      </tr>
 
    <tr>
    <td ><label >Employee Email Id</label></td>
-   <td ><select id="email"  v-model.trim="client.email" class="color_cell"  name="Choose Client">
+   <td ><select id="email"  v-model.trim="client.employeeEmail"  name="Choose Client">
    <option value="">Choose Email</option>
-   <option value="India">India</option>
-   <option value="usa">USA</option>
-   </select><br>
-   <span v-if="submitted && !validation.email" class="error">Email is required.</span></td>
-   </tr>
+   <option
+              v-for="item in userData"
+              :key="item.email_id"
+              :value="item.email_id"
+            >
+              {{ item.email_id }}
+            </option></select
+          ><br /><span v-if="errors.employeeEmail" class="error">{{ errors.employeeEmail[0] }}</span>
+        </td>
+      </tr>
 
     <tr>
     <td ><label >Select Matrix</label></td>
-    <td ><select id="matrix"  v-model.trim="client.matrix"  name="matrix">
+    <td ><select id="matrix"  v-model="client.selectedMatrix"  name="matrix">
     <option value="">Choose Matrix</option>
     <option value="Selections-Skill">Selections-Skill</option>
                             <option value="Rejections-Skill">Rejections-Skill</option>
     </select><br>
-    <span v-if="submitted && !validation.matrix" class="error">Matrix is required.</span></td>
+    <span v-if="errors.selectedMatrix" class="error">{{ errors.selectedMatrix[0] }}</span></td>
     </tr>
 
     <tr>
@@ -50,52 +60,58 @@ import Swal from 'sweetalert2'
        {
            return{
                client: {
-                   name:"",
-                   email:"",
-                   matrix:"",
+                employeeName:"",
+                employeeEmail:"",
+                selectedMatrix:"",
 
                },
                submitted:false,
+               userData:[],
+                errors:{},
            };
        },
 
-       computed:{
-           validation(){
-
-               return {
-           name: this.client.name.trim() !== '',
-           email: this.client.email.trim() !== '',
-           matrix: this.client.matrix.trim() !== '',
-
-
-           };
-           },
-
-           isFormValid() {
-
-               return Object.values(this.validation).every(value => value);
-           },
-
-           },
-
+       
            methods:{
             closePopup() {
       this.$emit("closePopup");
     },
-           submitForm() {
-               this.submitted = true; // Set the submitted flag to true when attempting to submit the form
-               if (this.isFormValid) {
-               Swal.fire({
-                       position: "top-center",
-                       icon: "success",
-                       title: "Your form has been submitted",
-                       showConfirmButton: false,
-                       timer: 5000
-                       });
-// You might want to reset the form and submitted flag here if needed
-                       }
+    userLocationApi() {
+      axios
+        .get("/api/adminuserMis-userMatrix")
+        .then((response) => {
+          this.userData = response.data.User;
+          console.log(this.userData, "userData");
+        })
+        .catch((error) => {
+          console.log(error);
+          this.errored = true;
+        });
+    },
 
-               },
-           },
-    }
+    submitForm() {
+      this.submitted = true;
+      axios
+        .post("/api/adminuserMis-userMatrix", this.client)
+        .then((response) => {
+          this.errors = {};
+
+          console.log("Form submitted:", response.data.results);
+          if (Object.values(this.errors).length == 0) {
+            this.buttonAction = true;
+          }
+          this.results = response.data.results;
+
+          // Handle the response as needed
+        })
+        .catch((error) => {
+          console.error("Error submitting form:", error.response.data.errors);
+          this.errors = error.response.data.errors;
+        });
+    },
+  },
+  mounted() {
+    this.userLocationApi();
+  },
+};
 </script>

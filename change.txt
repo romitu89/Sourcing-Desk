@@ -1,0 +1,419 @@
+diff --git a/resources/js/Components/Admin/User/User.vue b/resources/js/Components/Admin/User/User.vue
+index 384d2e6..4ffb6c7 100644
+--- a/resources/js/Components/Admin/User/User.vue
++++ b/resources/js/Components/Admin/User/User.vue
+@@ -1,8 +1,8 @@
+ <template>
+-
++    
+     <div class="container">
+     <div class="form" @click="createPopUp()">
+-
++        
+         <div class="icon_div"><font-awesome-icon :icon="['fas', 'chart-gantt']" /></div>
+        <a ><h4>Create</h4></a>
+     </div>
+@@ -12,17 +12,18 @@
+     </div>
+     <div class="form" @click="loginPopUp()">
+         <div class="icon_div"><font-awesome-icon :icon="['fas', 'chart-gantt']" /></div>
+-        <h4>Login</h4>
++        <h4>Login</h4> 
+     </div>
+     <div class="form">
+         <div class="icon_div"><font-awesome-icon :icon="['fas', 'chart-gantt']" /></div>
+        <h4>Idle Time</h4>
+     </div>
+-
++   
+ </div>
+ <UserCreate
+     :showPopUp="popup"
+-    @closePopup ="closePopUp"
++    @closePopup ="closePopUp" 
++    @updateForm="updateForm"
+     :title="title"
+    v-if="popup">
+ 
+@@ -61,6 +62,11 @@ import UserCreate  from './usercreate.vue'
+             this.popup=true;
+             this.title="Login Form"
+         },
++        updateForm(title){
++            this.popup=true;
++            this.title= title
++            console.log('user.vue')
++        }
+ 
+        }
+     }
+@@ -73,7 +79,7 @@ import UserCreate  from './usercreate.vue'
+     display: flex;
+     flex-wrap: wrap;
+     gap: 2%;
+-
++    
+ }
+ .form{
+     width: 250px;
+@@ -97,4 +103,4 @@ import UserCreate  from './usercreate.vue'
+     text-align: center;
+     font-size: 30px;
+ }
+-</style>
++</style>
+\ No newline at end of file
+diff --git a/resources/js/Components/Admin/User/UserCreate.vue b/resources/js/Components/Admin/User/UserCreate.vue
+index 4a48c95..61205f6 100644
+--- a/resources/js/Components/Admin/User/UserCreate.vue
++++ b/resources/js/Components/Admin/User/UserCreate.vue
+@@ -6,11 +6,20 @@
+     <div class="popup-inner">
+       <h2 class="title">{{ title }}</h2>
+ 
+-      <UserCreateForm @closePopup="closePopup()" v-if="title == 'Create Form'" />
++      <UserCreateForm @closePopup="closePopup()" v-if="titleProp == 'Create Form'" />
++
++      <UserViewForm
++      @updateForm="updateForm"
++      v-if="titleProp == 'View Form'" />
++
++      <UserLoginForm v-if="titleProp == 'Login Form'" />
++
++      <UserEditForm 
++     
++      @closePopup="closePopup()"
++       v-if="titleProp == 'Edit Form'" />
+ 
+-      <UserViewForm @closePopup="closePopup()" v-if="title == 'View Form'" />
+ 
+-      <UserLoginForm @closePopup="closePopup()" v-if="title == 'Login Form'" />
+     </div>
+   </div>
+ </template>
+@@ -19,6 +28,7 @@
+ import UserCreateForm from "./UserCreateForm.vue";
+ import UserViewForm from "./UserViewForm.vue";
+ import UserLoginForm from "./UserLoginForm.vue";
++import UserEditForm from "./UserEditForm.vue";
+ 
+ export default {
+   name: "UserCreate",
+@@ -26,6 +36,8 @@ export default {
+     UserCreateForm,
+     UserViewForm,
+     UserLoginForm,
++    UserEditForm,
++
+   },
+   props: {
+     showPopUp: {
+@@ -41,20 +53,33 @@ export default {
+     tab(newVal) {
+       this.showUserCreate = newVal;
+     },
++
++    title(newVal){
++      this.titleProp=newVal
++    },
+   },
+   data() {
+     return {
+       showUserCreate: this.tab,
++      titleProp: this.title,
++
+     };
+   },
+   methods: {
++    updateForm(id){
++      console.log(id, "edit form")
++      let title = "Edit Form"
++      this.$emit('updateForm' ,title )
++      
++    },
++
+     closePopup() {
+       console.log(this.showUserCreate);
+       this.showUserCreate = false;
+       this.$emit("closePopup", this.showUserCreate);
+     },
+   },
+-  components: { UserCreateForm, UserViewForm, UserLoginForm },
++  components: { UserCreateForm, UserViewForm, UserLoginForm,UserEditForm },
+ };
+ </script>
+ 
+diff --git a/resources/js/Components/Admin/User/UserViewForm.vue b/resources/js/Components/Admin/User/UserViewForm.vue
+index e56d9e1..60bb409 100644
+--- a/resources/js/Components/Admin/User/UserViewForm.vue
++++ b/resources/js/Components/Admin/User/UserViewForm.vue
+@@ -1,140 +1,148 @@
+ <template>
+-  <form @submit.prevent="submitForm">
++
++<form @submit.prevent="submitForm">
+     <table class="input_form">
+-      <tr>
+-        <td><label>Select Location</label></td>
+-        <td>
+-          <select id="location" v-model="employee.selectedLocation" name="location">
+-            <option value="">Select Location</option>
+-            <option
+-              v-for="item in userLocation"
+-              :key="item.location"
+-              :value="item.location"
+-            >
+-              {{ item.location }}
+-            </option></select
+-          ><br /><span v-if="errors.selectedLocation" class="error">{{
+-            errors.selectedLocation[0]
+-          }}</span>
+-        </td>
+-      </tr>
+-
+-      <tr>
+-        <td><label>Select User</label></td>
+-        <td>
+-          <select id="user" v-model="employee.user" name="user">
+-            <option value="">Select User</option>
+-            <option value="current">Current User</option>
+-            <option value="removed">Removed User</option></select
+-          ><br /><span v-if="errors.user" class="error">{{ errors.user[0] }}</span>
+-        </td>
+-      </tr>
+-
+-      <tr>
++
++    <tr>
++    <td ><label >Select Location</label></td>
++    <td ><select id="location" v-model="employee.selectedLocation" name="location">
++    <option value="">Select Location</option>
++    <option v-for="item in userLocation" :key='item.location' :value="item.location">{{ item.location }}</option>
++
++    </select><br><span v-if="errors.selectedLocation" class="error">{{errors.selectedLocation[0]}}</span></td>
++    </tr>
++
++    <tr>
++    <td ><label >Select User</label></td>
++    <td ><select id="user" v-model="employee.user" name="user">
++    <option value="">Select User</option>
++    <option value="current">Current User</option>
++    <option value="removed">Removed User</option>
++    </select><br><span v-if="errors.user" class="error">{{errors.user[0]}}</span></td>
++    </tr>
++
++    <tr>
+         <td></td>
+-        <td>
+-          <button @click="closePopup()" class="cancel_btn">Cancel</button>
+-          <button class="submit_btn">Submit</button>
+-        </td>
+-      </tr>
+-    </table>
+-  </form>
+-
+-  <div v-if="results">
+-    <responsive-table :results="results" :columns="columns" :buttonAction="buttonAction">
+-      <!-- <template #edit="{ row }">
+-                        <Link
+-
+-                          >Edit</Link
++       <td> <button class="cancel_btn">Cancel</button>
++        <button class="submit_btn">Submit</button> </td>
++    </tr>
++
++</table>
++</form>
++
++<div v-if="results">
++                    <responsive-table :results="results" :columns="columns">
++
++
++                      <template #edit="{ row }">
++                        <div>
++                        <button title="Edit" @click="editItem(row.id)"
++
++                          ><font-awesome-icon :icon="['fas', 'pen-to-square']" /></button
+                         >
+-                      </template> -->
+-    </responsive-table>
+-  </div>
++                        <button title="Delete"
++
++                          ><font-awesome-icon :icon="['fas', 'trash']" /></button
++                        >
++                        </div>
++                      </template>
++                    </responsive-table>
++                  </div>
++
+ </template>
+ 
+ <script>
+-import ResponsiveTable from "../../Shared Folder/ResponsiveTable.vue";
++import ResponsiveTable from '../../Shared Folder/ResponsiveTable.vue'
+ 
+ export default {
+-  name: "UserViewForm",
+-
+-  components: {
+-    ResponsiveTable,
+-  },
+-  data() {
+-    return {
+-      buttonAction: false,
+-      employee: {
+-        selectedLocation: "",
+-        user: "",
+-      },
+-      // formData:{},
+-      userLocation: [],
+-      errors: [],
+-      results: [],
+-      columns: [
+-        { label: "Date-Time", key: "created_at" },
+-        { label: "Employee Name", key: "employee_name" },
+-        { label: "UserName", key: "username" },
+-        { label: "Employee Id", key: "employee_id" },
+-        { label: "Mobile Number", key: "mobile_number" },
+-        { label: "Email Id", key: "email_id" },
+-        { label: "Location", key: "location" },
+-        { label: "Role", key: "role" },
+-        { label: "Department", key: "department" },
+-        { label: "Reporting Manager", key: "reporting_to_am" },
+-        { label: "Reporting Team Lead", key: "reporting_to_tl" },
+-        { label: "DOB", key: "dob" },
+-        { label: "Edit", key: "edit" },
+-
+-        // ... etc. for other columns
+-      ],
+-    };
+-  },
+-
+-  methods: {
+-    closePopup() {
+-      this.$emit("closePopup");
++    name: 'UserViewForm',
++
++    components:{
++      ResponsiveTable
+     },
++    data()
++    {
++        return{
++            employee:
++            {
++              selectedLocation: "",
++            user:"",
++            },
++            // formData:{},
++            userLocation:[],
++            errors:[],
++            results:[],
++            columns: [
++  { label: 'Date-Time', key: 'created_at' },
++  { label: 'Employee Name', key: 'employee_name' },
++  { label: 'UserName', key: 'username' },
++  { label: 'Employee Id', key: 'employee_id' },
++  { label: 'Mobile Number', key: 'mobile_number' },
++  { label: 'Email Id', key: 'email_id' },
++  { label: 'Location', key: 'location' },
++  { label: 'Role', key: 'role' },
++  { label: 'Department', key: 'department' },
++  { label: 'Reporting To', key: 'reporting_to' },
++  { label: 'DOB', key: 'dob' },
++  { label: 'Edit', key: 'edit' },
+ 
+-    userLocationApi() {
+-      axios
+-        .get("/api/adminuser-view")
+-        .then((response) => {
+-          this.userLocation = response.data.locations;
+-          console.log(this.userLocation);
+-        })
+-        .catch((error) => {
+-          console.log(error);
+-          this.errored = true;
+-        });
++
++  // ... etc. for other columns
++],
++        };
+     },
+ 
+-    submitForm() {
+-      this.submitted = true;
++    methods: {
++
++      editItem(id){
++        console.log("edit item")
++        this.$emit('updateForm', id)
++      },
++
++userLocationApi()
++{
++axios
++.get('/api/adminuser-view')
++.then(response => {
++this.userLocation = response.data.locations
++console.log(this.userLocation)
++})
++.catch(error => {
++console.log(error)
++this.errored = true
++})
++
++},
+ 
+ 
+-      axios
+-        .post("/api/adminuser-view", this.employee)
+-        .then((response) => {
+-          this.errors = {};
++submitForm() {
++    this.submitted = true; // Set the submitted flag to true when attempting to submit the form
++    // if (this.isFormValid) {
+ 
+-          console.log("Form submitted:", response.data.results);
+-          if (Object.values(this.errors).length == 0) {
+-            this.buttonAction = true;
+-          }
+-          this.results = response.data.results;
++        axios.post('/api/adminuser-view', this.employee)
++  .then(response => {
++      console.log('Form submitted:', response.data.results);
++      this.results = response.data.results;
++      console.log(this.results,"results")
+ 
+-          // Handle the response as needed
+-        })
+-        .catch((error) => {
+-          console.error("Error submitting form:", error.response.data.errors);
+-          this.errors = error.response.data.errors;
+-        });
++      this.errors={};
++
++
++      // Handle the response as needed
++   })
++  .catch(error => {
++      console.error('Error submitting form:', error.response.data.errors);
++      this.errors= error.response.data.errors;
++      console.log(this.errors, "error")
++   });
++},
+     },
+-  },
+-  mounted() {
+-    this.userLocationApi();
+-  },
+-};
++mounted(){
++    this.userLocationApi()
++
++},
++
++
++}
+ </script>
++
