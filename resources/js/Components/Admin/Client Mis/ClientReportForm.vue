@@ -1,42 +1,62 @@
 <template>
    <form @submit.prevent="submitForm">
     <table class="input_form">
-
+        
         <tr>
-    <td ><label >Select Location</label></td>
-    <td ><select id="location" v-model.trim="client.location" class="color_cell" name="location">
-    <option value="">Choose Location</option>
-    <option value="India">India</option>
-    <option value="usa">USA</option>
-    </select><br>
-    <span v-if="submitted && !validation.location" class="error">Location is required.</span></td>
-    </tr>
+        <td><label>Select Location</label></td>
+        <td>
+          <select id="location" v-model="client.selectedLocation" name="location">
+            <option value="">Select Location</option>
+            <option
+              v-for="item in clientData"
+              :key="item.location"
+              :value="item.location"
+            >
+              {{ item.location }}
+            </option></select
+          ><br /><span v-if="errors.selectedLocation" class="error">{{
+            errors.selectedLocation[0]
+          }}</span>
+        </td>
+      </tr>
 
     <tr>
     <td ><label >Client Name</label></td>
-    <td ><select id="client"  v-model.trim="client.name" class="color_cell"  name="client">
+    <td ><select id="client"  v-model.trim="client.clientName"  name="client">
     <option value="">Choose Client</option>
-    <option value="India">India</option>
-    <option value="usa">USA</option>
-    </select><br>
-    <span v-if="submitted && !validation.name" class="error">Client Name is required.</span>
-    </td>
-    </tr>
+    <option
+              v-for="item in clientData"
+              :key="item.client_name"
+              :value="item.client_name"
+            >
+              {{ item.client_name }}
+            </option></select
+          ><br /><span v-if="errors.clientName" class="error">{{
+            errors.clientName[0]
+          }}</span>
+        </td>
+      </tr>
 
     <tr>
     <td ><label >Business Unit</label></td>
-    <td ><select id="business"  v-model.trim="client.business" class="color_cell"  name="business">
+    <td ><select id="business"  v-model.trim="client.businessName" name="business">
     <option value="">Choose B-Unit</option>
-    <option value="India">India</option>
-    <option value="usa">USA</option>
-    </select><br>
-    <span v-if="submitted && !validation.business" class="error">Business Unit is required.</span>
-    </td>
-    </tr>
+    <option
+              v-for="item in clientData"
+              :key="item.business_unit_name"
+              :value="item.business_unit_name"
+            >
+              {{ item.business_unit_name }}
+            </option></select
+          ><br /><span v-if="errors.businessName" class="error">{{
+            errors.businessName[0]
+          }}</span>
+        </td>
+      </tr>
 
     <tr>
     <td ><label >Select Matrix</label></td>
-    <td ><select id="matrix"  v-model.trim="client.matrix"  name="matrix">
+    <td ><select id="matrix"  v-model.trim="client.selectedMatrix"  name="matrix">
     <option value="">Choose Matrix</option>
     <option value="requirements">Requirements</option>
     <option value="submission">Submission</option>
@@ -81,59 +101,63 @@ export default {
         {
             return{
                 client: {
-                    name:"",
-                    business:"",
-                    location:"",
-                    matrix:"",
-                    from:"",
-                    to:"",
+                    clientName:"",
+                    businessName:"",
+                    selectedLocation:"",
+                    selectedMatrix:"",
+                    fromDate:"",
+                    toDate:"",
                 },
                 submitted:false,
+                clientData:[],
+                errors:{},
             };
         },
 
-        computed:{
-            validation(){
-                return {
-            name: this.client.name.trim() !== '',
-            business: this.client.business.trim() !== '',
-            location: this.client.location.trim() !== '',
-            matrix: this.client.matrix.trim() !== '',
-            from: this.client.from.trim() !== '',
-            to: this.client.to.trim() !== '',
-
-            };
-            },
-
-            isFormValid() {
-
-                return Object.values(this.validation).every(value => value);
-            },
-
-            },
-
+        
             methods:{
                 closePopup() {
       this.$emit("closePopup");
     },
-            submitForm() {
-                this.submitted = true; // Set the submitted flag to true when attempting to submit the form
-                if (this.isFormValid) {
-                Swal.fire({
-                        position: "top-center",
-                        icon: "success",
-                        title: "Your form has been submitted",
-                        showConfirmButton: false,
-                        timer: 5000
-                        });
-// You might want to reset the form and submitted flag here if needed
-                        }
-                else {
-                        Swal.fire("Form not Submitted");
-                        }
-                },
-            },
+
+    userLocationApi() {
+      axios
+        .get("/api/adminclient-report")
+        .then((response) => {
+          this.clientData = response.data.clients;
+          console.log(this.clientData, "clientData");
+        })
+        .catch((error) => {
+          console.log(error);
+          this.errored = true;
+        });
+    },
+
+    submitForm() {
+      this.submitted = true;
 
 
-}
+      axios
+        .post("/api/adminuser-view", this.client)
+        .then((response) => {
+          this.errors = {};
+
+          console.log("Form submitted:", response.data.results);
+          if (Object.values(this.errors).length == 0) {
+            this.buttonAction = true;
+          }
+          this.results = response.data.results;
+
+          // Handle the response as needed
+        })
+        .catch((error) => {
+          console.error("Error submitting form:", error.response.data.errors);
+          this.errors = error.response.data.errors;
+        });
+    },
+  },
+  mounted() {
+    this.userLocationApi();
+  },
+};
 </script>

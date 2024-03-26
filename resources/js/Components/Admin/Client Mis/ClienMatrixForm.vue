@@ -69,55 +69,62 @@ export default {
         {
             return{
                 client: {
-                    name:"",
-                    business:"",
-                    location:"",
+                    clientName:"",
+                    businessName:"",
+                    selectedLocation:"",
                     matrix:"",
 
                 },
                 submitted:false,
+                clientData:[],
+                errors:{},
             };
         },
 
-        computed:{
-            validation(){
-                return {
-            name: this.client.name.trim() !== '',
-            business: this.client.business.trim() !== '',
-            location: this.client.location.trim() !== '',
-            matrix: this.client.matrix.trim() !== '',
-
-
-            };
-            },
-
-            isFormValid() {
-
-                return Object.values(this.validation).every(value => value);
-            },
-
-            },
 
             methods:{
                 closePopup() {
       this.$emit("closePopup");
     },
-            submitForm() {
-                this.submitted = true; // Set the submitted flag to true when attempting to submit the form
-                if (this.isFormValid) {
-                Swal.fire({
-                        position: "top-center",
-                        icon: "success",
-                        title: "Your form has been submitted",
-                        showConfirmButton: false,
-                        timer: 5000
-                        });
-// You might want to reset the form and submitted flag here if needed
-                        }
-                else {
-                        Swal.fire("Form not Submitted");
-                        }
-                },
-            },
-}
+
+          userLocationApi() {
+      axios
+        .get("/api/adminclient-matrix")
+        .then((response) => {
+          this.clientData = response.data.clients;
+          console.log(this.clientData, "clientData");
+        })
+        .catch((error) => {
+          console.log(error);
+          this.errored = true;
+        });
+    },
+
+    submitForm() {
+      this.submitted = true;
+
+
+      axios
+        .post("/api/adminclient-managerreport", this.client)
+        .then((response) => {
+          this.errors = {};
+
+          console.log("Form submitted:", response.data.results);
+          if (Object.values(this.errors).length == 0) {
+            this.buttonAction = true;
+          }
+          this.results = response.data.results;
+
+          // Handle the response as needed
+        })
+        .catch((error) => {
+          console.error("Error submitting form:", error.response.data.errors);
+          this.errors = error.response.data.errors;
+        });
+    },
+  },
+  mounted() {
+    this.userLocationApi();
+  },
+};
 </script>
