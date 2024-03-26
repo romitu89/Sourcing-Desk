@@ -241,16 +241,7 @@ export default {
       submitted: false,
       userLocation: [],
       errors: {},
-      userAm: [],
-      userTl: [],
-      checkZeroError: false,
     };
-  },
-
-  computed: {
-    isFormValid() {
-      return Object.values(this.errors);
-    },
   },
 
   methods: {
@@ -299,8 +290,6 @@ export default {
         .post("/api/adminuser-create", this.employee)
         .then((response) => {
           if (response.data.message) {
-            // if( Object.values(this.errors).length == 0)
-            // {
             this.resetForm();
             this.errors = {};
             Swal.fire({
@@ -313,7 +302,7 @@ export default {
           }
         })
         .catch((error) => {
-          console.error(errors);
+          console.error(error.response.data.errors);
           this.errors = error.response.data.errors;
         });
     },

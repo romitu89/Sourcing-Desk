@@ -46,6 +46,7 @@ class Create extends Controller
         $messages = [
             'empName.required' => 'Employee Name is required.',
             'userName.required' => 'Username is required.',
+            'userName.regex' => 'The Username cannot contain spaces.',
             'password.required' => 'Password is required.',
             'userName.unique' => 'The Username has already been taken.',
             'cnfrmPassword.required' => 'Confirm Password is required.',
@@ -61,7 +62,7 @@ class Create extends Controller
 
         $rules = [
             'empName' => 'required|string|max:100',
-            'userName' => 'required|string|unique:users,username',
+            'userName' => 'required|string|unique:users,username|regex:/^\S*$/u',
             'password' => [
                 'required',
                 Password::min(8)
