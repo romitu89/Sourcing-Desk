@@ -5,26 +5,26 @@
 
     <tr>
     <td ><label >Client Name</label></td>
-    <td ><input type="text"  v-model="client.clientName" @blur="checkValidation()" placeholder="Client Name">
+    <td ><input type="text"  v-model="client.clientName" @blur="checkValidation('clientName')" placeholder="Client Name">
         <span v-if="errors.clientName" class="error">{{errors.clientName[0]}}</span></td>
     </tr>
 
     <tr>
     <td ><label >Business Unit Name</label></td>
-    <td ><input type="text" v-model="client.businessName" @blur="checkValidation()" placeholder="Business Unit Name">
+    <td ><input type="text" v-model="client.businessName"  @blur="checkValidation('businessName')" placeholder="Business Unit Name">
         <span v-if="errors.businessName" class="error">{{errors.businessName[0]}}</span></td>
     </tr>
 
     <tr>
     <td ><label >Sub Location</label></td>
-    <td ><input type="text" v-model="client.subLocation" @blur="checkValidation()" placeholder="Sub Location">
+    <td ><input type="text" v-model="client.subLocation"  @blur="checkValidation('subLocation')" placeholder="Sub Location">
 
         <span v-if="errors.subLocation" class="error">{{errors.subLocation[0]}}</span></td>
     </tr>
 
     <tr>
     <td ><label >Select Location</label></td>
-    <td ><select id="location" v-model="client.selectedLocation" @blur="checkValidation()" name="location">
+    <td ><select id="location" v-model="client.selectedLocation"  @blur="checkValidation('selectedLocation')" name="location">
     <option value="">Select Location</option>
     <option v-for="item in managersData" :key='item.country' :value="item.country">{{ item.country }}</option>
 
@@ -33,7 +33,7 @@
 
     <tr>
     <td ><label >Client Manager Name</label></td>
-    <td ><input type="text" v-model="client.selectedManagerName" @blur="checkValidation()" placeholder="Client Manager Name">
+    <td ><input type="text" v-model="client.selectedManagerName" @blur="checkValidation('selectedManagerName')" placeholder="Client Manager Name">
 
 
     </input><br><span v-if="errors.selectedManagerName" class="error">{{errors.selectedManagerName[0]}}</span></td>
@@ -41,7 +41,7 @@
 
     <tr>
     <td ><label >Client Manager Email ID</label></td>
-    <td ><input type="text" v-model="client.selectedManager" @blur="checkValidation()" placeholder="Client Manager Email ID">
+    <td ><input type="text" v-model="client.selectedManager"  @blur="checkValidation('selectedManager')" placeholder="Client Manager Email ID">
 
 
     </input><br><span v-if="errors.selectedManager" class="error">{{errors.selectedManager[0]}}</span></td>
@@ -96,13 +96,18 @@ export default {
             closePopup() {
       this.$emit("closePopup");
     },
+    checkValidation(fieldName) {
+      let dataError = Object.values(this.errors);
+      if (dataError.length > 1) {
+        this.submitForm();
+      } else {
+        if (this.errors.hasOwnProperty(fieldName)) {
+          delete this.errors[fieldName];
+        }
+      }
+    },
 
-            checkValidation()
-            {
-                if (this.isFormValid){
-                    this.submitForm()
-                }
-            },
+
 
 userLocationApi()
 {

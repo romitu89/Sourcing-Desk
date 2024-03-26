@@ -4,7 +4,7 @@
 
         <tr>
     <td ><label >Select Location</label></td>
-    <td ><select id="location" v-model="client.selectedLocation" name="location">
+    <td ><select id="location" v-model="client.selectedLocation"  @blur="checkValidation('selectedLocation')" name="location">
     <option value="">Choose Location</option>
     <option
               v-for="item in clientData"
@@ -21,7 +21,7 @@
 
     <tr>
     <td ><label >Client Name</label></td>
-    <td ><select id="Client"  v-model.trim="client.clientName" name="Client">
+    <td ><select id="Client"  v-model.trim="client.clientName"  @blur="checkValidation('clientName')" name="Client">
     <option value="">Choose Client</option>
     <option
               v-for="item in clientData"
@@ -38,7 +38,7 @@
 
     <tr>
     <td ><label >Business Unit</label></td>
-    <td ><select id="business"  v-model.trim="client.businessName"  name="business">
+    <td ><select id="business"  v-model.trim="client.businessName"  @blur="checkValidation('businessName')"  name="business">
     <option value="">Choose B-Unit</option>
     <option
               v-for="item in clientData"
@@ -55,7 +55,7 @@
 
     <tr>
     <td ><label >Select Matrix</label></td>
-    <td ><select id="matrix"  v-model="client.matrix"  name="matrix">
+    <td ><select id="matrix"  v-model="client.matrix"  @blur="checkValidation('matrix')" name="matrix">
     <option value="">Choose Matrix</option>
     <option value="requirements">Requirements</option>
     <option value="submission">Submission</option>
@@ -104,6 +104,16 @@ export default {
             methods:{
                 closePopup() {
       this.$emit("closePopup");
+    },
+    checkValidation(fieldName) {
+      let dataError = Object.values(this.errors);
+      if (dataError.length > 1) {
+        this.submitForm();
+      } else {
+        if (this.errors.hasOwnProperty(fieldName)) {
+          delete this.errors[fieldName];
+        }
+      }
     },
 
           userLocationApi() {

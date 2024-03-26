@@ -5,7 +5,7 @@
           <tr>
             <td><label>Select Location</label></td>
             <td>
-              <select v-model="client.selectedLocation" name="location">
+              <select v-model="client.selectedLocation" @blur="checkValidation('selectedLocation')" name="location">
                 <option value="">Select Location</option>
                 <option v-for="location in locations" :key="location" :value="location">{{ location }}</option>
               </select><br>
@@ -15,7 +15,7 @@
           <tr>
             <td><label>Sub Location</label></td>
             <td>
-              <select v-model="client.selectedSubLocation" name="subLocation">
+              <select v-model="client.selectedSubLocation" @blur="checkValidation('selectedSubLocation')" name="subLocation">
                 <option value="">Select Sub Location</option>
                 <option v-for="subLocation in subLocations" :key="subLocation" :value="subLocation">{{ subLocation }}</option>
               </select><br>
@@ -68,6 +68,16 @@
     methods: {
         closePopup() {
       this.$emit("closePopup");
+    },
+    checkValidation(fieldName) {
+      let dataError = Object.values(this.errors);
+      if (dataError.length > 1) {
+        this.submitForm();
+      } else {
+        if (this.errors.hasOwnProperty(fieldName)) {
+          delete this.errors[fieldName];
+        }
+      }
     },
       userLocationApi() {
         axios.get('/api/adminclient-view')

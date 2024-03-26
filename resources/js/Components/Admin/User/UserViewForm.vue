@@ -4,7 +4,7 @@
       <tr>
         <td><label>Select Location</label></td>
         <td>
-          <select id="location" v-model="employee.selectedLocation" name="location">
+          <select id="location" v-model="employee.selectedLocation"  @blur="checkValidation('selectedLocation')" name="location">
             <option value="">Select Location</option>
             <option
               v-for="item in userLocation"
@@ -22,7 +22,7 @@
       <tr>
         <td><label>Select User</label></td>
         <td>
-          <select id="user" v-model="employee.user" name="user">
+          <select id="user" v-model="employee.user"  @blur="checkValidation('user')" name="user">
             <option value="">Select User</option>
             <option value="current">Current User</option>
             <option value="removed">Removed User</option></select
@@ -95,6 +95,16 @@ export default {
   methods: {
     closePopup() {
       this.$emit("closePopup");
+    },
+    checkValidation(fieldName) {
+      let dataError = Object.values(this.errors);
+      if (dataError.length > 1) {
+        this.submitForm();
+      } else {
+        if (this.errors.hasOwnProperty(fieldName)) {
+          delete this.errors[fieldName];
+        }
+      }
     },
 
     userLocationApi() {

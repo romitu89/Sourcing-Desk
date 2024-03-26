@@ -1,11 +1,11 @@
 <template>
    <form @submit.prevent="submitForm">
     <table class="input_form">
-        
+
         <tr>
         <td><label>Select Location</label></td>
         <td>
-          <select id="location" v-model="client.selectedLocation" name="location">
+          <select id="location" v-model="client.selectedLocation"  @blur="checkValidation('selectedLocation')" name="location">
             <option value="">Select Location</option>
             <option
               v-for="item in clientData"
@@ -22,7 +22,7 @@
 
     <tr>
     <td ><label >Client Name</label></td>
-    <td ><select id="client"  v-model="client.clientName"  name="client">
+    <td ><select id="client"  v-model="client.clientName"  @blur="checkValidation('clientName')"  name="client">
     <option value="">Choose Client</option>
     <option
               v-for="item in clientData"
@@ -39,7 +39,7 @@
 
     <tr>
     <td ><label >Business Unit</label></td>
-    <td ><select id="business"  v-model.trim="client.businessName" name="business">
+    <td ><select id="business"  v-model.trim="client.businessName"  @blur="checkValidation('businessName')" name="business">
     <option value="">Choose B-Unit</option>
     <option
               v-for="item in clientData"
@@ -56,7 +56,7 @@
 
     <tr>
     <td ><label >Select Matrix</label></td>
-    <td ><select id="matrix"  v-model="client.selectedMatrix"  name="matrix">
+    <td ><select id="matrix"  v-model="client.selectedMatrix"  @blur="checkValidation('selectedMatrix')" name="matrix">
     <option value="">Choose Matrix</option>
     <option value="requirements">Requirements</option>
     <option value="submission">Submission</option>
@@ -72,13 +72,13 @@
 
     <tr>
     <td ><label >From Date</label></td>
-    <td ><input  v-model.trim="client.fromDate"  type="date" >
+    <td ><input  v-model.trim="client.fromDate"  @blur="checkValidation('fromDate')" type="date" >
       <span v-if="errors.fromDate" class="error">{{ errors.fromDate[0] }}</span></td>
     </tr>
 
     <tr>
     <td ><label >To Date</label></td>
-    <td ><input  v-model.trim="client.toDate"  type="date" >
+    <td ><input  v-model.trim="client.toDate"  @blur="checkValidation('toDate')" type="date" >
       <span v-if="errors.toDate" class="error">{{ errors.toDate[0] }}</span></td>
     </tr>
 
@@ -114,10 +114,20 @@ export default {
             };
         },
 
-        
+
             methods:{
                 closePopup() {
       this.$emit("closePopup");
+    },
+    checkValidation(fieldName) {
+      let dataError = Object.values(this.errors);
+      if (dataError.length > 1) {
+        this.submitForm();
+      } else {
+        if (this.errors.hasOwnProperty(fieldName)) {
+          delete this.errors[fieldName];
+        }
+      }
     },
 
     userLocationApi() {
