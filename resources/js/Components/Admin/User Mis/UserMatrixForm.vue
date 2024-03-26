@@ -4,7 +4,7 @@
 
         <tr>
    <td ><label >Employee Name</label></td>
-   <td ><select id="employee"  v-model="client.employeeName" name="employee">
+   <td ><select id="employee"  v-model="client.employeeName"  @blur="checkValidation('employeeName')" name="employee">
    <option value="">Choose Employee</option>
    <option
               v-for="item in userData"
@@ -19,7 +19,7 @@
 
    <tr>
    <td ><label >Employee Email Id</label></td>
-   <td ><select id="email"  v-model.trim="client.employeeEmail"  name="Choose Client">
+   <td ><select id="email"  v-model.trim="client.employeeEmail"  @blur="checkValidation('employeeEmail')" name="Choose Client">
    <option value="">Choose Email</option>
    <option
               v-for="item in userData"
@@ -34,7 +34,7 @@
 
     <tr>
     <td ><label >Select Matrix</label></td>
-    <td ><select id="matrix"  v-model="client.selectedMatrix"  name="matrix">
+    <td ><select id="matrix"  v-model="client.selectedMatrix"  @blur="checkValidation('selectedMatrix')" name="matrix">
     <option value="">Choose Matrix</option>
     <option value="Selections-Skill">Selections-Skill</option>
                             <option value="Rejections-Skill">Rejections-Skill</option>
@@ -75,6 +75,16 @@ import Swal from 'sweetalert2'
            methods:{
             closePopup() {
       this.$emit("closePopup");
+    },
+    checkValidation(fieldName) {
+      let dataError = Object.values(this.errors);
+      if (dataError.length > 1) {
+        this.submitForm();
+      } else {
+        if (this.errors.hasOwnProperty(fieldName)) {
+          delete this.errors[fieldName];
+        }
+      }
     },
     userLocationApi() {
       axios

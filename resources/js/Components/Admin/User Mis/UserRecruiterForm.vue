@@ -4,7 +4,7 @@
 
        <tr>
    <td ><label >Employee Name</label></td>
-   <td ><select id="employeeName"  v-model="client.employeeName" name="employeeName">
+   <td ><select id="employeeName"  v-model="client.employeeName"  @blur="checkValidation('employeeName')" name="employeeName">
    <option value="">Choose Employee</option>
    <option
               v-for="item in userData"
@@ -19,7 +19,7 @@
 
    <tr>
    <td ><label >Employee Email Id</label></td>
-   <td ><select id="email"  v-model="client.employeeEmail"  name="Choose Client">
+   <td ><select id="email"  v-model="client.employeeEmail"  @blur="checkValidation('employeeEmail')" name="Choose Client">
    <option value="">Choose Email</option>
    <option
               v-for="item in userData"
@@ -34,7 +34,7 @@
 
    <tr>
    <td ><label >Select Matrix</label></td>
-   <td ><select id="matrix"  v-model="client.selectedMatrix"  name="matrix">
+   <td ><select id="matrix"  v-model="client.selectedMatrix"  @blur="checkValidation('selectedMatrix')" name="matrix">
    <option value="">Choose Matrix</option>
    <option value="Requirements">Requirements</option>
    <option value="Submission">Submission</option>
@@ -50,13 +50,13 @@
 
    <tr>
    <td ><label >From Date</label></td>
-   <td ><input  v-model.trim="client.fromDate"  type="date" >
+   <td ><input  v-model.trim="client.fromDate"  @blur="checkValidation('fromDate')" type="date" >
     <span v-if="errors.fromDate" class="error">{{ errors.fromDate[0] }}</span></td>
    </tr>
 
    <tr>
    <td ><label >To Date</label></td>
-   <td ><input  v-model.trim="client.toDate"  type="date" >
+   <td ><input  v-model.trim="client.toDate"  @blur="checkValidation('toDate')" type="date" >
     <span v-if="errors.toDate" class="error">{{ errors.toDate[0] }}</span></td>
    </tr>
 
@@ -94,6 +94,16 @@ import Swal from 'sweetalert2'
            methods:{
             closePopup() {
       this.$emit("closePopup");
+    },
+    checkValidation(fieldName) {
+      let dataError = Object.values(this.errors);
+      if (dataError.length > 1) {
+        this.submitForm();
+      } else {
+        if (this.errors.hasOwnProperty(fieldName)) {
+          delete this.errors[fieldName];
+        }
+      }
     },
     userLocationApi() {
       axios
