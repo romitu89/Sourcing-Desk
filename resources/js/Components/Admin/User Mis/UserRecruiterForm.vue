@@ -4,7 +4,7 @@
 
        <tr>
    <td ><label >Employee Name</label></td>
-   <td ><select id="client"  v-model.trim="client.name" name="Choose Location">
+   <td ><select id="employeeName"  v-model="client.employeeName" name="employeeName">
    <option value="">Choose Employee</option>
    <option
               v-for="item in userData"
@@ -19,17 +19,22 @@
 
    <tr>
    <td ><label >Employee Email Id</label></td>
-   <td ><select id="email"  v-model.trim="client.email" class="color_cell"  name="Choose Client">
+   <td ><select id="email"  v-model="client.employeeEmail"  name="Choose Client">
    <option value="">Choose Email</option>
-   <option value="India">India</option>
-   <option value="usa">USA</option>
-   </select><br>
-   <span v-if="submitted && !validation.email" class="error">Email is required.</span></td>
-   </tr>
+   <option
+              v-for="item in userData"
+              :key="item.email_id"
+              :value="item.email_id"
+            >
+              {{ item.email_id }}
+            </option></select
+          ><br /><span v-if="errors.employeeEmail" class="error">{{ errors.employeeEmail[0] }}</span>
+        </td>
+      </tr>
 
    <tr>
    <td ><label >Select Matrix</label></td>
-   <td ><select id="matrix"  v-model.trim="client.matrix"  name="matrix">
+   <td ><select id="matrix"  v-model="client.selectedMatrix"  name="matrix">
    <option value="">Choose Matrix</option>
    <option value="Requirements">Requirements</option>
    <option value="Submission">Submission</option>
@@ -40,19 +45,19 @@
    <option value="Offboarded">Offboarded</option>
    <option value="Daily Report">Daily Report</option>
    </select><br>
-   <span v-if="submitted && !validation.matrix" class="error">Matrix is required.</span></td>
+   <span v-if="errors.selectedMatrix" class="error">{{ errors.selectedMatrix[0] }}</span></td>
    </tr>
 
    <tr>
    <td ><label >From Date</label></td>
-   <td ><input  v-model.trim="client.from"  type="date" >
-       <span v-if="submitted && !validation.from" class="error">From Date is required.</span></td>
+   <td ><input  v-model.trim="client.fromDate"  type="date" >
+    <span v-if="errors.fromDate" class="error">{{ errors.fromDate[0] }}</span></td>
    </tr>
 
    <tr>
    <td ><label >To Date</label></td>
-   <td ><input  v-model.trim="client.to"  type="date" >
-       <span v-if="submitted && !validation.to" class="error">To Date is required.</span></td>
+   <td ><input  v-model.trim="client.toDate"  type="date" >
+    <span v-if="errors.toDate" class="error">{{ errors.toDate[0] }}</span></td>
    </tr>
 
    <tr>
