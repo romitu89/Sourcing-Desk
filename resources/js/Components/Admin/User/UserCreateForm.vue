@@ -7,7 +7,7 @@
           <input
             type="text"
             v-model="employee.empName"
-            @blur="checkValidation()"
+            @blur="checkValidation('empName')"
             placeholder="Employee Name"
           />
           <span v-if="errors.empName" class="error">{{ errors.empName[0] }}</span>
@@ -20,7 +20,7 @@
           <input
             type="text"
             v-model="employee.userName"
-            @blur="checkValidation()"
+            @blur="checkValidation('userName')"
             placeholder="User Name"
           />
           <span v-if="errors.userName" class="error">{{ errors.userName[0] }}</span>
@@ -33,7 +33,7 @@
           <input
             type="password"
             v-model="employee.password"
-            @blur="checkValidation()"
+            @blur="checkValidation('password')"
             placeholder="Password"
           />
           <span v-if="errors.password" class="error">{{ errors.password[0] }}</span>
@@ -46,7 +46,7 @@
           <input
             type="password"
             v-model="employee.cnfrmPassword"
-            @blur="checkValidation()"
+            @blur="checkValidation('cnfrmPassword')"
             placeholder="Confirm Password"
           />
           <span v-if="errors.cnfrmPassword" class="error">{{
@@ -61,7 +61,7 @@
           <input
             type="text"
             v-model="employee.empId"
-            @blur="checkValidation()"
+            @blur="checkValidation('empId')"
             placeholder="Employee Id"
           />
           <span v-if="errors.empId" class="error">{{ errors.empId[0] }}</span>
@@ -74,7 +74,7 @@
           <input
             type="text"
             v-model="employee.email"
-            @blur="checkValidation()"
+            @blur="checkValidation('email')"
             placeholder="Email Id"
           />
           <span v-if="errors.email" class="error">{{ errors.email[0] }}</span>
@@ -87,7 +87,7 @@
           <input
             type="text"
             v-model="employee.mobile"
-            @blur="checkValidation()"
+            @blur="checkValidation('mobile')"
             placeholder="Mobile Number"
           />
           <span v-if="errors.mobile" class="error">{{ errors.mobile[0] }}</span>
@@ -100,7 +100,7 @@
           <select
             id="location"
             v-model="employee.selectedLocation"
-            @blur="checkValidation()"
+            @blur="checkValidation('selectedLocation')"
             name="location"
           >
             <option value="">Select Location</option>
@@ -120,7 +120,12 @@
       <tr>
         <td><label>Role</label></td>
         <td>
-          <select id="role" v-model="employee.role" @blur="checkValidation()" name="role">
+          <select
+            id="role"
+            v-model="employee.role"
+            @blur="checkValidation('role')"
+            name="role"
+          >
             <option value="">Select Role</option>
             <option value="admin">Admin</option>
             <option value="editor">Editor</option>
@@ -138,7 +143,7 @@
           <select
             id="amManager"
             v-model="employee.selectedReportAM"
-            @blur="checkValidation()"
+            @blur="checkValidation('selectedReportAM')"
             name="amManager"
           >
             <option value="">Select Email ID</option>
@@ -157,7 +162,7 @@
           <select
             id="tlManager"
             v-model="employee.selectedReportTL"
-            @blur="checkValidation()"
+            @blur="checkValidation('selectedReportAM')"
             name="tlManager"
           >
             <option value="">Select Email ID</option>
@@ -176,7 +181,7 @@
           <select
             id="department"
             v-model="employee.department"
-            @blur="checkValidation()"
+            @blur="checkValidation('department')"
             name="department"
           >
             <option value="">Select Department</option>
@@ -194,7 +199,7 @@
       <tr>
         <td><label>Date of Birth</label></td>
         <td>
-          <input v-model="employee.dob" @blur="checkValidation()" type="date" />
+          <input v-model="employee.dob" @blur="checkValidation('dob')" type="date" />
           <span v-if="errors.dob" class="error">{{ errors.dob[0] }}</span>
         </td>
       </tr>
@@ -236,50 +241,36 @@ export default {
       submitted: false,
       userLocation: [],
       errors: {},
-      userAm: [],
-      userTl: [],
-      checkZeroError: false,
     };
-  },
-
-  computed: {
-    isFormValid() {
-      return Object.values(this.errors);
-    },
   },
 
   methods: {
     closePopup() {
       this.$emit("closePopup");
     },
-    checkValidation() {
-      let submit = Object.values(this.errors);
-      console.log(submit, "is form valid");
-      if (this.isFormValid.length > 0 && !this.checkZeroError) {
-        // if(this.isFormValid.length!=0)
-        // { this.submitForm() }
+    checkValidation(fieldName) {
+      let dataError = Object.values(this.errors);
+      if (dataError.length > 1) {
         this.submitForm();
+      } else {
+        if (this.errors.hasOwnProperty(fieldName)) {
+          delete this.errors[fieldName];
+        }
       }
     },
-
     userLocationApi() {
       axios
         .get("/api/adminuser-create")
         .then((response) => {
-          console.log(response.data.locations, "data");
-          // console.log(response.data.location, "location")
-
           this.userLocation = response.data.locations;
           this.userAm = response.data.userAm;
           this.userTl = response.data.userTl;
-          console.log(this.userLocation, "location");
         })
         .catch((error) => {
           console.log(error);
           this.errored = true;
         });
     },
-
     resetForm() {
       this.employee.empName = "";
       this.employee.userName = "";
@@ -293,18 +284,14 @@ export default {
       this.employee.department = "";
       this.employee.dob = "";
     },
-
     submitForm() {
-      this.submitted = true; // Set the submitted flag to true when attempting to submit the form
-      // if (this.isFormValid) {
-
+      this.submitted = true;
       axios
         .post("/api/adminuser-create", this.employee)
         .then((response) => {
-          console.log("Form submitted:", response.data.message);
           if (response.data.message) {
-            // if( Object.values(this.errors).length == 0)
-            // {
+            this.resetForm();
+            this.errors = {};
             Swal.fire({
               position: "top-center",
               icon: "success",
@@ -312,23 +299,12 @@ export default {
               showConfirmButton: false,
               timer: 3000,
             });
-            this.resetForm();
-            this.errors = {};
-            // }
           }
-          // Handle the response as needed
         })
         .catch((error) => {
-          //   console.error('Error submitting form:', error.response.data.errors);
+          console.error(error.response.data.errors);
           this.errors = error.response.data.errors;
-          if (Object.keys(this.errors).length === 0) {
-            console.log(this.heckZeroError, "checkZeroError");
-            this.checkZeroError = true;
-          }
-          console.log(this.errors, "errors");
         });
-
-      // You might want to reset the form and submitted flag here if needed
     },
   },
 

@@ -46,13 +46,16 @@ class Create extends Controller
         $messages = [
             'empName.required' => 'Employee Name is required.',
             'userName.required' => 'Username is required.',
+            'userName.regex' => 'The Username cannot contain spaces.',
             'password.required' => 'Password is required.',
             'userName.unique' => 'The Username has already been taken.',
             'cnfrmPassword.required' => 'Confirm Password is required.',
             'cnfrmPassword.same' => 'The Confirm password field must match the password.',
             'empId.required' => 'Employee Id is required.',
+            'empId.regex' => 'The Employee Id cannot contain spaces.',
             'email.required' => 'Email is required.',
             'mobile.required' => 'Mobile is required.',
+            'mobile.regex' => 'The Mobile Number cannot contain spaces.',
             'selectedLocation.required' => 'Location is required.',
             'department.required' => 'Department is required.',
             'role.required' => 'Role is required.',
@@ -61,7 +64,7 @@ class Create extends Controller
 
         $rules = [
             'empName' => 'required|string|max:100',
-            'userName' => 'required|string|unique:users,username',
+            'userName' => 'required|string|unique:users,username|regex:/^\S*$/u',
             'password' => [
                 'required',
                 Password::min(8)
@@ -72,9 +75,9 @@ class Create extends Controller
                     ->uncompromised()
             ],
             'cnfrmPassword' => 'required|same:password',
-            'empId' => 'required|unique:users,employee_id',
+            'empId' => 'required|unique:users,employee_id|regex:/^\S*$/u',
             'email' => 'required|email|max:255|unique:users,email_id',
-            'mobile' => 'required|unique:users,mobile_number',
+            'mobile' => 'required|numeric|unique:users,mobile_number|regex:/^\S*$/u',
             'selectedLocation' => 'required',
             'department' => 'required',
             'role' => 'required',
