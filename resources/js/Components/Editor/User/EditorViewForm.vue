@@ -39,7 +39,7 @@
   </form>
 
   <div v-if="results">
-    <responsive-table :results="results" :columns="columns">
+    <responsive-table :results="results" :columns="columns" :buttonAction="buttonAction">
       <!-- <template #edit="{ row }">
                         <Link
 
@@ -60,13 +60,14 @@ export default {
   },
   data() {
     return {
+        buttonAction: false,
       employee: {
         selectedLocation: "",
         user: "",
       },
       // formData:{},
       userLocation: [],
-      errors: [],
+      errors: {},
       results: [],
 
       columns: [
@@ -106,19 +107,20 @@ export default {
     },
 
     submitForm() {
-      this.submitted = true; // Set the submitted flag to true when attempting to submit the form
-      // if (this.isFormValid) {
+      this.submitted = true;
+
 
       axios
         .post("/api/editoruser-view", this.employee)
         .then((response) => {
           console.log("Form submitted:", response.data.results);
           this.results = response.data.results;
-        //   this.errors = error.response.data.errors;
 
           this.errors = {};
+          if (Object.values(this.errors).length == 0) {
+            this.buttonAction = true;
+          }
 
-          // Handle the response as needed
         })
         .catch((error) => {
           console.error("Error submitting form:", error.response.data.errors);

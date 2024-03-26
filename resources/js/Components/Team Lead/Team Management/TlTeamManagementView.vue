@@ -22,7 +22,7 @@
     </form>
 
     <div v-if="results">
-                    <responsive-table :results="results" :columns="columns">
+                    <responsive-table :results="results" :columns="columns" :buttonAction="buttonAction">
 
 
                       <!-- <template #edit="{ row }">
@@ -50,6 +50,7 @@ import ResponsiveTable from '../../Shared Folder/ResponsiveTable.vue'
         data()
         {
             return{
+                buttonAction: false,
                 tlTeamManagement:{
                     selectedLocation:"",
 
@@ -94,11 +95,14 @@ this.submitted = true; // Set the submitted flag to true when attempting to subm
 
     axios.post('/api/tlteam-view', this.tlTeamManagement)
 .then(response => {
-  console.log('Form submitted:', response.data.results);
+
   this.results = response.data.results;
-  console.log(this.results,"results")
+
 
   this.errors={};
+  if (Object.values(this.errors).length == 0) {
+            this.buttonAction = true;
+          }
 
 
   // Handle the response as needed

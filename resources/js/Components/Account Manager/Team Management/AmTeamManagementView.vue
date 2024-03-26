@@ -21,6 +21,19 @@
 
     </form>
 
+    <div v-if="results">
+                    <responsive-table :results="results" :columns="columns" :buttonAction="buttonAction">
+
+
+                      <!-- <template #edit="{ row }">
+                        <Link
+
+                          >Edit</Link
+                        >
+                      </template> -->
+                    </responsive-table>
+                  </div>
+
  </template>
 
 <script>
@@ -29,6 +42,7 @@
 
         data() {
     return {
+        buttonAction: false,
       teamManager:{
       selectedLocation:'',
 
@@ -65,11 +79,13 @@ this.submitted = true; // Set the submitted flag to true when attempting to subm
 
     axios.post('/api/amteam-view', this.teamManager)
 .then(response => {
-  console.log('Form submitted:', response.data.results);
+
   this.results = response.data.results;
-  console.log(this.results,"results")
 
   this.errors={};
+  if (Object.values(this.errors).length == 0) {
+            this.buttonAction = true;
+          }
 
 
   // Handle the response as needed

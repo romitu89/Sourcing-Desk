@@ -30,7 +30,7 @@
         </table>
       </form>
       <div v-if="results">
-        <responsive-table :results="results" :columns="columns"></responsive-table>
+        <responsive-table :results="results" :columns="columns" :buttonAction="buttonAction"></responsive-table>
       </div>
     </div>
   </template>
@@ -45,6 +45,7 @@
     components: { ResponsiveTable },
     data() {
       return {
+        buttonAction: false,
         client: {
           selectedSubLocation: '',
           selectedLocation: '',
@@ -85,13 +86,11 @@
           .then(response => {
             this.results = response.data.results;
             this.errors = {};
-            Swal.fire({
-              position: 'top-center',
-              icon: 'success',
-              title: 'Form submitted successfully',
-              showConfirmButton: false,
-              timer: 3000
-            });
+            if (Object.values(this.errors).length == 0) {
+            this.buttonAction = true;
+          }
+          this.results = response.data.results;
+
           })
           .catch(error => {
             console.error('Error submitting form:', error);
