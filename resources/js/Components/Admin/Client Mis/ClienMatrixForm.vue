@@ -4,39 +4,58 @@
 
         <tr>
     <td ><label >Select Location</label></td>
-    <td ><select id="location" v-model.trim="client.location" class="color_cell" name="location">
+    <td ><select id="location" v-model="client.selectedLocation" name="location">
     <option value="">Choose Location</option>
-    <option value="India">India</option>
-    <option value="usa">USA</option>
-    </select><br>
-    <span v-if="submitted && !validation.location" class="error">Location is required.</span></td>
-    </tr>
+    <option
+              v-for="item in clientData"
+              :key="item.location"
+              :value="item.location"
+            >
+              {{ item.location }}
+            </option></select
+          ><br /><span v-if="errors.selectedLocation" class="error">{{
+            errors.selectedLocation[0]
+          }}</span>
+        </td>
+      </tr>
 
     <tr>
     <td ><label >Client Name</label></td>
-    <td ><select id="Client"  v-model.trim="client.name" class="color_cell"  name="Client">
+    <td ><select id="Client"  v-model.trim="client.clientName" name="Client">
     <option value="">Choose Client</option>
-    <option value="India">India</option>
-    <option value="usa">USA</option>
-    </select><br>
-    <span v-if="submitted && !validation.name" class="error">Client Name is required.</span>
-    </td>
-    </tr>
+    <option
+              v-for="item in clientData"
+              :key="item.client_name"
+              :value="item.client_name"
+            >
+              {{ item.client_name }}
+            </option></select
+          ><br /><span v-if="errors.clientName" class="error">{{
+            errors.clientName[0]
+          }}</span>
+        </td>
+      </tr>
 
     <tr>
     <td ><label >Business Unit</label></td>
-    <td ><select id="business"  v-model.trim="client.business" class="color_cell"  name="business">
+    <td ><select id="business"  v-model.trim="client.businessName"  name="business">
     <option value="">Choose B-Unit</option>
-    <option value="India">India</option>
-    <option value="usa">USA</option>
-    </select><br>
-    <span v-if="submitted && !validation.business" class="error">Business Unit is required.</span>
-    </td>
-    </tr>
+    <option
+              v-for="item in clientData"
+              :key="item.business_unit_name"
+              :value="item.business_unit_name"
+            >
+              {{ item.business_unit_name }}
+            </option></select
+          ><br /><span v-if="errors.businessName" class="error">{{
+            errors.businessName[0]
+          }}</span>
+        </td>
+      </tr>
 
     <tr>
     <td ><label >Select Matrix</label></td>
-    <td ><select id="matrix"  v-model.trim="client.matrix"  name="matrix">
+    <td ><select id="matrix"  v-model="client.matrix"  name="matrix">
     <option value="">Choose Matrix</option>
     <option value="requirements">Requirements</option>
     <option value="submission">Submission</option>
@@ -46,7 +65,7 @@
     <option value="Dropouts">Dropouts</option>
     <option value="Offboarded">Offboarded</option>
     </select><br>
-    <span v-if="submitted && !validation.matrix" class="error">Matrix is required.</span>
+    <span v-if="errors.matrix" class="error">{{ errors.matrix[0]}}</span>
     </td>
     </tr>
 
@@ -105,7 +124,7 @@ export default {
 
 
       axios
-        .post("/api/adminclient-managerreport", this.client)
+        .post("/api/adminclient-matrix", this.client)
         .then((response) => {
           this.errors = {};
 

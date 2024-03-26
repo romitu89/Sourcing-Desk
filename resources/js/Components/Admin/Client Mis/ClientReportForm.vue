@@ -22,7 +22,7 @@
 
     <tr>
     <td ><label >Client Name</label></td>
-    <td ><select id="client"  v-model.trim="client.clientName"  name="client">
+    <td ><select id="client"  v-model="client.clientName"  name="client">
     <option value="">Choose Client</option>
     <option
               v-for="item in clientData"
@@ -56,7 +56,7 @@
 
     <tr>
     <td ><label >Select Matrix</label></td>
-    <td ><select id="matrix"  v-model.trim="client.selectedMatrix"  name="matrix">
+    <td ><select id="matrix"  v-model="client.selectedMatrix"  name="matrix">
     <option value="">Choose Matrix</option>
     <option value="requirements">Requirements</option>
     <option value="submission">Submission</option>
@@ -66,20 +66,20 @@
     <option value="Dropouts">Dropouts</option>
     <option value="Offboarded">Offboarded</option>
     </select><br>
-    <span v-if="submitted && !validation.matrix" class="error">Matrix is required.</span>
+    <span v-if="errors.selectedMatrix" class="error">{{ errors.selectedMatrix[0] }}</span>
     </td>
     </tr>
 
     <tr>
     <td ><label >From Date</label></td>
-    <td ><input  v-model.trim="client.from"  type="date" >
-        <span v-if="submitted && !validation.from" class="error">From Date is required.</span></td>
+    <td ><input  v-model.trim="client.fromDate"  type="date" >
+      <span v-if="errors.fromDate" class="error">{{ errors.fromDate[0] }}</span></td>
     </tr>
 
     <tr>
     <td ><label >To Date</label></td>
-    <td ><input  v-model.trim="client.to"  type="date" >
-        <span v-if="submitted && !validation.to" class="error">To Date is required.</span></td>
+    <td ><input  v-model.trim="client.toDate"  type="date" >
+      <span v-if="errors.toDate" class="error">{{ errors.toDate[0] }}</span></td>
     </tr>
 
     <tr>
@@ -138,7 +138,7 @@ export default {
 
 
       axios
-        .post("/api/adminuser-view", this.client)
+        .post("/api/adminclient-report", this.client)
         .then((response) => {
           this.errors = {};
 

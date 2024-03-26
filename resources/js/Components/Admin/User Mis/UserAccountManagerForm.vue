@@ -4,28 +4,38 @@
 
     <tr>
     <td ><label >Employee Name</label></td>
-    <td ><select id="client"  v-model.trim="client.name" class="color_cell"  name="Choose Location">
-    <option value="">Choose Employee</option>
-    <option value="India">India</option>
-    <option value="usa">USA</option>
-    </select><br>
-    <span v-if="submitted && !validation.name" class="error">Name is required.</span></td>
-    </tr>
+    <td ><select id="empname"  v-model="client.employeeName"  name="empname">
+    <option value="">Choose Employee Name</option>
+    <option
+              v-for="item in userData"
+              :key="item.employee_name"
+              :value="item.employee_name"
+            >
+              {{ item.employee_name }}
+            </option></select
+          ><br /><span v-if="errors.employeeName" class="error">{{ errors.employeeName[0] }}</span>
+        </td>
+      </tr>
 
     <tr>
     <td ><label >Employee Email Id</label></td>
-    <td ><select id="email"  v-model.trim="client.email" class="color_cell"  name="Choose Client">
+    <td ><select id="email"  v-model="client.employeeEmail"  name="Choose Client">
     <option value="">Choose Email</option>
-    <option value="India">India</option>
-    <option value="usa">USA</option>
-    </select><br>
-    <span v-if="submitted && !validation.email" class="error">Email is required.</span></td>
-    </tr>
+    <option
+              v-for="item in userData"
+              :key="item.email_id"
+              :value="item.email_id"
+            >
+              {{ item.email_id }}
+            </option></select
+          ><br /><span v-if="errors.employeeEmail" class="error">{{ errors.employeeEmail[0] }}</span>
+        </td>
+      </tr>
 
 
     <tr>
     <td ><label >Select Matrix</label></td>
-    <td ><select id="matrix"  v-model.trim="client.matrix"  name="matrix">
+    <td ><select id="matrix"  v-model="client.selectedMatrix"  name="matrix">
     <option value="">Choose Matrix</option>
     <option value="Requirements">Requirements</option>
     <option value="Submission">Submission</option>
@@ -36,19 +46,19 @@
     <option value="Offboarded">Offboarded</option>
     <option value="Daily Report">Daily Report</option>
     </select><br>
-    <span v-if="submitted && !validation.matrix" class="error">Matrix is required.</span></td>
+    <span v-if="errors.selectedMatrix" class="error">{{ errors.selectedMatrix[0] }}</span></td>
     </tr>
 
     <tr>
     <td ><label >From Date</label></td>
-    <td ><input  v-model.trim="client.from"  type="date" >
-        <span v-if="submitted && !validation.from" class="error">From Date is required.</span></td>
+    <td ><input  v-model="client.fromDate"  type="date" >
+        <span v-if="errors.fromDate" class="error">{{ errors.fromDate[0] }}</span></td>
     </tr>
 
     <tr>
     <td ><label >To Date</label></td>
-    <td ><input  v-model.trim="client.to"  type="date" >
-        <span v-if="submitted && !validation.to" class="error">To Date is required.</span></td>
+    <td ><input  v-model="client.toDate"  type="date" >
+        <span v-if="errors.toDate" class="error">{{ errors.toDate[0] }}</span></td>
     </tr>
 
     <tr>
@@ -69,56 +79,62 @@ import Swal from 'sweetalert2'
         {
             return{
                 client: {
-                    name:"",
-                    email:"",
-                    matrix:"",
-                    from:"",
-                    to:"",
+                    employeeName:"",
+                    employeeEmail:"",
+                    selectedMatrix:"",
+                    fromDate:"",
+                    toDate:"",
                 },
                 submitted:false,
+                userData:[],
+                errors:{},
             };
         },
 
-        computed:{
-            validation(){
-
-                return {
-            name: this.client.name.trim() !== '',
-            email: this.client.email.trim() !== '',
-            matrix: this.client.matrix.trim() !== '',
-            from: this.client.from.trim() !== '',
-            to: this.client.to.trim() !== '',
-
-            };
-            },
-
-            isFormValid() {
-
-                return Object.values(this.validation).every(value => value);
-            },
-
-            },
 
             methods:{
                 closePopup() {
       this.$emit("closePopup");
     },
-            submitForm() {
-                this.submitted = true; // Set the submitted flag to true when attempting to submit the form
-                if (this.isFormValid) {
-                Swal.fire({
-                        position: "top-center",
-                        icon: "success",
-                        title: "Your form has been submitted",
-                        showConfirmButton: false,
-                        timer: 5000
-                        });
-// You might want to reset the form and submitted flag here if needed
-                        }
-                else {
-                        Swal.fire("Form not Submitted");
-                        }
-                },
-            },
-    }
+
+        userLocationApi() {
+      axios
+        .get("/api/adminuserMis-accountManager")
+        .then((response) => {
+          this.userData = response.data.User;
+          console.log(this.userData, "userData");
+        })
+        .catch((error) => {
+          console.log(error);
+          this.errored = true;
+        });
+    },
+
+    submitForm() {
+      this.submitted = true;
+
+
+      axios
+        .post("/api/adminuserMis-accountManager", this.client)
+        .then((response) => {
+          this.errors = {};
+
+          console.log("Form submitted:", response.data.results);
+          if (Object.values(this.errors).length == 0) {
+            this.buttonAction = true;
+          }
+          this.results = response.data.results;
+
+          // Handle the response as needed
+        })
+        .catch((error) => {
+          console.error("Error submitting form:", error.response.data.errors);
+          this.errors = error.response.data.errors;
+        });
+    },
+  },
+  mounted() {
+    this.userLocationApi();
+  },
+};
 </script>

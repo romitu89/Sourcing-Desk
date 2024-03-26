@@ -4,13 +4,18 @@
 
        <tr>
    <td ><label >Employee Name</label></td>
-   <td ><select id="client"  v-model.trim="client.name" class="color_cell"  name="Choose Location">
+   <td ><select id="client"  v-model.trim="client.name" name="Choose Location">
    <option value="">Choose Employee</option>
-   <option value="India">India</option>
-   <option value="usa">USA</option>
-   </select><br>
-   <span v-if="submitted && !validation.name" class="error">Name is required.</span></td>
-   </tr>
+   <option
+              v-for="item in userData"
+              :key="item.employee_name"
+              :value="item.employee_name"
+            >
+              {{ item.employee_name }}
+            </option></select
+          ><br /><span v-if="errors.employeeName" class="error">{{ errors.employeeName[0] }}</span>
+        </td>
+      </tr>
 
    <tr>
    <td ><label >Employee Email Id</label></td>
@@ -68,54 +73,61 @@ import Swal from 'sweetalert2'
        {
            return{
                client: {
-                   name:"",
-                   email:"",
-                   matrix:"",
-                   from:"",
-                   to:"",
+                employeeName:"",
+                employeeEmail:"",
+                selectedMatrix:"",
+                fromDate:"",
+                toDate:"",
                },
                submitted:false,
+               userData:[],
+                errors:{},
            };
        },
 
-       computed:{
-           validation(){
-
-               return {
-           name: this.client.name.trim() !== '',
-           email: this.client.email.trim() !== '',
-           matrix: this.client.matrix.trim() !== '',
-           from: this.client.from.trim() !== '',
-           to: this.client.to.trim() !== '',
-
-           };
-           },
-
-           isFormValid() {
-
-               return Object.values(this.validation).every(value => value);
-           },
-
-           },
-
+      
            methods:{
             closePopup() {
       this.$emit("closePopup");
     },
-           submitForm() {
-               this.submitted = true; // Set the submitted flag to true when attempting to submit the form
-               if (this.isFormValid) {
-               Swal.fire({
-                       position: "top-center",
-                       icon: "success",
-                       title: "Your form has been submitted",
-                       showConfirmButton: false,
-                       timer: 5000
-                       });
-// You might want to reset the form and submitted flag here if needed
-                       }
+    userLocationApi() {
+      axios
+        .get("/api/adminuserMis-recruiter")
+        .then((response) => {
+          this.userData = response.data.User;
+          console.log(this.userData, "userData");
+        })
+        .catch((error) => {
+          console.log(error);
+          this.errored = true;
+        });
+    },
 
-               },
-           },
-   }
+    submitForm() {
+      this.submitted = true;
+
+
+      axios
+        .post("/api/adminuserMis-recruiter", this.client)
+        .then((response) => {
+          this.errors = {};
+
+          console.log("Form submitted:", response.data.results);
+          if (Object.values(this.errors).length == 0) {
+            this.buttonAction = true;
+          }
+          this.results = response.data.results;
+
+          // Handle the response as needed
+        })
+        .catch((error) => {
+          console.error("Error submitting form:", error.response.data.errors);
+          this.errors = error.response.data.errors;
+        });
+    },
+  },
+  mounted() {
+    this.userLocationApi();
+  },
+};
 </script>

@@ -47,9 +47,7 @@
             >
               {{ item.business_unit_name }}
             </option></select
-          ><br /><span v-if="errors.businessName" class="error">{{
-            errors.businessName[0]
-          }}</span>
+          ><br /><span v-if="errors.businessName" class="error">{{ errors.businessName[0] }}</span>
         </td>
       </tr>
 
@@ -64,15 +62,13 @@
             >
               {{ item.client_manager_name }}
             </option></select
-          ><br /><span v-if="errors.clientManager" class="error">{{
-            errors.clientManager[0]
-          }}</span>
+          ><br /><span v-if="errors.clientManager" class="error">{{ errors.clientManager[0] }}</span>
         </td>
       </tr>
 
     <tr>
     <td ><label >Select Matrix</label></td>
-    <td ><select id="matrix"  v-model.trim="client.matrix"  name="matrix">
+    <td ><select id="matrix"  v-model="client.matrix"  name="matrix">
     <option value="">Choose Matrix</option>
     <option value="requirements">Requirements</option>
     <option value="submission">Submission</option>
@@ -82,14 +78,14 @@
     <option value="Dropouts">Dropouts</option>
     <option value="Offboarded">Offboarded</option>
     </select><br>
-    <span v-if="submitted && !validation.matrix" class="error">Matrix is required.</span>
+    <span v-if="errors.matrix" class="error">{{ errors.matrix[0] }}</span>
     </td>
     </tr>
 
     <tr>
     <td ><label >From Date</label></td>
     <td ><input  v-model.trim="client.from"  type="date" >
-        <span v-if="submitted && !validation.from" class="error">From Date is required.</span></td>
+      <span v-if="errors.from" class="error">{{ errors.from[0] }}</span></td>
     </tr>
 
 
@@ -97,7 +93,7 @@
     <tr>
     <td ><label >To Date</label></td>
     <td ><input  v-model.trim="client.to"  type="date" >
-        <span v-if="submitted && !validation.to" class="error">To Date is required.</span></td>
+      <span v-if="errors.to" class="error">{{ errors.to[0] }}</span></td>
     </tr>
 
     <tr>
