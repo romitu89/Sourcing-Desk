@@ -4,30 +4,45 @@
       <a><font-awesome-icon :icon="['fas', 'xmark']" /></a>
     </div>
     <div class="popup-inner">
-      <h2 class="title">{{ title }}</h2>
+      <h2 class="title">{{ titleProp }}</h2>
 
-      <UserCreateForm @closePopup="closePopup()" v-if="title == 'Create Form'" />
+      <UserCreateForm @closePopup="closePopup()" v-if="titleProp == 'Create Form'" />
 
-      <UserViewForm @closePopup="closePopup()" v-if="title == 'View Form'" />
+      <UserViewForm
+        @closePopup="closePopup()"
+        @updateForm="updateForm"
+        v-if="titleProp == 'View Form'"
+      />
 
-      <UserLoginForm @closePopup="closePopup()" v-if="title == 'Login Form'" />
+      <UserLoginForm @closePopup="closePopup()" v-if="titleProp == 'Login Form'" />
+      <UserEditForm
+        @closePopup="closePopup()"
+        :editId="editIdProp"
+        v-if="titleProp == 'Edit Form'"
+      />
     </div>
   </div>
 </template>
 
 <script>
 import UserCreateForm from "./UserCreateForm.vue";
+import UserEditForm from "./UserEditForm.vue";
 import UserViewForm from "./UserViewForm.vue";
 import UserLoginForm from "./UserLoginForm.vue";
 
 export default {
   name: "UserCreate",
-  component: {
+  components: {
     UserCreateForm,
     UserViewForm,
     UserLoginForm,
+    UserEditForm,
   },
   props: {
+    editId: {
+      type: Number,
+      default: null,
+    },
     showPopUp: {
       type: Boolean,
       default: false,
@@ -41,20 +56,29 @@ export default {
     tab(newVal) {
       this.showUserCreate = newVal;
     },
+    editId(newVal) {
+      this.editIdProp = newVal;
+    },
+    title(newVal) {
+      this.titleProp = newVal;
+    },
   },
   data() {
     return {
       showUserCreate: this.tab,
+      editIdProp: this.editId,
+      titleProp: this.title,
     };
   },
   methods: {
     closePopup() {
-      console.log(this.showUserCreate);
       this.showUserCreate = false;
       this.$emit("closePopup", this.showUserCreate);
     },
+    updateForm(id) {
+      this.$emit("updateForm", id);
+    },
   },
-  components: { UserCreateForm, UserViewForm, UserLoginForm },
 };
 </script>
 

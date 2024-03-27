@@ -4,7 +4,12 @@
       <tr>
         <td><label>Select Location</label></td>
         <td>
-          <select id="location" v-model="employee.selectedLocation"  @blur="checkValidation('selectedLocation')" name="location">
+          <select
+            id="location"
+            v-model="employee.selectedLocation"
+            @blur="checkValidation('selectedLocation')"
+            name="location"
+          >
             <option value="">Select Location</option>
             <option
               v-for="item in userLocation"
@@ -22,7 +27,12 @@
       <tr>
         <td><label>Select User</label></td>
         <td>
-          <select id="user" v-model="employee.user"  @blur="checkValidation('user')" name="user">
+          <select
+            id="user"
+            v-model="employee.user"
+            @blur="checkValidation('user')"
+            name="user"
+          >
             <option value="">Select User</option>
             <option value="current">Current User</option>
             <option value="removed">Removed User</option></select
@@ -42,12 +52,16 @@
 
   <div v-if="results">
     <responsive-table :results="results" :columns="columns" :buttonAction="buttonAction">
-      <!-- <template #edit="{ row }">
-                        <Link
-
-                          >Edit</Link
-                        >
-                      </template> -->
+      <template #edit="{ row }">
+        <div>
+          <button title="Edit" @click="editItem(row.id)">
+            <font-awesome-icon :icon="['fas', 'pen-to-square']" />
+          </button>
+          <button title="Delete">
+            <font-awesome-icon :icon="['fas', 'trash']" />
+          </button>
+        </div>
+      </template>
     </responsive-table>
   </div>
 </template>
@@ -106,7 +120,10 @@ export default {
         }
       }
     },
-
+    editItem(id) {
+      console.log("UserViewForm");
+      this.$emit("updateForm", id);
+    },
     userLocationApi() {
       axios
         .get("/api/adminuser-view")
@@ -123,13 +140,10 @@ export default {
     submitForm() {
       this.submitted = true;
 
-
       axios
         .post("/api/adminuser-view", this.employee)
         .then((response) => {
           this.errors = {};
-
-          console.log("Form submitted:", response.data.results);
           if (Object.values(this.errors).length == 0) {
             this.buttonAction = true;
           }
