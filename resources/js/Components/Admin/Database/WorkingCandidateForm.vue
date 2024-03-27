@@ -4,24 +4,29 @@
 
     <tr>
     <td ><label >Select Country</label></td>
-    <td ><select id="location" v-model.trim="client.location" class="color_cell"  name="Choose Location">
+    <td ><select id="location" v-model="client.selectedLocation"  name="Choose Location">
     <option value="">Choose Country</option>
-    <option value="India">India</option>
-    <option value="usa">USA</option>
-    </select><br>
-    <span v-if="submitted && !validation.location" class="error">Country is required.</span></td>
-    </tr>
+    <option
+              v-for="item in userData"
+              :key="item.country"
+              :value="item.country"
+            >
+              {{ item.country }}
+            </option></select
+          ><br /><span v-if="errors.selectedLocation" class="error">{{ errors.selectedLocation[0] }}</span>
+        </td>
+      </tr>
 
     <tr>
    <td ><label >From Date</label></td>
-   <td ><input  v-model.trim="client.from"  type="date" >
-       <span v-if="submitted && !validation.from" class="error">From Date is required.</span></td>
+   <td ><input  v-model.trim="client.fromDate"  type="date" >
+    <span v-if="errors.fromDate" class="error">{{ errors.fromDate[0] }}</span></td>
    </tr>
 
    <tr>
    <td ><label >To Date</label></td>
-   <td ><input  v-model.trim="client.to"  type="date" >
-       <span v-if="submitted && !validation.to" class="error">To Date is required.</span></td>
+   <td ><input  v-model.trim="client.toDate"  type="date" >
+    <span v-if="errors.toDate" class="error">{{ errors.toDate[0] }}</span></td>
    </tr>
 
 
@@ -44,52 +49,60 @@ import Swal from 'sweetalert2'
        {
            return{
                client: {
-                location:"",
-                from:"",
-                to:"",
+                selectedLocation:"",
+                fromDate:"",
+                toDate:"",
 
                },
                submitted:false,
+               userData:[],
+                errors:{},
            };
        },
 
-       computed:{
-           validation(){
-
-               return {
-                location: this.client.location.trim() !== '',
-                from: this.client.from.trim() !== '',
-                to: this.client.to.trim() !== '',
-
-
-           };
-           },
-
-           isFormValid() {
-
-               return Object.values(this.validation).every(value => value);
-           },
-
-           },
 
            methods:{
             closePopup() {
       this.$emit("closePopup");
     },
-           submitForm() {
-               this.submitted = true; // Set the submitted flag to true when attempting to submit the form
-               if (this.isFormValid) {
-               Swal.fire({
-                       position: "top-center",
-                       icon: "success",
-                       title: "Your form has been submitted",
-                       showConfirmButton: false,
-                       timer: 5000
-                       });
-// You might want to reset the form and submitted flag here if needed
-                       }
+    userLocationApi() {
+      axios
+        .get("/api/adminDatabase-workingcandidate")
+        .then((response) => {
+          this.userData = response.data.location;
+          console.log(this.userData, "userData");
+        })
+        .catch((error) => {
+          console.log(error);
+          this.errored = true;
+        });
+    },
 
-               },
-           },
-    }
+    submitForm() {
+      this.submitted = true;
+
+
+      axios
+        .post("/api/adminDatabase-workingcandidate", this.client)
+        .then((response) => {
+          this.errors = {};
+
+          console.log("Form submitted:", response.data.results);
+          if (Object.values(this.errors).length == 0) {
+            this.buttonAction = true;
+          }
+          this.results = response.data.results;
+
+          // Handle the response as needed
+        })
+        .catch((error) => {
+          console.error("Error submitting form:", error.response.data.errors);
+          this.errors = error.response.data.errors;
+        });
+    },
+  },
+  mounted() {
+    this.userLocationApi();
+  },
+};
 </script>
