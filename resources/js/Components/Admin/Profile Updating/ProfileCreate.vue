@@ -4,17 +4,22 @@
 
      <tr>
      <td ><label >Select Country</label></td>
-     <td ><select id="Location"  v-model.trim="client.location" class="color_cell"  name="Choose Location">
+     <td ><select id="Country"  v-model="client.selectedLocation"  name=" Country">
      <option value="">Choose Country</option>
-     <option value="India">India</option>
-     <option value="usa">USA</option>
-     </select><br>
-     <span v-if="submitted && !validation.location" class="error">Country is required.</span></td>
-     </tr>
+     <option
+              v-for="item in userData"
+              :key="item.country"
+              :value="item.country"
+            >
+              {{ item.country }}
+            </option></select
+          ><br /><span v-if="errors.selectedLocation" class="error">{{ errors.selectedLocation[0] }}</span>
+        </td>
+      </tr>
 
      <tr>
      <td ><label >Select Duration</label></td>
-     <td ><select id="Location"  v-model.trim="client.duration" name="Choose Location">
+     <td ><select id="Location"  v-model="client.selectedDuration" name="Choose Location">
      <option value="">Choose Duration</option>
      <option value="6">6 Months</option>
     <option value="1 year">1 Years</option>
@@ -23,7 +28,7 @@
     <option value="5 years">5 Years</option>
     <option value="more">More</option>
      </select><br>
-     <span v-if="submitted && !validation.duration" class="error">Duration is required.</span></td>
+     <span v-if="errors.selectedDuration" class="error">{{ errors.selectedDuration[0] }}</span></td>
      </tr>
 
      <tr>
@@ -44,51 +49,61 @@
         {
             return{
                 client: {
-                 location:"",
-                 duration:"",
+                    selectedLocation:"",
+                    selectedDuration:"",
 
 
                 },
                 submitted:false,
+                userData:[],
+                errors:{},
+
             };
         },
 
-        computed:{
-            validation(){
-
-                return {
-                 location: this.client.location.trim() !== '',
-                 duration: this.client.duration.trim() !== '',
-
-
-            };
-            },
-
-            isFormValid() {
-
-                return Object.values(this.validation).every(value => value);
-            },
-
-            },
-
+        
             methods:{
                 closePopup() {
       this.$emit("closePopup");
     },
-            submitForm() {
-                this.submitted = true; // Set the submitted flag to true when attempting to submit the form
-                if (this.isFormValid) {
-                Swal.fire({
-                        position: "top-center",
-                        icon: "success",
-                        title: "Your form has been submitted",
-                        showConfirmButton: false,
-                        timer: 5000
-                        });
- // You might want to reset the form and submitted flag here if needed
-                        }
-                },
-            },
+    userLocationApi() {
+      axios
+        .get("/api/adminProfile-updateRequest")
+        .then((response) => {
+          this.userData = response.data.location;
+          console.log(this.userData, "userData");
+        })
+        .catch((error) => {
+          console.log(error);
+          this.errored = true;
+        });
+    },
 
-     }
+    submitForm() {
+      this.submitted = true;
+
+
+      axios
+        .post("/api/adminProfile-updateRequest", this.client)
+        .then((response) => {
+          this.errors = {};
+
+          console.log("Form submitted:", response.data.results);
+          if (Object.values(this.errors).length == 0) {
+            this.buttonAction = true;
+          }
+          this.results = response.data.results;
+
+          // Handle the response as needed
+        })
+        .catch((error) => {
+          console.error("Error submitting form:", error.response.data.errors);
+          this.errors = error.response.data.errors;
+        });
+    },
+  },
+  mounted() {
+    this.userLocationApi();
+  },
+};
  </script>
