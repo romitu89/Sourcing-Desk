@@ -57,7 +57,7 @@
           <button title="Edit" @click="editItem(row.id)">
             <font-awesome-icon :icon="['fas', 'pen-to-square']" />
           </button>
-          <button title="Delete">
+          <button title="Delete" @click="deleteItem(row.id)">
             <font-awesome-icon :icon="['fas', 'trash']" />
           </button>
         </div>
@@ -130,6 +130,26 @@ export default {
     },
     editItem(id) {
       this.$emit("updateForm", id);
+    },
+    deleteItem(id){
+      axios
+        .delete("/api/adminuser-delete/" +id)
+        .then((response) => {
+          if (response.data.message) {
+              Swal.fire({
+              position: "top-center",
+              icon: "success",
+              title: "User deleted successfully",
+              showConfirmButton: false,
+              timer: 3000,
+            });
+            this.submitForm()
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          this.errored = true;
+        });
     },
     userLocationApi() {
       axios
