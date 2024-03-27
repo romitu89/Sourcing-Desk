@@ -11,12 +11,16 @@
       <UserViewForm
         @closePopup="closePopup()"
         @updateForm="updateForm"
+        @editMessageUpdated="editMessageUpdated"
+        :empName="empNameProp"
         v-if="titleProp == 'View Form'"
       />
 
       <UserLoginForm @closePopup="closePopup()" v-if="titleProp == 'Login Form'" />
+
       <UserEditForm
         @closePopup="closePopup()"
+        @editSuccess="editSuccess"
         :editId="editIdProp"
         v-if="titleProp == 'Edit Form'"
       />
@@ -43,6 +47,10 @@ export default {
       type: Number,
       default: null,
     },
+    empName:{
+      type: String,
+      default: "",
+    },
     showPopUp: {
       type: Boolean,
       default: false,
@@ -62,12 +70,17 @@ export default {
     title(newVal) {
       this.titleProp = newVal;
     },
+    empName(newVal) {
+      this.empNameProp = newVal;
+    },
+    
   },
   data() {
     return {
       showUserCreate: this.tab,
       editIdProp: this.editId,
       titleProp: this.title,
+      empNameProp:this.empName,
     };
   },
   methods: {
@@ -78,6 +91,13 @@ export default {
     updateForm(id) {
       this.$emit("updateForm", id);
     },
+    editSuccess(name){
+      this.$emit("editSuccess", name)
+    },
+    editMessageUpdated(){
+      this.empNameProp=""
+    }
+
   },
 };
 </script>

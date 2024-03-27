@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Validator;
 
 class UserView extends Controller
 {
@@ -26,8 +27,28 @@ class UserView extends Controller
 
     public function update(Request $request, string $id)
     {
-        try {
-            $request->validate([
+       
+
+            $messages = [
+                'empName.required' => 'Employee Name is required.',
+                'userName.required' => 'Username is required.',
+                'userName.regex' => 'The Username cannot contain spaces.',
+                'password.required' => 'Password is required.',
+                'userName.unique' => 'The Username has already been taken.',
+                'cnfrmPassword.required' => 'Confirm Password is required.',
+                'cnfrmPassword.same' => 'The Confirm password field must match the password.',
+                'empId.required' => 'Employee Id is required.',
+                'empId.regex' => 'The Employee Id cannot contain spaces.',
+                'email.required' => 'Email is required.',
+                'mobile.required' => 'Mobile is required.',
+                'mobile.regex' => 'The Mobile Number cannot contain spaces.',
+                'selectedLocation.required' => 'Location is required.',
+                'department.required' => 'Department is required.',
+                'role.required' => 'Role is required.',
+                'dob.required' => 'Date Of Birth is required.',
+            ];
+
+            $rules = [
                 'empName' => 'required|string|max:100',
                 'userName' => 'required|string|unique:users,username,' . $id . ',id',
                 'password' => [
@@ -40,15 +61,29 @@ class UserView extends Controller
                         ->uncompromised()
                 ],
                 'cnfrmPassword' => 'required|same:password',
-                'empId' => 'required|unique:users,employee_id,' . $id . ',id',
-                'email' => 'required|email|max:255|unique:users,email_id,' . $id . ',id',
                 'mobile' => 'required|integer|unique:users,mobile_number,' . $id . ',id',
                 'selectedLocation' => 'required',
                 'department' => 'required',
                 'role' => 'required',
-                'dob' => 'required',
-            ]);
+            ];
+            $validator = Validator::make($request->all(), $rules, $messages);
 
+            $validator->after(function ($validator) use ($request) {
+                if ($request->role == 'recruiter' && !$request->filled('selectedReportAM') && !$request->filled('selectedReportTL')) {
+                    $validator->errors()->add('selectedReportAM', 'When role is recruiter, either Select AM or TL must be selected.');
+                }
+                if ($request->role == 'teamLead' && !$request->filled('selectedReportAM')) {
+                    $validator->errors()->add('selectedReportAM', 'When role is Team-Lead, AM must be selected.');
+                }
+            });
+    
+            if ($validator->fails()) {
+                $errors = $validator->errors();
+                $customErrors = $errors->messages();
+    
+                return response()->json(['errors' => $customErrors], 422);
+            }
+    
             $empName = ucwords($request->empName);
             $user = User::findOrFail($id);
 
@@ -68,14 +103,13 @@ class UserView extends Controller
                 'location' => $request->selectedLocation,
                 'department' => $request->department,
                 'role' => $request->role,
-                'reporting_to' => $request->selectedReport,
+                'reporting_to_am' => $request->selectedReportAM,
+                'reporting_to_tl' => $request->selectedReportTL,
                 'dob' => $request->dob,
             ]);
 
             return response()->json(['message' => 'User has been updated successfully']);
-        } catch (ValidationException $e) {
-            return response()->json(['errors' => $e->errors()], 422);
-        }
+        
     }
 
     public function store(Request $request)

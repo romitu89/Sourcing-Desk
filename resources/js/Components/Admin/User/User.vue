@@ -21,8 +21,10 @@
     :showPopUp="popup"
     @closePopup="closePopUp"
     @updateForm="updateForm"
+    @editSuccess="editSuccess"
     :title="title"
     :editId="editId"
+    :empName="empName"
     v-if="popup"
   >
   </UserCreate>
@@ -41,6 +43,7 @@ export default {
       popup: false,
       title: "",
       editId: null,
+      empName:"",
     };
   },
   methods: {
@@ -64,6 +67,11 @@ export default {
       this.title = "Edit Form";
       this.popup = true;
       this.editId = id;
+    },
+    editSuccess(name){
+        this.popup = true;
+      this.title = "View Form";
+      this.empName=name;
     },
   },
 };

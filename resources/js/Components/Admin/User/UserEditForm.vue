@@ -55,32 +55,7 @@
         </td>
       </tr>
 
-      <tr>
-        <td><label>Employee Id</label></td>
-        <td>
-          <input
-            type="text"
-            v-model="employee.empId"
-            @blur="checkValidation('empId')"
-            placeholder="Employee Id"
-          />
-          <span v-if="errors.empId" class="error">{{ errors.empId[0] }}</span>
-        </td>
-      </tr>
-
-      <tr>
-        <td><label>Email Id</label></td>
-        <td>
-          <input
-            type="text"
-            v-model="employee.email"
-            @blur="checkValidation('email')"
-            placeholder="Email Id"
-          />
-          <span v-if="errors.email" class="error">{{ errors.email[0] }}</span>
-        </td>
-      </tr>
-
+      
       <tr>
         <td><label>Mobile Number</label></td>
         <td>
@@ -197,14 +172,6 @@
       </tr>
 
       <tr>
-        <td><label>Date of Birth</label></td>
-        <td>
-          <input v-model="employee.dob" @blur="checkValidation('dob')" type="date" />
-          <span v-if="errors.dob" class="error">{{ errors.dob[0] }}</span>
-        </td>
-      </tr>
-
-      <tr>
         <td></td>
         <td>
           <button @click="closePopup()" class="cancel_btn">Cancel</button>
@@ -247,6 +214,7 @@ export default {
       submitted: false,
       userLocation: [],
       errors: {},
+      editEmployee:{},
     };
   },
 
@@ -271,16 +239,18 @@ export default {
           console.log(response.data.user, "data");
           this.editEmployee = response.data.user;
           this.employee.empName = this.editEmployee.employee_name;
-          this.employee.userName = "";
-          this.employee.password = "";
-          this.employee.cnfrmPassword = "";
-          this.employee.empId = "";
-          this.employee.email = "";
-          this.employee.mobile = "";
-          this.employee.selectedLocation = "";
-          this.employee.role = "";
-          this.employee.department = "";
-          this.employee.dob = "";
+          this.employee.userName = this.editEmployee.username;
+          this.employee.password = this.editEmployee.password;
+          this.employee.cnfrmPassword = this.editEmployee.password;
+          this.employee.empId = this.editEmployee.employee_id;
+          this.employee.email = this.editEmployee.email_id;
+          this.employee.mobile = this.editEmployee.mobile_number;
+          this.employee.selectedLocation = this.editEmployee.location;
+          this.employee.role = this.editEmployee.role;
+          this.employee.selectedReportAM= this.editEmployee.reporting_to_am;
+          this.employee.selectedReportTL= this.editEmployee.reporting_to_tl;
+          this.employee.department = this.editEmployee.department;
+          this.employee.dob = this.editEmployee.dob;
         })
         .catch((error) => {
           console.log(error);
@@ -300,34 +270,17 @@ export default {
           this.errored = true;
         });
     },
-    resetForm() {
-      this.employee.empName = "";
-      this.employee.userName = "";
-      this.employee.password = "";
-      this.employee.cnfrmPassword = "";
-      this.employee.empId = "";
-      this.employee.email = "";
-      this.employee.mobile = "";
-      this.employee.selectedLocation = "";
-      this.employee.role = "";
-      this.employee.department = "";
-      this.employee.dob = "";
-    },
+   
     submitForm() {
       this.submitted = true;
       axios
-        .post("/api/adminuser-create", this.employee)
+        .patch("/api/adminuser-edit/" + this.editId, this.employee)
         .then((response) => {
           if (response.data.message) {
-            this.resetForm();
+            
             this.errors = {};
-            Swal.fire({
-              position: "top-center",
-              icon: "success",
-              title: "User created successfully",
-              showConfirmButton: false,
-              timer: 3000,
-            });
+           this.$emit("editSuccess", this.employee.empName)
+           
           }
         })
         .catch((error) => {

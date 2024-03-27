@@ -68,6 +68,7 @@
 
 <script>
 import ResponsiveTable from "../../Shared Folder/ResponsiveTable.vue";
+import Swal from "sweetalert2";
 
 export default {
   name: "UserViewForm",
@@ -104,6 +105,13 @@ export default {
         // ... etc. for other columns
       ],
     };
+  },
+
+  props:{
+    empName:{
+      type: String,
+      default: "",
+    },
   },
 
   methods: {
@@ -158,6 +166,19 @@ export default {
   },
   mounted() {
     this.userLocationApi();
+
+    if(this.empName!=""){
+      Swal.fire({
+              position: "top-center",
+              icon: "success",
+              title: "User "+this.empName+" edited successfully",
+              showConfirmButton: false,
+              timer: 3000,
+            });
+            this.$emit("editMessageUpdated")
+    }
+    
+    
   },
 };
 </script>
