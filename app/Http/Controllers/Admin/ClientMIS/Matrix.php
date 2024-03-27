@@ -24,6 +24,14 @@ class Matrix extends Controller
 
     public function store(Request $request)
     {
+        $successMessage = [
+
+            'clientName.required' => 'Client Name is required.',
+            'businessName.required' => 'Buisness Unit Name is required.',
+            'selectedLocation.required' => 'Location is required.',
+            'clientManager.required' => 'Client Manager is required.',
+            'matrix.required' => 'Matrix is required.',
+        ];
         // Validate the form data
         $request->validate([
             'clientName' => 'required',
@@ -31,7 +39,7 @@ class Matrix extends Controller
             'selectedLocation' => 'required',
             'matrix' => 'required',
 
-        ]);
+        ], $successMessage);
 
         $clientName = $request->input('clientName');
         $business = $request->input('businessName');

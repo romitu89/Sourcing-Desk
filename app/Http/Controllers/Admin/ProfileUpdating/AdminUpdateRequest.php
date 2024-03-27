@@ -23,13 +23,21 @@ class AdminUpdateRequest extends Controller
 
     public function store(Request $request)
     {
+
+        $successMessage = [
+
+            'selectedLocation.required' => 'Location is required.',
+            'selectedDuration.required' => 'Duration is required.',
+
+
+        ];
         // Validate the form data
         $request->validate([
 
             'selectedLocation' => 'required',
             'selectedDuration' => 'required|',
 
-        ]);
+        ], $successMessage);
 
         $defaultLocation = $request->input('selectedLocation');
 

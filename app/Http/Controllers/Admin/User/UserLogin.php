@@ -20,6 +20,15 @@ class UserLogin extends Controller
     public function store(Request $request)
     {
 
+        $successMessage = [
+
+            'selectedLocation.required' => 'Location is required.',
+            'selectedEmail.required' => 'Employee Email is required.',
+            'fromDate.required' => 'From Date is required.',
+            'toDate.required' => 'To Date is required.',
+
+
+        ];
         $request->validate([
             'toDate' => 'required|date_format:Y-m-d|after_or_equal:fromDate|before_or_equal:' . now()->format('Y-m-d'),
             'fromDate' => 'required|date_format:Y-m-d|before_or_equal:toDate|before_or_equal:' . now()->format('Y-m-d'),
@@ -33,7 +42,7 @@ class UserLogin extends Controller
             'fromDate.date_format' => 'Invalid format for From Date. Use YYYY-MM-DD format.',
             'toDate.after_or_equal' => 'To Date must be after or equal to From Date.',
             'fromDate.before_or_equal' => 'From Date must be before or equal to To Date and current date.',
-        ]);
+        ], $successMessage);
 
         $defaultLocation = $request->input('selectedLocation');
         $defaultEmail = $request->input('selectedEmail');

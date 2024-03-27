@@ -4,8 +4,8 @@
 
     <tr>
     <td ><label >Select Country</label></td>
-    <td ><select id="location" v-model="client.selectedLocation"  name="Choose Location">
-    <option value="">Choose Country</option>
+    <td ><select id="location" v-model="client.selectedLocation" @blur="checkValidation('selectedLocation')" name="Choose Location">
+    <option value="">Select Country</option>
     <option
               v-for="item in userData"
               :key="item.country"
@@ -19,13 +19,13 @@
 
     <tr>
    <td ><label >From Date</label></td>
-   <td ><input  v-model.trim="client.fromDate"  type="date" >
+   <td ><input  v-model.trim="client.fromDate" @blur="checkValidation('fromDate')" type="date" >
     <span v-if="errors.fromDate" class="error">{{ errors.fromDate[0] }}</span></td>
    </tr>
 
    <tr>
    <td ><label >To Date</label></td>
-   <td ><input  v-model.trim="client.toDate"  type="date" >
+   <td ><input  v-model.trim="client.toDate" @blur="checkValidation('toDate')" type="date" >
     <span v-if="errors.toDate" class="error">{{ errors.toDate[0] }}</span></td>
    </tr>
 
@@ -64,6 +64,16 @@ import Swal from 'sweetalert2'
            methods:{
             closePopup() {
       this.$emit("closePopup");
+    },
+    checkValidation(fieldName) {
+      let dataError = Object.values(this.errors);
+      if (dataError.length > 1) {
+        this.submitForm();
+      } else {
+        if (this.errors.hasOwnProperty(fieldName)) {
+          delete this.errors[fieldName];
+        }
+      }
     },
     userLocationApi() {
       axios

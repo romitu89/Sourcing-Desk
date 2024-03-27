@@ -4,8 +4,8 @@
 
      <tr>
      <td ><label >Select Country</label></td>
-     <td ><select id="Location"  v-model="client.selectedLocation"  name="Choose Location">
-     <option value="">Choose Country</option>
+     <td ><select id="Location"  v-model="client.selectedLocation"  @blur="checkValidation('selectedLocation')" name="Select Location">
+     <option value="">Select Country</option>
      <option
               v-for="item in userData"
               :key="item.country"
@@ -19,8 +19,8 @@
 
      <tr>
      <td ><label >Select Duration</label></td>
-     <td ><select id="duration"  v-model="client.selectedDuration" name="Choose duration">
-     <option value="">Choose Duration</option>
+     <td ><select id="duration"  v-model="client.selectedDuration" @blur="checkValidation('selectedDuration')" name="Select duration">
+     <option value="">Select Duration</option>
      <option value="5 year">5 Years</option>
     <option value="7 year">7 Years</option>
     <option value="10 year">10 Years</option>
@@ -58,10 +58,20 @@
             };
         },
 
-       
+
             methods:{
                 closePopup() {
       this.$emit("closePopup");
+    },
+    checkValidation(fieldName) {
+      let dataError = Object.values(this.errors);
+      if (dataError.length > 1) {
+        this.submitForm();
+      } else {
+        if (this.errors.hasOwnProperty(fieldName)) {
+          delete this.errors[fieldName];
+        }
+      }
     },
     userLocationApi() {
       axios

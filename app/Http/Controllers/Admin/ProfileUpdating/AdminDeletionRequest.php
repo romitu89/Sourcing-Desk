@@ -24,12 +24,19 @@ class AdminDeletionRequest extends Controller
     public function store(Request $request)
     {
         // Validate the form data
+        $successMessage = [
+
+            'selectedLocation.required' => 'Location is required.',
+            'selectedDuration.required' => 'Duration is required.',
+
+
+        ];
         $request->validate([
 
             'selectedLocation' => 'required',
             'selectedDuration' => 'required|',
 
-        ]);
+        ], $successMessage);
 
         $defaultLocation = $request->input('selectedLocation');
 

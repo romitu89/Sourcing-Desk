@@ -24,6 +24,12 @@ class WorkingCandidate extends Controller
 
     public function store(Request $request)
     {
+        $successMessage = [
+
+            'selectedLocation.required' => 'Country is required.',
+            'fromDate.required' => 'From Date is required.',
+            'toDate.required' => 'To Date is required.',
+        ];
         // Validate the form data
         $request->validate([
 
@@ -31,7 +37,7 @@ class WorkingCandidate extends Controller
             'fromDate' => 'required|date',
             'toDate' => 'required|date',
 
-        ]);
+        ], $successMessage);
 
         $defaultLocation = $request->input('selectedLocation');
 

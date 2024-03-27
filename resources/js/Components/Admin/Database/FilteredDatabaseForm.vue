@@ -4,8 +4,8 @@
 
     <tr>
     <td ><label >Select Country</label></td>
-    <td ><select id="location"  v-model="client.selectedLocation"  name="Choose location">
-    <option value="">Choose Country</option>
+    <td ><select id="location"  v-model="client.selectedLocation" @blur="checkValidation('selectedLocation')"  name="Choose location">
+    <option value="">Select Country</option>
     <option
               v-for="item in userData"
               :key="item.country"
@@ -20,7 +20,7 @@
 
     <tr>
     <td ><label >Select Duration</label></td>
-    <td ><select id="duration"  v-model="client.SelectedDuration" name="Choose duration">
+    <td ><select id="duration"  v-model="client.SelectedDuration"  @blur="checkValidation('SelectedDuration')"  name="Choose duration">
     <option value="">Select Duration</option>
     <option value="7">7 Days</option>
     <option value="15">15 Days</option>
@@ -61,10 +61,20 @@ import Swal from 'sweetalert2'
            };
        },
 
-      
+
            methods:{
             closePopup() {
       this.$emit("closePopup");
+    },
+    checkValidation(fieldName) {
+      let dataError = Object.values(this.errors);
+      if (dataError.length > 1) {
+        this.submitForm();
+      } else {
+        if (this.errors.hasOwnProperty(fieldName)) {
+          delete this.errors[fieldName];
+        }
+      }
     },
     userLocationApi() {
       axios

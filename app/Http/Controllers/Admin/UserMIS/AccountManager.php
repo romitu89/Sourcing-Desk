@@ -23,6 +23,14 @@ class AccountManager extends Controller
 
     public function store(Request $request)
     {
+        $successMessage = [
+
+            'employeeName.required' => 'Employee Name is required.',
+            'employeeEmail.required' => 'Employee Email is required.',
+            'selectedMatrix.required' => 'Matrix is required.',
+            'fromDate.required' => 'From Date is required.',
+            'toDate.required' => 'To Date is required.',
+        ];
         // Validate the form data
         $request->validate([
             'employeeName' => 'required',
@@ -30,7 +38,7 @@ class AccountManager extends Controller
             'selectedMatrix' => 'required',
             'fromDate' => 'required|date',
             'toDate' => 'required|date',
-        ]);
+        ], $successMessage);
 
         $employeeName = $request->input('employeeName');
         $employeeEmail = $request->input('employeeEmail');

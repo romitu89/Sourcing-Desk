@@ -5,7 +5,7 @@
         <tr>
     <td ><label >Select Location</label></td>
     <td ><select id="location" v-model.trim="client.selectedLocation"  @blur="checkValidation('selectedLocation')" name="location">
-    <option value="">Choose Location</option>
+    <option value="">Select Location</option>
     <option
               v-for="item in clientData"
               :key="item.location"
@@ -22,7 +22,7 @@
     <tr>
     <td ><label >Client Name</label></td>
     <td ><select id="client"  v-model.trim="client.clientName"  @blur="checkValidation('clientName')" name="client">
-    <option value="">Choose Client</option>
+    <option value="">Select Client</option>
     <option
               v-for="item in clientData"
               :key="item.client_name"
@@ -39,7 +39,7 @@
     <tr>
     <td ><label >Business Unit</label></td>
     <td ><select id="business"  v-model.trim="client.businessName"  @blur="checkValidation('businessName')" name="business">
-    <option value="">Choose B-Unit</option>
+    <option value="">Select B-Unit</option>
     <option
               v-for="item in clientData"
               :key="item.business_unit_name"
@@ -54,7 +54,7 @@
     <tr>
     <td ><label >Client Manager Name</label></td>
     <td ><select id="manager"  v-model.trim="client.clientManager"  @blur="checkValidation('clientManager')" name="manager">
-    <option value="">Choose Manager</option>
+    <option value="">Select Manager</option>
     <option
               v-for="item in clientData"
               :key="item.client_manager_name"
@@ -69,7 +69,7 @@
     <tr>
     <td ><label >Select Matrix</label></td>
     <td ><select id="matrix"  v-model="client.matrix"  @blur="checkValidation('matrix')" name="matrix">
-    <option value="">Choose Matrix</option>
+    <option value="">Select Matrix</option>
     <option value="requirements">Requirements</option>
     <option value="submission">Submission</option>
     <option value="Selection">Selection</option>

@@ -5,7 +5,7 @@
     <tr>
     <td ><label >Employee Name</label></td>
     <td ><select id="empname"  v-model="client.employeeName" @blur="checkValidation('employeeName')" name="empname">
-    <option value="">Choose Employee Name</option>
+    <option value="">Select Employee Name</option>
     <option
               v-for="item in userData"
               :key="item.employee_name"
@@ -20,7 +20,7 @@
     <tr>
     <td ><label >Employee Email Id</label></td>
     <td ><select id="email"  v-model="client.employeeEmail" @blur="checkValidation('employeeEmail')" name="Choose Client">
-    <option value="">Choose Email</option>
+    <option value="">Select Email</option>
     <option
               v-for="item in userData"
               :key="item.email_id"
@@ -36,7 +36,7 @@
     <tr>
     <td ><label >Select Matrix</label></td>
     <td ><select id="matrix"  v-model="client.selectedMatrix" @blur="checkValidation('selectedMatrix')" name="matrix">
-    <option value="">Choose Matrix</option>
+    <option value="">Select Matrix</option>
     <option value="Requirements">Requirements</option>
     <option value="Submission">Submission</option>
     <option value="Selection">Selection</option>

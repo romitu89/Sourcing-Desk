@@ -16,17 +16,18 @@ class Create extends Controller
     public function create()
     {
         $location = Location::select('country')->distinct()->get();
- 
+
         $userAm = User::select('email_id')
-                    ->distinct()
-                    ->where('role', 'accountManager')
-                    ->get();
+            ->distinct()
+            ->where('role', 'accountManager')
+            ->get();
         $userTl = User::select('email_id')
-                    ->distinct()
-                    ->where('role', 'teamLead')
-                    ->get();
-         
-        return response()->json(['userAm' => $userAm,'userTl' => $userTl, 'locations' => $location]);    }
+            ->distinct()
+            ->where('role', 'teamLead')
+            ->get();
+
+        return response()->json(['userAm' => $userAm, 'userTl' => $userTl, 'locations' => $location]);
+    }
     public function getreporting($role)
     {
         if ($role == 'teamLead') {

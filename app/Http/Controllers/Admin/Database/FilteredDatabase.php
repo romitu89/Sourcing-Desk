@@ -24,13 +24,20 @@ class FilteredDatabase extends Controller
 
     public function store(Request $request)
     {
+        $successMessage = [
+
+            'selectedLocation.required' => 'Country is required.',
+            'SelectedDuration.required' => 'Duration is required.',
+
+
+        ];
         // Validate the form data
         $request->validate([
 
             'selectedLocation' => 'required',
             'SelectedDuration' => 'required|',
 
-        ]);
+        ], $successMessage);
 
         $defaultLocation = $request->input('selectedLocation');
 

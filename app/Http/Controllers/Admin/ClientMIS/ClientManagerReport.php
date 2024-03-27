@@ -25,6 +25,16 @@ class ClientManagerReport extends Controller
 
     public function store(Request $request)
     {
+        $successMessage = [
+
+            'clientName.required' => 'Client Name is required.',
+            'businessName.required' => 'Buisness Unit Name is required.',
+            'selectedLocation.required' => 'Location is required.',
+            'clientManager.required' => 'Client Manager is required.',
+            'matrix.required' => 'Matrix is required.',
+            'from.required' => 'From Date is required.',
+            'to.required' => 'To Date is required.',
+        ];
         // Validate the form data
         $request->validate([
             'clientName' => 'required',
@@ -34,7 +44,7 @@ class ClientManagerReport extends Controller
             'matrix' => 'required',
             'from' => 'required|date',
             'to' => 'required|date',
-        ]);
+        ], $successMessage);
 
         $clientName = $request->input('clientName');
         $business = $request->input('businessName');

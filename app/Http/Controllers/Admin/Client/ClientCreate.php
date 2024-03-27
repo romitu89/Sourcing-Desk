@@ -14,7 +14,7 @@ class ClientCreate extends Controller
     public function create()
     {
         $accountManagers = Location::select('country')->distinct()
-        ->get();
+            ->get();
 
         return response()->json(['accountmanagers' => $accountManagers]);
     }
@@ -33,7 +33,9 @@ class ClientCreate extends Controller
 
             'selectedLocation.required' => 'Location is required.',
 
-            'selectedManager.required' => 'Manager is required.',
+            'selectedManagerName.required' => 'Manager is required.',
+
+            'selectedManager.required' => 'Manager Email is required.',
 
             'businessName.required' => 'Buisness Unit is required.',
 
