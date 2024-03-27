@@ -264,6 +264,29 @@ export default {
         }
       }
     },
+    getUserDetails() {
+      axios
+        .get("/api/adminuser-edit/" + this.editId)
+        .then((response) => {
+          console.log(response.data.user, "data");
+          this.editEmployee = response.data.user;
+          this.employee.empName = this.editEmployee.employee_name;
+          this.employee.userName = "";
+          this.employee.password = "";
+          this.employee.cnfrmPassword = "";
+          this.employee.empId = "";
+          this.employee.email = "";
+          this.employee.mobile = "";
+          this.employee.selectedLocation = "";
+          this.employee.role = "";
+          this.employee.department = "";
+          this.employee.dob = "";
+        })
+        .catch((error) => {
+          console.log(error);
+          this.errored = true;
+        });
+    },
     userLocationApi() {
       axios
         .get("/api/adminuser-create")
@@ -316,6 +339,7 @@ export default {
 
   mounted() {
     this.userLocationApi();
+    this.getUserDetails();
   },
 };
 </script>

@@ -121,7 +121,6 @@ export default {
       }
     },
     editItem(id) {
-      console.log("UserViewForm");
       this.$emit("updateForm", id);
     },
     userLocationApi() {
