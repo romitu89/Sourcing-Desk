@@ -7,7 +7,7 @@
         <td ><label >Select Location</label></td>
         <td ><select id="location" v-model="employee.selectedLocation" name="location">
         <option value="">Select Location</option>
-        <option v-for="item in loginData" :key='item.location' :value="item.location">{{ item.location }}</option>
+        <option v-for="item in getUniqueValues(loginData,'location')" :key='item' :value="item">{{ item }}</option>
 
         </select><br><span v-if="errors.selectedLocation" class="error">{{errors.selectedLocation[0]}}</span></td>
         </tr>
@@ -16,7 +16,8 @@
         <td ><label >Employee Email</label></td>
         <td ><select id="email" v-model="employee.selectedEmail" name="email">
         <option value="">Select Email</option>
-        <option v-for="item in loginData" :key='item.email_id' :value="item.email_id">{{ item.email_id }}</option>
+        <option v-for="item in getUniqueValues(loginData,'email_id')"
+         :key='item' :value="item">{{ item }}</option>
 
         </select><br>
         <span v-if="errors.selectedEmail" class="error">{{errors.selectedEmail[0]}}</span></td>
@@ -43,14 +44,36 @@
     </table>
     </form>
 
+    <div v-if="results">
+                    <responsive-table :results="results" :columns="columns" :buttonAction="buttonAction">
+
+
+                      <!-- <template #edit="{ row }">
+                        <Link
+
+                          >Edit</Link
+                        >
+                      </template> -->
+                    </responsive-table>
+                  </div>
+
     </template>
 
     <script>
     import Swal from 'sweetalert2'
+    import { commonFunctionsMixin } from '../../../function.js';
+    import ResponsiveTable from '../../Shared Folder/ResponsiveTable.vue'
+
 
 
         export default {
             name: 'UserLoginForm',
+
+            mixins:[commonFunctionsMixin],
+
+            components:{
+            ResponsiveTable,
+            },
 
             data()
             {
@@ -61,9 +84,17 @@
                         fromDate:"",
                         toDate:"",
                     },
+                    buttonAction: false,
                     loginData:[],
                     userLocation:[],
                     errors:{},
+                    results:[],
+                    columns: [
+                    { label: 'Email ID', key: 'email_id' },
+                    { label: 'Location', key: 'location' },
+                    { label: 'Created At', key: 'created_at' },
+                    { label: 'Logout', key: 'logout_time' },
+              ],
                 };
             },
 
@@ -97,34 +128,25 @@
                         axios.post('/api/editoruser-login', this.employee)
                   .then(response => {
                       console.log('Form submitted:', response.data.results);
-                      if(response.data.results){
-                        this.errors={};
+                      
+                      this.results = response.data.results;
+                  this.errors={};
 
-                         Swal.fire({
-                            position: "top-center",
-                            icon: "success",
-                            title: "Login successfully",
-                            showConfirmButton: false,
-                            timer: 5000
-                            });
+                    if (Object.values(this.errors).length == 0) {
+            this.buttonAction = true;
+              }
 
-                      }
-                      else{
-                        Swal.fire("Form not Submitted");
-                      }
-
-                      // Handle the response as needed
-                   })
-                  .catch(error => {
-                    //   console.error('Error submitting form:', error.response.data.errors);
-                      this.errors= error.response.data.errors;
-                   });
+               })
+              .catch(error => {
+                //   console.error('Error submitting form:', error.response.data.errors);
+                  this.errors= error.response.data.errors;
+               });
+    },
         },
-            },
-            mounted(){
-        this.userLocationApi()
+        mounted(){
+    this.userLocationApi()
 
-    }
+}
 
             }
     </script>
