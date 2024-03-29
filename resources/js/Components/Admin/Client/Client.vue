@@ -15,11 +15,16 @@
     </div>
     <ClientForm
     :showPopUp="popup"
-    @closePopup ="closePopUp"
+    @closePopup="closePopUp"
+    @updateForm="updateForm"
+    @editSuccess="editSuccess"
     :title="title"
-   v-if="popup">
-
+    :editId="editId"
+    :empName="empName"
+    v-if="popup"
+    >
    </ClientForm>
+
 </template>
 
 <script>
@@ -27,17 +32,20 @@ import ClientForm from './ClientForm.vue'
 
     export default {
         name: 'Client',
-    component:{
+    components:{
         ClientForm,
     },
 
     data ()
        {
         return{
-            popup:false,
-            title:'',
+            popup: false,
+            title: "",
+            editId: null,
+            empName:"",
         };
        },
+
        methods:{
         clientPopUp(){
             this.popup=true;
@@ -51,9 +59,20 @@ import ClientForm from './ClientForm.vue'
         closePopUp(data){
             this.popup = data;
         },
+        updateForm(id) {
+            this.title = "Edit Form";
+            this.popup = true;
+            this.editId = id;
+            console.log(this.editId, "client.vue edit id")
+        },
+        editSuccess(name){
+        this.popup = true;
+        this.title = "View Form";
+        this.empName=name;
+        },
     },
 
-    components:{ClientForm,},
+    
     }
 </script>
 
