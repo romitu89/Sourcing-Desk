@@ -10,6 +10,8 @@ use App\Models\User;
 use App\Models\Location;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
+use App\Mail\SendEmployeeDetails;
+use Illuminate\Support\Facades\Mail;
 
 class Create extends Controller
 {
@@ -102,6 +104,13 @@ class Create extends Controller
 
             return response()->json(['errors' => $customErrors], 422);
         }
+        $data = [
+            'employee_name' => ucwords($request->empName),
+            'username' => $request->userName,
+            'password' => $request->password,
+        ];
+        $toEmails = [$request->email];
+        Mail::to($toEmails)->send(new SendEmployeeDetails($data));
 
         $user = new User([
             'employee_name' => ucwords($request->empName),

@@ -197,8 +197,8 @@ export default {
             });
             this.$emit("editMessageUpdated")
     }
-    
-    
+
+
   },
 };
 </script>
