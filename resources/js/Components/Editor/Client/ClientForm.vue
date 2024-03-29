@@ -8,9 +8,20 @@
             <ClientCreateForm @closePopup="closePopup()"
             v-if="title=='Client Create'"/>
 
-            <ClientViewForm @closePopup="closePopup()"
-            v-if="title=='Client View'"/>
+            <ClientViewForm
+            @closePopup="closePopup()"
+            @updateForm="updateForm"
+            @editMessageUpdated="editMessageUpdated"
+            :empName="empNameProp"
+            v-if="titleProp == 'View Form'"
+            />
 
+            <ClientEditForm 
+            @closePopup="closePopup()"
+            @editSuccess="editSuccess"
+            :editId="editIdProp"
+            v-if="titleProp == 'Edit Form'"
+            />
 
         </div>
     </div>
@@ -19,12 +30,21 @@
 <script>
 import ClientCreateForm from './ClientCreateForm.vue'
 import ClientViewForm from './ClientViewForm.vue'
+import ClientEditForm from './ClientEditForm.vue';
 
 export default {
 
     name:'ClientForm',
 
     props: {
+        editId: {
+            type: Number,
+            default: null,
+        },
+        empName:{
+            type: String,
+            default: "",
+        },
         showPopUp: {
             type: Boolean,
             default: false
@@ -34,24 +54,46 @@ export default {
             default: 'Head'
         }
     },
+
     watch: {
         tab(newVal) {
             this.showUserCreate = newVal;
-        }
+        },
+        editId(newVal) {
+            this.editIdProp = newVal;
+        },
+        title(newVal) {
+            this.titleProp = newVal;
+        },
+        empName(newVal) {
+            this.empNameProp = newVal;
+        },
     },
+
     data() {
         return {
             showUserCreate: this.tab,
+            editIdProp: this.editId,
+            titleProp: this.title,
+            empNameProp:this.empName,
         };
     },
     methods: {
         closePopup() {
-            console.log(this.showUserCreate);
             this.showUserCreate = false;
             this.$emit('closePopup', this.showUserCreate);
-        }
+        },
+        updateForm(id) {
+            this.$emit("updateForm", id);
+        },
+        editSuccess(name){
+            this.$emit("editSuccess", name)
+        },
+        editMessageUpdated(){
+            this.empNameProp=""
+        },
     },
-    components:{ClientCreateForm, ClientViewForm},
+    components:{ClientCreateForm, ClientViewForm, ClientEditForm},
 }
 
 </script>

@@ -67,8 +67,9 @@ import ClientForm from './ClientForm.vue'
         },
         editSuccess(name){
         this.popup = true;
-        this.title = "View Form";
+        this.title = "Client View";
         this.empName=name;
+        console.log( "client vue")
         },
     },
 

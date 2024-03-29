@@ -4,7 +4,7 @@
       <a><font-awesome-icon :icon="['fas', 'xmark']" /></a>
     </div>
     <div class="popup-inner">
-      <h2 class="title">{{ titleProp }}</h2>
+      <h2 class="title">{{ title }} </h2>
 
       <UserCreateForm @closePopup="closePopup()" v-if="titleProp == 'Create Form'" />
 

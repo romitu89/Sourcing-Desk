@@ -13,10 +13,14 @@ class ClientCreate extends Controller
 {
     public function create()
     {
-        $accountManagers = Location::select('country')->distinct()
+        $location = Location::select('country')->distinct()
             ->get();
-
-        return response()->json(['accountmanagers' => $accountManagers]);
+        $accountManagers = User::select('email_id')->distinct()->where('role','accountManager')->orWhere('role','teamLead')
+            ->get();
+        return response()->json([
+            'accountmanagers' => $accountManagers,
+            'location' => $location
+        ]);
     }
 
 
@@ -41,6 +45,8 @@ class ClientCreate extends Controller
 
             'subLocation.required' => 'Sub Location is required.',
 
+            'selectedAccountManager.required' => 'Account Manager is required.',
+
 
             // Add other custom messages as needed
 
@@ -53,17 +59,18 @@ class ClientCreate extends Controller
             'selectedManagerName' => 'required',
             'selectedManager' => 'required|email|unique:clients,client_manager_email',
             'selectedLocation' => 'required',
+            'selectedAccountManager' => 'required',
 
         ], $successMessage);
         $man_id = $request->selectedManager;
-        if ($man_id) {
-            $man_id = User::where('email_id', $man_id)
-                ->pluck('id')->implode('');
-        }
+        // if ($man_id) {
+        //     $man_id = User::where('email_id', $man_id)
+        //         ->pluck('id')->implode('');
+        // }
         $clientName = ucwords($request->clientName);
         $bun = ucwords($request->businessName);
         $subLoc = ucwords($request->subLocation);
-
+        $acc_id = User::where('email_id', $request->selectedAccountManager)->first(['id']);
         $client = new Client([
 
             'client_name' =>  $clientName,
@@ -73,7 +80,7 @@ class ClientCreate extends Controller
             'location' => $request->selectedLocation,
             'client_manager_name' =>  ucwords($request->selectedManagerName),
             'client_manager_email' =>  $man_id,
-            'account_manager_id' => auth()->user()->id
+            'account_manager_id' => $acc_id->id
 
 
 

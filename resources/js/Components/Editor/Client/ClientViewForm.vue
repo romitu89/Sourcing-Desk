@@ -30,7 +30,18 @@
         </table>
       </form>
       <div v-if="results">
-        <responsive-table :results="results" :columns="columns" :buttonAction="buttonAction"></responsive-table>
+        <responsive-table :results="results" :columns="columns" :buttonAction="buttonAction">
+      <template #edit="{ row }">
+        <div>
+          <button title="Edit" @click="editItem(row.client_id)">
+            <font-awesome-icon :icon="['fas', 'pen-to-square']" />
+          </button>
+          <button title="Delete" @click="deleteItem(row.client_id)">
+            <font-awesome-icon :icon="['fas', 'trash']" />
+          </button>
+        </div>
+      </template>
+    </responsive-table>
       </div>
     </div>
   </template>
@@ -65,10 +76,21 @@
         ]
       };
     },
+    props:{
+      empName:{
+      type: String,
+      default: "",
+      },
+    },
+
     methods: {
         closePopup() {
-      this.$emit("closePopup");
-    },
+          this.$emit("closePopup");
+        },
+        editItem(id) {
+          this.$emit("updateForm", id);
+        },
+
       userLocationApi() {
         axios.get('/api/editorclient-view')
     .then(response => {
@@ -101,6 +123,18 @@
     },
     mounted() {
       this.userLocationApi();
-    }
-  }
+    //   if(this.empName!=""){
+    //   Swal.fire({
+    //           position: "top-center",
+    //           icon: "success",
+    //           title: "User "+this.empName+" edited successfully",
+    //           showConfirmButton: false,
+    //           timer: 3000,
+    //         });
+    //         this.$emit("editMessageUpdated")
+    // }
+    
+    
+  },
+};
   </script>

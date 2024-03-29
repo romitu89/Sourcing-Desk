@@ -3,17 +3,17 @@
 <div class="popup">
         <div @click="closePopup()" class="close_btn"> <a ><font-awesome-icon :icon="['fas', 'xmark']" /></a></div>
         <div class="popup-inner">
-            <h2 class="title">{{ title }}</h2>
+            <h2 class="title">{{ titleProp }}</h2>
 
             <ClientCreateForm  @closePopup="closePopup()"
-            v-if="title=='Client Create'"/>
+            v-if="titleProp =='Client Create'"/>
 
             <ClientViewForm  
             @closePopup="closePopup()"
             @updateForm="updateForm"
             @editMessageUpdated="editMessageUpdated"
             :empName="empNameProp"
-            v-if="title=='Client View'"/>
+            v-if="titleProp =='Client View'"/>
 
             <ClientEditForm 
             @closePopup="closePopup()"
@@ -86,6 +86,7 @@ export default {
             this.$emit("updateForm", id);
         },
         editSuccess(name){
+            console.log("Edit Client form")
             this.$emit("editSuccess", name)
         },
         editMessageUpdated(){

@@ -23,6 +23,14 @@ class ClientView extends Controller
         $am = User::where('role', 'accountManager')->distinct()
             ->get();
         $client = Client::where('client_id', $id)->first();
+        // dd($client->client_id);
+        $user = User::where('id', $client->account_manager_id)->first();
+        // dd($user);
+        if ($user) {
+        $client->am_email = $user->email_id;
+        } else {
+        $client->am_email = null; // or some default value
+    }
         return response()->json([
             'client' => $client,
             'accountmanager' => $am
@@ -35,27 +43,30 @@ class ClientView extends Controller
             'clientName' => 'required|string|unique:clients,client_name,' . $id . ',client_id',
             'businessName' => 'required|string',
             'subLocation' => 'required|string',
-            'selectedManager' => 'required',
+            'selectedManagerName' => 'required',
+            'selectedManager' => 'required|email|unique:clients,client_manager_email,' . $id . ',client_id',
             'selectedLocation' => 'required',
+            'selectedAccountManager' => 'required',
         ]);
 
-        if ($request->selectedManager) {
-            $am_email = $request->selectedManager;
-        }
-
+        // if ($request->selectedManager) {
+        //     $am_email = $request->selectedManager;
+        // }
+        $man_id = $request->selectedManager;
         $clientName = ucwords($request->clientName);
         $bun = ucwords($request->businessName);
         $subLoc = ucwords($request->subLocation);
-        $am_name_nw = ucwords($am_email);
 
+        $acc_id = User::where('email_id', $request->selectedAccountManager)->first(['id']);
         $client = Client::findOrFail($id);
 
         $client->update([
             'client_name' => $clientName,
             'business_unit_name' => $bun,
             'sub_location' => $subLoc,
-            'account_manager' => $am_name_nw,
-            'account_manger_id' => $request->selectedManager,
+            'client_manager_name' =>  ucwords($request->selectedManagerName),
+            'client_manager_email' =>  $man_id,
+            'account_manager_id' => $acc_id->id,
             'location' => $request->selectedLocation,
         ]);
 

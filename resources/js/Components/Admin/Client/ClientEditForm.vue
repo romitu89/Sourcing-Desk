@@ -26,8 +26,8 @@
         <td ><label >Select Location</label></td>
         <td ><select id="location" v-model="client.selectedLocation"  @blur="checkValidation('selectedLocation')" name="location">
         <option value="">Select Location</option>
-        <option v-for="item in managersData" :key='item.country' :value="item.country">{{ item.country }}</option>
-    
+        <option v-for="item in location" :key='item.country' :value="item.country">{{ item.country }}</option>
+
         </select><br><span v-if="errors.selectedLocation" class="error">{{errors.selectedLocation[0]}}</span></td>
         </tr>
     
@@ -45,6 +45,15 @@
     
     
         </input><br><span v-if="errors.selectedManager" class="error">{{errors.selectedManager[0]}}</span></td>
+        </tr>
+
+        <tr>
+        <td ><label >Assign Account Manager</label></td>
+        <td ><select id="location" v-model="client.selectedAccountManager"  @blur="checkValidation('selectedLocation')" name="location">
+        <option value="">Select Account Manager</option>
+        <option v-for="item in managersData" :key='item.email_id' :value="item.email_id">{{ item.email_id }}</option>
+
+        </select><br><span v-if="errors.selectedAccountManager" class="error">{{errors.selectedAccountManager[0]}}</span></td>
         </tr>
     
         <tr>
@@ -83,7 +92,9 @@
                         selectedManager:"",
                         selectedLocation:"",
                         selectedManagerName:"",
+                        selectedAccountManager:"",
                     },
+                    location:[],
                     managersData:[],
                     userLocation:[],
                     errors:{},
@@ -121,6 +132,7 @@
           this.client.selectedManager = this.editEmployee.client_manager_email;
           this.client.selectedLocation = this.editEmployee.location;
           this.client.selectedManagerName = this.editEmployee.client_manager_name;
+          this.client.selectedAccountManager = this.editEmployee.am_email;
           
         })
         .catch((error) => {
@@ -134,7 +146,8 @@
     axios
     .get("/api/adminclient-create")
     .then(response => {
-    this.managersData = response.data.accountmanagers
+      this.managersData = response.data.accountmanagers
+      this.location = response.data.location
     console.log(this.managersData)
     })
     .catch(error => {
@@ -152,6 +165,7 @@
           if (response.data.message) {
             
             this.errors = {};
+            //console.log("editSuccess")
            this.$emit("editSuccess", this.client.clientName)
            
           }
@@ -161,7 +175,7 @@
           this.errors = error.response.data.errors;
         });
     },
-  },
+  },  
     
     mounted(){
         this.userLocationApi();

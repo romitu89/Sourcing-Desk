@@ -14,12 +14,17 @@
 
      </div>
      <ClientForm
-     :showPopUp="popup"
-     @closePopup ="closePopUp"
-     :title="title"
-    v-if="popup">
-
+        :showPopUp="popup"
+        @closePopup="closePopUp"
+        @updateForm="updateForm"
+        @editSuccess="editSuccess"
+        :title="title"
+        :editId="editId"
+        :empName="empName"
+        v-if="popup"
+    >
     </ClientForm>
+
  </template>
 
  <script>
@@ -34,9 +39,11 @@
      data ()
         {
          return{
-             popup:false,
-             title:'',
-         };
+            popup: false,
+            title: "",
+            editId: null,
+            empName:"",
+            };
         },
         methods:{
          clientPopUp(){
@@ -51,6 +58,16 @@
          closePopUp(data){
              this.popup = data;
          },
+         updateForm(id) {
+            this.title = "Edit Form";
+            this.popup = true;
+            this.editId = id;
+        },
+         editSuccess(name){
+            this.popup = true;
+            this.title = "View Form";
+            this.empName=name;
+        },
      },
 
      components:{ClientForm,},
