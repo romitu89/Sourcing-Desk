@@ -4,49 +4,49 @@
 
      <tr>
      <td ><label >Employee Name</label></td>
-     <td ><input type="text" v-model.trim="employee.empName" placeholder="Employee Name" >
+     <td ><input type="text" v-model.trim="employee.empName"  @blur="checkValidation('empName')" placeholder="Employee Name" >
          <span v-if="errors.empName" class="error">{{errors.empName[0]}}</span></td>
      </tr>
 
      <tr>
      <td ><label >User Name</label></td>
-     <td ><input type="text" v-model.trim="employee.userName" placeholder="User Name" >
+     <td ><input type="text" v-model.trim="employee.userName"  @blur="checkValidation('userName')" placeholder="User Name" >
          <span v-if="errors.userName" class="error">{{errors.userName[0]}}</span></td>
      </tr>
 
      <tr>
      <td ><label >Password</label></td>
-     <td ><input type="text" v-model.trim="employee.password" placeholder="Password" >
+     <td ><input type="text" v-model.trim="employee.password"  @blur="checkValidation('password')" placeholder="Password" >
          <span v-if="errors.password" class="error">{{errors.password[0]}}</span></td>
      </tr>
 
      <tr>
      <td ><label >Confirm Password</label></td>
-     <td ><input type="text" v-model.trim="employee.cnfrmPassword" placeholder="Confirm Password">
+     <td ><input type="text" v-model.trim="employee.cnfrmPassword"  @blur="checkValidation('cnfrmPassword')" placeholder="Confirm Password">
          <span v-if="errors.cnfrmPassword" class="error">{{errors.cnfrmPassword[0]}}</span></td>
      </tr>
 
      <tr>
      <td ><label >Employee Id</label></td>
-     <td ><input type="text" v-model.trim="employee.empId" placeholder="Enter Employee Id">
+     <td ><input type="text" v-model.trim="employee.empId"  @blur="checkValidation('empId')" placeholder="Enter Employee Id">
          <span v-if="errors.empId" class="error">{{errors.empId[0]}}</span></td>
      </tr>
 
      <tr>
      <td ><label >Email Id</label></td>
-     <td ><input type="text" v-model.trim="employee.email" placeholder="Enter Email Id">
+     <td ><input type="text" v-model.trim="employee.email"  @blur="checkValidation('email')" placeholder="Enter Email Id">
          <span v-if="errors.email" class="error">{{errors.email[0]}}</span></td>
      </tr>
 
      <tr>
      <td ><label >Mobile Number</label></td>
-     <td ><input type="text" v-model.trim="employee.mobile" placeholder="Enter Mobile Number">
+     <td ><input type="text" v-model.trim="employee.mobile"  @blur="checkValidation('mobile')" placeholder="Enter Mobile Number">
          <span v-if="errors.mobile" class="error">{{errors.mobile[0]}}</span></td>
      </tr>
 
      <tr>
      <td ><label >Select Location</label></td>
-     <td ><select id="location" v-model="employee.selectedLocation" name="location">
+     <td ><select id="location" v-model="employee.selectedLocation"  @blur="checkValidation('selectedLocation')" name="location">
      <option value="">Select Location</option>
      <option v-for="item in userLocation" :key='item.country' :value="item.country">{{ item.country }}</option>
 
@@ -55,7 +55,7 @@
 
      <tr>
     <td ><label >Role</label></td>
-    <td ><select id="role" v-model="employee.role" name="role">
+    <td ><select id="role" v-model="employee.role"  @blur="checkValidation('role')" name="role">
     <option value="">Select Role</option>
     <option value="admin">Admin</option>
     <option value="editor">Editor</option>
@@ -68,7 +68,7 @@
 
      <tr>
     <td ><label >Department</label></td>
-    <td ><select id="department" v-model="employee.department" name="department">
+    <td ><select id="department" v-model="employee.department"  @blur="checkValidation('department')" name="department">
     <option value="">Select Department</option>
 
     <option value="hrStaffing">HR-Staffing</option>
@@ -81,7 +81,7 @@
 
      <tr>
      <td ><label >Date of Birth</label></td>
-     <td ><input v-model.trim="employee.dob" type="date" >
+     <td ><input v-model.trim="employee.dob"  @blur="checkValidation('dob')" type="date" >
          <span v-if="errors.dob" class="error">{{errors.dob[0]}}</span></td>
      </tr>
 
@@ -130,6 +130,16 @@
          methods:{
             closePopup() {
       this.$emit("closePopup");
+    },
+    checkValidation(fieldName) {
+      let dataError = Object.values(this.errors);
+      if (dataError.length > 1) {
+        this.submitForm();
+      } else {
+        if (this.errors.hasOwnProperty(fieldName)) {
+          delete this.errors[fieldName];
+        }
+      }
     },
 
              userLocationApi()

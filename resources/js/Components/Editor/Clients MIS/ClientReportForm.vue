@@ -4,8 +4,8 @@
 
         <tr>
     <td ><label >Select Location</label></td>
-    <td ><select id="location" v-model="client.selectedLocation"  name="location">
-    <option value="">Choose Location</option>
+    <td ><select id="location" v-model="client.selectedLocation" @blur="checkValidation('selectedLocation')" name="location">
+    <option value="">Select Location</option>
     <option v-for="item in getUniqueValues(clientMis,'location')" :key='item' :value="item">{{ item }}</option>
 
         </select><br><span v-if="errors.selectedLocation" class="error">{{errors.selectedLocation[0]}}</span></td>
@@ -13,8 +13,8 @@
 
     <tr>
     <td ><label >Client Name</label></td>
-    <td ><select id="client"  v-model="client.clientName"  name="client">
-    <option value="">Choose Client</option>
+    <td ><select id="client"  v-model="client.clientName" @blur="checkValidation('clientName')" name="client">
+    <option value="">Select Client</option>
     <option v-for="item in getUniqueValues(clientMis,'client_name')" :key='item' :value="item">{{ item }}</option>
 
         </select><br><span v-if="errors.clientName" class="error">{{errors.clientName[0]}}</span></td>
@@ -23,8 +23,8 @@
 
     <tr>
     <td ><label >Business Unit</label></td>
-    <td ><select id="business"  v-model="client.businessName"  name="business">
-    <option value="">Choose B-Unit</option>
+    <td ><select id="business"  v-model="client.businessName" @blur="checkValidation('businessName')" name="business">
+    <option value="">Select B-Unit</option>
     <<option v-for="item in getUniqueValues(clientMis,'business_unit_name')" :key='item' :value="item">{{ item }}</option>
 
 </select><br><span v-if="errors.businessName" class="error">{{errors.businessName[0]}}</span></td>
@@ -32,8 +32,8 @@
 
     <tr>
     <td ><label >Select Matrix</label></td>
-    <td ><select id="matrix"  v-model="client.selectedMatrix"  name="matrix">
-    <option value="">Choose Matrix</option>
+    <td ><select id="matrix"  v-model="client.selectedMatrix" @blur="checkValidation('selectedMatrix')" name="matrix">
+    <option value="">Select Matrix</option>
     <option value="requirements">Requirements</option>
     <option value="submission">Submission</option>
     <option value="Selection">Selection</option>
@@ -48,13 +48,13 @@
 
     <tr>
     <td ><label >From Date</label></td>
-    <td ><input  v-model.trim="client.fromDate"  type="date" >
+    <td ><input  v-model.trim="client.fromDate" @blur="checkValidation('fromDate')" type="date" >
         <span v-if="errors.fromDate" class="error">{{errors.fromDate[0]}}</span></td>
     </tr>
 
     <tr>
     <td ><label >To Date</label></td>
-    <td ><input  v-model.trim="client.toDate"  type="date" >
+    <td ><input  v-model.trim="client.toDate" @blur="checkValidation('toDate')" type="date" >
         <span v-if="errors.toDate" class="error">{{errors.toDate[0]}}</span></td>
     </tr>
 
@@ -94,10 +94,20 @@ export default {
             };
         },
 
-        
+
             methods:{
                 closePopup() {
       this.$emit("closePopup");
+    },
+    checkValidation(fieldName) {
+      let dataError = Object.values(this.errors);
+      if (dataError.length > 1) {
+        this.submitForm();
+      } else {
+        if (this.errors.hasOwnProperty(fieldName)) {
+          delete this.errors[fieldName];
+        }
+      }
     },
     userLocationApi()
             {
@@ -123,11 +133,11 @@ export default {
                         axios.post('/api/editorclient-report', this.client)
                   .then(response => {
                       console.log('Form submitted:', response.data.results);
-                      
+
                       this.results = response.data.results;
                   this.errors={};
 
-                   
+
 
                })
               .catch(error => {

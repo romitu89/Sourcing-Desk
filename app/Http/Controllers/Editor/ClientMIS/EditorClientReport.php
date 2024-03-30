@@ -22,6 +22,15 @@ class EditorClientReport extends Controller
 
     public function store(Request $request)
     {
+        $successMessage = [
+
+            'clientName.required' => 'Client Name is required.',
+            'businessName.required' => 'Buisness Unit Name is required.',
+            'selectedLocation.required' => 'Location is required.',
+            'selectedMatrix.required' => 'Matrix is required.',
+            'fromDate.required' => 'From Date is required.',
+            'toDate.required' => 'To Date is required.',
+        ];
         // Validate the form data
         $request->validate([
             'clientName' => 'required',
@@ -30,7 +39,7 @@ class EditorClientReport extends Controller
             'selectedMatrix' => 'required',
             'fromDate' => 'required|date',
             'toDate' => 'required|date',
-        ]);
+        ], $successMessage);
 
         $clientName = $request->input('clientName');
         $business = $request->input('businessName');
