@@ -4,46 +4,35 @@
 
         <tr>
     <td ><label >Select Location</label></td>
-    <td ><select id="location" v-model="client.location" class="color_cell" name="location">
+    <td ><select id="location" v-model="client.selectedLocation" name="location">
     <option value="">Choose Location</option>
-    <option value="India">India</option>
-    <option value="usa">USA</option>
-    </select><br>
-    <span v-if="submitted && !validation.location" class="error">Location is required.</span></td>
-    </tr>
+    <option v-for="item in getUniqueValues(clientMis,'location')" :key='item' :value="item">{{ item }}</option>
+        </select><br><span v-if="errors.selectedLocation" class="error">{{errors.selectedLocation[0]}}</span></td>
+        </tr>
 
     <tr>
     <td ><label >Client Name</label></td>
-    <td ><select id="client"  v-model="client.name" class="color_cell"  name="client">
+    <td ><select id="client"  v-model="client.clientName"  name="client">
     <option value="">Choose Client</option>
-    <option value="India">India</option>
-    <option value="usa">USA</option>
-    </select><br>
-    <span v-if="submitted && !validation.name" class="error">Client Name is required.</span>
-    </td>
-    </tr>
+    <option v-for="item in getUniqueValues(clientMis,'client_name')" :key='item' :value="item">{{ item }}</option>
+        </select><br><span v-if="errors.clientName" class="error">{{errors.clientName[0]}}</span></td>
+        </tr>
 
     <tr>
     <td ><label >Business Unit</label></td>
-    <td ><select id="business"  v-model="client.business" class="color_cell"  name="business">
+    <td ><select id="business"  v-model="client.businessName"  name="business">
     <option value="">Choose B-Unit</option>
-    <option value="India">India</option>
-    <option value="usa">USA</option>
-    </select><br>
-    <span v-if="submitted && !validation.business" class="error">Business Unit is required.</span>
-    </td>
-    </tr>
+    <option v-for="item in getUniqueValues(clientMis,'business_unit_name')" :key='item' :value="item">{{ item }}</option>
+        </select><br><span v-if="errors.businessName" class="error">{{errors.businessName[0]}}</span></td>
+        </tr>
 
     <tr>
     <td ><label >Client Manager Name</label></td>
-    <td ><select id="manager"  v-model="client.manager" class="color_cell"  name="manager">
+    <td ><select id="manager"  v-model="client.clientManager"  name="manager">
     <option value="">Choose Manager</option>
-    <option value="India">India</option>
-    <option value="usa">USA</option>
-    </select><br>
-    <span v-if="submitted && !validation.manager" class="error">Client Manager is required.</span>
-    </td>
-    </tr>
+    <option v-for="item in getUniqueValues(clientMis,'client_manager_name')" :key='item' :value="item">{{ item }}</option>
+        </select><br><span v-if="errors.clientManager" class="error">{{errors.clientManager[0]}}</span></td>
+        </tr>
 
     <tr>
     <td ><label >Select Matrix</label></td>
@@ -57,20 +46,20 @@
     <option value="Dropouts">Dropouts</option>
     <option value="Offboarded">Offboarded</option>
     </select><br>
-    <span v-if="submitted && !validation.matrix" class="error">Matrix is required.</span>
+    <span v-if="errors.matrix" class="error">{{errors.matrix[0]}}</span>
     </td>
     </tr>
 
     <tr>
     <td ><label >From Date</label></td>
     <td ><input  v-model="client.from"  type="date" >
-        <span v-if="submitted && !validation.from" class="error">From Date is required.</span></td>
+        <span v-if="errors.from" class="error">{{errors.from[0]}}</span></td>
     </tr>
 
     <tr>
     <td ><label >To Date</label></td>
     <td ><input  v-model="client.to"  type="date" >
-        <span v-if="submitted && !validation.to" class="error">To Date is required.</span></td>
+        <span v-if="errors.to" class="error">{{errors.to[0]}}</span></td>
     </tr>
 
     <tr>
@@ -85,65 +74,77 @@
 
 <script>
 import Swal from 'sweetalert2'
+import { commonFunctionsMixin } from '../../../function.js';
 
 export default {
     name: 'ClientManagerReportForm',
+    mixins:[commonFunctionsMixin],
 
     data()
         {
             return{
                 client: {
-                    name:"",
-                    business:"",
-                    location:"",
-                    manager:"",
+                    clientName:"",
+                    businessName:"",
+                    selectedLocation:"",
+                    clientManager:"",
                     matrix:"",
                     from:"",
                     to:"",
                 },
                 submitted:false,
+                clientMis:[],
+                errors:{},
             };
         },
 
-        computed:{
-            validation(){
-                return {
-            name: this.client.name.trim() !== '',
-            business: this.client.business.trim() !== '',
-            location: this.client.location.trim() !== '',
-            manager: this.client.manager.trim() !== '',
-            matrix: this.client.matrix.trim() !== '',
-            from: this.client.from.trim() !== '',
-            to: this.client.to.trim() !== '',
+        
+        methods:{
+            closePopup() {
+                this.$emit("closePopup");
+            },
+            userLocationApi()
+            {
+                axios
+                .get('/api/editorclient-managerreport')
+                .then(response => {
+                this.clientMis = response.data.clients
 
-            };
+                console.log(this.loginData)
+            })
+                .catch(error => {
+                console.log(error)
+                this.errored = true
+          })
+
             },
 
-            isFormValid() {
 
-                return Object.values(this.validation).every(value => value);
-            },
-
-            },
-
-            methods:{
-                closePopup() {
-      this.$emit("closePopup");
-    },
-            submitForm() {
+        submitForm() {
                 this.submitted = true; // Set the submitted flag to true when attempting to submit the form
-                if (this.isFormValid) {
-                Swal.fire({
-                        position: "top-center",
-                        icon: "success",
-                        title: "Your form has been submitted",
-                        showConfirmButton: false,
-                        timer: 5000
-                        });
-// You might want to reset the form and submitted flag here if needed
-                        }
+                    // if (this.isFormValid) {
 
-                },
-            },
+            axios
+                .post('/api/editorclient-managerreport', this.client)
+                .then(response => {
+                    console.log('Form submitted:', response.data.results);
+                      
+                this.results = response.data.results;
+                  this.errors={};
+
+                   
+
+               })
+              .catch(error => {
+                //   console.error('Error submitting form:', error.response.data.errors);
+                  this.errors= error.response.data.errors;
+               });
+    },
+        },
+        mounted(){
+        this.userLocationApi()
+
 }
+
+ }
 </script>

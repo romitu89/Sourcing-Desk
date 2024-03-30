@@ -4,35 +4,27 @@
 
         <tr>
     <td ><label >Select Location</label></td>
-    <td ><select id="location" v-model.trim="client.location" class="color_cell" name="location">
+    <td ><select id="location" v-model="client.selectedLocation" name="location">
     <option value="">Choose Location</option>
-    <option value="India">India</option>
-    <option value="usa">USA</option>
-    </select><br>
-    <span v-if="submitted && !validation.location" class="error">Location is required.</span></td>
-    </tr>
+    <option v-for="item in getUniqueValues(clientMis,'location')" :key='item' :value="item">{{ item }}</option>
+        </select><br><span v-if="errors.selectedLocation" class="error">{{errors.selectedLocation[0]}}</span></td>
+        </tr>
 
     <tr>
     <td ><label >Client Name</label></td>
-    <td ><select id="Client"  v-model.trim="client.name" class="color_cell"  name="Client">
+    <td ><select id="Client"  v-model.trim="client.clientName"  name="Client">
     <option value="">Choose Client</option>
-    <option value="India">India</option>
-    <option value="usa">USA</option>
-    </select><br>
-    <span v-if="submitted && !validation.name" class="error">Client Name is required.</span>
-    </td>
-    </tr>
+    <option v-for="item in getUniqueValues(clientMis,'client_name')" :key='item' :value="item">{{ item }}</option>
+        </select><br><span v-if="errors.clientName" class="error">{{errors.clientName[0]}}</span></td>
+        </tr>
 
     <tr>
     <td ><label >Business Unit</label></td>
-    <td ><select id="business"  v-model.trim="client.business" class="color_cell"  name="business">
+    <td ><select id="business"  v-model.trim="client.businessName"  name="business">
     <option value="">Choose B-Unit</option>
-    <option value="India">India</option>
-    <option value="usa">USA</option>
-    </select><br>
-    <span v-if="submitted && !validation.business" class="error">Business Unit is required.</span>
-    </td>
-    </tr>
+    <option v-for="item in getUniqueValues(clientMis,'business_unit_name')" :key='item' :value="item">{{ item }}</option>
+        </select><br><span v-if="errors.businessName" class="error">{{errors.businessName[0]}}</span></td>
+        </tr>
 
     <tr>
     <td ><label >Select Matrix</label></td>
@@ -46,7 +38,7 @@
     <option value="Dropouts">Dropouts</option>
     <option value="Offboarded">Offboarded</option>
     </select><br>
-    <span v-if="submitted && !validation.matrix" class="error">Matrix is required.</span>
+    <span v-if="errors.matrix" class="error">{{errors.matrix[0]}}</span>
     </td>
     </tr>
 
@@ -61,61 +53,76 @@
 
 <script>
 import Swal from 'sweetalert2'
+import { commonFunctionsMixin } from '../../../function.js';
+
 export default {
 
     name:'ClienMatrixForm',
+
+    mixins:[commonFunctionsMixin],
 
     data()
         {
             return{
                 client: {
-                    name:"",
-                    business:"",
-                    location:"",
+                    clientName:"",
+                    businessName:"",
+                    selectedLocation:"",
                     matrix:"",
 
                 },
                 submitted:false,
+                clientMis:[],
+                errors:{},
             };
         },
 
-        computed:{
-            validation(){
-                return {
-            name: this.client.name.trim() !== '',
-            business: this.client.business.trim() !== '',
-            location: this.client.location.trim() !== '',
-            matrix: this.client.matrix.trim() !== '',
+       
+        methods:{
+            closePopup() {
+                this.$emit("closePopup");
+            },
+            userLocationApi()
+            {
+                axios
+                .get('/api/editorclient-matrix')
+                .then(response => {
+                this.clientMis = response.data.clients
 
+                console.log(this.clientMis)
+            })
+                .catch(error => {
+                console.log(error)
+                this.errored = true
+            })
 
-            };
             },
 
-            isFormValid() {
-
-                return Object.values(this.validation).every(value => value);
-            },
-
-            },
-
-            methods:{
-                closePopup() {
-      this.$emit("closePopup");
-    },
             submitForm() {
                 this.submitted = true; // Set the submitted flag to true when attempting to submit the form
-                if (this.isFormValid) {
-                Swal.fire({
-                        position: "top-center",
-                        icon: "success",
-                        title: "Your form has been submitted",
-                        showConfirmButton: false,
-                        timer: 5000
-                        });
-// You might want to reset the form and submitted flag here if needed
-                        }
+                    // if (this.isFormValid) {
 
-                },
+            axios
+                .post('/api/editorclient-matrix', this.client)
+                .then(response => {
+                    console.log('Form submitted:', response.data.results);
+                      
+                this.results = response.data.results;
+                  this.errors={};
+
+                   
+
+               })
+              .catch(error => {
+                //   console.error('Error submitting form:', error.response.data.errors);
+                  this.errors= error.response.data.errors;
+               });
             },
+        },
+        mounted(){
+        this.userLocationApi()
+
 }
+
+ }
 </script>
