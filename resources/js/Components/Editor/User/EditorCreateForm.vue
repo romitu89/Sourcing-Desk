@@ -66,6 +66,44 @@
     </select><br><span v-if="errors.role" class="error">{{errors.role[0]}}</span></td>
     </tr>
 
+    <tr v-show="employee.role == 'recruiter' || employee.role == 'teamLead'">
+        <td><label>Reporting Manager</label></td>
+        <td>
+          <select
+            id="amManager"
+            v-model="employee.selectedReportAM"
+            @blur="checkValidation('selectedReportAM')"
+            name="amManager"
+          >
+            <option value="">Select Email ID</option>
+            <option v-for="item in userAm" :key="item.email_id" :value="item.email_id">
+              {{ item.email_id }}
+            </option></select
+          ><br /><span v-if="errors.selectedReportAM" class="error">{{
+            errors.selectedReportAM[0]
+          }}</span>
+        </td>
+      </tr>
+
+      <tr v-show="employee.role == 'recruiter'">
+        <td><label>Reporting Team Lead</label></td>
+        <td>
+          <select
+            id="tlManager"
+            v-model="employee.selectedReportTL"
+            @blur="checkValidation('selectedReportAM')"
+            name="tlManager"
+          >
+            <option value="">Select Email ID</option>
+            <option v-for="item in userTl" :key="item.email_id" :value="item.email_id">
+              {{ item.email_id }}
+            </option></select
+          ><br /><span v-if="errors.selectedReportAM" class="error">{{
+            errors.selectedReportAM[0]
+          }}</span>
+        </td>
+      </tr>
+
      <tr>
     <td ><label >Department</label></td>
     <td ><select id="department" v-model="employee.department"  @blur="checkValidation('department')" name="department">
@@ -108,17 +146,19 @@
          {
              return{
                  employee: {
-             empName:"",
-             userName:"",
-             password:"",
-             cnfrmPassword:"",
-             empId:"",
-             email:"",
-             mobile:"",
-             selectedLocation:"",
-             role:"",
-             department:"",
-             dob:"",
+                  empName: "",
+                  userName: "",
+                  password: "",
+                  cnfrmPassword: "",
+                  empId: "",
+                  email: "",
+                  mobile: "",
+                  selectedLocation: "",
+                  role: "",
+                  selectedReportAM: "",
+                  selectedReportTL: "",
+                  department: "",
+                  dob: "",
                  },
                  submitted:false,
                  userLocation:[],
@@ -147,8 +187,9 @@
              axios
        .get('/api/editoruser-create')
        .then(response => {
-         this.userLocation = response.data
-         console.log(this.userLocation)
+          this.userLocation = response.data.locations;
+          this.userAm = response.data.userAm;
+          this.userTl = response.data.userTl;
        })
        .catch(error => {
          console.log(error)

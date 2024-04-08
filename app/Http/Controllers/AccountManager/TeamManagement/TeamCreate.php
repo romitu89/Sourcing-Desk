@@ -10,12 +10,12 @@ use App\Models\User;
 class TeamCreate extends Controller
 {
     public function create()
-    {
-        $loc = User::Select('location')->distinct()->get();
-        $tm = User::Select('email_id')->distinct()->where('reporting_to', auth()->user()->email_id)
-            ->get();
-        return response()->json(['teamEmail' => $tm, 'location' => $loc]);
-    }
+{
+    $loc = User::select('location')->distinct()->get();
+    $tm = User::select('email_id')->distinct()->where('reporting_to_am', auth()->user()->email_id)->get();
+ 
+    return response()->json(['data' => ['teamEmail' => $tm, 'location' => $loc]]);
+}
 
     public function store(Request $request)
     {
