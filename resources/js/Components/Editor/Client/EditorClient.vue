@@ -1,50 +1,51 @@
 <template>
 
     <div class="container">
-
+ 
     <div class="form" @click="clientPopUp()">
          <div class="icon_div"><font-awesome-icon :icon="['fas', 'chart-gantt']" /></div>
          <h4>Create</h4>
      </div>
-
+ 
      <div class="form" @click="viewPopUp()">
          <div class="icon_div"><font-awesome-icon :icon="['fas', 'chart-gantt']" /></div>
         <h4>View</h4>
      </div>
-
+ 
      </div>
      <ClientForm
-        :showPopUp="popup"
-        @closePopup="closePopUp"
-        @updateForm="updateForm"
-        @editSuccess="editSuccess"
-        :title="title"
-        :editId="editId"
-        :empName="empName"
-        v-if="popup"
-    >
+     :showPopUp="popup"
+     @closePopup="closePopUp"
+     @updateForm="updateForm"
+     @editSuccess="editSuccess"
+     :title="title"
+     :editId="editId"
+     :empName="empName"
+     v-if="popup"
+     >
     </ClientForm>
-
+ 
  </template>
-
+ 
  <script>
  import ClientForm from './ClientForm.vue'
-
+ 
      export default {
-         name: 'Client',
-     component:{
+         name: 'EditorClient',
+     components:{
          ClientForm,
      },
-
+ 
      data ()
         {
          return{
-            popup: false,
-            title: "",
-            editId: null,
-            empName:"",
-            };
+             popup: false,
+             title: "",
+             editId: null,
+             empName:"",
+         };
         },
+ 
         methods:{
          clientPopUp(){
              this.popup=true;
@@ -54,39 +55,41 @@
              this.popup=true;
              this.title="Client View"
          },
-
+ 
          closePopUp(data){
              this.popup = data;
          },
          updateForm(id) {
-            this.title = "Edit Form";
-            this.popup = true;
-            this.editId = id;
-        },
+             this.title = "Edit Form";
+             this.popup = true;
+             this.editId = id;
+             console.log(this.editId, "client.vue edit id")
+         },
          editSuccess(name){
-            this.popup = true;
-            this.title = "View Form";
-            this.empName=name;
-        },
+         this.popup = true;
+         this.title = "Client View";
+         this.empName=name;
+         console.log( "client vue")
+         },
      },
-
-     components:{ClientForm,},
+ 
+     
      }
  </script>
-
+ 
  <style scoped>
  /* .colour {
      background-color: #162541;
      width: 1400px;
      height: 100%;
  } */
-
+ 
  .container{
      margin: 2% 5%;
      display: flex;
      flex-wrap: wrap;
      gap: 2%;
-
+ 
  }
  .form{
      width: 250px;
@@ -98,16 +101,17 @@
      cursor: pointer;
      /* box-shadow: 0 0 6px 7px whitesmoke; */
  }
-
+ 
  .form h4{
      color: rgb(213, 242, 253);
      font-size: 25px;
      text-align: center;
  }
-
+ 
  .icon_div{
      color: lightblue;
      text-align: center;
      font-size: 30px;
  }
  </style>
+ 

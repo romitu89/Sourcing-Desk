@@ -5,35 +5,35 @@
     
         <tr>
         <td ><label >Client Name</label></td>
-        <td ><input type="text"  v-model="client.clientName" placeholder="Client Name">
+        <td ><input type="text"  v-model="client.clientName" @blur="checkValidation('clientName')" placeholder="Client Name">
             <span v-if="errors.clientName" class="error">{{errors.clientName[0]}}</span></td>
         </tr>
     
         <tr>
         <td ><label >Business Unit Name</label></td>
-        <td ><input type="text" v-model="client.businessName" placeholder="Business Unit Name">
+        <td ><input type="text" v-model="client.businessName"  @blur="checkValidation('businessName')" placeholder="Business Unit Name">
             <span v-if="errors.businessName" class="error">{{errors.businessName[0]}}</span></td>
         </tr>
     
         <tr>
         <td ><label >Sub Location</label></td>
-        <td ><input type="text" v-model="client.subLocation" placeholder="Sub Location">
+        <td ><input type="text" v-model="client.subLocation"  @blur="checkValidation('subLocation')" placeholder="Sub Location">
     
             <span v-if="errors.subLocation" class="error">{{errors.subLocation[0]}}</span></td>
         </tr>
     
         <tr>
         <td ><label >Select Location</label></td>
-        <td ><select id="location" v-model="client.selectedLocation" name="location">
+        <td ><select id="location" v-model="client.selectedLocation"  @blur="checkValidation('selectedLocation')" name="location">
         <option value="">Select Location</option>
-        <option v-for="item in managersData" :key='item.country' :value="item.country">{{ item.country }}</option>
-    
+        <option v-for="item in location" :key='item.country' :value="item.country">{{ item.country }}</option>
+
         </select><br><span v-if="errors.selectedLocation" class="error">{{errors.selectedLocation[0]}}</span></td>
         </tr>
     
         <tr>
         <td ><label >Client Manager Name</label></td>
-        <td ><input type="text" v-model="client.selectedManagerName" placeholder="Client Manager Name">
+        <td ><input type="text" v-model="client.selectedManagerName" @blur="checkValidation('selectedManagerName')" placeholder="Client Manager Name">
     
     
         </input><br><span v-if="errors.selectedManagerName" class="error">{{errors.selectedManagerName[0]}}</span></td>
@@ -41,10 +41,19 @@
     
         <tr>
         <td ><label >Client Manager Email ID</label></td>
-        <td ><input type="text" v-model="client.selectedManager" placeholder="Client Manager Email ID">
+        <td ><input type="text" v-model="client.selectedManager"  @blur="checkValidation('selectedManager')" placeholder="Client Manager Email ID">
     
     
         </input><br><span v-if="errors.selectedManager" class="error">{{errors.selectedManager[0]}}</span></td>
+        </tr>
+
+        <tr>
+        <td ><label >Assign Account Manager</label></td>
+        <td ><select id="location" v-model="client.selectedAccountManager"  @blur="checkValidation('selectedLocation')" name="location">
+        <option value="">Select Account Manager</option>
+        <option v-for="item in managersData" :key='item.email_id' :value="item.email_id">{{ item.email_id }}</option>
+
+        </select><br><span v-if="errors.selectedAccountManager" class="error">{{errors.selectedAccountManager[0]}}</span></td>
         </tr>
     
         <tr>
@@ -67,11 +76,11 @@
         name: 'ClientEditForm',
 
         props: {
-            editId: {
-            type: Number,
-            default: null,
+        editId: {
+        type: Number,
+        default: null,
         },
-  },
+    },
     
         data()
             {
@@ -83,26 +92,63 @@
                         selectedManager:"",
                         selectedLocation:"",
                         selectedManagerName:"",
+                        selectedAccountManager:"",
                     },
+                    location:[],
                     managersData:[],
                     userLocation:[],
                     errors:{},
+                    editEmployee:{},
+    
                 };
             },
     
+           
             methods:{
     
                 closePopup() {
           this.$emit("closePopup");
         },
+        checkValidation(fieldName) {
+          let dataError = Object.values(this.errors);
+          if (dataError.length > 1) {
+            this.submitForm();
+          } else {
+            if (this.errors.hasOwnProperty(fieldName)) {
+              delete this.errors[fieldName];
+            }
+          }
+        },
+    
+        getUserDetails() {
+      axios
+        .get("/api/editorclient-edit/" + this.editId)
+        .then((response) => {
+          console.log(response.data.client, "data");
+          this.editEmployee = response.data.client;
+          this.client.clientName = this.editEmployee.client_name;
+          this.client.businessName = this.editEmployee.business_unit_name;
+          this.client.subLocation = this.editEmployee.sub_location;
+          this.client.selectedManager = this.editEmployee.client_manager_email;
+          this.client.selectedLocation = this.editEmployee.location;
+          this.client.selectedManagerName = this.editEmployee.client_manager_name;
+          this.client.selectedAccountManager = this.editEmployee.am_email;
+          
+        })
+        .catch((error) => {
+          console.log(error);
+          this.errored = true;
+        });
+    },
     
     userLocationApi()
     {
     axios
-    .get('/api/editorclient-create')
+    .get("/api/editorclient-create")
     .then(response => {
-    this.managersData = response.data.accountmanager
-    console.log(this.userLocation)
+      this.managersData = response.data.accountmanagers
+      this.location = response.data.location
+    console.log(this.managersData)
     })
     .catch(error => {
     console.log(error)
@@ -111,59 +157,30 @@
     
     },
     
-    resetForm()
-    {
-        this.client.clientName=""
-        this.client.businessName=""
-        this.client.subLocation=""
-        this.client.selectedManager=""
-        this.client.selectedLocation=""
-        this.client.selectedManagerName=""
-    },
-    
-    submitForm() {
-        this.submitted = true; // Set the submitted flag to true when attempting to submit the form
-        // if (this.isFormValid) {
-    
-            axios.post('/api/editorclient-create', this.client)
-      .then(response => {
-          console.log('Form submitted:', response.data.message);
-          if(response.data.message){
-            this.errors={};
-    
-             Swal.fire({
-                position: "top-center",
-                icon: "success",
-                title: "User created successfully",
-                showConfirmButton: false,
-                timer: 5000
-                });
-    
-                this.resetForm()
-    
+       submitForm() {
+      this.submitted = true;
+      axios
+        .patch("/api/editorclient-edit/" + this.editId, this.client)
+        .then((response) => {
+          if (response.data.message) {
+            
+            this.errors = {};
+            //console.log("editSuccess")
+           this.$emit("editSuccess", this.client.clientName)
+           
           }
-          else{
-            Swal.fire("Form not Submitted");
-          }
-    
-          // Handle the response as needed
-       })
-      .catch(error => {
-          console.error('Error submitting form:', error.response.data.errors);
-          this.errors= error.response.data.errors;
-       });
-    
-    
-    
-    
-    // You might want to reset the form and submitted flag here if needed
-    
-        },
+        })
+        .catch((error) => {
+          console.error(error.response.data.errors);
+          this.errors = error.response.data.errors;
+        });
     },
+  },  
     
     mounted(){
-        this.userLocationApi()
-    
+        this.userLocationApi();
+        this.getUserDetails();
+        
     }
     
     

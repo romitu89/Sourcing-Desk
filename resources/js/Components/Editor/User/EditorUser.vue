@@ -23,10 +23,15 @@
 </div>
 
 <EditorUserPopup
-    :showPopUp="popup"
-    @closePopup ="closePopUp" 
+:showPopUp="popup"
+    @closePopup="closePopUp"
+    @updateForm="updateForm"
+    @editSuccess="editSuccess"
     :title="title"
-   v-if="popup">
+    :editId="editId"
+    :empName="empName"
+    v-if="popup"
+    >
 
    </EditorUserPopup>
 
@@ -41,35 +46,44 @@ import EditorUserPopup  from './EditorUserPopup.vue'
         components:{
             EditorUserPopup,
        },
-       data ()
-       {
-        return{
-            popup:false,
-            title:'',
-        };
-       },
-       methods:{
-        createPopUp(){
-            this.popup=true;
-            this.title="Create Form"
-        },
-        closePopUp(data){
-            this.popup = data;
-        },
-        viewPopUp(){
-            this.popup=true;
-            this.title="View Form"
-        },
 
-        loginPopUp(){
-            this.popup=true;
-            this.title="Login Form"
-        },
+       data() {
+    return {
+      popup: false,
+      title: "",
+      editId: null,
+      empName:"",
+    };
+  },
+  methods: {
+    createPopUp() {
+      this.popup = true;
+      this.title = "Create Form";
+    },
+    closePopUp(data) {
+      this.popup = data;
+    },
+    viewPopUp() {
+      this.popup = true;
+      this.title = "View Form";
+    },
 
-       }
-       
-       
-    }
+    loginPopUp() {
+      this.popup = true;
+      this.title = "Login Form";
+    },
+    updateForm(id) {
+      this.title = "Edit Form";
+      this.popup = true;
+      this.editId = id;
+    },
+    editSuccess(name){
+        this.popup = true;
+      this.title = "View Form";
+      this.empName=name;
+    },
+  },
+};
 
 </script>
 

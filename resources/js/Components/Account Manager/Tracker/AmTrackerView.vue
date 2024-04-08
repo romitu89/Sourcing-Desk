@@ -50,16 +50,18 @@
     </form>
 
     <div v-if="results">
-                    <responsive-table :results="results" :columns="columns" :buttonAction="buttonAction">
-
-
-                      <!-- <template #edit="{ row }">
-                        <Link
-
-                          >Edit</Link
-                        >
-                      </template> -->
-                    </responsive-table>
+      <responsive-table :results="results" :columns="columns" :buttonAction="buttonAction">
+    <template #edit="{ row }">
+      <div>
+        <button title="Edit" @click="editItem(row.client_id)">
+          <font-awesome-icon :icon="['fas', 'pen-to-square']" />
+        </button>
+        <button title="Delete" @click="deleteItem(row.client_id)">
+          <font-awesome-icon :icon="['fas', 'trash']" />
+        </button>
+      </div>
+    </template>
+  </responsive-table>
                   </div>
 
  </template>

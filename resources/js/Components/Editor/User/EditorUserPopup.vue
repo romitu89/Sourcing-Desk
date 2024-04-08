@@ -7,11 +7,23 @@
       <EditorCreateForm @closePopup="closePopup()"
       v-if="title=='Create Form'"/>
 
-      <EditorViewForm @closePopup="closePopup()"
-      v-if="title=='View Form'"/>
+      <EditorViewForm 
+        @closePopup="closePopup()"
+        @updateForm="updateForm"
+        @editMessageUpdated="editMessageUpdated"
+        :empName="empNameProp"
+        v-if="titleProp == 'View Form'"
+      />
 
       <EditorLoginForm @closePopup="closePopup()"
       v-if="title=='Login Form'"/>
+
+      <EditorEditForm
+        @closePopup="closePopup()"
+        @editSuccess="editSuccess"
+        :editId="editIdProp"
+        v-if="titleProp == 'Edit Form'"
+      />
 
         </div>
     </div>
@@ -21,45 +33,74 @@
 import EditorCreateForm from './EditorCreateForm.vue'
 import EditorViewForm from './EditorViewForm.vue'
 import EditorLoginForm from './EditorLoginForm.vue'
-
+import EditorEditForm from './EditorEditForm.vue'
 
 export default {
     name: 'EditorUserPopup',
-    component: {
+    components: {
         EditorCreateForm,
         EditorViewForm,
         EditorLoginForm,
+        EditorEditForm
     },
     props: {
-        showPopUp: {
-            type: Boolean,
-            default: false
-        },
-        title: {
-            type: String,
-            default: 'Head'
-        }
+    editId: {
+      type: Number,
+      default: null,
     },
-    watch: {
-        tab(newVal) {
-            this.showUserCreate = newVal;
-        }
+    empName:{
+      type: String,
+      default: "",
     },
-    data() {
-        return {
-            showUserCreate: this.tab,
-        };
+    showPopUp: {
+      type: Boolean,
+      default: false,
     },
-    methods: {
-        closePopup() {
-            console.log(this.showUserCreate);
-            this.showUserCreate = false;
-            this.$emit('closePopup', this.showUserCreate);
-        }
+    title: {
+      type: String,
+      default: "Head",
     },
-    components: { EditorCreateForm, EditorViewForm, EditorLoginForm }
-}
+  },
+  watch: {
+    tab(newVal) {
+      this.showUserCreate = newVal;
+    },
+    editId(newVal) {
+      this.editIdProp = newVal;
+    },
+    title(newVal) {
+      this.titleProp = newVal;
+    },
+    empName(newVal) {
+      this.empNameProp = newVal;
+    },
+    
+  },
+  data() {
+    return {
+      showUserCreate: this.tab,
+      editIdProp: this.editId,
+      titleProp: this.title,
+      empNameProp:this.empName,
+    };
+  },
+  methods: {
+    closePopup() {
+      this.showUserCreate = false;
+      this.$emit("closePopup", this.showUserCreate);
+    },
+    updateForm(id) {
+      this.$emit("updateForm", id);
+    },
+    editSuccess(name){
+      this.$emit("editSuccess", name)
+    },
+    editMessageUpdated(){
+      this.empNameProp=""
+    }
 
+  },
+};
 </script>
 
 <style scoped>
