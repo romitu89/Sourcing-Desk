@@ -27,10 +27,10 @@ class ClientView extends Controller
         $user = User::where('id', $client->account_manager_id)->first();
         // dd($user);
         if ($user) {
-        $client->am_email = $user->email_id;
+            $client->am_email = $user->email_id;
         } else {
-        $client->am_email = null; // or some default value
-    }
+            $client->am_email = null; // or some default value
+        }
         return response()->json([
             'client' => $client,
             'accountmanager' => $am

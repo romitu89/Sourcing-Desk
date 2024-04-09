@@ -13,9 +13,9 @@ class EditorClientView extends Controller
     public function create()
     {
         $location = Client::select('location')->distinct()->get();
-        $subLocatin = Client::select('sub_location')->distinct()->get();
+        $subLocation = Client::select('sub_location')->distinct()->get();
 
-        return response()->json(['locations' => $location, 'subLocations' => $subLocatin]);
+        return Response::json(['locations' => $location, 'subLocations' => $subLocation]);
     }
 
     public function edit(string $id)
@@ -23,42 +23,54 @@ class EditorClientView extends Controller
         $am = User::where('role', 'accountManager')->distinct()
             ->get();
         $client = Client::where('client_id', $id)->first();
-        return response()->json(['client' => $client, 'accountManager' => $am]);
+        // dd($client->client_id);
+        $user = User::where('id', $client->account_manager_id)->first();
+        // dd($user);
+        if ($user) {
+            $client->am_email = $user->email_id;
+        } else {
+            $client->am_email = null; // or some default value
+        }
+        return response()->json([
+            'client' => $client,
+            'accountmanager' => $am
+        ]);
     }
+
     public function update(Request $request, string $id)
     {
-
         $request->validate([
             'clientName' => 'required|string|unique:clients,client_name,' . $id . ',client_id',
             'businessName' => 'required|string',
             'subLocation' => 'required|string',
-
-            'selectedManager' => 'required',
+            'selectedManagerName' => 'required',
+            'selectedManager' => 'required|email|unique:clients,client_manager_email,' . $id . ',client_id',
             'selectedLocation' => 'required',
-
+            'selectedAccountManager' => 'required',
         ]);
 
-
-        if ($request->selectedManager) {
-            $am_email = $request->selectedManager;
-        }
+        // if ($request->selectedManager) {
+        //     $am_email = $request->selectedManager;
+        // }
+        $man_id = $request->selectedManager;
         $clientName = ucwords($request->clientName);
         $bun = ucwords($request->businessName);
         $subLoc = ucwords($request->subLocation);
-        $am_name_nw = ucwords($am_email);
-        //dd($request->except('_token','_method'));
+
+        $acc_id = User::where('email_id', $request->selectedAccountManager)->first(['id']);
         $client = Client::findOrFail($id);
 
-        // Update the client with the validated data
         $client->update([
             'client_name' => $clientName,
             'business_unit_name' => $bun,
             'sub_location' => $subLoc,
-            'account_manager' => $am_name_nw,
-            'account_manger_id' => $request->selectedManager,
+            'client_manager_name' =>  ucwords($request->selectedManagerName),
+            'client_manager_email' =>  $man_id,
+            'account_manager_id' => $acc_id->id,
             'location' => $request->selectedLocation,
         ]);
-        return response()->json(['message' => 'Client updated successfully']);
+
+        return Response::json(['message' => 'Client has been updated']);
     }
 
     public function store(Request $request)
@@ -76,12 +88,9 @@ class EditorClientView extends Controller
             // Add other custom messages as needed
 
         ];
-
         $request->validate([
             'selectedSubLocation' => 'required',
             'selectedLocation' => 'required',
-
-
         ], $clientValidation);
 
         $subLocation = $request->input('selectedSubLocation');
@@ -96,15 +105,9 @@ class EditorClientView extends Controller
             $query->where('sub_location', '=', $subLocation);
         }
 
-
-
-        // Add more conditions as needed
-
-        // Execute the query and retrieve the results
         $results = $query->get();
 
-        return response()->json(['results' => $results]);
-        //dd($results);
+        return Response::json(['results' => $results]);
     }
 
     public function destroy(string $id)
