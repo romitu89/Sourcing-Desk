@@ -26,7 +26,7 @@
     <td ><label >Select Location</label></td>
     <td ><select id="location" v-model="client.selectedLocation"  @blur="checkValidation('selectedLocation')" name="location">
     <option value="">Select Location</option>
-    <option v-for="item in managersData" :key='item.country' :value="item.country">{{ item.country }}</option>
+    <option v-for="item in location" :key='item.country' :value="item.country">{{ item.country }}</option>
 
     </select><br><span v-if="errors.selectedLocation" class="error">{{errors.selectedLocation[0]}}</span></td>
     </tr>
@@ -43,8 +43,16 @@
     <td ><label >Client Manager Email ID</label></td>
     <td ><input type="text" v-model="client.selectedManager"  @blur="checkValidation('selectedManager')" placeholder="Client Manager Email ID">
 
-
     </input><br><span v-if="errors.selectedManager" class="error">{{errors.selectedManager[0]}}</span></td>
+    </tr>
+
+    <tr>
+    <td ><label >Assign Account Manager</label></td>
+    <td ><select id="manager" v-model="client.selectedAccountManager"  @blur="checkValidation('selectedLocation')" name="manager">
+    <option value="">Select Account Manager</option>
+    <option v-for="item in managersData" :key='item.email_id' :value="item.email_id">{{ item.email_id }}</option>
+
+    </select><br><span v-if="errors.selectedAccountManager" class="error">{{errors.selectedAccountManager[0]}}</span></td>
     </tr>
 
     <tr>
@@ -76,7 +84,9 @@ export default {
                     selectedManager:"",
                     selectedLocation:"",
                     selectedManagerName:"",
+                    selectedAccountManager:"",
                 },
+                location:[],
                 managersData:[],
                 userLocation:[],
                 errors:{},
@@ -104,7 +114,8 @@ userLocationApi()
 axios
 .get('/api/editorclient-create')
 .then(response => {
-this.managersData = response.data.accountmanager
+    this.managersData = response.data.accountmanagers
+    this.location = response.data.location
 console.log(this.userLocation)
 })
 .catch(error => {
