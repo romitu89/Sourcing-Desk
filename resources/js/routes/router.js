@@ -7,6 +7,7 @@ import ClientsMis from '../Components/Admin/Client Mis/ClientsMis.vue'
 import UserMis from '../Components/Admin/User Mis/UserMis.vue'
 import Database from '../Components/Admin/Database/Database.vue'
 import ProfileUpdating from '../Components/Admin/Profile Updating/ProfileUpdating.vue'
+import Business from '../Components/Admin/Business Unit/Business.vue'
 
 import Editor from '../Components/Editor/Editor.vue'
 import EditorDashboard from '../Components/Editor/Dashboard/EditorDashboard.vue'
@@ -77,6 +78,12 @@ const routes=[
                 path:'client',
                 component: Client,
                 meta: { layout: 'client' },
+            },
+            {
+                name:'Business',
+                path:'business',
+                component: Business,
+                meta: { layout: 'business' },
             },
             {
                 name:'ClientsMis',
