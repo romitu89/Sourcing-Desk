@@ -7,7 +7,7 @@
         <td ><label >Client Name</label></td>
         <td ><select id="clName" v-model="client.clientName"  @blur="checkValidation('clientName')" name="clName">
         <option value="">Select client Name</option>
-        <option v-for="item in location" :key='item.clientName' :value="item.clientName">{{ item.clientName }}</option>
+        <option v-for="item in clientName" :key='item.client_name' :value="item.client_name">{{ item.client_name }}</option>
     
         </select><br><span v-if="errors.clientName" class="error">{{errors.clientName[0]}}</span></td>
         </tr>
@@ -93,7 +93,7 @@
                     },
                     managersData:[],
                     location:[],
-                    userLocation:[],
+                    clientName:[],
                     errors:{},
     
                 };
@@ -126,10 +126,11 @@
     userLocationApi()
     {
     axios
-    .get('/api/adminclient-create')
+    .get('/api/admin-buisnessUnit')
     .then(response => {
     this.managersData = response.data.accountmanagers
     this.location = response.data.location
+    this.clientName= response.data.clients
     console.log(this.managersData)
     })
     .catch(error => {
@@ -153,7 +154,7 @@
         this.submitted = true; // Set the submitted flag to true when attempting to submit the form
         // if (this.isFormValid) {
     
-            axios.post('/api/adminclient-create', this.client)
+            axios.post('/api/admin-buisnessUnit', this.client)
       .then(response => {
           console.log('Form submitted:', response.data.successMessage);
           if(response.data.successMessage){
