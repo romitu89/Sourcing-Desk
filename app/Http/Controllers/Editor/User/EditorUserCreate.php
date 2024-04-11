@@ -3,19 +3,31 @@
 namespace App\Http\Controllers\Editor\User;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Validation\Rules\Password;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Location;
-use Illuminate\Validation\Rules\Password;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Hash;
+use App\Mail\SendEmployeeDetails;
+use Illuminate\Support\Facades\Mail;
 
 class EditorUserCreate extends Controller
 {
     public function create()
     {
-        $user = Location::select('country')->distinct()
+        $location = Location::select('country')->distinct()->get();
+
+        $userAm = User::select('email_id')
+            ->distinct()
+            ->where('role', 'accountManager')
             ->get();
-        return response()->json($user);
-        // return response()->json(['message' => 'This is the create method']);
+        $userTl = User::select('email_id')
+            ->distinct()
+            ->where('role', 'teamLead')
+            ->get();
+
+        return response()->json(['userAm' => $userAm, 'userTl' => $userTl, 'locations' => $location]);
     }
     public function getreporting($role)
     {
@@ -36,47 +48,27 @@ class EditorUserCreate extends Controller
         //dd($request->all());
 
         $messages = [
-
             'empName.required' => 'Employee Name is required.',
-
             'userName.required' => 'Username is required.',
-
+            'userName.regex' => 'The Username cannot contain spaces.',
             'password.required' => 'Password is required.',
-
-            'userName.unique' => 'The Username has already been taken.', // Example for customizing unique constraint message
-
+            'userName.unique' => 'The Username has already been taken.',
             'cnfrmPassword.required' => 'Confirm Password is required.',
-
-            'cnfrmPassword.same' => 'The Confirm password field must match password.',
-
+            'cnfrmPassword.same' => 'The Confirm password field must match the password.',
             'empId.required' => 'Employee Id is required.',
-
+            'empId.regex' => 'The Employee Id cannot contain spaces.',
             'email.required' => 'Email is required.',
-
             'mobile.required' => 'Mobile is required.',
-
+            'mobile.regex' => 'The Mobile Number cannot contain spaces.',
             'selectedLocation.required' => 'Location is required.',
-
             'department.required' => 'Department is required.',
-
             'role.required' => 'Role is required.',
-
             'dob.required' => 'Date Of Birth is required.',
-
-            // Add other custom messages as needed
-
         ];
 
-        /*  password
-        English uppercase characters (A – Z)
-English lowercase characters (a – z)
-Base 10 digits (0 – 9)
-Non-alphanumeric (For example: !, $, #, or %)
-Unicode characters */
-        //dd($request->all());
-        $request->validate([
+        $rules = [
             'empName' => 'required|string|max:100',
-            'userName' => 'required|string|unique:users,username',
+            'userName' => 'required|string|unique:users,username|regex:/^\S*$/u',
             'password' => [
                 'required',
                 Password::min(8)
@@ -87,37 +79,57 @@ Unicode characters */
                     ->uncompromised()
             ],
             'cnfrmPassword' => 'required|same:password',
-            'empId' => 'required|unique:users,employee_id',
+            'empId' => 'required|unique:users,employee_id|regex:/^\S*$/u',
             'email' => 'required|email|max:255|unique:users,email_id',
-            'mobile' => 'required|integer|unique:users,mobile_number',
+            'mobile' => 'required|numeric|unique:users,mobile_number|regex:/^\S*$/u',
             'selectedLocation' => 'required',
             'department' => 'required',
             'role' => 'required',
-
             'dob' => 'required|date|before:today',
+        ];
 
-        ], $messages);
-        $empName = ucwords($request->empName);
+        $validator = Validator::make($request->all(), $rules, $messages);
+
+        $validator->after(function ($validator) use ($request) {
+            if ($request->role == 'recruiter' && !$request->filled('selectedReportAM') && !$request->filled('selectedReportTL')) {
+                $validator->errors()->add('selectedReportAM', 'When role is recruiter, either Select AM or TL must be selected.');
+            }
+            if ($request->role == 'teamLead' && !$request->filled('selectedReportAM')) {
+                $validator->errors()->add('selectedReportAM', 'When role is Team-Lead, AM must be selected.');
+            }
+        });
+
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+            $customErrors = $errors->messages();
+
+            return response()->json(['errors' => $customErrors], 422);
+        }
+        $data = [
+            'employee_name' => ucwords($request->empName),
+            'username' => $request->userName,
+            'password' => $request->password,
+        ];
+        $toEmails = [$request->email];
+        Mail::to($toEmails)->send(new SendEmployeeDetails($data));
 
         $user = new User([
-
-            'employee_name' =>  $empName,
+            'employee_name' => ucwords($request->empName),
             'username' => $request->userName,
-            'password' => bcrypt($request->password), // Encrypt the password
+            'password' => Hash::make($request->password),
             'employee_id' => $request->empId,
-            'mobile_number' => $request->mobile,
             'email_id' => $request->email,
+            'mobile_number' => $request->mobile,
             'location' => $request->selectedLocation,
             'department' => $request->department,
             'role' => $request->role,
-            'reporting_to' => $request->selectedReport,
+            'reporting_to_am' => $request->selectedReportAM,
+            'reporting_to_tl' => $request->selectedReportTL,
             'dob' => $request->dob,
         ]);
 
-
         $user->save();
-        // return redirect()->route('user-create')
-        // ->with('success','User is Created');
-        return response()->json(['message' => 'User created successfully']);
+
+        return response()->json(['message' => 'User is Created'], 201);
     }
 }

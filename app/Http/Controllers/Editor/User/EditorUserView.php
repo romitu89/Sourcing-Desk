@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Validator;
 
 class EditorUserView extends Controller
 {
@@ -19,14 +20,33 @@ class EditorUserView extends Controller
     }
     public function edit(string $id)
     {
-
         $user = User::where('id', $id)->first();
         return response()->json(['user' => $user]);
     }
     public function update(Request $request, string $id)
     {
 
-        $request->validate([
+
+        $messages = [
+            'empName.required' => 'Employee Name is required.',
+            'userName.required' => 'Username is required.',
+            'userName.regex' => 'The Username cannot contain spaces.',
+            'password.required' => 'Password is required.',
+            'userName.unique' => 'The Username has already been taken.',
+            'cnfrmPassword.required' => 'Confirm Password is required.',
+            'cnfrmPassword.same' => 'The Confirm password field must match the password.',
+            'empId.required' => 'Employee Id is required.',
+            'empId.regex' => 'The Employee Id cannot contain spaces.',
+            'email.required' => 'Email is required.',
+            'mobile.required' => 'Mobile is required.',
+            'mobile.regex' => 'The Mobile Number cannot contain spaces.',
+            'selectedLocation.required' => 'Location is required.',
+            'department.required' => 'Department is required.',
+            'role.required' => 'Role is required.',
+            'dob.required' => 'Date Of Birth is required.',
+        ];
+
+        $rules = [
             'empName' => 'required|string|max:100',
             'userName' => 'required|string|unique:users,username,' . $id . ',id',
             'password' => [
@@ -39,48 +59,59 @@ class EditorUserView extends Controller
                     ->uncompromised()
             ],
             'cnfrmPassword' => 'required|same:password',
-            'empId' => 'required|unique:users,employee_id,' . $id . ',id',
-            'email' => 'required|email|max:255|unique:users,email_id,' . $id . ',id',
             'mobile' => 'required|integer|unique:users,mobile_number,' . $id . ',id',
             'selectedLocation' => 'required',
             'department' => 'required',
             'role' => 'required',
+        ];
+        $validator = Validator::make($request->all(), $rules, $messages);
 
-            'dob' => 'required'
+        $validator->after(function ($validator) use ($request) {
+            if ($request->role == 'recruiter' && !$request->filled('selectedReportAM') && !$request->filled('selectedReportTL')) {
+                $validator->errors()->add('selectedReportAM', 'When role is recruiter, either Select AM or TL must be selected.');
+            }
+            if ($request->role == 'teamLead' && !$request->filled('selectedReportAM')) {
+                $validator->errors()->add('selectedReportAM', 'When role is Team-Lead, AM must be selected.');
+            }
+        });
 
-        ]);
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+            $customErrors = $errors->messages();
+
+            return response()->json(['errors' => $customErrors], 422);
+        }
 
         $empName = ucwords($request->empName);
-        // Check if the new password is different from the current password
-
-        //dd($request->except('_token','_method'));
         $user = User::findOrFail($id);
+
         if (!Hash::check($request->input('password'), $user->password)) {
-            // Update the user's password with the new bcrypt hash
             $password = Hash::make($request->input('password'));
         } else {
             $password = $request->password;
         }
-        // Update the client with the validated data
+
         $user->update([
             'employee_name' =>  $empName,
             'username' => $request->userName,
-            'password' => $password, // Encrypt the password
+            'password' => $password,
             'employee_id' => $request->empId,
             'mobile_number' => $request->mobile,
             'email_id' => $request->email,
             'location' => $request->selectedLocation,
             'department' => $request->department,
             'role' => $request->role,
-            'reporting_to' => $request->selectedReport,
+            'reporting_to_am' => $request->selectedReportAM,
+            'reporting_to_tl' => $request->selectedReportTL,
             'dob' => $request->dob,
         ]);
-        return response()->json(['message' => 'User updated successfully']);
+
+        return response()->json(['message' => 'User has been updated successfully']);
     }
+
     public function store(Request $request)
     {
-        //dd($request->all());
-
+        // dd($request);
         $customValidation = [
 
             'selectedLocation.required' => 'Location is required.',
@@ -93,11 +124,10 @@ class EditorUserView extends Controller
 
         ];
 
+        // try {
         $request->validate([
             'user' => 'required|string|max:100',
             'selectedLocation' => 'required|string',
-
-
         ], $customValidation);
 
         $user = $request->input('user');
@@ -112,17 +142,17 @@ class EditorUserView extends Controller
             $query->where('location', '=', $defaultLocation);
         }
 
-        // Add more conditions as needed
-
-        // Execute the query and retrieve the results
         $results = $query->get();
 
         return response()->json(['results' => $results]);
-        //dd($results);
+        // } catch (ValidationException $e) {
+        //     return response()->json(['errors' => $e->errors()], 422);
+        // }
     }
+
     public function destroy(string $id)
     {
-        User::deleted($id);
-        return response()->json(['message' => 'User deleted successfully']);
+        User::destroy($id);
+        return response()->json(['message' => 'User has been deleted successfully']);
     }
 }

@@ -75,8 +75,6 @@ class EditorClientView extends Controller
 
     public function store(Request $request)
     {
-        //dd($request->all());
-
         $clientValidation = [
 
             'selectedLocation.required' => 'Location is required.',
@@ -113,6 +111,6 @@ class EditorClientView extends Controller
     public function destroy(string $id)
     {
         Client::deleted($id);
-        return response()->json(['message' => 'Client deleted successfully']);
+        return response()->json(['message' => 'Client has been deleted']);
     }
 }

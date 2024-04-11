@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\User\UserView;
 use App\Http\Controllers\Admin\User\UserLogin;
 use App\Http\Controllers\Admin\Client\ClientCreate;
 use App\Http\Controllers\Admin\Client\ClientView;
+use App\Http\Controllers\Admin\Buisness\BusisnessUnit;
 use App\Http\Controllers\Admin\ClientMIS\ClientReport;
 use App\Http\Controllers\Admin\ClientMIS\ClientManagerReport;
 use App\Http\Controllers\Admin\ClientMIS\Matrix;
@@ -153,6 +154,11 @@ Route::middleware('web')->group(function () {
     Route::Post('/adminclient-matrix', [Matrix::class, 'store']);
 
     //------------------------------------------------------------------------------
+
+    // Admin/Business/BuisnessUnit
+
+    Route::get('/admin-buisnessUnit', [BusisnessUnit::class, 'create']);
+    Route::Post('/admin-buisnessUnit', [BusisnessUnit::class, 'store']);
 
     // Admin/UserMIS/Account Manager
 

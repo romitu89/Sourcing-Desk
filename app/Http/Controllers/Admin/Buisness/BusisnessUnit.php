@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Http\Controllers\Editor\Client;
+namespace App\Http\Controllers\Admin\Buisness;
 
 use App\Models\Client;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use App\Models\Location;
 use App\Models\User;
-use Illuminate\Support\Facades\Response;
+use App\Models\Location;
+use Illuminate\Http\Request;
 
-class EditorClientCreate extends Controller
+
+class BusisnessUnit extends Controller
 {
     public function create()
     {
@@ -17,9 +17,12 @@ class EditorClientCreate extends Controller
             ->get();
         $accountManagers = User::select('email_id')->distinct()->where('role', 'accountManager')->orWhere('role', 'teamLead')
             ->get();
+        $clients = Client::select('client_name')->distinct()->get();
+
         return response()->json([
             'accountmanagers' => $accountManagers,
-            'location' => $location
+            'location' => $location,
+            'clients' => $clients,
         ]);
     }
 
