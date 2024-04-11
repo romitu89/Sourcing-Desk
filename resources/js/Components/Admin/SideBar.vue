@@ -14,6 +14,10 @@
             <router-link to="/admin/client"><h4><font-awesome-icon :icon="['fas', 'network-wired']" /><br>
                 Client</h4></router-link>
         </div>
+        <div class="subside">
+            <router-link to="/admin/business"><h4><font-awesome-icon :icon="['fas', 'network-wired']" /><br>
+                Business Unit</h4></router-link>
+        </div>
 
         <div class="subside">
             <router-link to="/admin/clientsMis"><h4><font-awesome-icon :icon="['fas', 'table']" /><br>
