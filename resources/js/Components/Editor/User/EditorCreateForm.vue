@@ -31,7 +31,7 @@
         <td><label>Password</label></td>
         <td>
           <input
-            type="text"
+            type="password"
             v-model.trim="employee.password"
             @blur="checkValidation('password')"
             placeholder="Password"
@@ -44,7 +44,7 @@
         <td><label>Confirm Password</label></td>
         <td>
           <input
-            type="text"
+            type="password"
             v-model.trim="employee.cnfrmPassword"
             @blur="checkValidation('cnfrmPassword')"
             placeholder="Confirm Password"

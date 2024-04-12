@@ -16,6 +16,7 @@ import EditorClient from '../Components/Editor/Client/EditorClient.vue'
 import EditorCandidate from '../Components/Editor/Candidate/EditorCandidate.vue'
 import EditorRequest from '../Components/Editor/Request/EditorRequest.vue'
 import EditorClientsMis from '../Components/Editor/Clients MIS/EditorClientsMis.vue'
+import EditorBusiness from '../Components/Editor/Business Unit/EditorBusiness.vue'
 
 import AccountManager from '../Components/Account Manager/AccountManager.vue'
 
@@ -138,6 +139,12 @@ const routes=[
                 path:'client',
                 component: EditorClient,
                 meta: { layout: 'EditorClient' },
+            },
+            {
+                name:'EditorBusiness',
+                path:'editorBusiness',
+                component: EditorBusiness,
+                meta: { layout: 'editorBusiness' },
             },
             {
                 name:'EditorCandidate',

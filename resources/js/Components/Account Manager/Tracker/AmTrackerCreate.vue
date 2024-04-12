@@ -166,7 +166,7 @@
               Swal.fire({
                 position: "top-center",
                 icon: "success",
-                title: "User created successfully",
+                title: "Tracker created successfully",
                 showConfirmButton: false,
                 timer: 3000,
               });

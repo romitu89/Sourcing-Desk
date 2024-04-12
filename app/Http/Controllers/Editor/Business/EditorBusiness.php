@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Buisness;
+namespace App\Http\Controllers\Editor\Business;
 
 use App\Models\Client;
 use App\Http\Controllers\Controller;
@@ -8,8 +8,7 @@ use App\Models\User;
 use App\Models\Location;
 use Illuminate\Http\Request;
 
-
-class BusisnessUnit extends Controller
+class EditorBusiness extends Controller
 {
     public function create()
     {
@@ -91,4 +90,5 @@ class BusisnessUnit extends Controller
         $client->save();
         return response()->json(['successMessage' => 'Client is Created'],);
     }
+
 }

@@ -16,6 +16,11 @@
            </div>
 
            <div class="subside">
+            <router-link to="/editor/EditorBusiness"><h4><font-awesome-icon :icon="['fas', 'network-wired']" /><br>
+                Business Unit</h4></router-link>
+            </div>
+
+           <div class="subside">
                <router-link to="/editor/candidate"><h4><font-awesome-icon :icon="['fas', 'user-check']" /><br>
                 Candidate</h4></router-link>
            </div>

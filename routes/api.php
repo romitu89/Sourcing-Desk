@@ -25,6 +25,7 @@ use App\Http\Controllers\Editor\User\EditorUserView;
 use App\Http\Controllers\Editor\User\EditorUserLogin;
 use App\Http\Controllers\Editor\Client\EditorClientCreate;
 use App\Http\Controllers\Editor\Client\EditorClientView;
+use App\Http\Controllers\Editor\Business\EditorBusiness;
 use App\Http\Controllers\Editor\ClientMIS\EditorClientReport;
 use App\Http\Controllers\Editor\ClientMIS\EditorClientManager;
 use App\Http\Controllers\Editor\ClientMIS\EditorMatrix;
@@ -255,6 +256,10 @@ Route::middleware('web')->group(function () {
     Route::delete('/editorclient-delete/{id}', [EditorClientView::class, 'destroy']);
 
     //-----------------------------------------------------------------------------------
+    // Editor/Business/BuisnessUnit
+
+    Route::get('/editor-buisnessUnit', [EditorBusiness::class, 'create']);
+    Route::Post('/editor-buisnessUnit', [EditorBusiness::class, 'store']);
 
     // Editor/ClientMIS/Client Report
 
