@@ -6,7 +6,7 @@
      <td ><label >Select Location</label></td>
      <td ><select id="location" v-model="teamManager.selectedLocation" name="location">
      <option value="">Select Location</option>
-     <option v-for="item in userLocation" :key='item.location' :value="item.location">{{ item.location }}</option>
+     <option v-for="item in this.userLocation" :key='item.location' :value="item.location">{{ item.location }}</option>
 
      </select><br><span v-if="errors.selectedLocation" class="error">{{errors.selectedLocation[0]}}</span></td>
      </tr>
@@ -77,18 +77,18 @@ import MultiSelect from '../../Shared Folder/MultiSelect.vue';
   axios
     .get('/api/amteam-create')
     .then(response => {
-      console.log(response.data, "response.data");
+     console.log(response.data.location,"response.data.location")
       this.userLocation = response.data.location;
-      console.log(this.userLocation, "this.userlocation");
+      
       const teamEmail = response.data.teamEmail; // Corrected variable name to match your initial question
-      console.log(teamEmail, "teamEmail"); // Changed the variable name to match the one used in the console.log
+
       teamEmail.forEach((tm) => {
         this.teams.push({
           label: tm.email_id, // Display email as the label
           value: tm.email_id // Use team ID as the value
         });
       });
-      console.log(this.userLocation);
+
     })
     .catch(error => {
       console.log(error);

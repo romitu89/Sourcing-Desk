@@ -62,8 +62,8 @@ userLocationApi()
 axios
 .get('/api/amteam-view')
 .then(response => {
-this.userLocation = response.data.locations
-console.log(this.userLocation)
+this.userLocation = response.data.teamData
+console.log(this.userLocation,"response.data.teamData" )
 })
 .catch(error => {
 console.log(error)
