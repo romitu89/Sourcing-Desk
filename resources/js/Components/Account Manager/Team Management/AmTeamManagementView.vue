@@ -4,7 +4,7 @@
 
         <tr>
      <td ><label >Select Location</label></td>
-     <td ><select id="location" name="location">
+     <td ><select id="location" v-model="teamManager.selectedLocation" name="location">
      <option value="">Select Location</option>
      <option v-for="item in userLocation" :key='item.location' :value="item.location">{{ item.location }}</option>
 
@@ -37,8 +37,14 @@
  </template>
 
 <script>
+import axios from 'axios';
+import ResponsiveTable from '../../Shared Folder/ResponsiveTable.vue'
+
     export default {
         name:'AmTeamManagementView',
+        components:{
+      ResponsiveTable,
+      },
 
         data() {
     return {
@@ -49,6 +55,14 @@
       },
       errors:{},
       userLocation: [],
+      results: [],
+      columns: [
+        { label: "Location", key: "location" },
+        { label: "Job Type", key: "job_type" },
+        { label: "Team Members", key: "team_members" },
+
+        // ... etc. for other columns
+      ],
 
     };
   },
@@ -78,15 +92,12 @@ this.submitted = true; // Set the submitted flag to true when attempting to subm
 // if (this.isFormValid) {
 
     axios.post('/api/amteam-view', this.teamManager)
-.then(response => {
-
-  this.results = response.data.results;
-
+.then((response) => {
   this.errors={};
   if (Object.values(this.errors).length == 0) {
             this.buttonAction = true;
           }
-
+          this.results = response.data.results;
 
   // Handle the response as needed
 })

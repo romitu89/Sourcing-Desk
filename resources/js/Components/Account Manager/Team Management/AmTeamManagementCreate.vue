@@ -106,15 +106,25 @@ this.submitted = true; // Set the submitted flag to true when attempting to subm
 
     axios.post('/api/amteam-create', this.teamManager)
 .then(response => {
-  console.log('Form submitted:', response.data.results);
-  this.results = response.data.results;
-  console.log(this.results,"results")
+  console.log('Form submitted:', response.data.message);
+  if (response.data.message) {
+              this.errors = {};
 
-  this.errors={};
+              Swal.fire({
+                position: "top-center",
+                icon: "success",
+                title: "Team created successfully",
+                showConfirmButton: false,
+                timer: 3000,
+              });
+              this.resetForm()
 
+            } else {
+              Swal.fire("Form not Submitted");
+            }
 
-  // Handle the response as needed
-})
+            // Handle the response as needed
+          })
 .catch(error => {
   console.error('Error submitting form:', error.response.data.errors);
   this.errors= error.response.data.errors;
