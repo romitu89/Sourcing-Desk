@@ -1,7 +1,7 @@
 <template>
     <form @submit.prevent="submitForm">
      <table class="input_form">
-
+      
         <tr>
      <td ><label >Select Location</label></td>
      <td ><select id="location" v-model="teamManager.selectedLocation" name="location">
@@ -24,7 +24,11 @@
     <tr>
         <td><label>Select Team</label></td>
         <td>
-          <multi-select :selectedTeam="selectedTeam" :options="teams" @update:selected="updateSelectedOptions"></multi-select>
+          <multi-select 
+          :selectedTeam="teamManager.selectedTeam" 
+          :options="teams" 
+          @update:selected="updateSelectedOptions">
+        </multi-select>
         </td>
       </tr>
       <tr>
@@ -56,12 +60,12 @@ import MultiSelect from '../../Shared Folder/MultiSelect.vue';
       teamManager:{
       selectedLocation:'',
       jobType:'',
-      selectedTeam:'',
+      selectedTeam:[],
       },
       errors:{},
       userLocation: [],
       teams: [],
-      selectedTeam: [],
+      
     };
   },
   methods: {
@@ -69,21 +73,32 @@ import MultiSelect from '../../Shared Folder/MultiSelect.vue';
       this.$emit("closePopup");
     },
 
-userLocationApi()
-{
-axios
-.get('/api/amteam-create')
-.then(response => {
-this.userLocation = response.data.locations
-console.log(this.userLocation)
-})
-.catch(error => {
-console.log(error)
-this.errored = true
-})
-
+    userLocationApi() {
+  axios
+    .get('/api/amteam-create')
+    .then(response => {
+      console.log(response.data, "response.data");
+      this.userLocation = response.data.location;
+      console.log(this.userLocation, "this.userlocation");
+      const teamEmail = response.data.teamEmail; // Corrected variable name to match your initial question
+      console.log(teamEmail, "teamEmail"); // Changed the variable name to match the one used in the console.log
+      teamEmail.forEach((tm) => {
+        this.teams.push({
+          label: tm.email_id, // Display email as the label
+          value: tm.email_id // Use team ID as the value
+        });
+      });
+      console.log(this.userLocation);
+    })
+    .catch(error => {
+      console.log(error);
+      this.errored = true;
+    });
 },
 
+updateSelectedOptions(newVal) {
+        this.teamManager.selectedTeam = newVal;
+},
 
 submitForm() {
 this.submitted = true; // Set the submitted flag to true when attempting to submit the form
@@ -109,7 +124,6 @@ this.submitted = true; // Set the submitted flag to true when attempting to subm
 },
 mounted(){
 this.userLocationApi()
-
 },
 
 

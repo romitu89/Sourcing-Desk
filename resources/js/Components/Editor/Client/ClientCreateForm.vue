@@ -116,7 +116,7 @@ axios
 .then(response => {
     this.managersData = response.data.accountmanagers
     this.location = response.data.location
-console.log(this.userLocation)
+console.log(this.managersData)
 })
 .catch(error => {
 console.log(error)
@@ -141,16 +141,16 @@ submitForm() {
 
         axios.post('/api/editorclient-create', this.client)
   .then(response => {
-      console.log('Form submitted:', response.data.message);
-      if(response.data.message){
+      console.log('Form submitted:', response.data.successMessage);
+      if(response.data.successMessage){
         this.errors={};
-
+        console.log("check inside responce")
          Swal.fire({
             position: "top-center",
             icon: "success",
-            title: "User created successfully",
+            title: "Client created successfully",
             showConfirmButton: false,
-            timer: 5000
+            timer: 3000
             });
 
             this.resetForm()

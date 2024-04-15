@@ -5,16 +5,19 @@ namespace App\Http\Controllers\AccountManager\TeamManagement;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Teams;
+use App\Models\Client;
 use App\Models\User;
 
 class TeamCreate extends Controller
 {
     public function create()
 {
-    $loc = User::select('location')->distinct()->get();
+    $loc = Client::select('location')->distinct()->get();
     $tm = User::select('email_id')->distinct()->where('reporting_to_am', auth()->user()->email_id)->get();
  
-    return response()->json(['data' => ['teamEmail' => $tm, 'location' => $loc]]);
+    return response()->json([
+        'teamEmail' => $tm,
+        'location' => $loc]);
 }
 
     public function store(Request $request)

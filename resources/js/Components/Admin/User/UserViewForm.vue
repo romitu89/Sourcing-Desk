@@ -104,6 +104,7 @@ export default {
 
         // ... etc. for other columns
       ],
+      empNameProp:this.empName
     };
   },
 
@@ -113,7 +114,11 @@ export default {
       default: "",
     },
   },
-
+  watch:{
+  empName(newVal){
+    this.empNameProp = newVal
+    }
+  },
   methods: {
     closePopup() {
       this.$emit("closePopup");
@@ -183,21 +188,28 @@ export default {
           this.errors = error.response.data.errors;
         });
     },
+    clearMessage(){
+      this.empNameProp = ""
+      
+    },
+    showSucess(){
+      if(this.empNameProp!=""){
+      Swal.fire({
+              position: "top-center",
+              icon: "success",
+              title: "User "+this.empNameProp+" edited successfully",
+              showConfirmButton: false,
+              timer: 3000,
+            });
+           
+    }
+    },
   },
   mounted() {
     this.userLocationApi();
 
-    if(this.empName!=""){
-      Swal.fire({
-              position: "top-center",
-              icon: "success",
-              title: "User "+this.empName+" edited successfully",
-              showConfirmButton: false,
-              timer: 3000,
-            });
-            this.$emit("editMessageUpdated")
-    }
-
+   this.showSucess();
+   this.clearMessage()
 
   },
 };

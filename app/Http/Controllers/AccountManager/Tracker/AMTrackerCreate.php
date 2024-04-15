@@ -12,12 +12,14 @@ class AMTrackerCreate extends Controller
 {
     public function create(Request $request)
     {
+
         $am =  Client::select('client_name', 'business_unit_name', 'location')
             ->distinct()
             ->where('location', '!=', null)
             ->whereRaw("TRIM(location) != ''") // Add this for spaces
+            ->where('account_manager_id','=',auth()->user()->id)
             ->get();
-
+            
         return response()->json(['client' => $am]);
     }
 

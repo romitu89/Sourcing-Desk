@@ -233,6 +233,7 @@ export default {
       }
     },
     getUserDetails() {
+      console.log(this.editId, "this.editId")
       axios
         .get("/api/adminuser-edit/" + this.editId)
         .then((response) => {

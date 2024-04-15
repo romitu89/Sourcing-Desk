@@ -61,6 +61,12 @@
       },
     },
     watch: {
+      tab(newVal) {
+      this.showUserCreate = newVal;
+    },
+    editId(newVal) {
+      this.editIdProp = newVal;
+    },
       title(newVal) {
         this.titleProp = newVal;
       },
@@ -70,11 +76,14 @@
     },
     data() {
       return {
+        showUserCreate: this.tab,
+      editIdProp: this.editId,
         titleProp: this.title,
         empNameProp: this.empName,
       };
     },
     mounted() {
+    
       // Attach event listener to detect clicks outside the popup
       document.addEventListener("mousedown", this.handleClickOutside);
     },
@@ -93,6 +102,7 @@
         this.$emit("editSuccess", name);
       },
       editMessageUpdated() {
+        console.log(this.empNameProp,"Value")
         this.empNameProp = "";
       },
       handleClickOutside(event) {

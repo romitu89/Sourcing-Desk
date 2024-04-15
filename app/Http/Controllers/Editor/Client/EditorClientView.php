@@ -39,6 +39,7 @@ class EditorClientView extends Controller
 
     public function update(Request $request, string $id)
     {
+       
         $request->validate([
             'clientName' => 'required|string|unique:clients,client_name,' . $id . ',client_id',
             'businessName' => 'required|string',
