@@ -15,9 +15,9 @@ class RequestCreate extends Controller
     public function create()
     {
 
-        $cli = Client::select('client_name', 'business_unit_name', 'location')
+        $cli = Client::select('client_name', 'business_unit_name', 'location', 'client_manager_name')
             ->distinct()
-            ->where('account_manager', auth()->user()->email_id)
+            // ->where('account_manager', auth()->user()->email_id)
             ->get();
 
         $teamb = Teams::select('team_members')
@@ -61,7 +61,6 @@ class RequestCreate extends Controller
             'selectedBusiness.required' => ' Buisness Unit is required.',
 
             'selectedLocation.required' => 'Location is required.',
-
 
             'selectedTeam.required' => 'Location is required.',
 

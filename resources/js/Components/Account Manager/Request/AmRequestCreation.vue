@@ -4,25 +4,25 @@
 
         <tr>
     <td ><label >Subject Line</label></td>
-    <td ><input type="text" v-model="amRequest.subject" placeholder="Subject Line" >
+    <td ><input type="text" v-model="amRequest.subject" @blur="checkValidation('subject')" placeholder="Subject Line" >
       <span v-if="errors.subject" class="error">{{errors.subject[0]}}</span></td>
     </tr>
 
     <tr>
     <td ><label >Request Body</label></td>
-    <td ><input type="text" v-model="amRequest.requestBody" placeholder="Request Body" >
+    <td ><input type="text" v-model="amRequest.requestBody" @blur="checkValidation('requestBody')" placeholder="Request Body" >
       <span v-if="errors.requestBody" class="error">{{errors.requestBody[0]}}</span></td>
     </tr>
 
         <tr>
     <td ><label >Requirement Name</label></td>
-    <td ><input type="text" v-model="amRequest.requirement" placeholder="Requirement Name" >
+    <td ><input type="text" v-model="amRequest.requirement" @blur="checkValidation('requirement')" placeholder="Requirement Name" >
       <span v-if="errors.requirement" class="error">{{errors.requirement[0]}}</span></td>
     </tr>
 
         <tr>
     <td ><label >Job Type</label></td>
-    <td ><select id="role" v-model="amRequest.jobType" name="role">
+    <td ><select id="role" v-model="amRequest.jobType" @blur="checkValidation('jobType')" name="role">
     <option value="">Select Job</option>
     <option value="permanent">Permanent</option>
     <option value="contract">Contract</option>
@@ -31,7 +31,7 @@
 
         <tr>
      <td ><label >Client Name</label></td>
-     <td ><select id="client" v-model="amRequest.selectedClient" name="client">
+     <td ><select id="client" v-model="amRequest.selectedClient" @blur="checkValidation('selectedClient')" name="client">
      <option value="">Select Client</option>
      <!-- <option v-for="item in userLocation" :key='item.location' :value="item.location">{{ item.location }}</option> -->
 
@@ -40,7 +40,7 @@
 
      <tr>
      <td ><label >Buisness Unit</label></td>
-     <td ><select id="buisness" v-model="amRequest.selectedBusiness" name="buisness">
+     <td ><select id="buisness" v-model="amRequest.selectedBusiness" @blur="checkValidation('selectedLocation')" name="buisness">
      <option value="">Select Unit</option>
      <!-- <option v-for="item in userLocation" :key='item.location' :value="item.location">{{ item.location }}</option> -->
 
@@ -49,7 +49,7 @@
 
      <tr>
      <td ><label >Select Location</label></td>
-     <td ><select id="location" v-model="amRequest.selectedLocation"  name="location">
+     <td ><select id="location" v-model="amRequest.selectedLocation" @blur="checkValidation('selectedLocation')" name="location">
      <option value="">Select Location</option>
      <option v-for="item in userLocation" :key='item.location' :value="item.location">{{ item.location }}</option>
 
@@ -58,7 +58,7 @@
 
      <tr>
      <td ><label >Client Manager Name</label></td>
-     <td ><select id="buisness" v-model="amRequest.clientManager" name="buisness">
+     <td ><select id="buisness" v-model="amRequest.clientManager" @blur="checkValidation('clientManager')" name="buisness">
      <option value="">Select Manager</option>
      <!-- <option v-for="item in userLocation" :key='item.location' :value="item.location">{{ item.location }}</option> -->
 
@@ -126,6 +126,16 @@ import MultiSelect from '../../Shared Folder/MultiSelect.vue';
   methods:{
     closePopup() {
       this.$emit("closePopup");
+    },
+    checkValidation(fieldName) {
+      let dataError = Object.values(this.errors);
+      if (dataError.length > 1) {
+        this.submitForm();
+      } else {
+        if (this.errors.hasOwnProperty(fieldName)) {
+          delete this.errors[fieldName];
+        }
+      }
     },
 
 userLocationApi()

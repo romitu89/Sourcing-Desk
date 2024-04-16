@@ -5,7 +5,7 @@
         <tr>
      <td ><label >Select Location</label></td>
 
-     <td ><select id="location" v-model="TlTracker.selectedLocation" name="location">
+     <td ><select id="location" v-model="TlTracker.selectedLocation"  @blur="checkValidation('selectedLocation')" name="location">
      <option value="">Select Location</option>
      <option v-for="item in getUniqueValues(userLocation,'location')" :key='item' :value="item">{{ item}} </option>
 
@@ -14,7 +14,7 @@
 
         <tr>
      <td ><label >Client Name</label></td>
-     <td ><select id="client" v-model="TlTracker.selectedClient" name="client">
+     <td ><select id="client" v-model="TlTracker.selectedClient"  @blur="checkValidation('selectedClient')" name="client">
      <option value="">Select Client</option>
      <option v-for="item in userLocation" :key='item.client_name' :value="item.client_name">{{ item.client_name }}</option>
 
@@ -23,7 +23,7 @@
 
      <tr>
      <td ><label >Buisness Unit</label></td>
-     <td ><select id="buisness" v-model="TlTracker.selectedBusiness" name="buisness">
+     <td ><select id="buisness" v-model="TlTracker.selectedBusiness"  @blur="checkValidation('selectedBusiness')" name="buisness">
      <option value="">Select Unit</option>
      <option v-for="item in userLocation" :key='item.business_unit' :value="item.business_unit">{{ item.business_unit }}</option>
 
@@ -32,7 +32,7 @@
 
      <tr>
      <td ><label >Client Manager Name</label></td>
-     <td ><select id="buisness" v-model="TlTracker.selectedManager" name="buisness">
+     <td ><select id="buisness" v-model="TlTracker.selectedManager"  @blur="checkValidation('selectedManager')" name="buisness">
      <option value="">Select Manager</option>
      <option v-for="item in userLocation" :key='item.client_manager_name' :value="item.client_manager_name">{{ item.client_manager_name }}</option>
 
@@ -107,6 +107,16 @@ import ResponsiveTable from '../../Shared Folder/ResponsiveTable.vue'
         methods: {
             closePopup() {
       this.$emit("closePopup");
+    },
+    checkValidation(fieldName) {
+      let dataError = Object.values(this.errors);
+      if (dataError.length > 1) {
+        this.submitForm();
+      } else {
+        if (this.errors.hasOwnProperty(fieldName)) {
+          delete this.errors[fieldName];
+        }
+      }
     },
 
 userLocationApi()

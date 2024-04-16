@@ -4,7 +4,7 @@
         <tr>
           <td><label>Client Name</label></td>
           <td>
-            <select id="client" v-model="tracker.selectedClient" name="client">
+            <select id="client" v-model="tracker.selectedClient"  @blur="checkValidation('selectedClient')" name="client">
               <option value="">Select Client</option>
 
               <option
@@ -24,7 +24,7 @@
           <td>
             <input
               type="text"
-              v-model="tracker.clientManagerName"
+              v-model="tracker.clientManagerName"  @blur="checkValidation('clientManagerName')"
               placeholder="Client Manager Name"
             />
             <span v-if="errors.clientManagerName" class="error">{{errors.clientManagerName[0]}}</span>
@@ -34,7 +34,7 @@
         <tr>
           <td><label>Buisness Unit</label></td>
           <td>
-            <select id="buisness" v-model="tracker.selectedBusiness" name="buisness">
+            <select id="buisness" v-model="tracker.selectedBusiness"  @blur="checkValidation('selectedBusiness')" name="buisness">
               <option value="">Select Unit</option>
 
 
@@ -53,7 +53,7 @@
         <tr>
           <td><label>Select Location</label></td>
           <td>
-            <select id="location" v-model="tracker.selectedLocation" name="location">
+            <select id="location" v-model="tracker.selectedLocation"  @blur="checkValidation('selectedLocation')" name="location">
               <option value="">Select Location</option>
 
 
@@ -78,7 +78,7 @@
               @change="handleFileChange"
               accept=".xls, .xlsx"
               name="file"
-              placeholder="Upload"
+              placeholder="Upload"  @blur="checkValidation('file')"
             /><br>
             <span v-if="errors.file" class="error">{{errors.file[0]}}</span>
           </td>
@@ -117,6 +117,16 @@
     methods: {
         closePopup() {
       this.$emit("closePopup");
+    },
+    checkValidation(fieldName) {
+      let dataError = Object.values(this.errors);
+      if (dataError.length > 1) {
+        this.submitForm();
+      } else {
+        if (this.errors.hasOwnProperty(fieldName)) {
+          delete this.errors[fieldName];
+        }
+      }
     },
       handleFileChange(event) {
         this.tracker.file = event.target.files[0];

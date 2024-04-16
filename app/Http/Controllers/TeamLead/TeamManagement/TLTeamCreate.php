@@ -6,14 +6,15 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Teams;
 use App\Models\User;
+use App\Models\Client;
 use Illuminate\Support\Facades\Response;
 
 class TLTeamCreate extends Controller
 {
     public function create()
     {
-        $loc = User::Select('location')->distinct()->get();
-        $tm = User::Select('email_id')->distinct()->where('reporting_to', auth()->user()->email_id)
+        $loc = Client::Select('location')->distinct()->get();
+        $tm = User::Select('email_id')->distinct()->where('reporting_to_tl', auth()->user()->email_id)
             ->get();
         return response()->json(['teamEmail' => $tm, 'location' => $loc]);
     }
@@ -52,19 +53,11 @@ class TLTeamCreate extends Controller
             'user_id' => auth()->user()->id,
         ]);
 
-
-
-
-
         // Create a new team record
         $teams->save();
 
         return response()->json(['message' => 'Team created successfully']);
     }
-
-
-
-
 
 
     // public function destroy($id)

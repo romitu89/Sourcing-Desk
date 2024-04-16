@@ -4,7 +4,7 @@
 
         <tr>
      <td ><label >Select Location</label></td>
-     <td ><select id="location" v-model="teamManager.selectedLocation" name="location">
+     <td ><select id="location" v-model="teamManager.selectedLocation" @blur="checkValidation('selectedLocation')" name="location">
      <option value="">Select Location</option>
      <option v-for="item in userLocation" :key='item.location' :value="item.location">{{ item.location }}</option>
 
@@ -69,6 +69,16 @@ import ResponsiveTable from '../../Shared Folder/ResponsiveTable.vue'
   methods: {
     closePopup() {
       this.$emit("closePopup");
+    },
+    checkValidation(fieldName) {
+      let dataError = Object.values(this.errors);
+      if (dataError.length > 1) {
+        this.submitForm();
+      } else {
+        if (this.errors.hasOwnProperty(fieldName)) {
+          delete this.errors[fieldName];
+        }
+      }
     },
 
 userLocationApi()

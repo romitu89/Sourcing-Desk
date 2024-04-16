@@ -17,7 +17,7 @@ class TLRequestCreate extends Controller
 
         $cli = Client::select('client_name', 'business_unit_name', 'location')
             ->distinct()
-            ->where('account_manager', auth()->user()->email_id)
+            // ->where('account_manager', auth()->user()->email_id)
             ->get();
 
         $teamb = Teams::select('team_members')

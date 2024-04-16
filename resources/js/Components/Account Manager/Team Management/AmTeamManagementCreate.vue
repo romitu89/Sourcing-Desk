@@ -4,7 +4,7 @@
       <tr>
         <td><label>Select Location</label></td>
         <td>
-          <select id="location" v-model="teamManager.selectedLocation" name="location">
+          <select id="location" v-model="teamManager.selectedLocation" @blur="checkValidation('selectedLocation')" name="location">
             <option value="">Select Location</option>
             <option
               v-for="item in userLocation"
@@ -22,7 +22,7 @@
       <tr>
         <td><label>Job Type</label></td>
         <td>
-          <select id="role" v-model="teamManager.jobType" name="role">
+          <select id="role" v-model="teamManager.jobType" @blur="checkValidation('jobType')" name="role">
             <option value="">Select Job</option>
             <option value="permanent">Permanent</option>
             <option value="contract">Contract</option>
@@ -37,7 +37,7 @@
           <multi-select
             :selectedTeam="teamManager.selectedTeam"
             :options="teams"
-            @update:selected="updateSelectedOptions"
+            @update:selected="updateSelectedOptions" @blur="checkValidation('selectedTeam')"
           >
           </multi-select>
           <span v-if="errors.selectedTeam" class="error">{{
@@ -81,6 +81,16 @@ export default {
   methods: {
     closePopup() {
       this.$emit("closePopup");
+    },
+    checkValidation(fieldName) {
+      let dataError = Object.values(this.errors);
+      if (dataError.length > 1) {
+        this.submitForm();
+      } else {
+        if (this.errors.hasOwnProperty(fieldName)) {
+          delete this.errors[fieldName];
+        }
+      }
     },
 
     userLocationApi() {

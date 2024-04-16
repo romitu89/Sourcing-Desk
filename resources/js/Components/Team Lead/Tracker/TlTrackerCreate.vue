@@ -5,7 +5,7 @@
         <tr>
           <td><label>Client Name</label></td>
           <td>
-            <select id="client" v-model="tlTracker.selectedClient" name="client">
+            <select id="client" v-model="tlTracker.selectedClient"  @blur="checkValidation('selectedClient')" name="client">
               <option value="">Select Client</option>
               <option v-for="item in userLocation" :key='item.client_name' :value="item.client_name">{{ item.client_name }}</option>
             </select><br>
@@ -16,7 +16,7 @@
         <tr>
           <td><label>Client Manager Name</label></td>
           <td>
-            <select id="clientManager" v-model="tlTracker.clientManagerName" name="clientManager">
+            <select id="clientManager" v-model="tlTracker.clientManagerName"  @blur="checkValidation('clientManagerName')" name="clientManager">
               <option value="">Select Manager</option>
               <option v-for="item in userLocation" :key='item.client_manager_name' :value="item.client_manager_name">{{ item.client_manager_name }}</option>
             </select><br>
@@ -27,7 +27,7 @@
         <tr>
           <td><label>Business Unit</label></td>
           <td>
-            <select id="businessUnit" v-model="tlTracker.selectedBusiness" name="businessUnit">
+            <select id="businessUnit" v-model="tlTracker.selectedBusiness"  @blur="checkValidation('selectedBusiness')" name="businessUnit">
               <option value="">Select Unit</option>
               <option v-for="item in userLocation" :key='item.business_unit_name' :value="item.business_unit_name">{{ item.business_unit_name }}</option>
             </select><br>
@@ -38,7 +38,7 @@
         <tr>
           <td><label>Select Location</label></td>
           <td>
-            <select id="location" v-model="tlTracker.selectedLocation" name="location">
+            <select id="location" v-model="tlTracker.selectedLocation"  @blur="checkValidation('selectedLocation')" name="location">
               <option value="">Select Location</option>
               <option v-for="item in userLocation" :key='item.location' :value="item.location">{{ item.location }}</option>
             </select><br>
@@ -49,7 +49,7 @@
         <tr>
           <td><label>Upload File</label></td>
           <td>
-            <input type="file" @change="handleFileChange" accept=".xls, .xlsx" name="file" placeholder="Upload" /><br>
+            <input type="file" @change="handleFileChange" accept=".xls, .xlsx" name="file" placeholder="Upload"  @blur="checkValidation('file')" /><br>
             <span v-if="errors.file" class="error">{{errors.file[0]}}</span>
           </td>
         </tr>
@@ -88,6 +88,16 @@
     methods: {
         closePopup() {
       this.$emit("closePopup");
+    },
+    checkValidation(fieldName) {
+      let dataError = Object.values(this.errors);
+      if (dataError.length > 1) {
+        this.submitForm();
+      } else {
+        if (this.errors.hasOwnProperty(fieldName)) {
+          delete this.errors[fieldName];
+        }
+      }
     },
       handleFileChange(event) {
         this.tlTracker.file = event.target.files[0];
