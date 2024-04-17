@@ -72,108 +72,120 @@
   </template>
 
   <script>
-  import axios from 'axios';
-  import ResponsiveTable from '../../Shared Folder/ResponsiveTable.vue';
+import axios from 'axios';
+import ResponsiveTable from '../../Shared Folder/ResponsiveTable.vue';
 
-  export default {
-    name: 'AmTrackerView',
-    components: {
-      ResponsiveTable,
-    },
-    data() {
-      return {
-        buttonAction: false,
-        tracker: {
-          selectedLocation: '',
-          selectedClient: '',
-          selectedBusiness: '',
-          selectedManager: '',
-        },
-        userLocation: [],
-        clients: [],
-        errors: {},
-        results: [],
-        columns: [
-          { label: 'Client Name', key: 'client_name' },
-          { label: 'Client Manager Name', key: 'client_manager_name' },
-          { label: 'Business Unit', key: 'business_unit' },
-          { label: 'Select Location', key: 'location' },
-          { label: 'Edit', key: 'edit' },
-        ],
-      };
-    },
-    methods: {
-      closePopup() {
-        this.$emit('closePopup');
+export default {
+  name: 'AmTrackerView',
+  components: {
+    ResponsiveTable,
+  },
+  data() {
+    return {
+      buttonAction: false,
+      tracker: {
+        selectedLocation: '',
+        selectedClient: '',
+        selectedBusiness: '',
+        selectedManager: '',
       },
-      checkValidation(fieldName) {
-        if (this.errors.hasOwnProperty(fieldName)) {
-          delete this.errors[fieldName];
-        }
-      },
-      fetchClients() {
-        const selectedLocation = this.tracker.selectedLocation;
-        if (selectedLocation) {
-          // Fetch clients based on selected location
-          this.clients = this.userLocation.filter(item => item.location === selectedLocation);
+      userLocation: [],
+      clients: [],
+      errors: {},
+      results: [],
+      columns: [
+        { label: 'Client Name', key: 'client_name' },
+        { label: 'Client Manager Name', key: 'client_manager_name' },
+        { label: 'Business Unit', key: 'business_unit' },
+        { label: 'Select Location', key: 'location' },
+        { label: 'Edit', key: 'edit' },
+      ],
+    };
+  },
+  methods: {
+    closePopup() {
+      this.$emit('closePopup');
+    },
+    checkValidation(fieldName) {
+      if (this.errors.hasOwnProperty(fieldName)) {
+        delete this.errors[fieldName];
+      }
+    },
+    fetchClients() {
+      const selectedLocation = this.tracker.selectedLocation;
+      if (selectedLocation) {
+        // Fetch clients based on selected location
+        this.clients = this.userLocation.filter(item => item.location === selectedLocation);
+      } else {
+        this.clients = [];
+      }
+      // Reset subsequent selections
+      this.tracker.selectedClient = '';
+      this.tracker.selectedBusiness = '';
+      this.tracker.selectedManager = '';
+    },
+    fetchBusinessUnits() {
+      const selectedClientName = this.tracker.selectedClient;
+      if (selectedClientName) {
+        // Filter clients to find the selected client
+        const selectedClient = this.clients.find(client => client.client_name === selectedClientName);
+        if (selectedClient) {
+          // Set the business units based on the selected client
+          this.clients = [selectedClient]; // Update clients array with selected client for consistency
         } else {
-          this.clients = [];
+          this.clients = []; // No matching client found, clear the array
         }
-        // Reset subsequent selections
-        this.tracker.selectedClient = '';
-        this.tracker.selectedBusiness = '';
-        this.tracker.selectedManager = '';
-      },
-      fetchBusinessUnits() {
-        // Logic to fetch business units based on selected client
-      },
-      fetchClientManagers() {
-        // Logic to fetch client managers based on selected business unit
-      },
-      userLocationApi() {
-        axios.get('/api/amtracker-view')
-          .then(response => {
-            this.userLocation = response.data.client;
-            console.log(this.userLocation); // Check the data in console
-          })
-          .catch(error => {
-            console.error('Error fetching user location:', error);
-            this.errored = true;
-          });
-      },
-      resetForm() {
-        this.tracker.selectedLocation = '';
-        this.tracker.selectedClient = '';
-        this.tracker.selectedBusiness = '';
-        this.tracker.selectedManager = '';
-        this.errors = {};
-      },
-      submitForm() {
-        this.submitted = true;
-        axios.post('/api/amtracker-view', this.tracker)
-          .then(response => {
-            this.results = response.data.results;
-            if (Object.values(this.errors).length === 0) {
-              this.buttonAction = true;
-            }
-          })
-          .catch(error => {
-            console.error('Error submitting form:', error.response.data.errors);
-            this.errors = error.response.data.errors;
-          });
-        this.resetForm();
-      },
+      } else {
+        this.clients = []; // Reset clients if no client is selected
+      }
     },
-    mounted() {
-      this.userLocationApi();
+    fetchClientManagers() {
+      // Logic to fetch client managers based on selected business unit
     },
-    watch: {
-      userLocation: {
-        handler() {
-          this.tracker.selectedLocation = ''; // Reset selected location
-        },
-        deep: true
+    userLocationApi() {
+      axios.get('/api/amtracker-view')
+        .then(response => {
+          this.userLocation = response.data.client;
+          console.log(this.userLocation); // Check the data in console
+        })
+        .catch(error => {
+          console.error('Error fetching user location:', error);
+          this.errored = true;
+        });
+    },
+    resetForm() {
+      this.tracker.selectedLocation = '';
+      this.tracker.selectedClient = '';
+      this.tracker.selectedBusiness = '';
+      this.tracker.selectedManager = '';
+      this.errors = {};
+    },
+    submitForm() {
+      this.submitted = true;
+      axios.post('/api/amtracker-view', this.tracker)
+        .then(response => {
+          this.results = response.data.results;
+          if (Object.values(this.errors).length === 0) {
+            this.buttonAction = true;
+          }
+        })
+        .catch(error => {
+          console.error('Error submitting form:', error.response.data.errors);
+          this.errors = error.response.data.errors;
+        });
+      this.resetForm();
+    },
+  },
+  mounted() {
+    this.userLocationApi();
+  },
+  watch: {
+    userLocation: {
+      handler() {
+        this.tracker.selectedLocation = ''; // Reset selected location
       },
+      deep: true
     },
-  };
-  </script>
+  },
+};
+</script>
