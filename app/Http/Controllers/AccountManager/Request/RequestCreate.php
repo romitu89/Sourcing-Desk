@@ -14,30 +14,32 @@ class RequestCreate extends Controller
 {
     public function create()
     {
-
-        $cli = Client::select('client_name', 'business_unit_name', 'location', 'client_manager_name')
+        $clients = Client::select('client_name', 'business_unit_name', 'location', 'client_manager_name')
             ->distinct()
-            // ->where('account_manager', auth()->user()->email_id)
             ->get();
 
-        $teamb = Teams::select('team_members')
+        $teamMembers = Teams::select('team_members')
             ->distinct()
             ->where('created_by', auth()->user()->email_id)
             ->get();
 
         $teams = [];
 
-        foreach ($teamb as $result) {
-            $decodedTeamMembers = json_decode($result->team_members);
-            $flattenedTeamMembers = implode(', ', $decodedTeamMembers[0]); // This assumes that $decodedTeamMembers[0] is an array
-            $teams[] =  $flattenedTeamMembers;
+        foreach ($teamMembers as $result) {
+            $decodedTeamMembers = json_decode($result->team_members, true);
+            if (isset($decodedTeamMembers[0]) && is_array($decodedTeamMembers[0])) {
+                foreach ($decodedTeamMembers[0] as $teamMember) {
+                    $teams[] = ['email' => $teamMember];
+                }
+            }
         }
 
         return response()->json([
             'teamEmail' => $teams,
-            'client' => $cli
+            'client' => $clients
         ]);
     }
+
 
     public function store(Request $request)
     {
