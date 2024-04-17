@@ -15,10 +15,15 @@
      </div>
 
      <AmTrackerPopup
-    :showPopUp="popup"
-    @closePopup ="closePopUp"
-    :title="title"
-   v-if="popup">
+        :showPopUp="popup"
+        @closePopup="closePopUp"
+        @updateForm="updateForm"
+        @editSuccess="editSuccess"
+        :title="title"
+        :editId="editId"
+        :empName="empName"
+        v-if="popup"
+    >
 
    </AmTrackerPopup>
 
@@ -40,6 +45,8 @@
         return{
             popup:false,
             title:'',
+            editId: null,
+            empName:"",
         };
        },
        methods:{
@@ -54,8 +61,18 @@
             this.popup=true;
             this.title="Tracker View"
         },
+        updateForm(id) {
+            this.title = "Edit Form";
+            this.popup = true;
+            this.editId = id;
+        },
+        editSuccess(name){
+            this.popup = true;
+            this.title = "View Form";
+            this.empName=name;
+        },
 
-       }
+       },
 
      }
  </script>

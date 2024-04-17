@@ -100,17 +100,40 @@
           { label: 'Select Location', key: 'location' },
           { label: 'Edit', key: 'edit' },
         ],
+        empNameProp:this.empName
       };
+    },
+    props:{
+      empName:{
+        type: String,
+        default: "",
+      },
+    },
+    watch:{
+      empName(newVal){
+      this.empNameProp = newVal
+    }
     },
     methods: {
       closePopup() {
         this.$emit('closePopup');
       },
       checkValidation(fieldName) {
+        let dataError = Object.values(this.errors);
+        if (dataError.length > 1) {
+        this.submitForm();
+      } 
+      else 
+      {
         if (this.errors.hasOwnProperty(fieldName)) {
-          delete this.errors[fieldName];
+        delete this.errors[fieldName];
         }
+      }
+    },
+      editItem(id) {
+        this.$emit("updateForm", id);
       },
+      
       fetchClients() {
         const selectedLocation = this.tracker.selectedLocation;
         if (selectedLocation) {
@@ -130,6 +153,7 @@
       fetchClientManagers() {
         // Logic to fetch client managers based on selected business unit
       },
+      
       userLocationApi() {
         axios.get('/api/amtracker-view')
           .then(response => {
@@ -141,13 +165,7 @@
             this.errored = true;
           });
       },
-      resetForm() {
-        this.tracker.selectedLocation = '';
-        this.tracker.selectedClient = '';
-        this.tracker.selectedBusiness = '';
-        this.tracker.selectedManager = '';
-        this.errors = {};
-      },
+      
       submitForm() {
         this.submitted = true;
         axios.post('/api/amtracker-view', this.tracker)
@@ -161,19 +179,36 @@
             console.error('Error submitting form:', error.response.data.errors);
             this.errors = error.response.data.errors;
           });
-        this.resetForm();
       },
+      clearMessage(){
+      this.empNameProp = ""
+      
+    },
+    showSucess(){
+      if(this.empNameProp!=""){
+      Swal.fire({
+              position: "top-center",
+              icon: "success",
+              title: "User "+this.empNameProp+" edited successfully",
+              showConfirmButton: false,
+              timer: 3000,
+            });
+           
+    }
+    },
     },
     mounted() {
       this.userLocationApi();
+      this.showSucess();
+      this.clearMessage()
     },
-    watch: {
-      userLocation: {
-        handler() {
-          this.tracker.selectedLocation = ''; // Reset selected location
-        },
-        deep: true
-      },
-    },
+    // watch: {
+    //   userLocation: {
+    //     handler() {
+    //       this.tracker.selectedLocation = ''; // Reset selected location
+    //     },
+    //     deep: true
+    //   },
+    // },
   };
   </script>
