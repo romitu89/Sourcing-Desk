@@ -12,7 +12,7 @@ class TeamCreate extends Controller
 {
     public function create()
     {
-        $loc = Client::select('location')->distinct()->get();
+        $loc = Client::select('location', 'client_name')->distinct()->get();
         $tm = User::select('email_id')->distinct()->where('reporting_to_am', auth()->user()->email_id)->get();
 
         return response()->json([
@@ -31,6 +31,7 @@ class TeamCreate extends Controller
             'selectedLocation.required' => 'Location is required.',
 
             'jobType.required' => 'Job Type is required.',
+            'clientName.required' => 'Client Name is required.',
 
             // 'selectedTeam.required' => 'Team is required.',
 
@@ -39,6 +40,7 @@ class TeamCreate extends Controller
 
         $request->validate([
             'selectedTeam' => 'required',
+            'clientName' => 'required',
 
             'selectedLocation' => 'required',
             'jobType' => 'required',
@@ -46,6 +48,7 @@ class TeamCreate extends Controller
 
         $teams = new Teams([
 
+            'client_name' => $request->clientName,
             'team_members' => json_encode([$request->selectedTeam]),
             'job_type' => $request->jobType,
 

@@ -5,18 +5,18 @@
         <div class="nav_icon_b">
             <div>
       <span> <font-awesome-icon :icon="['fas', 'message']" /></span></div>
-      
+
       <div><span><font-awesome-icon :icon="['fas', 'bell']" /></span></div>
-      
-      <div class="dropdown" @click="dropDownFunction()"><span><b>Ashock kumar panday</b></span> 
+
+      <div class="dropdown" @click="dropDownFunction()"><span><b>Ashock kumar panday</b></span>
         <span v-if="dropDown" style="margin-left: 10px; color: goldenrod;">        <font-awesome-icon :icon="['fas', 'chevron-down']" /> </span>
         <span v-else style="margin-left: 10px;color: goldenrod;">        <font-awesome-icon :icon="['fas', 'chevron-left']" /> </span>
-        
+
         <div class="dropdown-content" v-if="dropDown" >
             <a href="#"><font-awesome-icon :icon="['fas', 'gear']" /> Settings</a>
             <a href="#"><font-awesome-icon :icon="['fas', 'user']" /> Profile</a>
             <a href="#"><font-awesome-icon :icon="['fas', 'envelope']" /> My message</a>
-            <a href="#"><font-awesome-icon :icon="['fas', 'right-from-bracket']" /> Logout</a>
+            <a href="#" @click="logout"><font-awesome-icon :icon="['fas', 'right-from-bracket']" /> Logout</a>
   </div>
     </div>
     </div>
@@ -39,8 +39,12 @@
         methods:{
             dropDownFunction(){
                 this.dropDown =! this.dropDown
-                
-            }
+
+            },
+            logout() {
+
+                this.$router.push({ path: '/login' });
+    },
         }
 
     }
@@ -56,7 +60,7 @@
     position: sticky;
     top: 0;
     box-shadow: 0 0 4px 2px lightgray;
-    
+
 }
 
 .nav_icon{
@@ -73,7 +77,7 @@ gap: 40px;
 }
 
 .dropdown-content {
-  
+
   position: absolute;
   top: 45px;
   right: 25px;
