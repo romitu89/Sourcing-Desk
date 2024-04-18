@@ -16,9 +16,13 @@
 
      <AmTeamManagementPopup
     :showPopUp="popup"
-    @closePopup ="closePopUp"
+    @closePopup="closePopUp"
+    @updateForm="updateForm"
+    @editSuccess="editSuccess"
     :title="title"
-   v-if="popup">
+    :editId="editId"
+    :empName="empName"
+    v-if="popup">
 
    </AmTeamManagementPopup>
  </template>
@@ -38,6 +42,8 @@
         return{
             popup:false,
             title:'',
+            editId: null,
+            empName:"",
         };
        },
        methods:{
@@ -51,6 +57,16 @@
         workingPopUp(){
             this.popup=true;
             this.title="Team Management View"
+        },
+        updateForm(id) {
+            this.title = "Edit Form";
+            this.popup = true;
+            this.editId = id;
+        },
+        editSuccess(name){
+            this.popup = true;
+            this.title = "View Form";
+            this.empName=name;
         },
 
        }
