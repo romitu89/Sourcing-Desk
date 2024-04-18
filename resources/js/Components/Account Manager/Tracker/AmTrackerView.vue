@@ -72,8 +72,8 @@
   </template>
 
   <script>
-  import axios from 'axios';
-  import ResponsiveTable from '../../Shared Folder/ResponsiveTable.vue';
+import axios from 'axios';
+import ResponsiveTable from '../../Shared Folder/ResponsiveTable.vue';
 
   export default {
     name: 'AmTrackerView',
