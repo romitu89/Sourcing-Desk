@@ -1,85 +1,109 @@
 <template>
-    <form @submit.prevent="submitForm">
-     <table class="input_form">
+  <form @submit.prevent="submitForm">
+   <table class="input_form">
 
-        <tr>
-     <td ><label >Select Location</label></td>
-     <td ><select id="location" v-model="tlTeamManagement.selectedLocation" name="location">
-     <option value="">Select Location</option>
-     <option v-for="item in userLocation" :key='item.location' :value="item.location">{{ item.location }}</option>
+      <tr>
+   <td ><label >Select Location</label></td>
+   <td ><select id="location" v-model="teamManager.selectedLocation" @blur="checkValidation('selectedLocation')" name="location">
+   <option value="">Select Location</option>
+   <option v-for="item in userLocation" :key='item.location' :value="item.location">{{ item.location }}</option>
 
-     </select><br><span v-if="errors.selectedLocation" class="error">{{errors.selectedLocation[0]}}</span></td>
-     </tr>
+   </select><br><span v-if="errors.selectedLocation" class="error">{{errors.selectedLocation[0]}}</span></td>
+   </tr>
 
-     <tr>
-        <td></td>
-       <td> <button @click="closePopup()" class="cancel_btn">Cancel</button>
-        <button class="submit_btn">Submit</button> </td>
-    </tr>
+   <tr>
+      <td></td>
+     <td> <button @click="closePopup()" class="cancel_btn">Cancel</button>
+      <button class="submit_btn">Submit</button> </td>
+  </tr>
 
-     </table>
+   </table>
 
-    </form>
+  </form>
 
-    <div v-if="results">
-                    <responsive-table :results="results" :columns="columns" :buttonAction="buttonAction">
+  <div v-if="results">
+    <responsive-table :results="results" :columns="columns" :buttonAction="buttonAction">
+    <template #edit="{ row }">
+      <div>
+        <button title="Edit" @click="editItem(row.id)">
+          <font-awesome-icon :icon="['fas', 'pen-to-square']" />
+        </button>
+        <button title="Delete" @click="deleteItem(row.id)">
+          <font-awesome-icon :icon="['fas', 'trash']" />
+        </button>
+      </div>
+    </template>
+  </responsive-table>
+                </div>
 
-
-                      <!-- <template #edit="{ row }">
-                        <Link
-
-                          >Edit</Link
-                        >
-                      </template> -->
-                    </responsive-table>
-                  </div>
-
- </template>
+</template>
 
 <script>
-
+import axios from 'axios';
 import ResponsiveTable from '../../Shared Folder/ResponsiveTable.vue'
 
-    export default {
-        name:'TlTeamManagementView',
-
-        components:{
-      ResponsiveTable
+  export default {
+      name:'TlTeamManagementView',
+      components:{
+    ResponsiveTable,
     },
 
-        data()
-        {
-            return{
-                buttonAction: false,
-                tlTeamManagement:{
-                    selectedLocation:"",
+      data() {
+  return {
+      buttonAction: false,
+    teamManager:{
+    selectedLocation:'',
 
-                },
-                errors:{},
-                userLocation: [],
-                results:[],
-                columns: [
-                    { label: 'Select Location', key: 'location' },
-                    { label: 'Job Type', key: 'jobtype' },
-          { label: 'Edit', key: 'edit' }
-
-
-  // ... etc. for other columns
-],
-            };
-        },
-
-        methods: {
-            closePopup() {
-      this.$emit("closePopup");
     },
+    errors:{},
+    userLocation: [],
+    results: [],
+    columns: [
+      { label: "Location", key: "location" },
+      { label: "Job Type", key: "job_type" },
+      { label: "Team Members", key: "team_members" },
+      { label: "Edit", key: "edit" },
+
+      // ... etc. for other columns
+    ],
+    empNameProp:this.empName
+  };
+},
+props:{
+  empName:{
+    type: String,
+    default: "",
+  },
+},
+watch:{
+empName(newVal){
+  this.empNameProp = newVal
+  }
+},
+methods: {
+  closePopup() {
+    this.$emit("closePopup");
+  },
+  checkValidation(fieldName) {
+    let dataError = Object.values(this.errors);
+    if (dataError.length > 1) {
+      this.submitForm();
+    } else {
+      if (this.errors.hasOwnProperty(fieldName)) {
+        delete this.errors[fieldName];
+      }
+    }
+  },
+  editItem(id) {
+    this.$emit("updateForm", id);
+  },
 userLocationApi()
 {
 axios
-.get('/api/tlteam-view')
+.get('/api/amteam-view')
 .then(response => {
-this.userLocation = response.data.locations
-console.log(this.userLocation)
+this.userLocation = response.data.teamData
+console.log(this.userLocation,"response.data.teamData" )
 })
 .catch(error => {
 console.log(error)
@@ -93,31 +117,45 @@ submitForm() {
 this.submitted = true; // Set the submitted flag to true when attempting to submit the form
 // if (this.isFormValid) {
 
-    axios.post('/api/tlteam-view', this.tlTeamManagement)
-.then(response => {
+  axios.post('/api/amteam-view', this.teamManager)
+.then((response) => {
+this.errors={};
+if (Object.values(this.errors).length == 0) {
+          this.buttonAction = true;
+        }
+        this.results = response.data.results;
 
-  this.results = response.data.results;
-
-
-  this.errors={};
-  if (Object.values(this.errors).length == 0) {
-            this.buttonAction = true;
-          }
-
-
-  // Handle the response as needed
+// Handle the response as needed
 })
 .catch(error => {
-  console.error('Error submitting form:', error.response.data.errors);
-  this.errors= error.response.data.errors;
-  console.log(this.errors, "error")
+console.error('Error submitting form:', error.response.data.errors);
+this.errors= error.response.data.errors;
+console.log(this.errors, "error")
 });
 },
+clearMessage(){
+    this.empNameProp = ""
+    
+  },
+  showSucess(){
+    if(this.empNameProp!=""){
+    Swal.fire({
+            position: "top-center",
+            icon: "success",
+            title: "User "+this.empNameProp+" edited successfully",
+            showConfirmButton: false,
+            timer: 3000,
+          });
+         
+  }
+  },
 },
 mounted(){
 this.userLocationApi()
+this.showSucess();
+ this.clearMessage();
 
 },
 
-    }
+  }
 </script>

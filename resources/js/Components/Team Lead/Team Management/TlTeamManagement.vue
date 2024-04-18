@@ -1,34 +1,39 @@
 <template>
+
     <div class="container">
 
-<div class="form" @click="updatePopUp()">
-     <div class="icon_div"><font-awesome-icon :icon="['fas', 'chart-gantt']" /></div>
-     <h4>Create</h4>
- </div>
+    <div class="form" @click="updatePopUp()">
+         <div class="icon_div"><font-awesome-icon :icon="['fas', 'chart-gantt']" /></div>
+         <h4>Create</h4>
+     </div>
 
- <div class="form" @click="workingPopUp()">
-     <div class="icon_div"><font-awesome-icon :icon="['fas', 'chart-gantt']" /></div>
-    <h4>View</h4>
- </div>
+     <div class="form" @click="workingPopUp()">
+         <div class="icon_div"><font-awesome-icon :icon="['fas', 'chart-gantt']" /></div>
+        <h4>View</h4>
+     </div>
 
- </div>
+     </div>
 
- <TlTeamManagementPopup
-:showPopUp="popup"
-@closePopup ="closePopUp"
-:title="title"
-v-if="popup">
+     <TlTeamManagementPopup
+    :showPopUp="popup"
+    @closePopup="closePopUp"
+    @updateForm="updateForm"
+    @editSuccess="editSuccess"
+    :title="title"
+    :editId="editId"
+    :empName="empName"
+    v-if="popup">
 
-</TlTeamManagementPopup>
-</template>
+   </TlTeamManagementPopup>
+ </template>
 
-<script>
+ <script>
+ import TlTeamManagementPopup from './TlTeamManagementPopup.vue'
 
-import TlTeamManagementPopup from './TlTeamManagementPopup.vue'
+     export default {
+         name: 'TlTeamManagement',
 
-    export default {
-        name:'TlTeamManagement',
-        components:{
+         components:{
             TlTeamManagementPopup,
          },
 
@@ -37,6 +42,8 @@ import TlTeamManagementPopup from './TlTeamManagementPopup.vue'
         return{
             popup:false,
             title:'',
+            editId: null,
+            empName:"",
         };
        },
        methods:{
@@ -51,8 +58,19 @@ import TlTeamManagementPopup from './TlTeamManagementPopup.vue'
             this.popup=true;
             this.title="Team Management View"
         },
+        updateForm(id) {
+            this.title = "Edit Form";
+            this.popup = true;
+            this.editId = id;
+        },
+        editSuccess(name){
+            this.popup = true;
+            this.title = "View Form";
+            this.empName=name;
+        },
 
        }
 
-    }
-</script>
+     }
+ </script>
+
