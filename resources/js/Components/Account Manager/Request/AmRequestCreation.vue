@@ -33,7 +33,7 @@
      <td ><label >Client Name</label></td>
      <td ><select id="client" v-model="amRequest.selectedClient" @blur="checkValidation('selectedClient')" name="client">
      <option value="">Select Client</option>
-     <!-- <option v-for="item in userLocation" :key='item.location' :value="item.location">{{ item.location }}</option> -->
+     <option v-for="item in client" :key='item.client_name' :value="item.client_name">{{ item.client_name }}</option>
 
      </select><br><span v-if="errors.selectedClient" class="error">{{errors.selectedClient[0]}}</span></td>
      </tr>
@@ -42,7 +42,7 @@
      <td ><label >Buisness Unit</label></td>
      <td ><select id="buisness" v-model="amRequest.selectedBusiness" @blur="checkValidation('selectedLocation')" name="buisness">
      <option value="">Select Unit</option>
-     <!-- <option v-for="item in userLocation" :key='item.location' :value="item.location">{{ item.location }}</option> -->
+     <option v-for="item in client" :key='item.business_unit_name' :value="item.business_unit_name">{{ item.business_unit_name }}</option>
 
      </select><br><span v-if="errors.selectedBusiness" class="error">{{errors.selectedBusiness[0]}}</span></td>
      </tr>
@@ -51,7 +51,7 @@
      <td ><label >Select Location</label></td>
      <td ><select id="location" v-model="amRequest.selectedLocation" @blur="checkValidation('selectedLocation')" name="location">
      <option value="">Select Location</option>
-     <option v-for="item in userLocation" :key='item.location' :value="item.location">{{ item.location }}</option>
+     <option v-for="item in client" :key='item.location' :value="item.location">{{ item.location }}</option>
 
      </select><br><span v-if="errors.selectedLocation" class="error">{{errors.selectedLocation[0]}}</span></td>
      </tr>
@@ -60,7 +60,7 @@
      <td ><label >Client Manager Name</label></td>
      <td ><select id="buisness" v-model="amRequest.clientManager" @blur="checkValidation('clientManager')" name="buisness">
      <option value="">Select Manager</option>
-     <!-- <option v-for="item in userLocation" :key='item.location' :value="item.location">{{ item.location }}</option> -->
+     <option v-for="item in client" :key='item.client_manager_name' :value="item.client_manager_name">{{ item.client_manager_name }}</option>
 
      </select><br><span v-if="errors.clientManager" class="error">{{errors.clientManager[0]}}</span></td>
      </tr>
@@ -68,7 +68,15 @@
      <tr>
         <td><label>Select Team</label></td>
         <td>
-          <multi-select :selectedTeam="selectedTeam" :options="teams" @update:selected="updateSelectedOptions"></multi-select>
+          <multi-select
+            :selectedTeam="amRequest.selectedTeam"
+            :options="teams"
+            @update:selected="updateSelectedOptions" @blur="checkValidation('selectedTeam')"
+          >
+          </multi-select>
+          <span v-if="errors.selectedTeam" class="error">{{
+            errors.selectedTeam[0]
+          }}</span>
         </td>
       </tr>
 
@@ -76,8 +84,15 @@
      <tr>
         <td><label>Upload File</label></td>
         <td>
-          <input type="file" @change="handleFileChange" accept=".xls, .xlsx" name="file" placeholder="Upload"/>
-
+          <input
+              type="file"
+              ref="fileInput"
+              @change="handleFileChange"
+              accept=".xls, .xlsx"
+              name="file"
+              placeholder="Upload"  
+            /><br>
+            <span v-if="errors.file" class="error">{{errors.file[0]}}</span>
         </td>
       </tr>
 
@@ -114,9 +129,11 @@ import MultiSelect from '../../Shared Folder/MultiSelect.vue';
       selectedBusiness:'',
       selectedLocation:'',
       clientManager:'',
+      file: null,
+      selectedTeam:[],
       },
-
-      userLocation: [],
+      teamEmail:[],
+      client: [],
       teams: [],
       selectedTeam: [],
       errors:{},
@@ -137,6 +154,9 @@ import MultiSelect from '../../Shared Folder/MultiSelect.vue';
         }
       }
     },
+    handleFileChange(event) {
+        this.amRequest.file = event.target.files[0];
+      },
 
 userLocationApi()
 {
@@ -146,16 +166,30 @@ axios
 console.log(response.data, "data")
 // console.log(response.data.location, "location")
 
-this.userLocation = response.data
-console.log(this.userLocation, "location")
-})
-.catch(error => {
-console.log(error)
-this.errored = true
-})
+this.client = response.data.client
+console.log(this.client, "client")
 
-},
 
+const teamEmail = response.data.teamEmail; // Corrected variable name to match your initial question
+
+          teamEmail.forEach((tm) => {
+            this.teams.push({
+              label: tm.email, // Display email as the label
+              value: tm.email, // Use team ID as the value
+            });
+          });
+        })
+        .catch((error) => {
+          console.log(error);
+          this.errored = true;
+        });
+    },
+
+    updateSelectedOptions(newVal) {
+      if (JSON.stringify(newVal) !== JSON.stringify(this.amRequest.selectedTeam)) {
+        this.amRequest.selectedTeam = newVal;
+      }
+    },
 submitForm() {
     this.submitted = true; // Set the submitted flag to true when attempting to submit the form
     // if (this.isFormValid) {
@@ -169,7 +203,7 @@ submitForm() {
          Swal.fire({
             position: "top-center",
             icon: "success",
-            title: "User created successfully",
+            title: "Request created successfully",
             showConfirmButton: false,
             timer: 3000
             });

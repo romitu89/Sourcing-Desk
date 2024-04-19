@@ -4,11 +4,7 @@
       <tr>
         <td><label>Select Location</label></td>
         <td>
-          <select
-            id="location"
-            v-model="tlTeamManagement.selectedLocation"
-            name="location"
-          >
+          <select id="location" v-model="teamManager.selectedLocation" @blur="checkValidation('selectedLocation')" name="location">
             <option value="">Select Location</option>
             <option
               v-for="item in userLocation"
@@ -24,9 +20,20 @@
       </tr>
 
       <tr>
+        <td><label>Client Name</label></td>
+        <td>
+          <select id="role" v-model="teamManager.jobType" @blur="checkValidation('jobType')" name="role">
+            <option value="">Select Client</option>
+            <option value="abc">abc</option>
+            </select
+          ><br /><span v-if="errors.jobType" class="error">{{ errors.jobType[0] }}</span>
+        </td>
+      </tr>
+
+      <tr>
         <td><label>Job Type</label></td>
         <td>
-          <select id="role" v-model="tlTeamManagement.jobType" name="role">
+          <select id="role" v-model="teamManager.jobType" @blur="checkValidation('jobType')" name="role">
             <option value="">Select Job</option>
             <option value="permanent">Permanent</option>
             <option value="contract">Contract</option>
@@ -38,14 +45,17 @@
       <tr>
         <td><label>Select Team</label></td>
         <td>
-          <!-- <multi-select
-            :selectedTeam="selectedTeam"
+          <multi-select
+            :selectedTeam="teamManager.selectedTeam"
             :options="teams"
-            @update:selected="updateSelectedOptions"
-          ></multi-select> -->
+            @update:selected="updateSelectedOptions" @blur="checkValidation('selectedTeam')"
+          >
+          </multi-select>
+          <span v-if="errors.selectedTeam" class="error">{{
+            errors.selectedTeam[0]
+          }}</span>
         </td>
       </tr>
-
       <tr>
         <td></td>
         <td>
@@ -69,29 +79,46 @@ export default {
 
   data() {
     return {
-      tlTeamManagement: {
+      teamManager: {
         selectedLocation: "",
         jobType: "",
-        selectedTeam: "",
+        selectedTeam: [],
       },
       errors: {},
       userLocation: [],
       teams: [],
-      selectedTeam: [],
     };
   },
-
   methods: {
     closePopup() {
       this.$emit("closePopup");
+    },
+    checkValidation(fieldName) {
+      let dataError = Object.values(this.errors);
+      if (dataError.length > 1) {
+        this.submitForm();
+      } else {
+        if (this.errors.hasOwnProperty(fieldName)) {
+          delete this.errors[fieldName];
+        }
+      }
     },
 
     userLocationApi() {
       axios
         .get("/api/tlteam-create")
         .then((response) => {
-          this.userLocation = response.data.locations;
-          console.log(this.userLocation);
+          console.log(response.data.location, "response.data.location");
+          this.userLocation = response.data.location;
+
+          const teamEmail = response.data.teamEmail; // Corrected variable name to match your initial question
+
+          teamEmail.forEach((tm) => {
+            this.teams.push({
+              label: tm.email_id, // Display email as the label
+              value: tm.email_id, // Use team ID as the value
+            });
+          });
         })
         .catch((error) => {
           console.log(error);
@@ -99,25 +126,41 @@ export default {
         });
     },
 
+    updateSelectedOptions(newVal) {
+      if (JSON.stringify(newVal) !== JSON.stringify(this.teamManager.selectedTeam)) {
+        this.teamManager.selectedTeam = newVal;
+      }
+    },
+
     submitForm() {
       this.submitted = true; // Set the submitted flag to true when attempting to submit the form
       // if (this.isFormValid) {
 
       axios
-        .post("/api/tlteam-create", this.tlTeamManagement)
+        .post("/api/tlteam-create", this.teamManager)
         .then((response) => {
-          console.log("Form submitted:", response.data.results);
-          this.results = response.data.results;
-          console.log(this.results, "results");
-
-          this.errors = {};
+          console.log("Form submitted:", response.data.message);
+          if (response.data.message) {
+            this.errors = {};
+            Swal.fire({
+              position: "top-center",
+              icon: "success",
+              title: "Team created successfully",
+              showConfirmButton: false,
+              timer: 3000,
+            });
+          } else {
+            Swal.fire("Form not Submitted");
+          }
 
           // Handle the response as needed
         })
         .catch((error) => {
-          console.error("Error submitting form:", error.response.data.errors);
-          this.errors = error.response.data.errors;
-          console.log(this.errors, "error");
+          if (error.response) {
+            console.error("Error submitting form:", error.response.data.errors);
+            this.errors = error.response.data.errors;
+            console.log(this.errors, "error");
+          }
         });
     },
   },
