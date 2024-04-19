@@ -51,16 +51,18 @@
     </form>
 
     <div v-if="results">
-                    <responsive-table :results="results" :columns="columns" :buttonAction="buttonAction">
-
-
-                      <!-- <template #edit="{ row }">
-                        <Link
-
-                          >Edit</Link
-                        >
-                      </template> -->
-                    </responsive-table>
+      <responsive-table :results="results" :columns="columns" :buttonAction="buttonAction">
+      <template #edit="{ row }">
+        <div>
+          <button title="Edit" @click="editItem(row.id)">
+            <font-awesome-icon :icon="['fas', 'pen-to-square']" />
+          </button>
+          <button title="Delete" @click="deleteItem(row.id)">
+            <font-awesome-icon :icon="['fas', 'trash']" />
+          </button>
+        </div>
+      </template>
+    </responsive-table>
                   </div>
 
  </template>
@@ -100,8 +102,20 @@ import ResponsiveTable from '../../Shared Folder/ResponsiveTable.vue'
 
 
   // ... etc. for other columns
-],
+    ],
+    empNameProp:this.empName
             };
+        },
+        props:{
+          empName:{
+            type: String,
+            default: "",
+          },
+        },
+        watch:{
+          empName(newVal){
+            this.empNameProp = newVal
+          }
         },
 
         methods: {
@@ -117,6 +131,10 @@ import ResponsiveTable from '../../Shared Folder/ResponsiveTable.vue'
           delete this.errors[fieldName];
         }
       }
+    },
+
+    editItem(id) {
+      this.$emit("updateForm", id);
     },
 
 userLocationApi()
@@ -159,11 +177,28 @@ this.submitted = true; // Set the submitted flag to true when attempting to subm
   console.log(this.errors, "error")
 });
 },
+clearMessage(){
+      this.empNameProp = ""
+      
+    },
+    showSucess(){
+      if(this.empNameProp!=""){
+      Swal.fire({
+              position: "top-center",
+              icon: "success",
+              title: "User "+this.empNameProp+" edited successfully",
+              showConfirmButton: false,
+              timer: 3000,
+            });
+           
+    }
+    },
 },
 
 mounted(){
 this.userLocationApi()
-
+this.showSucess();
+   this.clearMessage();
 },
 
     }

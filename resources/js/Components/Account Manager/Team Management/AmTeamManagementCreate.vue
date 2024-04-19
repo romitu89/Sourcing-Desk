@@ -20,6 +20,17 @@
       </tr>
 
       <tr>
+        <td><label>Client Name</label></td>
+        <td>
+          <select id="role" v-model="teamManager.jobType" @blur="checkValidation('jobType')" name="role">
+            <option value="">Select Client</option>
+            <option value="abc">abc</option>
+            </select
+          ><br /><span v-if="errors.jobType" class="error">{{ errors.jobType[0] }}</span>
+        </td>
+      </tr>
+
+      <tr>
         <td><label>Job Type</label></td>
         <td>
           <select id="role" v-model="teamManager.jobType" @blur="checkValidation('jobType')" name="role">

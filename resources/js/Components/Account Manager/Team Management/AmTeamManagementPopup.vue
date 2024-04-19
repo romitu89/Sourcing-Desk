@@ -7,16 +7,28 @@
                <AmTeamManagementCreate @closePopup="closePopup()"
                v-if="title=='Team Management Create'"/>
 
-               <AmTeamManagementView @closePopup="closePopup()"
-               v-if="title=='Team Management View'"/>
+               <AmTeamManagementView
+               v-if="title=='Team Management View'"
+               :empName="empNameProp"
+                @updateForm="updateForm"
+                @editMessageUpdated="editMessageUpdated"
+                @closePopup="closePopup"/>
+
+                <AmTeamManagementEdit
+                v-if="titleProp === 'Edit Form'"
+                :editId="editIdProp"
+                @editSuccess="editSuccess"
+                @closePopup="closePopup" 
+                />
 
            </div>
        </div>
    </template>
 
    <script>
-   import AmTeamManagementCreate from './amteammanagementcreate.vue'
+   import AmTeamManagementCreate from './AmTeamManagementCreate.vue'
    import AmTeamManagementView from './AmTeamManagementView.vue'
+   import AmTeamManagementEdit from './AmTeamManagementEdit.vue'
 
        export default {
            name:'AmTeamManagementPopup',
@@ -24,9 +36,18 @@
            components:{
             AmTeamManagementCreate,
             AmTeamManagementView,
+            AmTeamManagementEdit,
            },
            props: {
-           showPopUp: {
+            editId: {
+                type: Number,
+                default: null,
+            },
+            empName: {
+                type: String,
+                default: "",
+            },
+            showPopUp: {
                type: Boolean,
                default: false
            },
@@ -38,22 +59,41 @@
        watch: {
            tab(newVal) {
                this.showUserCreate = newVal;
-           }
+           },
+           editId(newVal) {
+                this.editIdProp = newVal;
+            },
+            title(newVal) {
+                this.titleProp = newVal;
+            },
+            empName(newVal) {
+                this.empNameProp = newVal;
+            },
        },
        data() {
            return {
                showUserCreate: this.tab,
+               editIdProp: this.editId,
+                titleProp: this.title,
+                empNameProp: this.empName,
            };
        },
        methods: {
 
-           closePopup() {
-               console.log(this.showUserCreate);
-               this.showUserCreate = false;
-               this.$emit('closePopup', this.showUserCreate);
-           }
+        closePopup() {
+            this.$emit("closePopup");
+        },
+        updateForm(id) {
+            this.$emit("updateForm", id);
+        },
+        editSuccess(name) {
+            this.$emit("editSuccess", name);
+        },
+        editMessageUpdated() {
+            console.log(this.empNameProp,"Value")
+            this.empNameProp = "";
+        },
        },
-       components: { AmTeamManagementCreate, AmTeamManagementView }
 
        }
    </script>
