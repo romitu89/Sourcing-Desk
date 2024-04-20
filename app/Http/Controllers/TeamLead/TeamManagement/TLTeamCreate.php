@@ -13,10 +13,15 @@ class TLTeamCreate extends Controller
 {
     public function create()
     {
-        $loc = Client::Select('location')->distinct()->get();
-        $tm = User::Select('email_id')->distinct()->where('reporting_to_tl', auth()->user()->email_id)
-            ->get();
-        return response()->json(['teamEmail' => $tm, 'location' => $loc]);
+        $loc = Client::select('location')->distinct()->get();
+        $client = Client::select('client_name')->distinct()->where("account_manager_id",auth()->user()->id)->get();
+        $tm = User::select('email_id')->distinct()->where('reporting_to_tl', auth()->user()->email_id)->get();
+
+        return response()->json([
+            'teamEmail' => $tm,
+            'location' => $loc,
+            'client' => $client
+        ]);
     }
 
     public function store(Request $request)
