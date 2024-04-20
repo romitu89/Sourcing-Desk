@@ -4,14 +4,19 @@
       <tr>
         <td><label>Select Location</label></td>
         <td>
-          <select id="location" v-model="teamManager.selectedLocation" @blur="checkValidation('selectedLocation')" name="location">
+          <select
+            id="location"
+            v-model="teamManager.selectedLocation"
+            @blur="checkValidation('selectedLocation')"
+            name="location"
+          >
             <option value="">Select Location</option>
             <option
-              v-for="item in userLocation"
-              :key="item.location"
-              :value="item.location"
+              v-for="item in getUniqueValues(userLocation, 'location')"
+              :key="item"
+              :value="item"
             >
-              {{ item.location }}
+              {{ item }}
             </option></select
           ><br /><span v-if="errors.selectedLocation" class="error">{{
             errors.selectedLocation[0]
@@ -22,10 +27,14 @@
       <tr>
         <td><label>Client Name</label></td>
         <td>
-          <select id="role" v-model="teamManager.jobType" @blur="checkValidation('jobType')" name="role">
+          <select
+            id="role"
+            v-model="teamManager.jobType"
+            @blur="checkValidation('jobType')"
+            name="role"
+          >
             <option value="">Select Client</option>
-            <option value="abc">abc</option>
-            </select
+            <option value="abc">abc</option></select
           ><br /><span v-if="errors.jobType" class="error">{{ errors.jobType[0] }}</span>
         </td>
       </tr>
@@ -33,7 +42,12 @@
       <tr>
         <td><label>Job Type</label></td>
         <td>
-          <select id="role" v-model="teamManager.jobType" @blur="checkValidation('jobType')" name="role">
+          <select
+            id="role"
+            v-model="teamManager.jobType"
+            @blur="checkValidation('jobType')"
+            name="role"
+          >
             <option value="">Select Job</option>
             <option value="permanent">Permanent</option>
             <option value="contract">Contract</option>
@@ -48,7 +62,8 @@
           <multi-select
             :selectedTeam="teamManager.selectedTeam"
             :options="teams"
-            @update:selected="updateSelectedOptions" @blur="checkValidation('selectedTeam')"
+            @update:selected="updateSelectedOptions"
+            @blur="checkValidation('selectedTeam')"
           >
           </multi-select>
           <span v-if="errors.selectedTeam" class="error">{{
@@ -69,10 +84,11 @@
 
 <script>
 import MultiSelect from "../../Shared Folder/MultiSelect.vue";
+import { commonFunctionsMixin } from "../../../function.js";
 
 export default {
   name: "TlTeamManagementCreate",
-
+  mixins: [commonFunctionsMixin],
   components: {
     MultiSelect,
   },

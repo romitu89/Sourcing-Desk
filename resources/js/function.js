@@ -7,7 +7,8 @@ export const commonFunctionsMixin = {
           return [];
         }
         const values = array.map(item => item[key]);
-        return Array.from(new Set(values));
+        const filterValues = values.filter(item => item != '')
+        return Array.from(new Set(filterValues));
       }
     }
   };
