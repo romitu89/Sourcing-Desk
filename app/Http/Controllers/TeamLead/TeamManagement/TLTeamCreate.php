@@ -45,10 +45,24 @@ class TLTeamCreate extends Controller
 
             'selectedLocation' => 'required',
             'jobType' => 'required',
+            'clientName.required' => 'Client Name is required.',
+
+            // 'selectedTeam.required' => 'Team is required.',
+
+        ]);
+
+
+        $request->validate([
+            'selectedTeam' => 'required',
+            'clientName' => 'required',
+
+            'selectedLocation' => 'required',
+            'jobType' => 'required',
         ], $messages);
 
         $teams = new Teams([
 
+            'client_name' => $request->clientName,
             'team_members' => json_encode([$request->selectedTeam]),
             'job_type' => $request->jobType,
 
@@ -58,11 +72,11 @@ class TLTeamCreate extends Controller
             'user_id' => auth()->user()->id,
         ]);
 
-        // Create a new team record
-        $teams->save();
+// Create a new team record
+$teams->save();
 
-        return response()->json(['message' => 'Team created successfully']);
-    }
+return response()->json(['message' => 'Team created successfully!']);
+}
 
 
     // public function destroy($id)

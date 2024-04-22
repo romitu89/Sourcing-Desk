@@ -9,5 +9,5 @@ class Teams extends Model
 {
     use HasFactory;
     protected $primaryKey = 'team_id';
-    protected $fillable = ['team_members', 'location', 'job_type', 'created_by', 'user_id'];
+    protected $fillable = ['team_members', 'location', 'job_type', 'created_by', 'user_id','client_name'];
 }

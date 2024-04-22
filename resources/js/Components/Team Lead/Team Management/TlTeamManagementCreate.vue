@@ -28,14 +28,22 @@
         <td><label>Client Name</label></td>
         <td>
           <select
-            id="role"
-            v-model="teamManager.jobType"
-            @blur="checkValidation('jobType')"
-            name="role"
+            id="name"
+            v-model="teamManager.clientName"
+            @blur="checkValidation('clientName')"
+            name="name"
           >
             <option value="">Select Client</option>
-            <option value="abc">abc</option></select
-          ><br /><span v-if="errors.jobType" class="error">{{ errors.jobType[0] }}</span>
+            <option
+              v-for="item in getUniqueValues(client, 'client_name')"
+              :key="item"
+              :value="item"
+            >
+              {{ item }}
+            </option></select
+          ><br /><span v-if="errors.clientName" class="error">{{
+            errors.clientName[0]
+          }}</span>
         </td>
       </tr>
 
@@ -83,6 +91,7 @@
 </template>
 
 <script>
+import Swal from 'sweetalert2'
 import MultiSelect from "../../Shared Folder/MultiSelect.vue";
 import { commonFunctionsMixin } from "../../../function.js";
 
@@ -98,10 +107,12 @@ export default {
       teamManager: {
         selectedLocation: "",
         jobType: "",
+        clientName:"",
         selectedTeam: [],
       },
       errors: {},
       userLocation: [],
+      client:[],
       teams: [],
     };
   },
@@ -126,7 +137,7 @@ export default {
         .then((response) => {
           console.log(response.data.location, "response.data.location");
           this.userLocation = response.data.location;
-
+          this.client = response.data.client;
           const teamEmail = response.data.teamEmail; // Corrected variable name to match your initial question
 
           teamEmail.forEach((tm) => {
