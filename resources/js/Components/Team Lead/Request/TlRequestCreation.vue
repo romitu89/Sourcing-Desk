@@ -95,11 +95,12 @@
  </template>
 
 <script>
+import { commonFunctionsMixin } from '../../../function.js';
 import MultiSelect from '../../Shared Folder/MultiSelect.vue';
 
     export default {
         name:'TlRequestCreation',
-
+        mixins:[commonFunctionsMixin],
         components: {
     MultiSelect,
   },

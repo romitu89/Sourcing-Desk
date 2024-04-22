@@ -2,83 +2,84 @@
 
     <form @submit.prevent="submitForm">
         <table class="input_form">
-    
+
             <tr>
         <td ><label >Client Name</label></td>
         <td ><select id="clName" v-model="client.clientName"  @blur="checkValidation('clientName')" name="clName">
         <option value="">Select client Name</option>
         <option v-for="item in clientName" :key='item.client_name' :value="item.client_name">{{ item.client_name }}</option>
-    
+
         </select><br><span v-if="errors.clientName" class="error">{{errors.clientName[0]}}</span></td>
         </tr>
-    
+
         <tr>
         <td ><label >Business Unit Name</label></td>
         <td ><input type="text" v-model="client.businessName"  @blur="checkValidation('businessName')" placeholder="Business Unit Name">
             <span v-if="errors.businessName" class="error">{{errors.businessName[0]}}</span></td>
         </tr>
-    
+
         <tr>
         <td ><label >Sub Location</label></td>
         <td ><input type="text" v-model="client.subLocation"  @blur="checkValidation('subLocation')" placeholder="Sub Location">
-    
+
             <span v-if="errors.subLocation" class="error">{{errors.subLocation[0]}}</span></td>
         </tr>
-    
+
         <tr>
         <td ><label >Select Location</label></td>
         <td ><select id="location" v-model="client.selectedLocation"  @blur="checkValidation('selectedLocation')" name="location">
         <option value="">Select Location</option>
         <option v-for="item in location" :key='item.country' :value="item.country">{{ item.country }}</option>
-    
+
         </select><br><span v-if="errors.selectedLocation" class="error">{{errors.selectedLocation[0]}}</span></td>
         </tr>
-    
+
         <tr>
         <td ><label >Client Manager Name</label></td>
         <td ><input type="text" v-model="client.selectedManagerName" @blur="checkValidation('selectedManagerName')" placeholder="Client Manager Name">
-    
-    
+
+
         </input><br><span v-if="errors.selectedManagerName" class="error">{{errors.selectedManagerName[0]}}</span></td>
         </tr>
-    
+
         <tr>
         <td ><label >Client Manager Email ID</label></td>
         <td ><input type="text" v-model="client.selectedManager"  @blur="checkValidation('selectedManager')" placeholder="Client Manager Email ID">
-    
-    
+
+
         </input><br><span v-if="errors.selectedManager" class="error">{{errors.selectedManager[0]}}</span></td>
         </tr>
-    
+
         <tr>
         <td ><label >Assign Account Manager</label></td>
         <td ><select id="location" v-model="client.selectedAccountManager"  @blur="checkValidation('selectedLocation')" name="location">
         <option value="">Select Account Manager</option>
         <option v-for="item in managersData" :key='item.email_id' :value="item.email_id">{{ item.email_id }}</option>
-    
+
         </select><br><span v-if="errors.selectedAccountManager" class="error">{{errors.selectedAccountManager[0]}}</span></td>
         </tr>
-    
+
         <tr>
             <td></td>
            <td> <button @click="closePopup()" class="cancel_btn">Cancel</button>
             <button class="submit_btn">Submit</button> </td>
         </tr>
-    
+
     </table>
     </form>
-    
-    
+
+
     </template>
-    
+
     <script>
+    import { commonFunctionsMixin } from '../../../function.js';
     import { faL } from '@fortawesome/free-solid-svg-icons';
     import Swal from 'sweetalert2'
-    
-    
+
+
     export default {
         name: 'BusinessUnitForm',
-    
+        mixins:[commonFunctionsMixin],
         data()
             {
                 return{
@@ -95,34 +96,25 @@
                     location:[],
                     clientName:[],
                     errors:{},
-    
+
                 };
             },
-    
+
             computed:{
                 isFormValid(){
                     return Object.values(this.errors).every(value => value);
                 }
             },
-    
+
             methods:{
-    
+
                 closePopup() {
           this.$emit("closePopup");
         },
-        checkValidation(fieldName) {
-          let dataError = Object.values(this.errors);
-          if (dataError.length > 1) {
-            this.submitForm();
-          } else {
-            if (this.errors.hasOwnProperty(fieldName)) {
-              delete this.errors[fieldName];
-            }
-          }
-        },
-    
-    
-    
+
+
+
+
     userLocationApi()
     {
     axios
@@ -137,9 +129,9 @@
     console.log(error)
     this.errored = true
     })
-    
+
     },
-    
+
     resetForm()
     {
         this.client.clientName=""
@@ -149,17 +141,17 @@
         this.client.selectedLocation=""
         this.client.selectedManagerName=""
     },
-    
+
     submitForm() {
         this.submitted = true; // Set the submitted flag to true when attempting to submit the form
         // if (this.isFormValid) {
-    
+
             axios.post('/api/editor-buisnessUnit', this.client)
       .then(response => {
           console.log('Form submitted:', response.data.successMessage);
           if(response.data.successMessage){
             this.errors={};
-    
+
              Swal.fire({
                 position: "top-center",
                 icon: "success",
@@ -168,70 +160,69 @@
                 timer: 3000
                 });
                 this.resetForm()
-    
+
           }
           else{
             Swal.fire("Form not Submitted");
           }
-    
+
           // Handle the response as needed
        })
       .catch(error => {
           console.error('Error submitting form:', error.response.data.errors);
           this.errors= error.response.data.errors;
        });
-    
-    
-    
-    
+
+
+
+
     // You might want to reset the form and submitted flag here if needed
-    
+
         },
     },
-    
+
     mounted(){
         this.userLocationApi()
-    
+
     }
-    
-    
+
+
     }
     </script>
-    
+
     <style scoped>
     .input_form td{
-    
+
         /* border: 2px solid red; */
         padding: 10px 40px;
         font-size: 20px;
     }
-    
+
     .input_form td select{
         padding: 10px 20px;
         width: 400px;
     }
-    
-    
+
+
     .cancel_btn{
         padding: 10px 25px;
         background-color: rgb(252, 64, 64);
         border-radius: 5px;
-    
+
     }
     .submit_btn{
         padding: 10px 25px;
         background-color: #227C09;
         border-radius: 5px;
         margin-left: 5px;
-    
+
     }
-    
+
     .cancel_btn:hover{
         box-shadow: 2px 2px 4px 5px darkgray;
     }
     .submit_btn:hover{
         box-shadow: 2px 2px 4px 5px darkgray;
     }
-    
+
     </style>
-    

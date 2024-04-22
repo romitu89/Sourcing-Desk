@@ -14,7 +14,7 @@
     </div>
     <ProfileUpdatingForm
     :showPopUp="popup"
-    @closePopup ="closePopUp" 
+    @closePopup ="closePopUp"
     :title="title"
    v-if="popup">
 
@@ -27,6 +27,7 @@ import ProfileUpdatingForm from './ProfileUpdatingForm.vue'
 
     export default {
         name: 'ProfileUpdating',
+        
         components:{
             ProfileUpdatingForm,
         },
@@ -72,7 +73,7 @@ import ProfileUpdatingForm from './ProfileUpdatingForm.vue'
     padding: 10px 20px;
     box-shadow: 0 0 6px 7px #F0F1F2;
     margin: 1%;
-    
+
 }
 
 .form h4{

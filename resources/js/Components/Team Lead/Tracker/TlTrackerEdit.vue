@@ -65,11 +65,12 @@
   </template>
 
   <script>
+  import { commonFunctionsMixin } from '../../../function.js';
   import Swal from "sweetalert2";
 
   export default {
     name: 'TlTrackerEdit',
-
+    mixins:[commonFunctionsMixin],
     props: {
         editId: {
             type: Number,
@@ -96,16 +97,7 @@
         closePopup() {
       this.$emit("closePopup");
     },
-    checkValidation(fieldName) {
-      let dataError = Object.values(this.errors);
-      if (dataError.length > 1) {
-        this.submitForm();
-      } else {
-        if (this.errors.hasOwnProperty(fieldName)) {
-          delete this.errors[fieldName];
-        }
-      }
-    },
+
       handleFileChange(event) {
         this.tlTracker.file = event.target.files[0];
       },

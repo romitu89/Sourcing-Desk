@@ -42,10 +42,11 @@
 </template>
 
 <script>
+import { commonFunctionsMixin } from '../../../function.js';
 import Swal from 'sweetalert2'
     export default {
         name:'FilteredDatabaseForm',
-
+        mixins:[commonFunctionsMixin],
         data()
        {
            return{
@@ -66,16 +67,7 @@ import Swal from 'sweetalert2'
             closePopup() {
       this.$emit("closePopup");
     },
-    checkValidation(fieldName) {
-      let dataError = Object.values(this.errors);
-      if (dataError.length > 1) {
-        this.submitForm();
-      } else {
-        if (this.errors.hasOwnProperty(fieldName)) {
-          delete this.errors[fieldName];
-        }
-      }
-    },
+   
     userLocationApi() {
       axios
         .get("/api/adminDatabase-filteredData")

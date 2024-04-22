@@ -72,11 +72,13 @@
   </template>
 
   <script>
+  import { commonFunctionsMixin } from '../../../function.js';
 import axios from 'axios';
 import ResponsiveTable from '../../Shared Folder/ResponsiveTable.vue';
 
 export default {
   name: 'AmTrackerView',
+  mixins:[commonFunctionsMixin],
   components: {
     ResponsiveTable,
   },

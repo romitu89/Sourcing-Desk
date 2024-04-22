@@ -55,7 +55,7 @@
         </td>
       </tr>
 
-      
+
       <tr>
         <td><label>Mobile Number</label></td>
         <td>
@@ -183,10 +183,12 @@
 </template>
 
 <script>
+import { commonFunctionsMixin } from '../../../function.js';
 import Swal from "sweetalert2";
 
 export default {
   name: "UserEditForm",
+  mixins:[commonFunctionsMixin],
   props: {
     editId: {
       type: Number,
@@ -222,16 +224,7 @@ export default {
     closePopup() {
       this.$emit("closePopup");
     },
-    checkValidation(fieldName) {
-      let dataError = Object.values(this.errors);
-      if (dataError.length > 1) {
-        this.submitForm();
-      } else {
-        if (this.errors.hasOwnProperty(fieldName)) {
-          delete this.errors[fieldName];
-        }
-      }
-    },
+
     getUserDetails() {
       console.log(this.editId, "this.editId")
       axios
@@ -271,17 +264,17 @@ export default {
           this.errored = true;
         });
     },
-   
+
     submitForm() {
       this.submitted = true;
       axios
         .patch("/api/adminuser-edit/" + this.editId, this.employee)
         .then((response) => {
           if (response.data.message) {
-            
+
             this.errors = {};
            this.$emit("editSuccess", this.employee.empName)
-           
+
           }
         })
         .catch((error) => {

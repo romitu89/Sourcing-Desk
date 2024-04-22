@@ -16,13 +16,15 @@
 </template>
 
 <script>
+
 import { outsideClickMixin } from '../../../outsideClick.js';
 import ProfileCreate from './ProfileCreate.vue'
 import ProfileView from './ProfileView.vue'
 
 export default {
     name:'ProfileUpdatingForm',
-    mixins:[outsideClickMixin],
+    mixins:[outsideClickMixin,],
+
     components:{
         ProfileCreate,
         ProfileView,

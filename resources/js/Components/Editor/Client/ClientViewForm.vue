@@ -47,12 +47,14 @@
 </template>
 
 <script>
+import { commonFunctionsMixin } from '../../../function.js';
 import ResponsiveTable from '../../Shared Folder/ResponsiveTable.vue'
 import Swal from 'sweetalert2'
 import axios from 'axios'
 
 export default {
   name: 'ClientViewForm',
+  mixins:[commonFunctionsMixin],
   components: { ResponsiveTable },
   data() {
     return {
@@ -88,16 +90,7 @@ export default {
       closePopup() {
     this.$emit("closePopup");
   },
-  checkValidation(fieldName) {
-    let dataError = Object.values(this.errors);
-    if (dataError.length > 1) {
-      this.submitForm();
-    } else {
-      if (this.errors.hasOwnProperty(fieldName)) {
-        delete this.errors[fieldName];
-      }
-    }
-  },
+
   editItem(id) {
     this.$emit("updateForm", id);
     console.log(id,"client view form")
@@ -145,8 +138,8 @@ export default {
           });
           this.$emit("editMessageUpdated")
   }
-  
-  
+
+
 },
 };
 </script>
