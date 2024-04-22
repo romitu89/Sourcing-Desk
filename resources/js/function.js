@@ -9,7 +9,16 @@ export const commonFunctionsMixin = {
         const values = array.map(item => item[key]);
         const filterValues = values.filter(item => item != '')
         return Array.from(new Set(filterValues));
-      }
+      },
+      checkValidation(fieldName) {
+        let dataError = Object.values(this.errors);
+        if (dataError.length > 1) {
+          this.submitForm();
+        } else {
+          if (this.errors.hasOwnProperty(fieldName)) {
+            delete this.errors[fieldName];
+          }
+        }
+      },
     }
   };
-  

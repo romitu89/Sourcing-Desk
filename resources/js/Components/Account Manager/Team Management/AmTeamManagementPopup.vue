@@ -18,7 +18,7 @@
                 v-if="titleProp === 'Edit Form'"
                 :editId="editIdProp"
                 @editSuccess="editSuccess"
-                @closePopup="closePopup" 
+                @closePopup="closePopup"
                 />
 
            </div>
@@ -26,13 +26,14 @@
    </template>
 
    <script>
+   import { outsideClickMixin } from '../../../outsideClick.js';
    import AmTeamManagementCreate from './AmTeamManagementCreate.vue'
    import AmTeamManagementView from './AmTeamManagementView.vue'
    import AmTeamManagementEdit from './AmTeamManagementEdit.vue'
 
        export default {
            name:'AmTeamManagementPopup',
-
+           mixins:[outsideClickMixin],
            components:{
             AmTeamManagementCreate,
             AmTeamManagementView,

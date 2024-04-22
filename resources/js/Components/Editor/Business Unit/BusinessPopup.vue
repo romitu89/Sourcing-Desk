@@ -3,24 +3,25 @@
             <div @click="closePopup()" class="close_btn"> <a ><font-awesome-icon :icon="['fas', 'xmark']" /></a></div>
             <div class="popup-inner">
                 <h2 class="title">{{ title }}</h2>
-    
+
                 <BusinessUnitForm  @closePopup="closePopup()"
                 v-if="title=='Business Unit Form'"/>
-    
-                
-    
+
+
+
             </div>
         </div>
-    
+
     </template>
-    
+
     <script>
+    import { outsideClickMixin } from '../../../outsideClick.js';
     import BusinessUnitForm from './BusinessUnitForm.vue'
-    
-    
+
+
     export default {
         name:'BusinessPopup',
-    
+        mixins:[outsideClickMixin],
         components:{
             BusinessUnitForm,
         },
@@ -51,11 +52,11 @@
                 this.$emit('closePopup', this.showUserCreate);
             }
         },
-    
+
     }
-    
+
     </script>
-    
+
     <style scoped>
     .popup{
         position: fixed;
@@ -69,10 +70,10 @@
         height: 90%;
         border-radius: 25px;
         box-shadow: 2px 2px 7px 8px lightgray;
-    
+
         overflow: scroll;
     }
-    
+
         .close_btn {
             position: absolute;
             right: 25px;
@@ -81,7 +82,7 @@
             cursor: pointer;
             padding: 10px;
         }
-    
+
         .title{
             color: #002147;
             margin-left: 5%;
@@ -89,6 +90,5 @@
             letter-spacing: 5px;
             text-decoration: underline;
         }
-    
+
     </style>
-    

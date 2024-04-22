@@ -14,13 +14,14 @@
 </template>
 
 <script>
+import { outsideClickMixin } from '../../../outsideClick.js';
 import TlSubmissionRequest from './TlSubmissionRequest.vue'
 import TlInbox from './TlInbox.vue'
 
 
 export default {
     name:'TlSubmissionPopup',
-
+    mixins:[outsideClickMixin],
     components:{
         TlSubmissionRequest,
         TlInbox,

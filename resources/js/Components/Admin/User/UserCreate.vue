@@ -29,6 +29,7 @@
   </template>
 
   <script>
+  import { outsideClickMixin } from '../../../outsideClick.js';
   import UserCreateForm from "./UserCreateForm.vue";
   import UserEditForm from "./UserEditForm.vue";
   import UserViewForm from "./UserViewForm.vue";
@@ -36,6 +37,8 @@
 
   export default {
     name: "UserCreate",
+    mixins:[outsideClickMixin],
+
     components: {
       UserCreateForm,
       UserViewForm,
@@ -82,15 +85,7 @@
         empNameProp: this.empName,
       };
     },
-    mounted() {
-    
-      // Attach event listener to detect clicks outside the popup
-      document.addEventListener("mousedown", this.handleClickOutside);
-    },
-    beforeDestroy() {
-      // Clean up event listener when component is destroyed
-      document.removeEventListener("mousedown", this.handleClickOutside);
-    },
+
     methods: {
       closePopup() {
         this.$emit("closePopup");
@@ -105,15 +100,7 @@
         console.log(this.empNameProp,"Value")
         this.empNameProp = "";
       },
-      handleClickOutside(event) {
-        // Get the popup element
-        const popupElement = this.$el;
 
-        // Check if the clicked element is outside the popup
-        if (!popupElement.contains(event.target)) {
-          this.closePopup();
-        }
-      },
     },
   };
   </script>

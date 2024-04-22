@@ -12,12 +12,13 @@
 </template>
 
 <script>
+import { outsideClickMixin } from '../../../outsideClick.js';
 import AmSubmissionRequest from './AmSubmissionRequest.vue'
 
 
 export default {
     name:'AmSubmissionPopup',
-
+    mixins:[outsideClickMixin],
     components:{
         AmSubmissionRequest,
     },

@@ -18,6 +18,7 @@
 </template>
 
 <script>
+import { outsideClickMixin } from '../../../outsideClick.js';
 import AmClientReport from './AmClientReport.vue'
 import AmClientManagerReport from './amclientmanagerreport.vue'
 import AmClientMatrix from './amclientmatrix.vue'
@@ -25,7 +26,7 @@ import AmClientMatrix from './amclientmatrix.vue'
 
 export default {
     name:'AmClientMisPopup',
-
+    mixins:[outsideClickMixin],
     components:{
         AmClientReport,
         AmClientManagerReport,

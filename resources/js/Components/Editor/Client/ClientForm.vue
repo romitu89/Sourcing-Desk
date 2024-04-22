@@ -4,38 +4,39 @@
             <div @click="closePopup()" class="close_btn"> <a ><font-awesome-icon :icon="['fas', 'xmark']" /></a></div>
             <div class="popup-inner">
                 <h2 class="title">{{ titleProp }}</h2>
-    
+
                 <ClientCreateForm  @closePopup="closePopup()"
                 v-if="titleProp =='Client Create'"/>
-    
-                <ClientViewForm  
+
+                <ClientViewForm
                 @closePopup="closePopup()"
                 @updateForm="updateForm"
                 @editMessageUpdated="editMessageUpdated"
                 :empName="empNameProp"
                 v-if="titleProp =='Client View'"/>
-    
-                <ClientEditForm 
+
+                <ClientEditForm
                 @closePopup="closePopup()"
                 @editSuccess="editSuccess"
                 :editId="editIdProp"
                 v-if="titleProp == 'Edit Form'"
             />
-    
-    
+
+
             </div>
         </div>
     </template>
-    
+
     <script>
+    import { outsideClickMixin } from '../../../outsideClick.js';
     import ClientCreateForm from './ClientCreateForm.vue'
     import ClientViewForm from './ClientViewForm.vue'
     import ClientEditForm from './ClientEditForm.vue';
-    
+
     export default {
-    
+
         name:'ClientForm',
-    
+        mixins:[outsideClickMixin],
         props: {
             editId: {
             type: Number,
@@ -95,6 +96,5 @@
         },
         components:{ClientCreateForm, ClientViewForm, ClientEditForm},
     }
-    
+
     </script>
-    
