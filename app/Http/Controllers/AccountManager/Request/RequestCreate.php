@@ -80,9 +80,7 @@ class RequestCreate extends Controller
             'selectedBusiness' => 'required',
             'selectedLocation' => 'required',
             'clientManager' => 'required',
-            // 'file' => 'required|file|mimes:xls,xlsx|max:2048', // Max file size in kilobytes (2MB in this example)
-
-
+            //'file' => 'required|file|mimes:xls,xlsx|max:2048', // Max file size in kilobytes (2MB in this example)
             'selectedTeam' => 'required',
         ], $messages);
         $currentTime = Carbon::now()->format('YmdHis'); // Get current time as YYYYMMDDHHMMSS string
