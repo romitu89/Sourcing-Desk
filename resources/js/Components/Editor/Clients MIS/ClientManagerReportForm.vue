@@ -52,14 +52,14 @@
 
     <tr>
     <td ><label >From Date</label></td>
-    <td ><input  v-model="client.from" @blur="checkValidation('from')" type="date" >
-        <span v-if="errors.from" class="error">{{errors.from[0]}}</span></td>
+    <td ><input  v-model="client.fromDate" @blur="checkValidation('fromDate')" type="date" >
+        <span v-if="errors.fromDate" class="error">{{errors.fromDate[0]}}</span></td>
     </tr>
 
     <tr>
     <td ><label >To Date</label></td>
-    <td ><input  v-model="client.to" @blur="checkValidation('to')" type="date" >
-        <span v-if="errors.to" class="error">{{errors.to[0]}}</span></td>
+    <td ><input  v-model="client.toDate" @blur="checkValidation('toDate')" type="date" >
+        <span v-if="errors.toDate" class="error">{{errors.toDate[0]}}</span></td>
     </tr>
 
     <tr>
@@ -89,8 +89,8 @@ export default {
                     selectedLocation:"",
                     clientManager:"",
                     matrix:"",
-                    from:"",
-                    to:"",
+                    fromDate:"",
+                    toDate:"",
                 },
                 submitted:false,
                 clientMis:[],
