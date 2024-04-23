@@ -23,6 +23,7 @@
 </template>
 
 <script>
+import { outsideClickMixin } from '../../../outsideClick.js';
 import UserAccountManagerForm from './UserAccountManagerForm.vue'
 import UserTeamLeadForm from './UserTeamLeadForm.vue'
 import UserRecruiterForm from './UserRecruiterForm.vue'
@@ -30,7 +31,7 @@ import UserMatrixForm from './UserMatrixForm.vue'
 
     export default {
         name: 'UserMisForm',
-
+        mixins:[outsideClickMixin],
 components:{
     UserAccountManagerForm,
     UserTeamLeadForm,

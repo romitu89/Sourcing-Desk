@@ -15,13 +15,14 @@
 </template>
 
 <script>
+import { outsideClickMixin } from '../../../outsideClick.js';
 import AmCandidateFeedback from './AmCandidateFeedback.vue'
 import AmCandidateSchedule from './AmCandidateSchedule.vue'
 
 
 export default {
     name:'AmCandidatePopup',
-
+    mixins:[outsideClickMixin],
     components:{
         AmCandidateFeedback,
         AmCandidateSchedule

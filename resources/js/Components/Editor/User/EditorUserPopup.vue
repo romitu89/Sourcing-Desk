@@ -7,7 +7,7 @@
       <EditorCreateForm @closePopup="closePopup()"
       v-if="title=='Create Form'"/>
 
-      <EditorViewForm 
+      <EditorViewForm
         @closePopup="closePopup()"
         @updateForm="updateForm"
         @editMessageUpdated="editMessageUpdated"
@@ -30,6 +30,7 @@
 </template>
 
 <script>
+import { outsideClickMixin } from '../../../outsideClick.js';
 import EditorCreateForm from './EditorCreateForm.vue'
 import EditorViewForm from './EditorViewForm.vue'
 import EditorLoginForm from './EditorLoginForm.vue'
@@ -37,6 +38,7 @@ import EditorEditForm from './EditorEditForm.vue'
 
 export default {
     name: 'EditorUserPopup',
+    mixins:[outsideClickMixin],
     components: {
         EditorCreateForm,
         EditorViewForm,
@@ -74,7 +76,7 @@ export default {
     empName(newVal) {
       this.empNameProp = newVal;
     },
-    
+
   },
   data() {
     return {

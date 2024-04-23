@@ -105,10 +105,11 @@
 <script>
 import Swal from 'sweetalert2'
 import MultiSelect from '../../Shared Folder/MultiSelect.vue';
+import { commonFunctionsMixin } from '../../../function.js';
 
     export default {
         name:'TlRequestCreation',
-
+        mixins:[commonFunctionsMixin],
         components: {
     MultiSelect,
   },

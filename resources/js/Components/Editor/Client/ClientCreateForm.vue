@@ -68,12 +68,13 @@
 </template>
 
 <script>
+import { commonFunctionsMixin } from '../../../function.js';
 import Swal from 'sweetalert2'
 
 
 export default {
     name: 'ClientCreateForm',
-
+    mixins:[commonFunctionsMixin],
     data()
         {
             return{
@@ -98,16 +99,7 @@ export default {
             closePopup() {
       this.$emit("closePopup");
     },
-    checkValidation(fieldName) {
-      let dataError = Object.values(this.errors);
-      if (dataError.length > 1) {
-        this.submitForm();
-      } else {
-        if (this.errors.hasOwnProperty(fieldName)) {
-          delete this.errors[fieldName];
-        }
-      }
-    },
+
 
 userLocationApi()
 {

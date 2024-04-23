@@ -17,13 +17,14 @@
 </template>
 
 <script>
+import { outsideClickMixin } from '../../../outsideClick.js';
 import AmUserTeamLead from './AmUserTeamLead.vue'
 import AmUserMisRecruiter from './AmUserMisRecruiter.vue'
 
 
 export default {
     name:'AmUserMisPopup',
-
+    mixins:[outsideClickMixin],
     components:{
         AmUserTeamLead,
         AmUserMisRecruiter,

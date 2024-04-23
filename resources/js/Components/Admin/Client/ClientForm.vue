@@ -8,14 +8,14 @@
             <ClientCreateForm  @closePopup="closePopup()"
             v-if="titleProp =='Client Create'"/>
 
-            <ClientViewForm  
+            <ClientViewForm
             @closePopup="closePopup()"
             @updateForm="updateForm"
             @editMessageUpdated="editMessageUpdated"
             :empName="empNameProp"
             v-if="titleProp =='Client View'"/>
 
-            <ClientEditForm 
+            <ClientEditForm
             @closePopup="closePopup()"
             @editSuccess="editSuccess"
             :editId="editIdProp"
@@ -28,6 +28,7 @@
 </template>
 
 <script>
+import { outsideClickMixin } from '../../../outsideClick.js';
 import ClientCreateForm from './ClientCreateForm.vue'
 import ClientViewForm from './ClientViewForm.vue'
 import ClientEditForm from './ClientEditForm.vue';
@@ -35,7 +36,7 @@ import ClientEditForm from './ClientEditForm.vue';
 export default {
 
     name:'ClientForm',
-
+    mixins:[outsideClickMixin],
     props: {
         editId: {
         type: Number,

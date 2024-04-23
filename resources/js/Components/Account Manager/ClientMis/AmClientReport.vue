@@ -72,11 +72,12 @@
  </template>
 
  <script>
+ import { commonFunctionsMixin } from '../../../function.js';
  import Swal from 'sweetalert2'
 
  export default {
      name: 'AMClientReport',
-
+     mixins:[commonFunctionsMixin],
      data()
          {
              return{

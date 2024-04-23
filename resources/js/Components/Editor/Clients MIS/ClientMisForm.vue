@@ -19,13 +19,14 @@
 </template>
 
 <script>
+import { outsideClickMixin } from '../../../outsideClick.js';
 import ClientReportForm from './clientreportform.vue'
 import ClientManagerReportForm from './ClientManagerReportForm.vue'
 import ClienMatrixForm from './ClienMatrixForm.vue'
 
 export default {
     name:'ClientMisForm',
-
+    mixins:[outsideClickMixin],
     components:{
         ClientReportForm,
         ClientManagerReportForm,

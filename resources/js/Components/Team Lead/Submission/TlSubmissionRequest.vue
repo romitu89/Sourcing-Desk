@@ -23,10 +23,11 @@
  </template>
 
 <script>
+import { commonFunctionsMixin } from '../../../function.js';
     export default {
 
         name:'TlSubmissionRequest',
-
+        mixins:[commonFunctionsMixin],
         data ()
         {
             return{

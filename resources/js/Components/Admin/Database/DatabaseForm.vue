@@ -16,11 +16,14 @@
 </template>
 
 <script>
+
+import { outsideClickMixin } from '../../../outsideClick.js';
 import WorkingCandidateForm from './WorkingCandidateForm.vue'
 import FilteredDatabaseForm from './FilteredDatabaseForm.vue'
 
     export default {
         name:'DatabaseForm',
+        mixins:[outsideClickMixin],
 
         components:{
             WorkingCandidateForm,

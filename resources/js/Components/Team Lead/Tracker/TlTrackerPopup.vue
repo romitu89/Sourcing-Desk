@@ -7,7 +7,7 @@
                <TlTrackerCreate @closePopup="closePopup()"
                v-if="title=='Tracker Create'"/>
 
-               <TlTrackerView 
+               <TlTrackerView
                v-if="title=='Tracker View'"
                :empName="empNameProp"
                 @updateForm="updateForm"
@@ -19,7 +19,7 @@
                 v-if="titleProp === 'Edit Form'"
                 :editId="editIdProp"
                 @editSuccess="editSuccess"
-                @closePopup="closePopup" 
+                @closePopup="closePopup"
                 />
 
            </div>
@@ -27,14 +27,14 @@
    </template>
 
    <script>
-
+   import { outsideClickMixin } from '../../../outsideClick.js';
    import TlTrackerCreate from './TlTrackerCreate.vue'
    import TlTrackerView from './TlTrackerView.vue'
    import TlTrackerEdit from './TlTrackerEdit.vue'
 
        export default {
            name:'TlTrackerPopup',
-
+           mixins:[outsideClickMixin],
            components:{
             TlTrackerCreate,
                TlTrackerView,

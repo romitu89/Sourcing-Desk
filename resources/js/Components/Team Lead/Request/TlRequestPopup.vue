@@ -12,12 +12,13 @@
 </template>
 
 <script>
+import { outsideClickMixin } from '../../../outsideClick.js';
 import TlRequestCreation from './TlRequestCreation.vue'
 
 
 export default {
     name:'TlRequestPopup',
-
+    mixins:[outsideClickMixin],
     components:{
         TlRequestCreation,
     },

@@ -15,12 +15,13 @@
 </template>
 
 <script>
+import { outsideClickMixin } from '../../../outsideClick.js';
 import CandidateUpdate from './CandidateUpdate.vue'
 import WorkingCandidate from './WorkingCandidate.vue'
 
     export default {
         name:'CandidatePopup',
-
+        mixins:[outsideClickMixin],
         components:{
             CandidateUpdate,
             WorkingCandidate,

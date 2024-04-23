@@ -90,7 +90,7 @@
               @change="handleFileChange"
               accept=".xls, .xlsx"
               name="file"
-              placeholder="Upload"  
+              placeholder="Upload"
             /><br>
             <span v-if="errors.file" class="error">{{errors.file[0]}}</span>
         </td>
@@ -109,11 +109,12 @@
  </template>
 
 <script>
+import { commonFunctionsMixin } from '../../../function.js';
 import Swal from 'sweetalert2'
 import MultiSelect from '../../Shared Folder/MultiSelect.vue';
     export default {
         name:'AmRequestCreation',
-
+        mixins:[commonFunctionsMixin],
         components: {
     MultiSelect
   },
@@ -144,16 +145,7 @@ import MultiSelect from '../../Shared Folder/MultiSelect.vue';
     closePopup() {
       this.$emit("closePopup");
     },
-    checkValidation(fieldName) {
-      let dataError = Object.values(this.errors);
-      if (dataError.length > 1) {
-        this.submitForm();
-      } else {
-        if (this.errors.hasOwnProperty(fieldName)) {
-          delete this.errors[fieldName];
-        }
-      }
-    },
+
     handleFileChange(event) {
         this.amRequest.file = event.target.files[0];
       },

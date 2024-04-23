@@ -15,12 +15,13 @@
    </template>
 
    <script>
+   import { outsideClickMixin } from '../../../outsideClick.js';
    import AmTrackerCreate from './AmTrackerCreate.vue'
    import AmTrackerView from './AmTrackerView.vue'
 
        export default {
            name:'AmTrackerPopup',
-
+           mixins:[outsideClickMixin],
            components:{
             AmTrackerCreate,
                AmTrackerView,

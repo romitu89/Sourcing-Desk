@@ -18,7 +18,7 @@
             }}</span>
           </td>
         </tr>
-  
+
         <tr>
           <td><label>Job Type</label></td>
           <td>
@@ -30,7 +30,7 @@
             ><br /><span v-if="errors.jobType" class="error">{{ errors.jobType[0] }}</span>
           </td>
         </tr>
-  
+
         <tr>
           <td><label>Select Team</label></td>
           <td>
@@ -55,23 +55,25 @@
       </table>
     </form>
   </template>
-  
+
   <script>
+  import { commonFunctionsMixin } from '../../../function.js';
   import MultiSelect from "../../Shared Folder/MultiSelect.vue";
-  
+
   export default {
     name: "TlTeamManagementEdit",
+    mixins:[commonFunctionsMixin],
     props: {
         editId: {
             type: Number,
             default: null,
         },
     },
-  
+
     components: {
       MultiSelect,
     },
-  
+
     data() {
       return {
         teamManager: {
@@ -88,26 +90,17 @@
       closePopup() {
         this.$emit("closePopup");
       },
-      checkValidation(fieldName) {
-        let dataError = Object.values(this.errors);
-        if (dataError.length > 1) {
-          this.submitForm();
-        } else {
-          if (this.errors.hasOwnProperty(fieldName)) {
-            delete this.errors[fieldName];
-          }
-        }
-      },
-  
+
+
       userLocationApi() {
         axios
           .get("/api/amteam-create")
           .then((response) => {
             console.log(response.data.location, "response.data.location");
             this.userLocation = response.data.location;
-  
+
             const teamEmail = response.data.teamEmail; // Corrected variable name to match your initial question
-  
+
             teamEmail.forEach((tm) => {
               this.teams.push({
                 label: tm.email_id, // Display email as the label
@@ -120,17 +113,17 @@
             this.errored = true;
           });
       },
-  
+
       updateSelectedOptions(newVal) {
         if (JSON.stringify(newVal) !== JSON.stringify(this.teamManager.selectedTeam)) {
           this.teamManager.selectedTeam = newVal;
         }
       },
-  
+
       submitForm() {
         this.submitted = true; // Set the submitted flag to true when attempting to submit the form
         // if (this.isFormValid) {
-  
+
         axios
           .post("/api/amteam-create", this.teamManager)
           .then((response) => {
@@ -147,7 +140,7 @@
             } else {
               Swal.fire("Form not Submitted");
             }
-  
+
             // Handle the response as needed
           })
           .catch((error) => {
@@ -164,4 +157,3 @@
     },
   };
   </script>
-  

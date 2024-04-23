@@ -16,6 +16,7 @@
 </template>
 
 <script>
+import { outsideClickMixin } from '../../../outsideClick.js';
 import RequestCreate from './RequestCreate.vue'
 import ActiveRequest from './ActiveRequest.vue'
 
@@ -23,6 +24,7 @@ import ActiveRequest from './ActiveRequest.vue'
 
 export default {
     name: 'RequestPopup',
+    mixins:[outsideClickMixin],
     component: {
         RequestCreate,
         ActiveRequest,

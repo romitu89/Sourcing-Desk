@@ -13,7 +13,7 @@
             <span v-if="errors.empName" class="error">{{ errors.empName[0] }}</span>
           </td>
         </tr>
-  
+
         <tr>
           <td><label>User Name</label></td>
           <td>
@@ -26,7 +26,7 @@
             <span v-if="errors.userName" class="error">{{ errors.userName[0] }}</span>
           </td>
         </tr>
-  
+
         <tr>
           <td><label>Password</label></td>
           <td>
@@ -39,7 +39,7 @@
             <span v-if="errors.password" class="error">{{ errors.password[0] }}</span>
           </td>
         </tr>
-  
+
         <tr>
           <td><label>Confirm Password</label></td>
           <td>
@@ -54,8 +54,8 @@
             }}</span>
           </td>
         </tr>
-  
-        
+
+
         <tr>
           <td><label>Mobile Number</label></td>
           <td>
@@ -68,7 +68,7 @@
             <span v-if="errors.mobile" class="error">{{ errors.mobile[0] }}</span>
           </td>
         </tr>
-  
+
         <tr>
           <td><label>Select Location</label></td>
           <td>
@@ -91,7 +91,7 @@
             }}</span>
           </td>
         </tr>
-  
+
         <tr>
           <td><label>Role</label></td>
           <td>
@@ -111,7 +111,7 @@
             ><br /><span v-if="errors.role" class="error">{{ errors.role[0] }}</span>
           </td>
         </tr>
-  
+
         <tr v-show="employee.role == 'recruiter' || employee.role == 'teamLead'">
           <td><label>Reporting Manager</label></td>
           <td>
@@ -130,7 +130,7 @@
             }}</span>
           </td>
         </tr>
-  
+
         <tr v-show="employee.role == 'recruiter'">
           <td><label>Reporting Team Lead</label></td>
           <td>
@@ -149,7 +149,7 @@
             }}</span>
           </td>
         </tr>
-  
+
         <tr>
           <td><label>Department</label></td>
           <td>
@@ -170,7 +170,7 @@
             }}</span>
           </td>
         </tr>
-  
+
         <tr>
           <td></td>
           <td>
@@ -181,19 +181,21 @@
       </table>
     </form>
   </template>
-  
+
   <script>
+  import { commonFunctionsMixin } from '../../../function.js';
   import Swal from "sweetalert2";
-  
+
   export default {
     name: "EditorEditForm",
+    mixins:[commonFunctionsMixin],
     props: {
       editId: {
         type: Number,
         default: null,
       },
     },
-  
+
     data() {
       return {
         employee: {
@@ -217,21 +219,12 @@
         editEmployee:{},
       };
     },
-  
+
     methods: {
       closePopup() {
         this.$emit("closePopup");
       },
-      checkValidation(fieldName) {
-        let dataError = Object.values(this.errors);
-        if (dataError.length > 1) {
-          this.submitForm();
-        } else {
-          if (this.errors.hasOwnProperty(fieldName)) {
-            delete this.errors[fieldName];
-          }
-        }
-      },
+
       getUserDetails() {
         axios
           .get("/api/adminuser-edit/" + this.editId)
@@ -270,17 +263,17 @@
             this.errored = true;
           });
       },
-     
+
       submitForm() {
         this.submitted = true;
         axios
           .patch("/api/adminuser-edit/" + this.editId, this.employee)
           .then((response) => {
             if (response.data.message) {
-              
+
               this.errors = {};
              this.$emit("editSuccess", this.employee.empName)
-             
+
             }
           })
           .catch((error) => {
@@ -289,11 +282,10 @@
           });
       },
     },
-  
+
     mounted() {
       this.userLocationApi();
       this.getUserDetails();
     },
   };
   </script>
-  
