@@ -63,6 +63,8 @@ class Create extends Controller
             'department.required' => 'Department is required.',
             'role.required' => 'Role is required.',
             'dob.required' => 'Date Of Birth is required.',
+            'dob.date' => 'Please enter a valid Date of Birth.',
+            'dob.before_or_equal' => 'The Date of Birth cannot be a future date.',
         ];
 
         $rules = [
@@ -84,7 +86,7 @@ class Create extends Controller
             'selectedLocation' => 'required',
             'department' => 'required',
             'role' => 'required',
-            'dob' => 'required|date|before:today',
+            'dob' => 'required|date|before_or_equal:today',
         ];
 
         $validator = Validator::make($request->all(), $rules, $messages);
