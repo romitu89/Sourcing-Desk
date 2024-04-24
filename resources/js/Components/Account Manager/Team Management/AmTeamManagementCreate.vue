@@ -7,7 +7,7 @@
           <select id="location" v-model="teamManager.selectedLocation" @blur="checkValidation('selectedLocation')" name="location">
             <option value="">Select Location</option>
             <option
-              v-for="item in userLocation"
+              v-for="item in location"
               :key="item.location"
               :value="item.location"
             >
@@ -25,7 +25,7 @@
           <select id="role" v-model="teamManager.clientName" @blur="checkValidation('jobType')" name="role">
             <option value="">Select Client</option>
             <option
-              v-for="item in userLocation"
+              v-for="item in client"
               :key="item.client_name"
               :value="item.client_name"
             >
@@ -77,6 +77,7 @@
 <script>
 import { commonFunctionsMixin } from '../../../function.js';
 import MultiSelect from "../../Shared Folder/MultiSelect.vue";
+import Swal from 'sweetalert2'
 
 export default {
   name: "AmTeamManagementCreate",
@@ -94,7 +95,8 @@ export default {
         selectedTeam: [],
       },
       errors: {},
-      userLocation: [],
+      location: [],
+      client:[],
       teams: [],
     };
   },
@@ -109,7 +111,8 @@ export default {
         .get("/api/amteam-create")
         .then((response) => {
           console.log(response.data.location, "response.data.location");
-          this.userLocation = response.data.location;
+          this.location = response.data.location;
+          this.client = response.data.client
 
           const teamEmail = response.data.teamEmail; // Corrected variable name to match your initial question
 
