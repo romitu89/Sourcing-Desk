@@ -20,5 +20,12 @@ export const commonFunctionsMixin = {
           }
         }
       },
+      formatDateTime(dateTime) {
+        const localDateTime = new Date(dateTime); // Convert to local time
+        const datePart = localDateTime.toLocaleDateString(); // Get formatted date
+        const timePart = localDateTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); // Get formatted time
+
+        return `${datePart} ${timePart}`; // Combine date and time parts
+      },
     }
   };

@@ -404,9 +404,9 @@ Route::middleware('web')->group(function () {
 
 
     // Submission Active Requirement
-    Route::get('/tlsubmission-active/{id}', [TLRequirement::class, 'create']);
-    Route::Post('/tlsubmission-active/{id}', [TLRequirement::class, 'store']);
-    Route::get('/tlsubmission-inbox', [TLRecruiterSubmission::class, 'create']);
+    // Route::get('/tlsubmission-active/{id}', [TLRequirement::class, 'create']);
+    // Route::Post('/tlsubmission-active/{id}', [TLRequirement::class, 'store']);
+    // Route::get('/tlsubmission-inbox', [TLRecruiterSubmission::class, 'create']);
 
 
     // Request Create
@@ -430,25 +430,38 @@ Route::middleware('web')->group(function () {
 
     //------------------------------------------------------------------------------
 
-    // AccountManager/UserMIS/Recruiter
+    // Team Lead/UserMIS/Recruiter
 
     Route::get('/tlclient-recruiter', [TLRecruiter::class, 'create']);
     Route::Post('/tlclient-recruiter', [TLRecruiter::class, 'store']);
 
-
     //-----------------------------------------------------------------------------
+
+
+    // Team Lead/RecruiterSubmission
+
+    Route::get('/tlrecruiter-submission', [TLRecruiterSubmission::class, 'create']);
+    Route::Post('/tlrecruiter-submission', [TLRecruiterSubmission::class, 'store']);
     //------------------------------------------------------------------------------
+
 
     // Recruiter Start
 
 
+    // Recruiter/RecruiterSubmission
+
+    Route::get('/recruiter-submission', [RecruiterSubmission::class, 'create']);
+    Route::Post('/recruiter-submission', [RecruiterSubmission::class, 'store']);
+
+    //------------------------------------------------------------------------------
+
     // Submission Active Requirement
 
-    Route::get('/submission-active/{id}', [ActiveReq::class, 'create']);
+    // Route::get('/submission-active/{id}', [ActiveReq::class, 'create']);
 
-    Route::Post('/submission-active/{id}', [ActiveReq::class, 'store']);
+    // Route::Post('/submission-active/{id}', [ActiveReq::class, 'store']);
 
-    Route::get('/submission-inbox', [RecruiterSubmission::class, 'create']);
+    // Route::get('/submission-inbox', [RecruiterSubmission::class, 'create']);
 });
     // Additional routes if needed...
 //});

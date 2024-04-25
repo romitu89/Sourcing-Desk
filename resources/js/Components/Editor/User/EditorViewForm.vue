@@ -51,7 +51,7 @@
   </form>
 
   <div v-if="results">
-    <responsive-table :results="results" :columns="columns" :buttonAction="buttonAction">
+    <responsive-table :results="formattedResults" :columns="columns" :buttonAction="buttonAction">
       <template #edit="{ row }">
         <div>
           <button title="Edit" @click="editItem(row.id)">
@@ -89,7 +89,7 @@ export default {
       errors: [],
       results: [],
       columns: [
-        { label: "Date-Time", key: "created_at" },
+        { label: "Date-Time", key: "formatted_created_at", },
         { label: "Employee Name", key: "employee_name" },
         { label: "UserName", key: "username" },
         { label: "Employee Id", key: "employee_id" },
@@ -112,6 +112,15 @@ export default {
     empName:{
       type: String,
       default: "",
+    },
+  },
+
+  computed: {
+    formattedResults() {
+      return this.results.map((result) => ({
+        ...result,
+        formatted_created_at: this.formatDateTime(result.created_at),
+      }));
     },
   },
 
