@@ -10,7 +10,6 @@ use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
-
     public function create()
     {
         return response()->json();
@@ -18,7 +17,6 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        
         $credentials = $request->validate([
             'username' => 'required',
             'password' => 'required',
@@ -36,9 +34,6 @@ class AuthController extends Controller
             return response()->json(['message' => 'Success', 'user' => $user]);
         }
 
-
-
-
         return response()->json(['error' => 'Invalid Credentials'], 401);
     }
 
@@ -52,5 +47,11 @@ class AuthController extends Controller
         auth()->logout();
 
         return response()->json(['message' => 'Logged out successfully'], 200);
+    }
+
+    public function getUser(Request $request)
+    {
+        // Return logged-in user's information
+        return response()->json(['user' => auth()->user()]);
     }
 }

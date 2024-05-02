@@ -11,7 +11,7 @@ class Login extends Model
     protected $fillable = [
         'user_id',
         'ip_address',
-        'logout_time', // Add this line
+        'logout_time',
         'email_id',
         'location'
     ];
