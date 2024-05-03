@@ -35,9 +35,9 @@
   <div v-if="settingsPopupVisible" class="settings-popup" @click.self="closeSettingsPopup">
     <div class="settings-popup-content">
       <span class="close" @click="closeSettingsPopup">&times;</span>
-      <h2>Settings</h2>
+      <h2 class="popup-heading">Settings</h2>
       <div class="theme-options">
-        <p>Background Theme:</p>
+        <p class="option-heading">Background Theme:</p>
         <div class="theme-radio">
           <input type="radio" id="defaultTheme" value="default" v-model="selectedTheme">
           <label for="defaultTheme">Default</label>
@@ -46,6 +46,28 @@
           <input type="radio" id="darkTheme" value="dark" v-model="selectedTheme">
           <label for="darkTheme">Dark</label>
         </div>
+      </div>
+      <div class="font-size-options">
+        <p class="option-heading">Font Size:</p>
+        <select v-model="selectedFontSize">
+          <option value="small">Small</option>
+          <option value="medium">Medium</option>
+          <option value="large">Large</option>
+        </select>
+      </div>
+      <div class="language-options">
+        <p class="option-heading">Language Preference:</p>
+        <select v-model="selectedLanguage">
+          <option value="en">English</option>
+          <option value="fr">French</option>
+          <option value="es">Spanish</option>
+          <!-- Add more languages as needed -->
+        </select>
+      </div>
+      <div class="profile-photo">
+        <p class="option-heading">Profile Photo:</p>
+        <input type="file" @change="handlePhotoChange" accept="image/*">
+        <button class="upload-button" @click="uploadPhoto">Upload</button>
       </div>
       <button class="apply-button" @click="applySettings">Apply</button>
     </div>
@@ -61,6 +83,9 @@ export default {
       dropDown: false,
       settingsPopupVisible: false,
       selectedTheme: "default",
+      selectedFontSize: "medium", // Default font size
+      selectedLanguage: "en", // Default language preference
+      selectedPhoto: null, // To store the selected photo
     };
   },
 
@@ -75,7 +100,6 @@ export default {
     },
 
     closeDropdownOnClickOutside(event) {
-      // Check if the click is outside the dropdown
       const dropdown = this.$refs.dropdown;
       if (!dropdown.contains(event.target)) {
         this.dropDown = false;
@@ -92,17 +116,27 @@ export default {
     },
 
     applySettings() {
-      // Implement theme change logic here
       if (this.selectedTheme === "dark") {
-        document.body.classList.add("dark-theme"); // Apply dark theme
+        document.body.classList.add("dark-theme");
       } else {
-        document.body.classList.remove("dark-theme"); // Remove dark theme
+        document.body.classList.remove("dark-theme");
       }
+      document.body.style.fontSize = this.selectedFontSize;
+      console.log("Selected Language:", this.selectedLanguage);
       this.closeSettingsPopup();
     },
 
     logout() {
       this.$router.push({ path: "/login" });
+    },
+
+    handlePhotoChange(event) {
+      this.selectedPhoto = event.target.files[0];
+    },
+
+    uploadPhoto() {
+      console.log("Uploading photo...", this.selectedPhoto);
+      this.selectedPhoto = null;
     },
   },
 };
@@ -195,11 +229,19 @@ export default {
   cursor: pointer;
 }
 
-.theme-options {
+.option-heading {
+  font-weight: bold;
+}
+
+.theme-options,
+.font-size-options,
+.language-options {
   margin-bottom: 20px;
 }
 
-.theme-radio {
+.theme-radio,
+.font-size-options,
+.language-options {
   display: flex;
   align-items: center;
   margin-bottom: 10px;
@@ -220,6 +262,22 @@ export default {
 }
 
 .apply-button:hover {
+  background-color: #0056b3;
+}
+.profile-photo {
+  margin-bottom: 20px;
+}
+.upload-button {
+  margin-top: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.upload-button:hover {
   background-color: #0056b3;
 }
 </style>
