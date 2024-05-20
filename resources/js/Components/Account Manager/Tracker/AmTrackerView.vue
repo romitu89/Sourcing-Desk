@@ -57,16 +57,16 @@
 
     <div v-if="results">
       <responsive-table :results="results" :columns="columns" :buttonAction="buttonAction">
-        <template #edit="{ row }">
-          <div>
-            <button title="Edit" @click="editItem(row.client_id)">
-              <font-awesome-icon :icon="['fas', 'pen-to-square']" />
-            </button>
-            <button title="Delete" @click="deleteItem(row.client_id)">
-              <font-awesome-icon :icon="['fas', 'trash']" />
-            </button>
-          </div>
-        </template>
+      <template #edit="{ row }">
+        <div>
+          <button title="Edit" @click="editItem(row.id)">
+            <font-awesome-icon :icon="['fas', 'pen-to-square']" />
+          </button>
+          <button title="Delete" @click="deleteItem(row.id)">
+            <font-awesome-icon :icon="['fas', 'trash']" />
+          </button>
+        </div>
+      </template>
       </responsive-table>
     </div>
   </template>
@@ -102,11 +102,21 @@ export default {
         { label: 'Select Location', key: 'location' },
         { label: 'Edit', key: 'edit' },
       ],
+      empNameProp:this.empName
     };
   },
+  props:{
+          empName:{
+            type: String,
+            default: "",
+          },
+        },
   methods: {
     closePopup() {
       this.$emit('closePopup');
+    },
+    editItem(id) {
+      this.$emit("updateForm", id);
     },
     checkValidation(fieldName) {
       if (this.errors.hasOwnProperty(fieldName)) {
@@ -177,11 +187,31 @@ export default {
         });
       this.resetForm();
     },
-  },
+    clearMessage(){
+      this.empNameProp = ""
+
+    },
+    showSucess(){
+      if(this.empNameProp!=""){
+      Swal.fire({
+              position: "top-center",
+              icon: "success",
+              title: "User "+this.empNameProp+" edited successfully",
+              showConfirmButton: false,
+              timer: 3000,
+            });
+
+    }
+    },
+},
+
   mounted() {
     this.userLocationApi();
   },
   watch: {
+    empName(newVal){
+            this.empNameProp = newVal
+          },
     userLocation: {
       handler() {
         this.tracker.selectedLocation = ''; // Reset selected location

@@ -7,8 +7,20 @@
                <AmTrackerCreate @closePopup="closePopup()"
                v-if="title=='Tracker Create'"/>
 
-               <AmTrackerView @closePopup="closePopup()"
-               v-if="title=='Tracker View'"/>
+               <AmTrackerView
+               v-if="title=='Tracker View'"
+               :empName="empNameProp"
+                @updateForm="updateForm"
+                @editMessageUpdated="editMessageUpdated"
+                @closePopup="closePopup"
+               />
+
+               <AmTrackerEdit
+                v-if="titleProp === 'Edit Form'"
+                :editId="editIdProp"
+                @editSuccess="editSuccess"
+                @closePopup="closePopup"
+                />
 
            </div>
        </div>
@@ -18,6 +30,7 @@
    import { outsideClickMixin } from '../../../outsideClick.js';
    import AmTrackerCreate from './AmTrackerCreate.vue'
    import AmTrackerView from './AmTrackerView.vue'
+   import AmTrackerEdit from './AmTrackerEdit.vue'
 
        export default {
            name:'AmTrackerPopup',
@@ -25,8 +38,17 @@
            components:{
             AmTrackerCreate,
                AmTrackerView,
+               AmTrackerEdit
            },
            props: {
+           showPopUp: {
+               type: Boolean,
+               default: false
+           },
+           empName: {
+                type: String,
+                default: "",
+            },
            showPopUp: {
                type: Boolean,
                default: false
@@ -39,21 +61,41 @@
        watch: {
            tab(newVal) {
                this.showUserCreate = newVal;
-           }
+           },
+           editId(newVal) {
+                this.editIdProp = newVal;
+            },
+            title(newVal) {
+                this.titleProp = newVal;
+            },
+            empName(newVal) {
+                this.empNameProp = newVal;
+            },
        },
+
        data() {
            return {
-               showUserCreate: this.tab,
+            showUserCreate: this.tab,
+               editIdProp: this.editId,
+                titleProp: this.title,
+                empNameProp: this.empName,
            };
        },
        methods: {
-           closePopup() {
-               console.log(this.showUserCreate);
-               this.showUserCreate = false;
-               this.$emit('closePopup', this.showUserCreate);
-           }
+        closePopup() {
+            this.$emit("closePopup");
+        },
+        updateForm(id) {
+            this.$emit("updateForm", id);
+        },
+        editSuccess(name) {
+            this.$emit("editSuccess", name);
+        },
+        editMessageUpdated() {
+            console.log(this.empNameProp,"Value")
+            this.empNameProp = "";
+        },
        },
-       components: { AmTrackerCreate, AmTrackerView }
 
        }
    </script>
