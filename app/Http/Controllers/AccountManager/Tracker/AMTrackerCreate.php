@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\AccountManager\Tracker;
 
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Tracker;
@@ -24,7 +25,8 @@ class AMTrackerCreate extends Controller
     }
 
     public function store(Request $request)
-    {
+    {   
+        
         $messages = [
 
             'selectedClient.required' => 'Client Name is required.',
@@ -61,6 +63,17 @@ class AMTrackerCreate extends Controller
             'file' => 'required|file|mimes:xls,xlsx|max:2048',
         ], $messages);
 
+        $userEmail = auth()->user()->email_id;
+        $tracker_id = DB::table('trackers')
+        ->where('client_name', $request->selectedClient)
+        ->where('business_unit', $request->selectedBusiness)
+        ->where('location', $request->selectedLocation)
+        ->where('client_manager_name', $request->clientManagerName)
+        ->where('created_by', $userEmail)
+        ->value('tracker_id');
+       if($tracker_id != null){
+        Tracker::where('tracker_id', $tracker_id)->delete();
+       }
 
         $file = $request->file('file');
         $fileName = time() . '_' . $file->getClientOriginalName();
