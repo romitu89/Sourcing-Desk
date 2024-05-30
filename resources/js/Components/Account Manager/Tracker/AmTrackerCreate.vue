@@ -2,22 +2,39 @@
   <form @submit.prevent="submitForm">
     <table class="input_form">
       <tr>
+        <td><label>Select Location</label></td>
+        <td>
+          <select
+            id="location"
+            v-model="tracker.selectedLocation"
+            @change="fetchClients"
+            @blur="checkValidation('selectedLocation')"
+            name="location"
+          >
+            <option value="">Select Location</option>
+            <option v-for="item in uniqueLocations" :key="item" :value="item">
+              {{ item }}
+            </option></select
+          ><br />
+          <span v-if="errors.selectedLocation" class="error">{{
+            errors.selectedLocation[0]
+          }}</span>
+        </td>
+      </tr>
+
+      <tr v-if="tracker.selectedLocation">
         <td><label>Client Name</label></td>
         <td>
           <select
             id="client"
             v-model="tracker.selectedClient"
+            @change="fetchBusinessUnits"
             @blur="checkValidation('selectedClient')"
             name="client"
           >
             <option value="">Select Client</option>
-
-            <option
-              v-for="item in clientData"
-              :key="item.client_name"
-              :value="item.client_name"
-            >
-              {{ item.client_name }}
+            <option v-for="item in uniqueClients" :key="item" :value="item">
+              {{ item }}
             </option></select
           ><br />
           <span v-if="errors.selectedClient" class="error">{{
@@ -26,38 +43,18 @@
         </td>
       </tr>
 
-      <tr>
-        <td><label>Client Manager Name</label></td>
-        <td>
-          <input
-            type="text"
-            v-model="tracker.clientManagerName"
-            @blur="checkValidation('clientManagerName')"
-            placeholder="Client Manager Name"
-          />
-          <span v-if="errors.clientManagerName" class="error">{{
-            errors.clientManagerName[0]
-          }}</span>
-        </td>
-      </tr>
-
-      <tr>
-        <td><label>Buisness Unit</label></td>
+      <tr v-if="tracker.selectedClient">
+        <td><label>Business Unit</label></td>
         <td>
           <select
-            id="buisness"
+            id="business"
             v-model="tracker.selectedBusiness"
             @blur="checkValidation('selectedBusiness')"
-            name="buisness"
+            name="business"
           >
             <option value="">Select Unit</option>
-
-            <option
-              v-for="item in clientData"
-              :key="item.client_name"
-              :value="item.business_unit_name"
-            >
-              {{ item.business_unit_name }}
+            <option v-for="item in uniqueBusinessUnits" :key="item" :value="item">
+              {{ item }}
             </option></select
           ><br />
           <span v-if="errors.selectedBusiness" class="error">{{
@@ -66,27 +63,17 @@
         </td>
       </tr>
 
-      <tr>
-        <td><label>Select Location</label></td>
+      <tr v-if="tracker.selectedClient">
+        <td><label>Client Manager Name</label></td>
         <td>
-          <select
-            id="location"
-            v-model="tracker.selectedLocation"
-            @blur="checkValidation('selectedLocation')"
-            name="location"
-          >
-            <option value="">Select Location</option>
-
-            <option
-              v-for="item in clientData"
-              :key="item.location"
-              :value="item.location"
-            >
-              {{ item.location }}
-            </option></select
-          ><br />
-          <span v-if="errors.selectedLocation" class="error">{{
-            errors.selectedLocation[0]
+          <input
+            type="text"
+            v-model="tracker.clientManagerName"
+            @blur="checkValidation('clientManagerName')"
+            placeholder="Client Manager Name"
+          /><br />
+          <span v-if="errors.clientManagerName" class="error">{{
+            errors.clientManagerName[0]
           }}</span>
         </td>
       </tr>
@@ -101,7 +88,6 @@
             name="file"
             placeholder="Upload"
             @blur="checkValidation('file')"
-            :value="fileInput"
           /><br />
           <span v-if="errors.file" class="error">{{ errors.file[0] }}</span>
         </td>
@@ -111,7 +97,7 @@
         <td></td>
         <td>
           <button @click="closePopup()" class="cancel_btn">Cancel</button>
-          <button class="submit_btn">Submit</button>
+          <button type="submit" class="submit_btn">Submit</button>
         </td>
       </tr>
     </table>
@@ -121,6 +107,7 @@
 <script>
 import { commonFunctionsMixin } from "../../../function.js";
 import Swal from "sweetalert2";
+import axios from "axios";
 
 export default {
   name: "AmTrackerCreate",
@@ -133,23 +120,42 @@ export default {
         selectedBusiness: "",
         selectedLocation: "",
         file: null,
-        fileInput: "",
       },
       submitted: false,
       clientData: [],
       errors: {},
     };
   },
-
+  computed: {
+    uniqueLocations() {
+      return [...new Set(this.clientData.map((item) => item.location))];
+    },
+    uniqueClients() {
+      return [
+        ...new Set(
+          this.clientData
+            .filter((item) => item.location === this.tracker.selectedLocation)
+            .map((item) => item.client_name)
+        ),
+      ];
+    },
+    uniqueBusinessUnits() {
+      return [
+        ...new Set(
+          this.clientData
+            .filter((item) => item.client_name === this.tracker.selectedClient)
+            .map((item) => item.business_unit_name)
+        ),
+      ];
+    },
+  },
   methods: {
     closePopup() {
       this.$emit("closePopup");
     },
-
     handleFileChange(event) {
       this.tracker.file = event.target.files[0];
     },
-
     userLocationApi() {
       axios
         .get("/api/amtracker-create")
@@ -162,15 +168,26 @@ export default {
           this.errored = true;
         });
     },
-
     resetForm() {
       this.tracker.selectedClient = "";
       this.tracker.clientManagerName = "";
       this.tracker.selectedBusiness = "";
       this.tracker.selectedLocation = "";
-      this.fileInput = "";
+      this.tracker.file = null;
     },
-
+    checkValidation(fieldName) {
+      if (this.errors.hasOwnProperty(fieldName)) {
+        delete this.errors[fieldName];
+      }
+    },
+    fetchClients() {
+      this.tracker.selectedClient = "";
+      this.tracker.selectedBusiness = "";
+      this.tracker.clientManagerName = "";
+    },
+    fetchBusinessUnits() {
+      this.tracker.selectedBusiness = "";
+    },
     submitForm() {
       this.submitted = true; // Set the submitted flag to true when attempting to submit the form
       let formData = new FormData();
@@ -208,7 +225,6 @@ export default {
       // You might want to reset the form and submitted flag here if needed
     },
   },
-
   mounted() {
     this.userLocationApi();
   },
