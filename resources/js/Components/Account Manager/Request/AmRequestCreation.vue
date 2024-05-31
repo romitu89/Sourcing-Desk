@@ -1,7 +1,6 @@
 <template>
     <form @submit.prevent="submitForm">
       <table class="input_form">
-        <!-- Form Fields -->
         <!-- Subject Line -->
         <tr>
           <td><label>Subject Line</label></td>
@@ -42,8 +41,20 @@
           </td>
         </tr>
 
+        <!-- Select Location -->
+        <tr v-if="amRequest.jobType">
+          <td><label>Select Location</label></td>
+          <td>
+            <select id="location" v-model="amRequest.selectedLocation" @blur="checkValidation('selectedLocation')" name="location">
+              <option value="">Select Location</option>
+              <option v-for="location in uniqueLocations" :key="location" :value="location">{{ location }}</option>
+            </select><br />
+            <span v-if="errors.selectedLocation" class="error">{{ errors.selectedLocation[0] }}</span>
+          </td>
+        </tr>
+
         <!-- Client Name -->
-        <tr>
+        <tr v-if="amRequest.selectedLocation">
           <td><label>Client Name</label></td>
           <td>
             <select id="client" v-model="amRequest.selectedClient" @change="fetchBusinessUnits" @blur="checkValidation('selectedClient')" name="client">
@@ -55,10 +66,10 @@
         </tr>
 
         <!-- Business Unit -->
-        <tr>
+        <tr v-if="amRequest.selectedClient">
           <td><label>Business Unit</label></td>
           <td>
-            <select id="business" v-model="amRequest.selectedBusiness" @blur="checkValidation('selectedBusiness')" name="business">
+            <select id="business" v-model="amRequest.selectedBusiness" @change="fetchLocationsAndManagers" @blur="checkValidation('selectedBusiness')" name="business">
               <option value="">Select Unit</option>
               <option v-for="unit in uniqueBusinessUnits" :key="unit" :value="unit">{{ unit }}</option>
             </select><br />
@@ -66,20 +77,8 @@
           </td>
         </tr>
 
-        <!-- Select Location -->
-        <tr>
-          <td><label>Select Location</label></td>
-          <td>
-            <select id="location" v-model="amRequest.selectedLocation" @blur="checkValidation('selectedLocation')" name="location">
-              <option value="">Select Location</option>
-              <option v-for="location in uniqueLocations" :key="location" :value="location">{{ location }}</option>
-            </select><br />
-            <span v-if="errors.selectedLocation" class="error">{{ errors.selectedLocation[0] }}</span>
-          </td>
-        </tr>
-
         <!-- Client Manager Name -->
-        <tr>
+        <tr v-if="amRequest.selectedBusiness">
           <td><label>Client Manager Name</label></td>
           <td>
             <select id="manager" v-model="amRequest.clientManager" @blur="checkValidation('clientManager')" name="manager">
@@ -91,7 +90,7 @@
         </tr>
 
         <!-- Select Team -->
-        <tr>
+        <tr v-if="amRequest.clientManager">
           <td><label>Select Team</label></td>
           <td>
             <multi-select :selectedTeam="amRequest.selectedTeam" :options="teams" @update:selected="updateSelectedOptions" @blur="checkValidation('selectedTeam')"></multi-select>
@@ -100,7 +99,7 @@
         </tr>
 
         <!-- Upload File -->
-        <tr>
+        <tr v-if="amRequest.selectedTeam.length > 0">
           <td><label>Upload File</label></td>
           <td>
             <input type="file" ref="fileInput" @change="handleFileChange" accept=".xls, .xlsx" name="file" placeholder="Upload" /><br />
@@ -202,12 +201,12 @@
       },
       fetchBusinessUnits() {
         // Logic to fetch business units based on selected client
-        const selectedClient = this.amRequest.selectedClient;
-        if (selectedClient) {
-          this.amRequest.selectedBusiness = '';
-          this.amRequest.selectedLocation = '';
-          this.amRequest.clientManager = '';
-        }
+        this.amRequest.selectedBusiness = '';
+        this.amRequest.clientManager = '';
+      },
+      fetchLocationsAndManagers() {
+        // Logic to fetch locations and managers based on selected business unit
+        this.amRequest.clientManager = '';
       },
       updateSelectedOptions(newVal) {
         if (JSON.stringify(newVal) !== JSON.stringify(this.amRequest.selectedTeam)) {
