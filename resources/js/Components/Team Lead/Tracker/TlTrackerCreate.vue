@@ -8,6 +8,7 @@
           <select
             id="location"
             v-model="tlTracker.selectedLocation"
+            @change="fetchClients"
             @blur="checkValidation('selectedLocation')"
             name="location"
           >
@@ -30,7 +31,7 @@
           <select
             id="client"
             v-model="tlTracker.selectedClient"
-            @change="fetchClientManagers"
+            @change="fetchBusinessUnits"
             @blur="checkValidation('selectedClient')"
             name="client"
           >
@@ -46,35 +47,14 @@
         </td>
       </tr>
 
-      <!-- Client Manager Name -->
-      <tr v-if="tlTracker.selectedClient">
-        <td><label>Client Manager Name</label></td>
-        <td>
-          <select
-            id="clientManager"
-            v-model="tlTracker.clientManagerName"
-            @blur="checkValidation('clientManagerName')"
-            name="clientManager"
-          >
-            <option value="">Select Manager</option>
-            <option v-for="item in uniqueManagers" :key="item" :value="item">
-              {{ item }}
-            </option>
-          </select>
-          <br />
-          <span v-if="errors.clientManagerName" class="error">{{
-            errors.clientManagerName[0]
-          }}</span>
-        </td>
-      </tr>
-
       <!-- Business Unit -->
-      <tr v-if="tlTracker.clientManagerName">
+      <tr v-if="tlTracker.selectedClient">
         <td><label>Business Unit</label></td>
         <td>
           <select
             id="businessUnit"
             v-model="tlTracker.selectedBusiness"
+            @change="fetchClientManagerName"
             @blur="checkValidation('selectedBusiness')"
             name="businessUnit"
           >
@@ -90,8 +70,31 @@
         </td>
       </tr>
 
-      <!-- Upload File -->
+      <!-- Client Manager Name -->
       <tr v-if="tlTracker.selectedBusiness">
+        <td><label>Client Manager Name</label></td>
+        <td>
+          <select
+            id="clientManager"
+            v-model="tlTracker.clientManagerName"
+            @change="enableUploadFile"
+            @blur="checkValidation('clientManagerName')"
+            name="clientManager"
+          >
+            <option value="">Select Manager</option>
+            <option v-for="item in uniqueManagers" :key="item" :value="item">
+              {{ item }}
+            </option>
+          </select>
+          <br />
+          <span v-if="errors.clientManagerName" class="error">{{
+            errors.clientManagerName[0]
+          }}</span>
+        </td>
+      </tr>
+
+      <!-- Upload File -->
+      <tr v-if="tlTracker.clientManagerName">
         <td><label>Upload File</label></td>
         <td>
           <input
@@ -141,21 +144,38 @@ export default {
     };
   },
   computed: {
-    uniqueClients() {
-      const clients = this.userLocation.map((item) => item.client_name);
-      return [...new Set(clients)];
+    uniqueLocations() {
+      return [...new Set(this.userLocation.map((item) => item.location))];
     },
-    uniqueManagers() {
-      const managers = this.userLocation.map((item) => item.client_manager_name);
-      return [...new Set(managers)];
+
+    uniqueClients() {
+      return [
+        ...new Set(
+          this.userLocation
+            .filter((item) => item.location === this.tlTracker.selectedLocation)
+            .map((item) => item.client_name)
+        ),
+      ];
     },
     uniqueBusinessUnits() {
-      const units = this.userLocation.map((item) => item.business_unit_name);
-      return [...new Set(units)];
+      return [
+        ...new Set(
+          this.userLocation
+            .filter((item) => item.client_name === this.tlTracker.selectedClient)
+            .map((item) => item.business_unit_name)
+        ),
+      ];
     },
-    uniqueLocations() {
-      const locations = this.userLocation.map((item) => item.location);
-      return [...new Set(locations)];
+
+    uniqueManagers() {
+        return [
+        ...new Set(
+          this.userLocation
+            .filter((item) => item.business_unit_name === this.tlTracker.selectedBusiness)
+            .map((item) => item.client_manager_name)
+        ),
+      ];
+
     },
   },
   methods: {
@@ -184,9 +204,27 @@ export default {
           this.errored = true;
         });
     },
-    fetchClientManagers() {
-      // Logic to fetch client managers based on selected client
+    resetForm() {
+      this.tlTracker.selectedClient = "";
       this.tlTracker.clientManagerName = "";
+      this.tlTracker.selectedBusiness = "";
+      this.tlTracker.selectedLocation = "";
+      this.tlTracker.file = null;
+    },
+    fetchClients() {
+      this.tlTracker.selectedClient = "";
+      this.tlTracker.selectedBusiness = "";
+      this.tlTracker.clientManagerName = "";
+    },
+    fetchBusinessUnits() {
+      this.tlTracker.selectedBusiness = "";
+      this.tlTracker.clientManagerName = "";
+    },
+    fetchClientManagerName() {
+      this.tlTracker.clientManagerName = "";
+    },
+    enableUploadFile() {
+      this.tlTracker.file = null;
     },
     submitForm() {
       let formData = new FormData();
