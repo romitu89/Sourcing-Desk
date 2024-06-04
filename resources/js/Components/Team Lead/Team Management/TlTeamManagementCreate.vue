@@ -2,51 +2,48 @@
     <form @submit.prevent="submitForm">
       <table class="input_form">
         <tr>
-          <td><label>Select Location</label></td>
-          <td>
-            <select
-              id="location"
-              v-model="teamManager.selectedLocation"
-              @blur="checkValidation('selectedLocation')"
-              name="location"
-            >
-              <option value="">Select Location</option>
-              <option
-                v-for="item in getUniqueValues(userLocation, 'location')"
-                :key="item"
-                :value="item"
-              >
-                {{ item }}
-              </option>
-            </select>
-            <br />
-            <span v-if="errors.selectedLocation" class="error">{{ errors.selectedLocation[0] }}</span>
-          </td>
-        </tr>
+        <td><label>Select Location</label></td>
+        <td>
+          <select
+            id="location"
+            v-model="teamManager.selectedLocation"
+            @change="fetchClients"
+            @blur="checkValidation('selectedLocation')"
+            name="location"
+          >
+            <option value="">Select Location</option>
+            <option v-for="item in uniqueLocations" :key="item" :value="item">
+              {{ item }}
+            </option>
+          </select>
+          <br />
+          <span v-if="errors.selectedLocation" class="error">{{
+            errors.selectedLocation[0]
+          }}</span>
+        </td>
+      </tr>
 
-        <!-- Conditional rendering for Client Name based on the selection of Location -->
-        <tr v-if="teamManager.selectedLocation">
-          <td><label>Client Name</label></td>
-          <td>
-            <select
-              id="name"
-              v-model="teamManager.clientName"
-              @blur="checkValidation('clientName')"
-              name="name"
-            >
-              <option value="">Select Client</option>
-              <option
-                v-for="item in getUniqueValues(client, 'client_name')"
-                :key="item"
-                :value="item"
-              >
-                {{ item }}
-              </option>
-            </select>
-            <br />
-            <span v-if="errors.clientName" class="error">{{ errors.clientName[0] }}</span>
-          </td>
-        </tr>
+      <tr v-if="teamManager.selectedLocation">
+        <td><label>Client Name</label></td>
+        <td>
+          <select
+            id="client"
+            v-model="teamManager.clientName"
+
+            @blur="checkValidation('clientName')"
+            name="client"
+          >
+            <option value="">Select Client</option>
+            <option v-for="item in uniqueClients" :key="item" :value="item">
+              {{ item }}
+            </option>
+          </select>
+          <br />
+          <span v-if="errors.clientName" class="error">{{
+            errors.clientName[0]
+          }}</span>
+        </td>
+      </tr>
 
         <!-- Conditional rendering for Job Type based on the selection of Client Name -->
         <tr v-if="teamManager.clientName">
@@ -116,8 +113,23 @@
         userLocation: [],
         client: [],
         teams: [],
+        location: [],
       };
     },
+    computed: {
+    uniqueLocations() {
+      return [...new Set(this.location.map((item) => item.location))];
+    },
+    uniqueClients() {
+      return [
+        ...new Set(
+          this.client
+            .filter((item) => item.location === this.teamManager.selectedLocation)
+            .map((item) => item.client_name)
+        ),
+      ];
+    },
+  },
     methods: {
       closePopup() {
         this.$emit("closePopup");
@@ -127,8 +139,8 @@
           .get("/api/tlteam-create")
           .then((response) => {
             console.log(response.data.location, "response.data.location");
-            this.userLocation = response.data.location;
-            this.client = response.data.client;
+            this.location = response.data.client;
+          this.client = response.data.client;
             const teamEmail = response.data.teamEmail; // Corrected variable name to match your initial question
             teamEmail.forEach((tm) => {
               this.teams.push({

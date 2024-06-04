@@ -13,13 +13,13 @@ class TLTeamCreate extends Controller
 {
     public function create()
     {
-        $loc = Client::select('location')->distinct()->get();
-        $client = Client::select('client_name')->distinct()->where("account_manager_id",auth()->user()->id)->get();
+        // $loc = Client::select('location')->distinct()->get();
+        $client = Client::select('location', 'client_name')->distinct()->where("account_manager_id", auth()->user()->id)->get();
         $tm = User::select('email_id')->distinct()->where('reporting_to_tl', auth()->user()->email_id)->get();
 
         return response()->json([
             'teamEmail' => $tm,
-            'location' => $loc,
+            // 'location' => $loc,
             'client' => $client
         ]);
     }
@@ -72,11 +72,11 @@ class TLTeamCreate extends Controller
             'user_id' => auth()->user()->id,
         ]);
 
-// Create a new team record
-$teams->save();
+        // Create a new team record
+        $teams->save();
 
-return response()->json(['message' => 'Team created successfully!']);
-}
+        return response()->json(['message' => 'Team created successfully!']);
+    }
 
 
     // public function destroy($id)
