@@ -1,128 +1,119 @@
 <template>
-  <form @submit.prevent="submitForm">
-    <table class="input_form">
-      <!-- Select Location -->
-      <tr>
-        <td><label>Select Location</label></td>
-        <td>
-          <select
-            id="location"
-            v-model="tlTracker.selectedLocation"
-            @change="fetchClients"
-            @blur="checkValidation('selectedLocation')"
-            name="location"
-          >
-            <option value="">Select Location</option>
-            <option v-for="item in uniqueLocations" :key="item" :value="item">
-              {{ item }}
-            </option>
-          </select>
-          <br />
-          <span v-if="errors.selectedLocation" class="error">{{
-            errors.selectedLocation[0]
-          }}</span>
-        </td>
-      </tr>
+    <form @submit.prevent="submitForm">
+      <table class="input_form">
+        <!-- Select Location -->
+        <tr>
+          <td><label>Select Location</label></td>
+          <td>
+            <select
+              id="location"
+              v-model="tlTracker.selectedLocation"
+              @change="fetchClients"
+              @blur="checkValidation('selectedLocation')"
+              name="location"
+            >
+              <option value="">Select Location</option>
+              <option v-for="item in uniqueLocations" :key="item" :value="item">
+                {{ item }}
+              </option>
+            </select>
+            <br />
+            <span v-if="errors.selectedLocation" class="error">{{ errors.selectedLocation[0] }}</span>
+          </td>
+        </tr>
 
-      <!-- Client Name -->
-      <tr v-if="tlTracker.selectedLocation">
-        <td><label>Client Name</label></td>
-        <td>
-          <select
-            id="client"
-            v-model="tlTracker.selectedClient"
-            @change="fetchBusinessUnits"
-            @blur="checkValidation('selectedClient')"
-            name="client"
-          >
-            <option value="">Select Client</option>
-            <option v-for="item in uniqueClients" :key="item" :value="item">
-              {{ item }}
-            </option>
-          </select>
-          <br />
-          <span v-if="errors.selectedClient" class="error">{{
-            errors.selectedClient[0]
-          }}</span>
-        </td>
-      </tr>
+        <!-- Client Name -->
+        <tr v-if="tlTracker.selectedLocation">
+          <td><label>Client Name</label></td>
+          <td>
+            <select
+              id="client"
+              v-model="tlTracker.selectedClient"
+              @change="fetchBusinessUnits"
+              @blur="checkValidation('selectedClient')"
+              name="client"
+            >
+              <option value="">Select Client</option>
+              <option v-for="item in uniqueClients" :key="item" :value="item">
+                {{ item }}
+              </option>
+            </select>
+            <br />
+            <span v-if="errors.selectedClient" class="error">{{ errors.selectedClient[0] }}</span>
+          </td>
+        </tr>
 
-      <!-- Business Unit -->
-      <tr v-if="tlTracker.selectedClient">
-        <td><label>Business Unit</label></td>
-        <td>
-          <select
-            id="businessUnit"
-            v-model="tlTracker.selectedBusiness"
-            @change="fetchClientManagerName"
-            @blur="checkValidation('selectedBusiness')"
-            name="businessUnit"
-          >
-            <option value="">Select Unit</option>
-            <option v-for="item in uniqueBusinessUnits" :key="item" :value="item">
-              {{ item }}
-            </option>
-          </select>
-          <br />
-          <span v-if="errors.selectedBusiness" class="error">{{
-            errors.selectedBusiness[0]
-          }}</span>
-        </td>
-      </tr>
+        <!-- Business Unit -->
+        <tr v-if="tlTracker.selectedClient">
+          <td><label>Business Unit</label></td>
+          <td>
+            <select
+              id="businessUnit"
+              v-model="tlTracker.selectedBusiness"
+              @change="fetchClientManagerName"
+              @blur="checkValidation('selectedBusiness')"
+              name="businessUnit"
+            >
+              <option value="">Select Unit</option>
+              <option v-for="item in uniqueBusinessUnits" :key="item" :value="item">
+                {{ item }}
+              </option>
+            </select>
+            <br />
+            <span v-if="errors.selectedBusiness" class="error">{{ errors.selectedBusiness[0] }}</span>
+          </td>
+        </tr>
 
-      <!-- Client Manager Name -->
-      <tr v-if="tlTracker.selectedBusiness">
-        <td><label>Client Manager Name</label></td>
-        <td>
-          <select
-            id="clientManager"
-            v-model="tlTracker.clientManagerName"
-            @change="enableUploadFile"
-            @blur="checkValidation('clientManagerName')"
-            name="clientManager"
-          >
-            <option value="">Select Manager</option>
-            <option v-for="item in uniqueManagers" :key="item" :value="item">
-              {{ item }}
-            </option>
-          </select>
-          <br />
-          <span v-if="errors.clientManagerName" class="error">{{
-            errors.clientManagerName[0]
-          }}</span>
-        </td>
-      </tr>
+        <!-- Client Manager Name -->
+        <tr v-if="tlTracker.selectedBusiness">
+          <td><label>Client Manager Name</label></td>
+          <td>
+            <select
+              id="clientManager"
+              v-model="tlTracker.clientManagerName"
+              @change="enableUploadFile"
+              @blur="checkValidation('clientManagerName')"
+              name="clientManager"
+            >
+              <option value="">Select Manager</option>
+              <option v-for="item in uniqueManagers" :key="item" :value="item">
+                {{ item }}
+              </option>
+            </select>
+            <br />
+            <span v-if="errors.clientManagerName" class="error">{{ errors.clientManagerName[0] }}</span>
+          </td>
+        </tr>
 
-      <!-- Upload File -->
-      <tr v-if="tlTracker.clientManagerName">
-        <td><label>Upload File</label></td>
-        <td>
-          <input
-            type="file"
-            @change="handleFileChange"
-            accept=".xls, .xlsx"
-            name="file"
-            placeholder="Upload"
-            @blur="checkValidation('file')"
-          />
-          <br />
-          <span v-if="errors.file" class="error">{{ errors.file[0] }}</span>
-        </td>
-      </tr>
+        <!-- Upload File -->
+        <tr v-if="tlTracker.clientManagerName">
+          <td><label>Upload File</label></td>
+          <td>
+            <input
+              type="file"
+              @change="handleFileChange"
+              accept=".xls, .xlsx"
+              name="file"
+              placeholder="Upload"
+              @blur="checkValidation('file')"
+            />
+            <br />
+            <span v-if="errors.file" class="error">{{ errors.file[0] }}</span>
+          </td>
+        </tr>
 
-      <!-- Buttons -->
-      <tr>
-        <td></td>
-        <td>
-          <button @click="closePopup()" class="cancel_btn">Cancel</button>
-          <button class="submit_btn">Submit</button>
-        </td>
-      </tr>
-    </table>
-  </form>
-</template>
-
-<script>
+        <!-- Buttons -->
+        <tr>
+          <td></td>
+          <td>
+            <button @click="closePopup()" class="cancel_btn">Cancel</button>
+            <button class="submit_btn">Submit</button>
+          </td>
+        </tr>
+      </table>
+    </form>
+  </template>
+  <script>
 import { commonFunctionsMixin } from "../../../function.js";
 import Swal from "sweetalert2";
 import axios from "axios";
@@ -210,6 +201,7 @@ export default {
       this.tlTracker.selectedBusiness = "";
       this.tlTracker.selectedLocation = "";
       this.tlTracker.file = null;
+      this.errors = {};
     },
     fetchClients() {
       this.tlTracker.selectedClient = "";
@@ -247,6 +239,8 @@ export default {
               title: "User created successfully",
               showConfirmButton: false,
               timer: 5000,
+            }).then(() => {
+              this.resetForm(); // Reset form after successful submission
             });
           } else {
             Swal.fire("Form not Submitted");
