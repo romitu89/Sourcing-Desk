@@ -5,14 +5,16 @@
         <tr>
           <th>From</th>
           <th>Subject</th>
+          <th>Attaachment</th>
           <th>Time</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="email in emails" :key="email.id" @click="selectEmail(email)">
-          <td>{{ email.from }}</td>
-          <td>{{ email.subject }}</td>
-          <td>{{ email.time }}</td>
+          <td>{{ email.created_by }}</td>
+          <td>{{ email.subject_line }}</td>
+          <td>{{ email.file_upload_jd }}</td>
+          <td>{{ email.created_at }}</td>
         </tr>
       </tbody>
     </table>

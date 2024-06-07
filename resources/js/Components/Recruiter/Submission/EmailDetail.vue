@@ -3,13 +3,13 @@
     <button @click="$emit('back')" class="back-button">
       <font-awesome-icon icon="arrow-left" /> Back
     </button>
-    <h2>{{ email.subject }}</h2>
-    <p class="email-from"><strong>From:</strong> {{ email.from }}</p>
-    <p class="email-body">{{ email.body }}</p>
-    <div v-if="email.attachments.length" class="email-attachments">
+    <h2>{{ email.subject_line }}</h2>
+    <p class="email-from"><strong>From:</strong> {{ email.created_by }}</p>
+    <p class="email-body">{{ email.request_body }}</p>
+    <div v-if="email.file_upload_jd.length" class="email-attachments">
       <h3>Attachments</h3>
       <ul>
-        <li v-for="attachment in email.attachments" :key="attachment.id">
+        <li v-for="attachment in email.file_upload_jd" :key="attachment.id">
           {{ attachment.name }}
         </li>
       </ul>

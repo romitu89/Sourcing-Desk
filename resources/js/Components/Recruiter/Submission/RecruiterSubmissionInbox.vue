@@ -17,42 +17,36 @@ export default {
   data() {
     return {
       emails: [
-        {
-          id: 1,
-          from: "kapil@test.com",
-          subject: "Profiles for CCNA",
-          time: "6:37 AM",
-          body: "Here are the profiles you requested...",
-          attachments: [
-            { id: 1, name: "Profile1.pdf" },
-            { id: 2, name: "Profile2.pdf" },
-          ],
-        },
-        {
-          id: 1,
-          from: "kapil@test.com",
-          subject: "Profiles for CCNA",
-          time: "6:37 AM",
-          body: "Here are the profiles you requested...",
-          attachments: [
-            { id: 1, name: "Profile1.pdf" },
-            { id: 2, name: "Profile2.pdf" },
-          ],
-        },
-        {
-          id: 1,
-          from: "kapil@test.com",
-          subject: "Profiles for CCNA",
-          time: "6:37 AM",
-          body: "Here are the profiles you requested...",
-          attachments: [
-            { id: 1, name: "Profile1.pdf" },
-            { id: 2, name: "Profile2.pdf" },
-          ],
-        },
-        // Add more emails as needed
+
+
       ],
     };
+  },
+  methods:{
+
+closePopup() {
+this.$emit("closePopup");
+},
+
+userLocationApi()
+{
+axios
+.get('/api/recruiter-submission')
+.then(response => {
+this.emails = response.data.userEmail
+
+
+})
+.catch(error => {
+console.log(error)
+this.errored = true
+})
+
+},
+
+},
+mounted() {
+    this.userLocationApi();
   },
 };
 </script>
