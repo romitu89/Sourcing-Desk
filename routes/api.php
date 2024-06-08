@@ -457,11 +457,11 @@ Route::middleware('web')->group(function () {
 
     // Submission Active Requirement
 
-    // Route::get('/submission-active/{id}', [ActiveReq::class, 'create']);
+    Route::get('/submission-inbox/{id}', [ActiveReq::class, 'create']);
 
-    // Route::Post('/submission-active/{id}', [ActiveReq::class, 'store']);
+    Route::Post('/submission-active/{id}', [ActiveReq::class, 'store']);
 
-    // Route::get('/submission-inbox', [RecruiterSubmission::class, 'create']);
+    Route::get('/submission-inbox', [ActiveReq::class, 'create']);
 });
     // Additional routes if needed...
 //});

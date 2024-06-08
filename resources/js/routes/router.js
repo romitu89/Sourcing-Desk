@@ -45,6 +45,8 @@ import RecruiterDashboard from '../Components/Recruiter/Dashboard/RecruiterDashb
 import RecruiterSubmission from '../Components/Recruiter/Submission/RecruiterSubmission.vue'
 import RecruiterCallingCandidate from '../Components/Recruiter/Calling Candidate/RecruiterCallingCandidate.vue'
 import RecruiterClientsMis from '../Components/Recruiter/Clients Mis/RecruiterClientsMis.vue'
+import ActiveRequirement from '../Components/Recruiter/Submission/ActiveRequirement.vue'
+
 
 
 const routes=[
@@ -238,7 +240,7 @@ const routes=[
         name: 'TeamLead',
         path: '/teamLead',
         component: TeamLead,
-        meta: { requiresAuth: true, allowedRoles: ['teamLead'] },   
+        meta: { requiresAuth: true, allowedRoles: ['teamLead'] },
         children: [
             {
                 name:'TlDashboard',
@@ -285,13 +287,13 @@ const routes=[
 
             ]
             },
-      
+
             {
                 name: 'Recruiter',
                 path: '/recruiter',
                 component: Recruiter,
                 // meta: { layout: 'Recruiter' }
-                meta: { requiresAuth: true, allowedRoles: ['recruiter'] },   
+                meta: { requiresAuth: true, allowedRoles: ['recruiter'] },
                 children: [
                     {
                         name:'RecruiterDashboard',
@@ -317,10 +319,16 @@ const routes=[
                         component: RecruiterClientsMis,
                         meta: { layout: 'RecruiterClientsMis' }
                     },
+                    {
+                        name:'ActiveRequirement',
+                        path:'activeRequirement',
+                        component: ActiveRequirement,
+                        meta: { layout: 'ActiveRequirement' }
+                    },
                 ]
             },
 
-        
+
       // Additional routes...
     ];
 
@@ -334,7 +342,7 @@ router.beforeEach((to, from, next) => {
     const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
     const userRole = localStorage.getItem('userRole');
     const pathsThatClearStorage = ['/']; // Assuming '/login' is your login path and '/' is your home page
- 
+
     if (pathsThatClearStorage.includes(to.path)) {
         // Clear localStorage when navigating directly to login or home page
         clearLocalStorageAndRedirect()
@@ -347,15 +355,15 @@ router.beforeEach((to, from, next) => {
         if (!isAuthenticated) {
             clearLocalStorageAndRedirect()
             // Redirect to login form in App.vue if not authenticated
-            
-        } 
+
+        }
         else {
             // Check if the route is restricted by role
             if (to.matched.some(record => record.meta.allowedRoles && !record.meta.allowedRoles.includes(userRole))) {
                 // Redirect to a default route or show an error/notification
                 clearLocalStorageAndRedirect()
-              
-            } 
+
+            }
             else {
                 if (to.path === '/admin' && userRole === 'admin') {
                     next('/admin/dashboard');
@@ -376,15 +384,15 @@ router.beforeEach((to, from, next) => {
 
             // Clear localStorage and redirect to login page for any undefined routes
             clearLocalStorageAndRedirect()
-           
-            
+
+
 
         }
         else{
                     next();
         }
                 }
-              
+
             }
         }
     } else {

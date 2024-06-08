@@ -14,12 +14,20 @@
         </li>
       </ul>
     </div>
+    <button @click="submitForm" class="submit-button">Submit</button>
   </div>
 </template>
 
 <script>
 export default {
   props: ["email"],
+  methods: {
+    submitForm() {
+    //   this.$router.push("/recruiter/activeRequirement");
+      this.$router.push({ name: 'ActiveRequirement', params: { id: this.email.request_id } });
+      // Add your submit logic here
+    },
+  },
 };
 </script>
 
@@ -47,6 +55,16 @@ export default {
 
 .back-button svg {
   margin-right: 8px;
+}
+
+.submit-button {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
 }
 
 .email-detail h2 {
