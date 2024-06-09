@@ -429,7 +429,7 @@ export default {
   },
   methods: {
     closePopup() {
-      this.$emit("closePopup");
+        this.$router.go(-1);
     },
     handleFileChange(event) {
       const fieldName = event.target.name;
