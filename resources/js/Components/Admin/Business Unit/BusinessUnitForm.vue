@@ -137,6 +137,7 @@
         this.client.selectedManager=""
         this.client.selectedLocation=""
         this.client.selectedManagerName=""
+        this.client.selectedAccountManager=""
     },
 
     submitForm() {

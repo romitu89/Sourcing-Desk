@@ -1,108 +1,132 @@
 <template>
+  <div>
     <form @submit.prevent="submitForm">
-     <table class="input_form">
-     <tr>
-     <td ><label >Select Location</label></td>
-     <td ><select id="location" v-model="amSubmission.selectedLocation" name="location">
-     <option value="">Select Location</option>
-     <option v-for="item in userLocation" :key='item.location' :value="item.location">{{ item.location }}</option>
-
-     </select><br><span v-if="errors.selectedLocation" class="error">{{errors.selectedLocation[0]}}</span></td>
-     </tr>
-
-     <tr>
-        <td></td>
-       <td> <button @click="closePopup()" class="cancel_btn">Cancel</button>
-        <button class="submit_btn">Submit</button> </td>
-    </tr>
-
-     </table>
-
+      <table class="input_form">
+        <tr>
+          <td><label>Select Location</label></td>
+          <td>
+            <select
+              v-model="amSubmission.selectedLocation"
+              @blur="checkValidation('selectedLocation')"
+              name="location"
+            >
+              <option value="">Select Location</option>
+              <option v-for="item in uniqueLocations" :key="item" :value="item">
+                {{ item }}
+              </option>
+            </select>
+            <br />
+            <span v-if="errors.selectedLocation" class="error">{{
+              errors.selectedLocation[0]
+            }}</span>
+          </td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>
+            <button @click="closePopup" class="cancel_btn">Cancel</button>
+            <button class="submit_btn">Submit</button>
+          </td>
+        </tr>
+      </table>
     </form>
 
- </template>
+    <responsive-table v-if="results.length" :data="results" :columns="columns" />
+  </div>
+</template>
 
 <script>
-import { commonFunctionsMixin } from '../../../function.js';
-    export default {
+import axios from "axios";
+import { commonFunctionsMixin } from "../../../function.js";
+import ResponsiveTable from "../../Shared Folder/ResponsiveTable.vue";
 
-        name:'AmSubmissionRequest',
-        mixins:[commonFunctionsMixin],
-        data ()
-        {
-            return{
-                amSubmission:{
-                    selectedLocation:"",
-                },
-                userLocation:[],
-                errors:[],
-            };
-        },
-
-        methods:{
-            closePopup() {
+export default {
+  name: "AmSubmissionRequest",
+  mixins: [commonFunctionsMixin],
+  components: {
+    ResponsiveTable,
+  },
+  data() {
+    return {
+      buttonAction: false,
+      amSubmission: {
+        selectedLocation: "",
+      },
+      userLocation: [],
+      location: [],
+      errors: {},
+      results: [],
+      columns: [
+        { label: "Client Name", key: "client_name" },
+        { label: "Client Manager Name", key: "client_manager_name" },
+        { label: "Business Unit", key: "business_unit" },
+        { label: "Select Location", key: "location" },
+        { label: "Edit", key: "edit" },
+      ],
+      empNameProp: this.empName,
+    };
+  },
+  props: {
+    empName: {
+      type: String,
+      default: "",
+    },
+  },
+  computed: {
+    uniqueLocations() {
+      return [...new Set(this.userLocation.map((item) => item.location))];
+    },
+  },
+  methods: {
+    closePopup() {
       this.$emit("closePopup");
     },
-
-userLocationApi()
-{
-axios
-.get('/api/amrequest-create')
-.then(response => {
-console.log(response.data, "data")
-// console.log(response.data.location, "location")
-
-this.userLocation = response.data
-console.log(this.userLocation, "location")
-})
-.catch(error => {
-console.log(error)
-this.errored = true
-})
-
-},
-
-submitForm() {
-    this.submitted = true; // Set the submitted flag to true when attempting to submit the form
-    // if (this.isFormValid) {
-
-        axios.post('/api/amrequest-create', this.amSubmission)
-  .then(response => {
-      console.log('Form submitted:', response.data.message);
-      if(response.data.message){
-        this.errors={};
-
-         Swal.fire({
-            position: "top-center",
-            icon: "success",
-            title: "User created successfully",
-            showConfirmButton: false,
-            timer: 3000
-            });
-
+    checkValidation(fieldName) {
+      if (this.errors.hasOwnProperty(fieldName)) {
+        delete this.errors[fieldName];
       }
-      else{
-        Swal.fire("Form not Submitted");
-      }
-
-      // Handle the response as needed
-   })
-  .catch(error => {
-    //   console.error('Error submitting form:', error.response.data.errors);
-      this.errors= error.response.data.errors;
-   });
-
-// You might want to reset the form and submitted flag here if needed
-
     },
-},
-
-mounted(){
-this.userLocationApi()
-
-}
-
-
-
-    }
+    userLocationApi() {
+      axios
+        .get("/api/submission-approve")
+        .then((response) => {
+          this.userLocation = response.data.location;
+          console.log("Fetched user locations:", this.userLocation); // Log the fetched locations
+        })
+        .catch((error) => {
+          console.error("Error fetching user location:", error);
+        });
+    },
+    submitForm() {
+      console.log("Submitting form with data:", this.amSubmission); // Log the form data being submitted
+      axios
+        .post("/api/submission-approve", this.amSubmission)
+        .then((response) => {
+          this.results = response.data.results;
+          console.log("Submission results:", this.results); // Log the results
+          if (Object.values(this.errors).length === 0) {
+            this.buttonAction = true;
+          }
+        })
+        .catch((error) => {
+          console.error("Error submitting form:", error.response.data.errors);
+          this.errors = error.response.data.errors;
+        });
+    },
+  },
+  mounted() {
+    this.userLocationApi();
+  },
+  watch: {
+    empName(newVal) {
+      this.empNameProp = newVal;
+    },
+    userLocation: {
+      handler() {
+        this.amSubmission.selectedLocation = ""; // Reset selected location
+      },
+      deep: true,
+    },
+  },
+};
 </script>
