@@ -16,13 +16,11 @@
               </option>
             </select>
             <br />
-            <span v-if="errors.selectedLocation" class="error">{{
-              errors.selectedLocation[0]
-            }}</span>
+            <span v-if="errors.selectedLocation" class="error">{{ errors.selectedLocation[0] }}</span>
           </td>
         </tr>
 
-        <tr v-if="filteredData.length > 0">
+        <tr v-if="client.selectedLocation">
           <td><label>Client Name</label></td>
           <td>
             <select
@@ -37,13 +35,11 @@
               </option>
             </select>
             <br />
-            <span v-if="errors.clientName" class="error">{{
-              errors.clientName[0]
-            }}</span>
+            <span v-if="errors.clientName" class="error">{{ errors.clientName[0] }}</span>
           </td>
         </tr>
 
-        <tr v-if="filteredClients.length > 0">
+        <tr v-if="client.clientName">
           <td><label>Business Unit</label></td>
           <td>
             <select
@@ -53,22 +49,16 @@
               name="business"
             >
               <option value="">Select B-Unit</option>
-              <option
-                v-for="item in uniqueBusinessUnits"
-                :key="item"
-                :value="item"
-              >
+              <option v-for="item in uniqueBusinessUnits" :key="item" :value="item">
                 {{ item }}
               </option>
             </select>
             <br />
-            <span v-if="errors.businessName" class="error">{{
-              errors.businessName[0]
-            }}</span>
+            <span v-if="errors.businessName" class="error">{{ errors.businessName[0] }}</span>
           </td>
         </tr>
 
-        <tr v-if="filteredBusinessUnits.length > 0">
+        <tr v-if="client.businessName">
           <td><label>Client Manager Name</label></td>
           <td>
             <select
@@ -78,22 +68,16 @@
               name="manager"
             >
               <option value="">Select Manager</option>
-              <option
-                v-for="item in uniqueClientManagers"
-                :key="item"
-                :value="item"
-              >
+              <option v-for="item in uniqueClientManagers" :key="item" :value="item">
                 {{ item }}
               </option>
             </select>
             <br />
-            <span v-if="errors.clientManager" class="error">{{
-              errors.clientManager[0]
-            }}</span>
+            <span v-if="errors.clientManager" class="error">{{ errors.clientManager[0] }}</span>
           </td>
         </tr>
 
-        <tr v-if="filteredClientManagers.length > 0">
+        <tr v-if="client.clientManager">
           <td><label>Select Matrix</label></td>
           <td>
             <select id="matrix" v-model="client.matrix" name="matrix">
@@ -119,9 +103,7 @@
               @blur="checkValidation('fromDate')"
               type="date"
             />
-            <span v-if="errors.fromDate" class="error">{{
-              errors.fromDate[0]
-            }}</span>
+            <span v-if="errors.fromDate" class="error">{{ errors.fromDate[0] }}</span>
           </td>
         </tr>
 
@@ -151,6 +133,7 @@
   <script>
   import { commonFunctionsMixin } from "../../../function.js";
   import Swal from "sweetalert2";
+  import axios from "axios";
 
   export default {
     name: "ClientManagerReportForm",
@@ -221,30 +204,34 @@
             this.filteredData = this.clientData.filter(
               (item) => item.location === this.client.selectedLocation
             );
-            this.client.clientName = "";
-            this.client.businessName = "";
-            this.client.clientManager = "";
+            this.resetFields(["clientName", "businessName", "clientManager", "matrix", "fromDate", "toDate"]);
             break;
           case "client":
             this.filteredClients = this.filteredData.filter(
               (item) => item.client_name === this.client.clientName
             );
-            this.client.businessName = "";
-            this.client.clientManager = "";
+            this.resetFields(["businessName", "clientManager", "matrix", "fromDate", "toDate"]);
             break;
           case "business":
             this.filteredBusinessUnits = this.filteredClients.filter(
               (item) => item.business_unit_name === this.client.businessName
             );
-            this.client.clientManager = "";
+            this.resetFields(["clientManager", "matrix", "fromDate", "toDate"]);
             break;
           case "manager":
             this.filteredClientManagers = this.filteredBusinessUnits.filter(
-              (item) =>
-                item.client_manager_name === this.client.clientManager
+              (item) => item.client_manager_name === this.client.clientManager
             );
+            this.resetFields(["matrix", "fromDate", "toDate"]);
             break;
         }
+      },
+
+      resetFields(fields) {
+        fields.forEach(field => {
+          this.client[field] = "";
+        });
+        this.errors = {};
       },
 
       submitForm() {
@@ -260,6 +247,14 @@
               this.buttonAction = true;
             }
             this.results = response.data.results;
+
+            Swal.fire({
+              position: "top-center",
+              icon: "success",
+              title: "Form submitted successfully",
+              showConfirmButton: false,
+              timer: 3000,
+            });
 
             // Handle the response as needed
           })

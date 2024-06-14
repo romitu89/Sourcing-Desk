@@ -21,9 +21,7 @@
               </option>
             </select>
             <br />
-            <span v-if="errors.selectedLocation" class="error">{{
-              errors.selectedLocation[0]
-            }}</span>
+            <span v-if="errors.selectedLocation" class="error">{{ errors.selectedLocation[0] }}</span>
           </td>
         </tr>
 
@@ -47,9 +45,7 @@
               </option>
             </select>
             <br />
-            <span v-if="errors.clientName" class="error">{{
-              errors.clientName[0]
-            }}</span>
+            <span v-if="errors.clientName" class="error">{{ errors.clientName[0] }}</span>
           </td>
         </tr>
 
@@ -72,9 +68,7 @@
               </option>
             </select>
             <br />
-            <span v-if="errors.businessName" class="error">{{
-              errors.businessName[0]
-            }}</span>
+            <span v-if="errors.businessName" class="error">{{ errors.businessName[0] }}</span>
           </td>
         </tr>
 
@@ -97,9 +91,7 @@
               <option value="Offboarded">Offboarded</option>
             </select>
             <br />
-            <span v-if="errors.selectedMatrix" class="error">{{
-              errors.selectedMatrix[0]
-            }}</span>
+            <span v-if="errors.selectedMatrix" class="error">{{ errors.selectedMatrix[0] }}</span>
           </td>
         </tr>
 
@@ -171,8 +163,33 @@
     },
     watch: {
       'client.selectedLocation'() {
-        this.resetForm();
-      }
+        this.client.clientName = "";
+        this.client.businessName = "";
+        this.client.selectedMatrix = "";
+        this.client.fromDate = "";
+        this.client.toDate = "";
+        this.errors = {};
+        this.filterClientData();
+      },
+      'client.clientName'() {
+        this.client.businessName = "";
+        this.client.selectedMatrix = "";
+        this.client.fromDate = "";
+        this.client.toDate = "";
+        this.errors = {};
+        this.filterBusinessUnits();
+      },
+      'client.businessName'() {
+        this.client.selectedMatrix = "";
+        this.client.fromDate = "";
+        this.client.toDate = "";
+        this.errors = {};
+      },
+      'client.selectedMatrix'() {
+        this.client.fromDate = "";
+        this.client.toDate = "";
+        this.errors = {};
+      },
     },
     methods: {
       closePopup() {
@@ -191,15 +208,12 @@
           });
       },
       filterClientData() {
-        this.client.clientName = "";
-        this.client.businessName = "";
         this.filteredClients = this.clientData.filter(
           item => item.location === this.client.selectedLocation
         );
         this.filteredBusinessUnits = [];
       },
       filterBusinessUnits() {
-        this.client.businessName = "";
         this.filteredBusinessUnits = this.filteredClients.filter(
           item => item.client_name === this.client.clientName
         );
@@ -238,18 +252,9 @@
           delete this.errors[fieldName];
         }
       },
-      resetForm() {
-        this.client.clientName = "";
-        this.client.businessName = "";
-        this.client.selectedMatrix = "";
-        this.client.fromDate = "";
-        this.client.toDate = "";
-        this.errors = {};
-      },
     },
     mounted() {
       this.userLocationApi();
     },
   };
   </script>
-
