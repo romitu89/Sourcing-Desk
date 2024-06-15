@@ -1,146 +1,198 @@
 <template>
-   <form @submit.prevent="submitForm">
-    <table class="input_form">
-
+    <form @submit.prevent="submitForm">
+      <table class="input_form">
+        <!-- Location Selection -->
         <tr>
-    <td ><label >Select Location</label></td>
-    <td ><select id="location" v-model="client.selectedLocation" @blur="checkValidation('selectedLocation')" name="location">
-    <option value="">Select Location</option>
-    <option v-for="item in getUniqueValues(clientMis,'location')" :key='item' :value="item">{{ item }}</option>
-
-        </select><br><span v-if="errors.selectedLocation" class="error">{{errors.selectedLocation[0]}}</span></td>
+          <td><label>Select Location</label></td>
+          <td>
+            <select id="location" v-model="client.selectedLocation" @change="filterClientData" @blur="checkValidation('selectedLocation')" name="location">
+              <option value="">Select Location</option>
+              <option v-for="item in uniqueLocations" :key="item" :value="item">{{ item }}</option>
+            </select>
+            <br><span v-if="errors.selectedLocation" class="error">{{ errors.selectedLocation[0] }}</span>
+          </td>
         </tr>
 
-    <tr>
-    <td ><label >Client Name</label></td>
-    <td ><select id="client"  v-model="client.clientName" @blur="checkValidation('clientName')" name="client">
-    <option value="">Select Client</option>
-    <option v-for="item in getUniqueValues(clientMis,'client_name')" :key='item' :value="item">{{ item }}</option>
-
-        </select><br><span v-if="errors.clientName" class="error">{{errors.clientName[0]}}</span></td>
+        <!-- Client Selection -->
+        <tr v-if="client.selectedLocation">
+          <td><label>Client Name</label></td>
+          <td>
+            <select id="client" v-model="client.clientName" @change="filterBusinessUnits" @blur="checkValidation('clientName')" name="client">
+              <option value="">Select Client</option>
+              <option v-for="item in filteredClients" :key="item.client_name" :value="item.client_name">{{ item.client_name }}</option>
+            </select>
+            <br><span v-if="errors.clientName" class="error">{{ errors.clientName[0] }}</span>
+          </td>
         </tr>
 
+        <!-- Business Unit Selection -->
+        <tr v-if="client.clientName">
+          <td><label>Business Unit</label></td>
+          <td>
+            <select id="business" v-model="client.businessName" @blur="checkValidation('businessName')" name="business">
+              <option value="">Select B-Unit</option>
+              <option v-for="item in filteredBusinessUnits" :key="item.business_unit_name" :value="item.business_unit_name">{{ item.business_unit_name }}</option>
+            </select>
+            <br><span v-if="errors.businessName" class="error">{{ errors.businessName[0] }}</span>
+          </td>
+        </tr>
 
-    <tr>
-    <td ><label >Business Unit</label></td>
-    <td ><select id="business"  v-model="client.businessName" @blur="checkValidation('businessName')" name="business">
-    <option value="">Select B-Unit</option>
-    <<option v-for="item in getUniqueValues(clientMis,'business_unit_name')" :key='item' :value="item">{{ item }}</option>
+        <!-- Matrix Selection -->
+        <tr v-if="client.businessName">
+          <td><label>Select Matrix</label></td>
+          <td>
+            <select id="matrix" v-model="client.selectedMatrix" @blur="checkValidation('selectedMatrix')" name="matrix">
+              <option value="">Select Matrix</option>
+              <option value="requirements">Requirements</option>
+              <option value="submission">Submission</option>
+              <option value="Selection">Selection</option>
+              <option value="Rejections">Rejections</option>
+              <option value="Onboarded">Onboarded</option>
+              <option value="Dropouts">Dropouts</option>
+              <option value="Offboarded">Offboarded</option>
+            </select>
+            <br><span v-if="errors.selectedMatrix" class="error">{{ errors.selectedMatrix[0] }}</span>
+          </td>
+        </tr>
 
-</select><br><span v-if="errors.businessName" class="error">{{errors.businessName[0]}}</span></td>
-</tr>
+        <!-- From Date Selection -->
+        <tr v-if="client.selectedMatrix">
+          <td><label>From Date</label></td>
+          <td>
+            <input v-model.trim="client.fromDate" @blur="checkValidation('fromDate')" type="date">
+            <span v-if="errors.fromDate" class="error">{{ errors.fromDate[0] }}</span>
+          </td>
+        </tr>
 
-    <tr>
-    <td ><label >Select Matrix</label></td>
-    <td ><select id="matrix"  v-model="client.selectedMatrix" @blur="checkValidation('selectedMatrix')" name="matrix">
-    <option value="">Select Matrix</option>
-    <option value="requirements">Requirements</option>
-    <option value="submission">Submission</option>
-    <option value="Selection">Selection</option>
-    <option value="Rejections">Rejections</option>
-    <option value="Onboarded">Onboarded</option>
-    <option value="Dropouts">Dropouts</option>
-    <option value="Offboarded">Offboarded</option>
-    </select><br>
-    <span v-if="errors.selectedMatrix" class="error">{{errors.selectedMatrix[0]}}</span>
-    </td>
-    </tr>
+        <!-- To Date Selection -->
+        <tr v-if="client.fromDate">
+          <td><label>To Date</label></td>
+          <td>
+            <input v-model.trim="client.toDate" @blur="checkValidation('toDate')" type="date">
+            <span v-if="errors.toDate" class="error">{{ errors.toDate[0] }}</span>
+          </td>
+        </tr>
 
-    <tr>
-    <td ><label >From Date</label></td>
-    <td ><input  v-model.trim="client.fromDate" @blur="checkValidation('fromDate')" type="date" >
-        <span v-if="errors.fromDate" class="error">{{errors.fromDate[0]}}</span></td>
-    </tr>
+        <!-- Submit and Cancel Buttons -->
+        <tr>
+          <td></td>
+          <td>
+            <button @click="closePopup()" class="cancel_btn">Cancel</button>
+            <button class="submit_btn">Submit</button>
+          </td>
+        </tr>
+      </table>
+    </form>
+  </template>
 
-    <tr>
-    <td ><label >To Date</label></td>
-    <td ><input  v-model.trim="client.toDate" @blur="checkValidation('toDate')" type="date" >
-        <span v-if="errors.toDate" class="error">{{errors.toDate[0]}}</span></td>
-    </tr>
+  <script>
+  import axios from 'axios';
+  import Swal from 'sweetalert2';
+  import { commonFunctionsMixin } from '../../../function.js';
 
-    <tr>
-        <td></td>
-       <td> <button @click="closePopup()" class="cancel_btn">Cancel</button>
-        <button class="submit_btn">Submit</button> </td>
-    </tr>
-</table>
-</form>
-</template>
-
-<script>
-import Swal from 'sweetalert2'
-import { commonFunctionsMixin } from '../../../function.js';
-
-export default {
+  export default {
     name: 'ClientReportForm',
-
-    mixins:[commonFunctionsMixin],
-
-    data()
-        {
-            return{
-                client: {
-                    clientName:"",
-                    businessName:"",
-                    selectedLocation:"",
-                    selectedMatrix:"",
-                    fromDate:"",
-                    toDate:"",
-                },
-                submitted:false,
-                clientMis:[],
-                errors:{},
-
-            };
+    mixins: [commonFunctionsMixin],
+    data() {
+      return {
+        client: {
+          clientName: "",
+          businessName: "",
+          selectedLocation: "",
+          selectedMatrix: "",
+          fromDate: "",
+          toDate: "",
         },
-
-
-            methods:{
-                closePopup() {
-      this.$emit("closePopup");
+        submitted: false,
+        clientMis: [],
+        filteredClients: [],
+        filteredBusinessUnits: [],
+        errors: {},
+      };
     },
-
-    userLocationApi()
-            {
-                axios
+    computed: {
+      uniqueLocations() {
+        const locations = this.clientMis.map(item => item.location);
+        return [...new Set(locations)];
+      },
+    },
+    watch: {
+      'client.selectedLocation'() {
+        this.client.clientName = "";
+        this.client.businessName = "";
+        this.client.selectedMatrix = "";
+        this.client.fromDate = "";
+        this.client.toDate = "";
+        this.errors = {};
+        this.filterClientData();
+      },
+      'client.clientName'() {
+        this.client.businessName = "";
+        this.client.selectedMatrix = "";
+        this.client.fromDate = "";
+        this.client.toDate = "";
+        this.errors = {};
+        this.filterBusinessUnits();
+      },
+      'client.businessName'() {
+        this.client.selectedMatrix = "";
+        this.client.fromDate = "";
+        this.client.toDate = "";
+        this.errors = {};
+      },
+      'client.selectedMatrix'() {
+        this.client.fromDate = "";
+        this.client.toDate = "";
+        this.errors = {};
+      },
+    },
+    methods: {
+      closePopup() {
+        this.$emit("closePopup");
+      },
+      userLocationApi() {
+        axios
           .get('/api/editorclient-report')
           .then(response => {
-            this.clientMis = response.data.clients
-
-            console.log(this.loginData)
+            this.clientMis = response.data.clients;
           })
           .catch(error => {
-            console.log(error)
-            this.errored = true
+            console.log(error);
+            this.errored = true;
+          });
+      },
+      filterClientData() {
+        this.filteredClients = this.clientMis.filter(item => item.location === this.client.selectedLocation);
+        this.filteredBusinessUnits = [];
+      },
+      filterBusinessUnits() {
+        this.filteredBusinessUnits = this.filteredClients.filter(item => item.client_name === this.client.clientName);
+      },
+      submitForm() {
+        this.submitted = true;
+        axios.post('/api/editorclient-report', this.client)
+          .then(response => {
+            this.errors = {};
+            Swal.fire({
+              position: "top-center",
+              icon: "success",
+              title: "Form submitted successfully",
+              showConfirmButton: false,
+              timer: 3000,
+            });
           })
-
-            },
-
-
-            submitForm() {
-                    this.submitted = true; // Set the submitted flag to true when attempting to submit the form
-                    // if (this.isFormValid) {
-
-                        axios.post('/api/editorclient-report', this.client)
-                  .then(response => {
-                      console.log('Form submitted:', response.data.results);
-
-                      this.results = response.data.results;
-                  this.errors={};
-
-
-
-               })
-              .catch(error => {
-                //   console.error('Error submitting form:', error.response.data.errors);
-                  this.errors= error.response.data.errors;
-               });
+          .catch(error => {
+            this.errors = error.response.data.errors;
+          });
+      },
+      checkValidation(fieldName) {
+        if (this.errors.hasOwnProperty(fieldName)) {
+          delete this.errors[fieldName];
+        }
+      },
     },
-        },
-        mounted(){
-    this.userLocationApi()
-
-}
-
-            }
-</script>
+    mounted() {
+      this.userLocationApi();
+    },
+  };
+  </script>
