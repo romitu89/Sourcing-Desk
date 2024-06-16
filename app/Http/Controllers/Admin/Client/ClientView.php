@@ -12,10 +12,10 @@ class ClientView extends Controller
 {
     public function create()
     {
-        $location = Client::select('location')->distinct()->get();
-        $subLocation = Client::select('sub_location')->distinct()->get();
+        $location = Client::select('location', 'sub_location')->distinct()->get();
 
-        return Response::json(['locations' => $location, 'subLocations' => $subLocation]);
+
+        return Response::json(['locations' => $location]);
     }
 
     public function edit(string $id)

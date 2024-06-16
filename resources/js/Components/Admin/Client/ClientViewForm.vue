@@ -5,56 +5,58 @@
           <tr>
             <td><label>Select Location</label></td>
             <td>
-              <select v-model="client.selectedLocation" @blur="checkValidation('selectedLocation')" name="location">
+              <select v-model="client.selectedLocation" @change="fetchSubLocations" @blur="checkValidation('selectedLocation')" name="location">
                 <option value="">Select Location</option>
-                <option v-for="location in locations" :key="location" :value="location">{{ location }}</option>
+                <option v-for="location in locations" :key="location.location" :value="location.location">{{ location.location }}</option>
               </select><br>
               <span v-if="errors.selectedLocation" class="error">{{ errors.selectedLocation[0] }}</span>
             </td>
           </tr>
-          <tr>
+          <tr v-if="client.selectedLocation">
             <td><label>Sub Location</label></td>
             <td>
               <select v-model="client.selectedSubLocation" @blur="checkValidation('selectedSubLocation')" name="subLocation">
                 <option value="">Select Sub Location</option>
-                <option v-for="subLocation in subLocations" :key="subLocation" :value="subLocation">{{ subLocation }}</option>
+                <option v-for="subLocation in filteredSubLocations" :key="subLocation.sub_location" :value="subLocation.sub_location">{{ subLocation.sub_location }}</option>
               </select><br>
               <span v-if="errors.selectedSubLocation" class="error">{{ errors.selectedSubLocation[0] }}</span>
             </td>
           </tr>
           <tr>
-        <td></td>
-       <td> <button @click="closePopup()" class="cancel_btn">Cancel</button>
-        <button class="submit_btn">Submit</button> </td>
-    </tr>
+            <td></td>
+            <td>
+              <button @click="closePopup()" class="cancel_btn">Cancel</button>
+              <button class="submit_btn">Submit</button>
+            </td>
+          </tr>
         </table>
       </form>
-      <div v-if="results">
+      <div v-if="results.length > 0">
         <responsive-table :results="results" :columns="columns" :buttonAction="buttonAction">
-      <template #edit="{ row }">
-        <div>
-          <button title="Edit" @click="editItem(row.client_id)">
-            <font-awesome-icon :icon="['fas', 'pen-to-square']" />
-          </button>
-          <button title="Delete" @click="deleteItem(row.client_id)">
-            <font-awesome-icon :icon="['fas', 'trash']" />
-          </button>
-        </div>
-      </template>
-    </responsive-table>
+          <template #edit="{ row }">
+            <div>
+              <button title="Edit" @click="editItem(row.client_id)">
+                <font-awesome-icon :icon="['fas', 'pen-to-square']" />
+              </button>
+              <button title="Delete" @click="deleteItem(row.client_id)">
+                <font-awesome-icon :icon="['fas', 'trash']" />
+              </button>
+            </div>
+          </template>
+        </responsive-table>
       </div>
     </div>
   </template>
 
   <script>
   import { commonFunctionsMixin } from '../../../function.js';
-  import ResponsiveTable from '../../Shared Folder/ResponsiveTable.vue'
-  import Swal from 'sweetalert2'
-  import axios from 'axios'
+  import ResponsiveTable from '../../Shared Folder/ResponsiveTable.vue';
+  import Swal from 'sweetalert2';
+  import axios from 'axios';
 
   export default {
     name: 'ClientViewForm',
-    mixins:[commonFunctionsMixin],
+    mixins: [commonFunctionsMixin],
     components: { ResponsiveTable },
     data() {
       return {
@@ -64,7 +66,6 @@
           selectedLocation: '',
         },
         locations: [],
-        subLocations: [],
         errors: {},
         results: [],
         columns: [
@@ -78,68 +79,70 @@
         ]
       };
     },
-
-    props:{
-      empName:{
-      type: String,
-      default: "",
+    computed: {
+      filteredSubLocations() {
+        const selectedLocation = this.client.selectedLocation;
+        if (selectedLocation) {
+          return this.locations.filter(location => location.location === selectedLocation);
+        }
+        return [];
+      }
+    },
+    props: {
+      empName: {
+        type: String,
+        default: "",
       },
     },
-
     methods: {
-        closePopup() {
-      this.$emit("closePopup");
-    },
-
-    editItem(id) {
-      this.$emit("updateForm", id);
-      console.log(id,"client view form")
-    },
-
+      closePopup() {
+        this.$emit("closePopup");
+      },
+      editItem(id) {
+        this.$emit("updateForm", id);
+        console.log(id, "client view form");
+      },
       userLocationApi() {
         axios.get('/api/adminclient-view')
-    .then(response => {
-      this.locations = response.data.locations
-        .filter(location => location.location) // Filter out blank or null locations
-        .map(location => location.location);
-
-      this.subLocations = response.data.subLocations
-        .filter(subLocation => subLocation.sub_location) // Filter out blank or null sub-locations
-        .map(subLocation => subLocation.sub_location);
-    })
+          .then(response => {
+            this.locations = response.data.locations;
+          })
+          .catch(error => {
+            console.error('Error fetching locations:', error);
+          });
+      },
+      fetchSubLocations() {
+        this.client.selectedSubLocation = ''; // Reset sub-location when location changes
       },
       submitForm() {
         axios.post('/api/adminclient-view', this.client)
           .then(response => {
             this.results = response.data.results;
             this.errors = {};
-            if (Object.values(this.errors).length == 0) {
-            this.buttonAction = true;
-          }
-
+            if (Object.values(this.errors).length === 0) {
+              this.buttonAction = true;
+            }
           })
           .catch(error => {
             console.error('Error submitting form:', error);
             this.errors = error.response.data.errors;
-
           });
-      }
+      },
     },
     mounted() {
-    this.userLocationApi();
-
-    if(this.empName!=""){
-      Swal.fire({
-              position: "top-center",
-              icon: "success",
-              title: "User "+this.empName+" edited successfully",
-              showConfirmButton: false,
-              timer: 3000,
-            });
-            this.$emit("editMessageUpdated")
-    }
-
-
-  },
-};
+      this.userLocationApi();
+      if (this.empName !== "") {
+        Swal.fire({
+          position: "top-center",
+          icon: "success",
+          title: "User " + this.empName + " edited successfully",
+          showConfirmButton: false,
+          timer: 3000,
+        });
+        this.$emit("editMessageUpdated");
+      }
+    },
+  };
   </script>
+
+
