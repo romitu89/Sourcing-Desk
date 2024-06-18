@@ -24,7 +24,7 @@
         </td>
       </tr>
 
-      <tr>
+      <tr v-if="employee.selectedLocation">
         <td><label>Select User</label></td>
         <td>
           <select

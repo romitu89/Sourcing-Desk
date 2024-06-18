@@ -17,7 +17,7 @@
         </td>
       </tr>
 
-     <tr>
+     <tr v-if="client.selectedLocation">
      <td ><label >Select Duration</label></td>
      <td ><select id="Location"  v-model="client.selectedDuration" @blur="checkValidation('selectedDuration')" name="Select Location">
      <option value="">Select Duration</option>
