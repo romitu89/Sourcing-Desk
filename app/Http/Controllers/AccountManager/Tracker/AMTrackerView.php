@@ -27,7 +27,7 @@ class AMTrackerView extends Controller
     {
 
 
-        $am = Client::Select('client_name', 'business_unit_name', 'location')->distinct()
+        $am = Client::Select('client_name','client_manager_name', 'business_unit_name', 'location')->distinct()
             ->get();
         $tracker = Tracker::where('tracker_id', $id)->first();
         return response()->json([

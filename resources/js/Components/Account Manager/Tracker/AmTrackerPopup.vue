@@ -41,6 +41,10 @@
                AmTrackerEdit
            },
            props: {
+            editId: {
+        type: Number,
+        default: null,
+        },
            showPopUp: {
                type: Boolean,
                default: false

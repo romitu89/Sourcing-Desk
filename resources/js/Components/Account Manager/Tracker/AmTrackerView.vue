@@ -94,10 +94,10 @@
     <responsive-table :results="results" :columns="columns" :buttonAction="buttonAction">
       <template #edit="{ row }">
         <div>
-          <button title="Edit" @click="editItem(row.id)">
+          <button title="Edit" @click="editItem(row)">
             <font-awesome-icon :icon="['fas', 'pen-to-square']" />
           </button>
-          <button title="Delete" @click="deleteItem(row.id)">
+          <button title="Delete" @click="deleteItem(row)">
             <font-awesome-icon :icon="['fas', 'trash']" />
           </button>
         </div>
@@ -164,8 +164,8 @@ export default {
     closePopup() {
       this.$emit("closePopup");
     },
-    editItem(id) {
-      this.$emit("updateForm", id);
+    editItem(row) {
+      this.$emit("updateForm", row.tracker_id);
     },
     checkValidation(fieldName) {
       if (this.errors.hasOwnProperty(fieldName)) {
@@ -212,7 +212,7 @@ export default {
         .get("/api/amtracker-view")
         .then((response) => {
           this.userLocation = response.data.client;
-          console.log(this.userLocation); // Check the data in console
+          console.log(this.userLocation, "view date"); // Check the data in console
         })
         .catch((error) => {
           console.error("Error fetching user location:", error);

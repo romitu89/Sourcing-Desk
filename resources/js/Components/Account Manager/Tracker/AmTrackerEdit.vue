@@ -90,6 +90,7 @@
         userLocation: [],
         tlTrackerData: [],
         errors: [],
+        editTracker: {},
       };
     },
 
@@ -104,12 +105,20 @@
 
       userLocationApi() {
         axios
-          .get("/api/amtracker-create")
+          .get("/api/amtracker-edit/" + this.editId)
           .then((response) => {
-            console.log(response.data, "data");
+            console.log(response.data.result, "data");
+            console.log(this.editId, "edit id");
 
+            this.editTracker = response.data.result;
+            console.log(this.editTracker, "client details of edit tracker");
+            this.tlTracker.selectedClient = this.editTracker.client_name;
+            this.tlTracker.clientManagerName = this.editTracker.client_manager_name;
+            this.tlTracker.selectedBusiness = this.editTracker.business_unit;
+            this.tlTracker.selectedLocation = this.editTracker.location;
+            this.tlTracker.file = this.editTracker.tracker_file;
             this.userLocation = response.data.client;
-            console.log(this.userLocation, "client");
+
           })
           .catch((error) => {
             console.log(error);
