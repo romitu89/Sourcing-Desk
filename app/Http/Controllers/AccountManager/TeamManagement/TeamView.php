@@ -23,7 +23,7 @@ class TeamView extends Controller
         $totalTm = [];
         $selectedTm = [];
 
-        $tm = User::Select('email_id', 'location')->distinct()->where('reporting_to', auth()->user()->email_id)
+        $tm = User::Select('email_id', 'location')->distinct()
             ->get();
 
 

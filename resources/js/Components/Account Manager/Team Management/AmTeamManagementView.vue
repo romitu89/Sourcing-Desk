@@ -25,10 +25,10 @@
       <responsive-table :results="results" :columns="columns" :buttonAction="buttonAction">
       <template #edit="{ row }">
         <div>
-          <button title="Edit" @click="editItem(row.id)">
+          <button title="Edit" @click="editItem(row.team_id)">
             <font-awesome-icon :icon="['fas', 'pen-to-square']" />
           </button>
-          <button title="Delete" @click="deleteItem(row.id)">
+          <button title="Delete" @click="deleteItem(row.team_id)">
             <font-awesome-icon :icon="['fas', 'trash']" />
           </button>
         </div>

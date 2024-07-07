@@ -84,6 +84,8 @@
         errors: {},
         userLocation: [],
         teams: [],
+        teamEmail :[],
+        tmData: [],
       };
     },
     methods: {
@@ -94,10 +96,17 @@
 
       userLocationApi() {
         axios
-          .get("/api/amteam-create")
+          .get("/api/amteam-edit/" + this.editId)
           .then((response) => {
-            console.log(response.data.location, "response.data.location");
-            this.userLocation = response.data.location;
+            console.log(response.data.result, "response.data.result");
+            console.log(this.editId, "editId");
+            this.tmData = response.data.result;
+            this.userLocation = response.data.teamData;
+            console.log(this.tmData, "tmData");
+
+            this.teamManager.selectedLocation = this.tmData.location;
+            this.teamManager.jobType = this.tmData.job_type;
+            this.teamManager.selectedTeam = this.tmData.team_members;
 
             const teamEmail = response.data.teamEmail; // Corrected variable name to match your initial question
 
