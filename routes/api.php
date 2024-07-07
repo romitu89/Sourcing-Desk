@@ -396,6 +396,11 @@ Route::middleware('web')->group(function () {
     Route::get('/tlteam-view', [TLTeamView::class, 'create']);
     Route::Post('/tlteam-view', [TLTeamView::class, 'store']);
 
+    //Team Edit
+    Route::get('/tlteam-edit/{id}', [TLTeamView::class, 'edit']);
+    Route::patch('/tlteam-edit/{id}', [TLTeamView::class, 'update']);
+    //-----------------------------------------------------------------------
+
 
     // Submission Approval
     Route::get('/tlsubmission-approve', [TLApproval::class, 'create']);
